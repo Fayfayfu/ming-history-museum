@@ -5,7 +5,7 @@ import {chromium} from 'playwright';
 
 const root = path.resolve('dist');
 const types = {'.html':'text/html; charset=utf-8','.webp':'image/webp','.json':'application/json'};
-const server = http.createServer(async (request, response) => {
+const server = process.env.MING_DEPLOY_URL ? null : http.createServer(async (request, response) => {
   try {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
     const relative = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
@@ -19,8 +19,8 @@ const server = http.createServer(async (request, response) => {
     response.end('Not found');
   }
 });
-await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const base = `http://127.0.0.1:${server.address().port}`;
+if (server) await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+const base = process.env.MING_DEPLOY_URL?.replace(/\/$/, '') || `http://127.0.0.1:${server.address().port}`;
 
 const browser = await chromium.launch({headless:true, executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 const page = await browser.newPage({viewport:{width:1440,height:1000}});
@@ -38,7 +38,7 @@ const files = [
 ];
 const pages = [];
 for (const file of files) {
-  await page.goto(`${base}/${file}`, {waitUntil:'networkidle'});
+  await page.goto(`${base}/${file}`, {waitUntil:'domcontentloaded', timeout:60000});
   await page.evaluate(async () => {
     const images = [...document.images];
     images.forEach(image => { image.loading = 'eager'; });
@@ -64,7 +64,7 @@ for (const file of files) {
   }), file));
 }
 
-await page.goto(`${base}/people.html?person=${encodeURIComponent('姚广孝')}`, {waitUntil:'networkidle'});
+await page.goto(`${base}/people.html?person=${encodeURIComponent('姚广孝')}`, {waitUntil:'domcontentloaded', timeout:60000});
 const yao = await page.evaluate(() => ({
   open: document.querySelector('#drawer')?.classList.contains('open'),
   src: document.querySelector('#detail .portrait img')?.getAttribute('src'),
@@ -72,11 +72,11 @@ const yao = await page.evaluate(() => ({
 }));
 
 await page.setViewportSize({width:390,height:844});
-await page.goto(`${base}/index.html`, {waitUntil:'networkidle'});
+await page.goto(`${base}/index.html`, {waitUntil:'domcontentloaded', timeout:60000});
 const mobile = await page.evaluate(() => ({bodyWidth:document.body.scrollWidth,viewport:innerWidth}));
 
 await browser.close();
-await new Promise(resolve => server.close(resolve));
+if (server) await new Promise(resolve => server.close(resolve));
 
 const audit = {
   pages,
