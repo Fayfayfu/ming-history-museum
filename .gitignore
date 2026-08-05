@@ -1,0 +1,12 @@
+.DS_Store
+node_modules
+.vercel/
+dist/
+
+# Generated pages and QA screenshots; source data, scripts and root assets remain versioned.
+outputs/*/明史数字博物馆/
+outputs/*/*.html
+outputs/*/*预览*.png
+outputs/*/*.xlsx
+outputs/*/*.xlsx.*
+outputs/*/.~*

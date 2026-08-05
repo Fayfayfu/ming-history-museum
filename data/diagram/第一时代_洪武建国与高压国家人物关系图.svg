@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 1700" role="img" aria-labelledby="title desc">
+<title id="title">第一时代：洪武建国与高压国家人物关系图</title>
+<desc id="desc">展示1368至1398年洪武建国、制度重建、皇储宗藩、统一战争与功臣清洗中的19位人物关系。</desc>
+<defs>
+  <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#1e293b" stroke-width="1"/></pattern>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#0f172a"/><stop offset=".5" stop-color="#111827"/><stop offset="1" stop-color="#0f172a"/></linearGradient>
+  <marker id="arrow-gold" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><polygon points="0 0,10 4,0 8" fill="#fbbf24"/></marker>
+  <marker id="arrow-rose" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><polygon points="0 0,10 4,0 8" fill="#fb7185"/></marker>
+</defs>
+<style>
+  text{font-family:'PingFang SC','Heiti SC','Arial Unicode MS',sans-serif}
+</style>
+<rect width="3000" height="1700" fill="url(#bg)"/><rect width="3000" height="1700" fill="url(#grid)"/>
+<g aria-label="title block">
+  <text x="90" y="86" fill="#f8fafc" font-size="56" font-weight="800">第一时代｜洪武建国与高压国家</text>
+  <text x="90" y="132" fill="#94a3b8" font-size="22">1368—1398 · 统一战争与制度重建并行，皇权直接统辖行政、军事和基层社会</text>
+  <text x="2910" y="86" fill="#94a3b8" font-size="18" text-anchor="end">19 人 · 19 条去重关系</text>
+</g>
+<g aria-label="regions">
+  <rect x="70" y="200" width="900" height="1260" rx="24" fill="#0b1220" fill-opacity=".42" stroke="#334155" stroke-dasharray="8 8"/>
+  <text x="100" y="244" fill="#64748b" font-size="22" font-weight="700">制度构建与文治</text>
+  <rect x="990" y="200" width="1020" height="1260" rx="24" fill="#130f26" fill-opacity=".32" stroke="#4c3d78" stroke-dasharray="8 8"/>
+  <text x="1020" y="244" fill="#7c6aac" font-size="22" font-weight="700">皇权、皇储与宗藩</text>
+  <rect x="2030" y="200" width="890" height="1260" rx="24" fill="#0b1220" fill-opacity=".42" stroke="#334155" stroke-dasharray="8 8"/>
+  <text x="2060" y="244" fill="#64748b" font-size="22" font-weight="700">统一战争与边疆</text>
+</g>
+<g aria-label="relationships"><path class="edge edge-succession" d="M1425 404 C1370 470 1460 470 1370 575" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-opacity="0.88" marker-end="url(#arrow-gold)"><title>朱元璋 ↔ 朱允炆｜立为皇太孙｜1392·太子朱标去世；1393·蓝玉案；1398·洪武帝去世、建文帝继位</title></path>
+<path class="edge edge-family" d="M1500 350 C1500 396.8 1110 573.2 1110 620" fill="none" stroke="#a78bfa" stroke-width="0.65" stroke-opacity="0.52"><title>朱元璋 ↔ 朱标｜父子｜1392·太子朱标去世</title></path>
+<path class="edge edge-family" d="M1110 620 C1110 651.2 1370 588.8 1370 620" fill="none" stroke="#a78bfa" stroke-width="0.65" stroke-opacity="0.52"><title>朱标 ↔ 朱允炆｜父子｜1392·朱标去世后，朱允炆被立为皇太孙；1392·太子朱标去世</title></path>
+<path class="edge edge-family" d="M1500 350 C1500 365.6 1630 604.4 1630 620" fill="none" stroke="#a78bfa" stroke-width="0.65" stroke-opacity="0.52"><title>朱元璋 ↔ 朱棣｜父子｜1370·首次大规模分封诸王；1392·太子朱标去世</title></path>
+<path class="edge edge-family" d="M1500 350 C1500 396.8 1110 853.2 1110 900" fill="none" stroke="#a78bfa" stroke-width="0.65" stroke-opacity="0.52"><title>朱元璋 ↔ 朱橚｜父子｜见人物底表摘要</title></path>
+<path class="edge edge-family" d="M1500 350 C1500 365.6 1370 884.4 1370 900" fill="none" stroke="#a78bfa" stroke-width="0.65" stroke-opacity="0.52"><title>朱元璋 ↔ 朱柏｜父子｜见人物底表摘要</title></path>
+<path class="edge edge-family" d="M1500 350 C1500 365.6 1630 884.4 1630 900" fill="none" stroke="#a78bfa" stroke-width="0.65" stroke-opacity="0.52"><title>朱元璋 ↔ 朱权｜父子｜1370·首次大规模分封诸王</title></path>
+<path class="edge edge-family" d="M1630 620 C1630 651.2 1890 588.8 1890 620" fill="none" stroke="#a78bfa" stroke-width="0.65" stroke-opacity="0.52"><title>朱棣 ↔ 朱高炽｜父子｜见人物底表摘要</title></path>
+<path class="edge edge-cooperation" d="M1500 350 C1500 430 500 480 500 560" fill="none" stroke="#64748b" stroke-width="0.55" stroke-opacity="0.38"><title>朱元璋 ↔ 刘基｜开国君臣｜1368·朱元璋建立明朝</title></path>
+<path class="edge edge-cooperation" d="M1500 350 C1500 430 780 480 780 560" fill="none" stroke="#64748b" stroke-width="0.55" stroke-opacity="0.38"><title>朱元璋 ↔ 宋濂｜开国君臣｜见人物底表摘要</title></path>
+<path class="edge edge-cooperation" d="M1500 350 C1500 430 2180 420 2180 500" fill="none" stroke="#64748b" stroke-width="0.55" stroke-opacity="0.38"><title>朱元璋 ↔ 徐达｜开国君臣｜1368·朱元璋建立明朝；1368·明军攻占大都</title></path>
+<path class="edge edge-cooperation" d="M1500 350 C1500 430 2540 420 2540 500" fill="none" stroke="#64748b" stroke-width="0.55" stroke-opacity="0.38"><title>朱元璋 ↔ 常遇春｜开国君臣｜1368·明军攻占大都</title></path>
+<path class="edge edge-cooperation" d="M1500 350 C1500 430 2180 640 2180 720" fill="none" stroke="#64748b" stroke-width="0.55" stroke-opacity="0.38"><title>朱元璋 ↔ 汤和｜开国君臣｜1371·平定明夏、控制四川</title></path>
+<path class="edge edge-cooperation" d="M1500 350 C1500 430 2540 640 2540 720" fill="none" stroke="#64748b" stroke-width="0.55" stroke-opacity="0.38"><title>朱元璋 ↔ 李文忠｜开国君臣｜见人物底表摘要</title></path>
+<path class="edge edge-cooperation" d="M1500 350 C1500 430 2180 860 2180 940" fill="none" stroke="#64748b" stroke-width="0.55" stroke-opacity="0.38"><title>朱元璋 ↔ 邓愈｜开国君臣｜见人物底表摘要</title></path>
+<path class="edge edge-cooperation" d="M1500 350 C1500 430 2540 860 2540 940" fill="none" stroke="#64748b" stroke-width="0.55" stroke-opacity="0.38"><title>朱元璋 ↔ 沐英｜开国君臣｜1381·明军征服云南</title></path>
+<path class="edge edge-conflict" d="M1500 350 C1500 430 2180 1080 2180 1160" fill="none" stroke="#fb7185" stroke-width="0.75" stroke-opacity="0.64" stroke-dasharray="6 9" marker-end="url(#arrow-rose)"><title>朱元璋 ↔ 傅友德｜开国／赐死｜1371·平定明夏、控制四川；1381·明军征服云南；人物底表：晚年被赐死，具体罪名与过程有争议（中置信度）</title></path>
+<path class="edge edge-conflict" d="M1500 350 C1500 430 220 480 220 560" fill="none" stroke="#fb7185" stroke-width="0.75" stroke-opacity="0.64" stroke-dasharray="6 9" marker-end="url(#arrow-rose)"><title>朱元璋 ↔ 李善长｜开国／功臣案｜1368·朱元璋建立明朝；1380·胡惟庸案与废除丞相</title></path>
+<path class="edge edge-conflict" d="M1500 350 C1500 430 2540 1080 2540 1160" fill="none" stroke="#fb7185" stroke-width="0.75" stroke-opacity="0.64" stroke-dasharray="6 9" marker-end="url(#arrow-rose)"><title>朱元璋 ↔ 蓝玉｜北征／蓝玉案｜1381·明军征服云南；1387·纳哈出降明、辽东形势改变；1388·捕鱼儿海之战；1393·蓝玉案</title></path></g>
+<g aria-label="people"><g class="node role-emperor" transform="translate(1365 296)">
+    <title>朱元璋｜本期身份：洪武帝｜开国皇帝｜底表评分 88｜置信度 高</title>
+    <rect width="270" height="108" rx="14" fill="#0f172a"/>
+    <rect width="270" height="108" rx="14" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <circle cx="20" cy="20" r="5" fill="#fb7185"/>
+    <text x="135" y="50.76" fill="#f8fafc" font-size="42" font-weight="700" text-anchor="middle">朱元璋</text>
+    <text x="135" y="83.16" fill="#cbd5e1" font-size="21" font-weight="500" text-anchor="middle">洪武帝｜开国皇帝</text>
+  </g>
+<g class="node role-official" transform="translate(110 516)">
+    <title>李善长｜本期身份：文臣｜开国行政｜底表评分 75｜置信度 中</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">李善长</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">文臣｜开国行政</text>
+  </g>
+<g class="node role-official" transform="translate(390 516)">
+    <title>刘基｜本期身份：文臣｜战略谋划｜底表评分 84｜置信度 高</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">刘基</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">文臣｜战略谋划</text>
+  </g>
+<g class="node role-official" transform="translate(670 516)">
+    <title>宋濂｜本期身份：文臣｜礼制文教｜底表评分 82｜置信度 高</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">宋濂</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">文臣｜礼制文教</text>
+  </g>
+<g class="node role-royal" transform="translate(1000 576)">
+    <title>朱标｜本期身份：皇太子｜储君｜底表评分 80｜置信度 中</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#a78bfa"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">朱标</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">皇太子｜储君</text>
+  </g>
+<g class="node role-royal" transform="translate(1260 576)">
+    <title>朱允炆｜本期身份：皇太孙｜继承人｜底表评分 58｜置信度 中</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#a78bfa"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">朱允炆</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">皇太孙｜继承人</text>
+  </g>
+<g class="node role-royal" transform="translate(1520 576)">
+    <title>朱棣｜本期身份：燕王｜北方强藩｜底表评分 90｜置信度 高</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#a78bfa"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">朱棣</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">燕王｜北方强藩</text>
+  </g>
+<g class="node role-royal" transform="translate(1790 581)">
+    <title>朱高炽｜本期身份：燕世子｜宗藩继承｜底表评分 82｜置信度 中</title>
+    <rect width="200" height="78" rx="14" fill="#0f172a"/>
+    <rect width="200" height="78" rx="14" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#a78bfa"/>
+    <text x="100" y="36.66" fill="#f8fafc" font-size="30" font-weight="700" text-anchor="middle">朱高炽</text>
+    <text x="100" y="60.06" fill="#cbd5e1" font-size="17" font-weight="500" text-anchor="middle">燕世子｜宗藩继承</text>
+  </g>
+<g class="node role-royal" transform="translate(1010 861)">
+    <title>朱橚｜本期身份：周王｜宗藩｜底表评分 76｜置信度 中</title>
+    <rect width="200" height="78" rx="14" fill="#0f172a"/>
+    <rect width="200" height="78" rx="14" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#a78bfa"/>
+    <text x="100" y="36.66" fill="#f8fafc" font-size="30" font-weight="700" text-anchor="middle">朱橚</text>
+    <text x="100" y="60.06" fill="#cbd5e1" font-size="17" font-weight="500" text-anchor="middle">周王｜宗藩</text>
+  </g>
+<g class="node role-royal" transform="translate(1270 861)">
+    <title>朱柏｜本期身份：湘王｜宗藩｜底表评分 60｜置信度 中</title>
+    <rect width="200" height="78" rx="14" fill="#0f172a"/>
+    <rect width="200" height="78" rx="14" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#a78bfa"/>
+    <text x="100" y="36.66" fill="#f8fafc" font-size="30" font-weight="700" text-anchor="middle">朱柏</text>
+    <text x="100" y="60.06" fill="#cbd5e1" font-size="17" font-weight="500" text-anchor="middle">湘王｜宗藩</text>
+  </g>
+<g class="node role-royal" transform="translate(1520 856)">
+    <title>朱权｜本期身份：宁王｜北方强藩｜底表评分 78｜置信度 高</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#a78bfa"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">朱权</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">宁王｜北方强藩</text>
+  </g>
+<g class="node role-official" transform="translate(2070 456)">
+    <title>徐达｜本期身份：武官｜北伐主帅｜底表评分 95｜置信度 高</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">徐达</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">武官｜北伐主帅</text>
+  </g>
+<g class="node role-official" transform="translate(2430 456)">
+    <title>常遇春｜本期身份：武官｜北伐主力｜底表评分 88｜置信度 高</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">常遇春</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">武官｜北伐主力</text>
+  </g>
+<g class="node role-official" transform="translate(2080 681)">
+    <title>汤和｜本期身份：武官｜开国将领｜底表评分 86｜置信度 高</title>
+    <rect width="200" height="78" rx="14" fill="#0f172a"/>
+    <rect width="200" height="78" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="100" y="36.66" fill="#f8fafc" font-size="30" font-weight="700" text-anchor="middle">汤和</text>
+    <text x="100" y="60.06" fill="#cbd5e1" font-size="17" font-weight="500" text-anchor="middle">武官｜开国将领</text>
+  </g>
+<g class="node role-official" transform="translate(2440 681)">
+    <title>李文忠｜本期身份：武官｜北方征战｜底表评分 87｜置信度 高</title>
+    <rect width="200" height="78" rx="14" fill="#0f172a"/>
+    <rect width="200" height="78" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="100" y="36.66" fill="#f8fafc" font-size="30" font-weight="700" text-anchor="middle">李文忠</text>
+    <text x="100" y="60.06" fill="#cbd5e1" font-size="17" font-weight="500" text-anchor="middle">武官｜北方征战</text>
+  </g>
+<g class="node role-official" transform="translate(2080 901)">
+    <title>邓愈｜本期身份：武官｜西北征战｜底表评分 84｜置信度 高</title>
+    <rect width="200" height="78" rx="14" fill="#0f172a"/>
+    <rect width="200" height="78" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="100" y="36.66" fill="#f8fafc" font-size="30" font-weight="700" text-anchor="middle">邓愈</text>
+    <text x="100" y="60.06" fill="#cbd5e1" font-size="17" font-weight="500" text-anchor="middle">武官｜西北征战</text>
+  </g>
+<g class="node role-official" transform="translate(2430 896)">
+    <title>沐英｜本期身份：武官｜镇守云南｜底表评分 89｜置信度 高</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">沐英</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">武官｜镇守云南</text>
+  </g>
+<g class="node role-official" transform="translate(2070 1116)">
+    <title>傅友德｜本期身份：武官｜征南主将｜底表评分 89｜置信度 中</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">傅友德</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">武官｜征南主将</text>
+  </g>
+<g class="node role-official" transform="translate(2430 1116)">
+    <title>蓝玉｜本期身份：武官｜北元大捷｜底表评分 84｜置信度 中</title>
+    <rect width="220" height="88" rx="14" fill="#0f172a"/>
+    <rect width="220" height="88" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#22d3ee"/>
+    <text x="110" y="41.36" fill="#f8fafc" font-size="34" font-weight="700" text-anchor="middle">蓝玉</text>
+    <text x="110" y="67.76" fill="#cbd5e1" font-size="18" font-weight="500" text-anchor="middle">武官｜北元大捷</text>
+  </g></g>
+<g aria-label="key labels">
+  <rect x="1190" y="444" width="330" height="38" rx="8" fill="#0f172a"/><text x="1355" y="471" fill="#fbbf24" font-size="18" font-weight="700" text-anchor="middle">1392 · 朱标早逝，改立皇太孙</text>
+  <rect x="2080" y="1320" width="520" height="38" rx="8" fill="#0f172a"/><text x="2340" y="1347" fill="#fb7185" font-size="18" font-weight="700" text-anchor="middle">高压面向：功臣清洗与案件株连</text>
+</g>
+<g aria-label="legend" transform="translate(90 1515)">
+  <rect width="2820" height="125" rx="14" fill="#0b1220" stroke="#334155"/>
+  <g transform="translate(35 38)"><rect width="24" height="18" rx="4" fill="#4a1525" stroke="#fb7185" stroke-width="2"/><text x="36" y="16" fill="#cbd5e1" font-size="18">皇帝 1</text></g>
+  <g transform="translate(235 38)"><rect width="24" height="18" rx="4" fill="#083344" stroke="#22d3ee" stroke-width="2"/><text x="36" y="16" fill="#cbd5e1" font-size="18">官员 11</text></g>
+  <g transform="translate(455 38)"><rect width="24" height="18" rx="4" fill="#422006" stroke="#fbbf24" stroke-width="2"/><text x="36" y="16" fill="#cbd5e1" font-size="18">百姓／在野 0</text></g>
+  <g transform="translate(755 38)"><rect width="24" height="18" rx="4" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/><text x="36" y="16" fill="#cbd5e1" font-size="18">皇族 7</text></g>
+  <g transform="translate(1010 38)"><line x1="0" y1="8" x2="55" y2="8" stroke="#fbbf24" stroke-width="3"/><text x="70" y="16" fill="#cbd5e1" font-size="18">皇位承接</text></g>
+  <g transform="translate(1260 38)"><line x1="0" y1="8" x2="55" y2="8" stroke="#a78bfa" stroke-width="2"/><text x="70" y="16" fill="#cbd5e1" font-size="18">父子／父女</text></g>
+  <g transform="translate(1530 38)"><line x1="0" y1="8" x2="55" y2="8" stroke="#64748b" stroke-width="2"/><text x="70" y="16" fill="#cbd5e1" font-size="18">合作／君臣</text></g>
+  <g transform="translate(1810 38)"><line x1="0" y1="8" x2="55" y2="8" stroke="#fb7185" stroke-width="2" stroke-dasharray="8 7"/><text x="70" y="16" fill="#cbd5e1" font-size="18">冲突／清洗</text></g>
+  <text x="35" y="96" fill="#64748b" font-size="15">只画1368—1398年有明确身份、活动或结构性关系的人物；朱允炆、朱棣、朱高炽均按洪武时期身份显示。悬停可查看证据摘要。生成于 2026年8月5日。</text>
+</g>
+</svg>

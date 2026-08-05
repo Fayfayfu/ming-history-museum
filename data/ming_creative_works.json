@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "principle": "作品不是人物履历的装饰，而是理解其劳动方式、审美选择与时代处境的一手入口。图像、文字与策展解读必须分层标识。",
+  "people": {
+    "沈周": {
+      "layout": "scroll-gallery",
+      "eyebrow": "文人画不是风景明信片",
+      "intro": "沈周的山水要慢慢看：墨色的干湿、山石的皴擦、题跋与留白共同形成一次可停留的观看。",
+      "works": [
+        {
+          "title": "《溪山秋色图》卷",
+          "date": "约1490—1500年",
+          "medium": "纸本水墨手卷",
+          "image": "assets/works/shen-zhou-autumn-colors.jpg",
+          "source": "https://www.metmuseum.org/art/collection/search/45683",
+          "collection": "大都会艺术博物馆",
+          "license": "Public Domain",
+          "confidence": "高",
+          "reading": "原作画心约6.4米长。横向移动不是网页特效，而是在模拟手卷逐段展开、不能一眼看尽的观看节奏。"
+        },
+        {
+          "title": "《夜雨泊舟图》轴",
+          "date": "1477年",
+          "medium": "纸本水墨立轴",
+          "image": "assets/works/shen-zhou-rainy-night.jpg",
+          "source": "https://www.metmuseum.org/art/collection/search/49549",
+          "collection": "大都会艺术博物馆",
+          "license": "Public Domain",
+          "confidence": "高",
+          "reading": "大都会艺术博物馆将画面与沈周父亲去世后不久的处境联系起来；这种情绪解释来自馆方研究，不应被简化成画家私人心理的逐字记录。"
+        }
+      ]
+    },
+    "唐寅": {
+      "layout": "album-gallery",
+      "eyebrow": "从解元到以画谋生",
+      "intro": "唐寅的作品同时面对文人品评与真实市场。画里的隐居、观瀑和竹影，不只是风流才子的标签，也是一名职业创作者反复经营的视觉语言。",
+      "works": [
+        {
+          "title": "《诗画》卷（山水册页）",
+          "date": "明代",
+          "medium": "绢本设色，八开册页改装手卷",
+          "image": "assets/works/tang-yin-landscapes.jpg",
+          "source": "https://www.metmuseum.org/art/collection/search/45773",
+          "collection": "大都会艺术博物馆",
+          "license": "Public Domain",
+          "confidence": "高",
+          "reading": "八幅册页后来被装成手卷。页面保留“连续翻看”的节奏，提醒我们今天看到的装裱形态也可能经历后世改变。"
+        },
+        {
+          "title": "《墨竹图》卷",
+          "date": "16世纪初",
+          "medium": "纸本水墨手卷",
+          "image": "assets/works/tang-yin-ink-bamboo.jpg",
+          "source": "https://www.metmuseum.org/art/collection/search/45756",
+          "collection": "大都会艺术博物馆",
+          "license": "Public Domain",
+          "confidence": "高",
+          "reading": "斜出的竹枝与画家自题诗处在同一画面里；这里的诗、书、画不是三件独立作品，而是一次完整表达。"
+        }
+      ]
+    },
+    "仇英": {
+      "layout": "panorama-gallery",
+      "eyebrow": "职业画家的长卷剧场",
+      "intro": "仇英擅长把人物、建筑、器物和故事组织成密集而精确的长卷。请横向拖动：真正的主角不是某一个人，而是画面中持续发生的生活。",
+      "works": [
+        {
+          "title": "《汉宫春晓图》卷",
+          "date": "16世纪",
+          "medium": "绢本设色手卷",
+          "image": "assets/works/qiu-ying-han-palace.jpg",
+          "source": "https://digitalarchive.npm.gov.tw/Collection/Detail/3672?dep=P",
+          "collection": "台北故宫博物院",
+          "license": "作品公版；展示图据公开数字图像",
+          "confidence": "高",
+          "reading": "原作宽约5.74米。宫廷女性、儿童、画师、乐器与日常活动沿手卷铺开，构成的是理想化宫廷生活，而不是某一天的纪实摄影。"
+        },
+        {
+          "title": "《春夜宴桃李园图》卷",
+          "date": "明代",
+          "medium": "绢本设色手卷",
+          "image": "assets/works/qiu-ying-night-banquet.jpg",
+          "source": "https://digitalarchive.npm.gov.tw/Collection/Detail/5567?dep=P",
+          "collection": "台北故宫博物院",
+          "license": "低阶图像 CC0",
+          "confidence": "高",
+          "reading": "画面把李白《春夜宴从弟桃花园序》的文学场景转译为月夜、灯笼、桌案与人物群像，是“依文作图”的完整案例。"
+        }
+      ]
+    },
+    "徐渭": {
+      "layout": "ink-poem",
+      "eyebrow": "墨迹、题诗与无法出售的明珠",
+      "intro": "这幅画不应把题诗裁掉。葡萄、狂草般的用笔和“笔底明珠无处卖”属于同一个情绪结构。",
+      "works": [
+        {
+          "title": "《水墨葡萄图》轴",
+          "date": "明代",
+          "medium": "纸本墨笔，165.4×64.5厘米",
+          "image": "assets/works/xu-wei-grapes.jpg",
+          "source": "https://www.dpm.org.cn/collection/paint/231318.html",
+          "imageSource": "https://commons.wikimedia.org/wiki/File:Xu_Wei_Grapes.jpg",
+          "collection": "故宫博物院",
+          "license": "作品公版；数字图像来源见链接",
+          "confidence": "高",
+          "reading": "故宫博物院指出，画家以近似草书的笔法写葡萄，墨色淋漓；题诗也见于《徐文长集三》卷十一。"
+        }
+      ],
+      "text": {
+        "title": "画上自题",
+        "lines": [
+          "半生落魄已成翁，独立书斋啸晚风。",
+          "笔底明珠无处卖，闲抛闲掷野藤中。"
+        ],
+        "source": "https://www.dpm.org.cn/collection/paint/231318.html",
+        "confidence": "高",
+        "note": "原画自题，故宫博物院藏品页有完整释文。"
+      }
+    },
+    "马守真": {
+      "layout": "orchid-poem",
+      "eyebrow": "兰花不只是闺阁清供",
+      "intro": "马守真的兰花连接绘画、诗歌、交游和秦淮文化市场。作品署名与真伪问题必须与她的艺术声誉同时展示。",
+      "works": [
+        {
+          "title": "传马守真《兰石图》轴",
+          "date": "题1572年",
+          "medium": "纸本水墨立轴",
+          "image": "assets/works/ma-shouzhen-orchid-rock.jpg",
+          "source": "https://www.metmuseum.org/art/collection/search/48932",
+          "collection": "大都会艺术博物馆",
+          "license": "Public Domain",
+          "confidence": "中",
+          "reading": "大都会艺术博物馆明确使用“传马守真”而非确定作者；页面保留这一归属等级，不用名人标签抹去鉴定问题。"
+        }
+      ],
+      "text": {
+        "title": "《咏兰》",
+        "lines": [
+          "楚兰纷远室，疏影傍瑶台。",
+          "清风天际至，愿度幽香来。"
+        ],
+        "source": "https://www.shanghaimuseum.net/mu/frontend/pg/m/article/id/CI00160480",
+        "confidence": "中",
+        "note": "上海博物馆《马守真、薛素素兰花图卷》页面录作“马湘兰咏兰”；诗与本页所示大都会藏画并非同一件作品。"
+      }
+    },
+    "徐霞客": {
+      "layout": "travel-text",
+      "eyebrow": "把脚步变成文字证据",
+      "intro": "《徐霞客游记》的魅力不只是“去过很多地方”，而是日期、路线、天气、地貌和身体感受被连续写进同一份观察记录。",
+      "text": {
+        "title": "《游天台山日记》开篇",
+        "lines": [
+          "癸丑之三月晦，自宁海出西门。",
+          "云散日朗，人意山光，俱有喜态。"
+        ],
+        "source": "https://zh.wikisource.org/zh-hans/%E5%BE%90%E9%9C%9E%E5%AE%A2%E9%81%8A%E8%A8%98/%E9%81%8A%E5%A4%A9%E5%8F%B0%E5%B1%B1%E6%97%A5%E8%A8%98",
+        "confidence": "高",
+        "note": "公版古籍文本；不同整理本的繁简、标点可能不同。"
+      }
+    },
+    "李时珍": {
+      "layout": "knowledge-text",
+      "eyebrow": "一部书怎样容纳万物",
+      "intro": "《本草纲目》首先是一套组织知识的方法。与其摘一句格言，不如打开一个条目，看药名、形态、前人说法、主治与订误怎样被放在一起。",
+      "text": {
+        "title": "《本草纲目》的条目结构",
+        "lines": [
+          "释名 · 集解 · 辨疑 · 正误",
+          "修治 · 气味 · 主治 · 发明 · 附方"
+        ],
+        "source": "https://zh.wikisource.org/zh-hans/%E6%9C%AC%E8%8D%89%E7%B6%B1%E7%9B%AE",
+        "confidence": "高",
+        "note": "不同药物条目并非机械包含全部栏目；这里展示的是全书常见的知识组织框架，而不是连续原文。"
+      }
+    }
+  }
+}

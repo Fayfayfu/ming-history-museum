@@ -1,0 +1,438 @@
+{
+  "meta": {
+    "period": "第一时代",
+    "title": "洪武建国与高压国家",
+    "range": "1368—1398",
+    "people": 19,
+    "edges": 19,
+    "counts": {
+      "emperor": 1,
+      "official": 11,
+      "commoner": 0,
+      "royal": 7
+    },
+    "generated": "2026年8月5日"
+  },
+  "nodes": [
+    {
+      "id": "朱元璋",
+      "name": "朱元璋",
+      "periodRole": "洪武帝｜开国皇帝",
+      "role": "emperor",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 1500,
+      "y": 350
+    },
+    {
+      "id": "李善长",
+      "name": "李善长",
+      "periodRole": "文臣｜开国行政",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "中",
+      "x": 220,
+      "y": 560
+    },
+    {
+      "id": "刘基",
+      "name": "刘基",
+      "periodRole": "文臣｜战略谋划",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 500,
+      "y": 560
+    },
+    {
+      "id": "宋濂",
+      "name": "宋濂",
+      "periodRole": "文臣｜礼制文教",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 780,
+      "y": 560
+    },
+    {
+      "id": "朱标",
+      "name": "朱标",
+      "periodRole": "皇太子｜储君",
+      "role": "royal",
+      "sourceType": "重要皇室子嗣",
+      "confidence": "中",
+      "x": 1110,
+      "y": 620
+    },
+    {
+      "id": "朱允炆",
+      "name": "朱允炆",
+      "periodRole": "皇太孙｜继承人",
+      "role": "royal",
+      "sourceType": "核心人物",
+      "confidence": "中",
+      "x": 1370,
+      "y": 620
+    },
+    {
+      "id": "朱棣",
+      "name": "朱棣",
+      "periodRole": "燕王｜北方强藩",
+      "role": "royal",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 1630,
+      "y": 620
+    },
+    {
+      "id": "朱高炽",
+      "name": "朱高炽",
+      "periodRole": "燕世子｜宗藩继承",
+      "role": "royal",
+      "sourceType": "核心人物",
+      "confidence": "中",
+      "x": 1890,
+      "y": 620
+    },
+    {
+      "id": "朱橚",
+      "name": "朱橚",
+      "periodRole": "周王｜宗藩",
+      "role": "royal",
+      "sourceType": "重要皇室子嗣",
+      "confidence": "中",
+      "x": 1110,
+      "y": 900
+    },
+    {
+      "id": "朱柏",
+      "name": "朱柏",
+      "periodRole": "湘王｜宗藩",
+      "role": "royal",
+      "sourceType": "重要皇室子嗣",
+      "confidence": "中",
+      "x": 1370,
+      "y": 900
+    },
+    {
+      "id": "朱权",
+      "name": "朱权",
+      "periodRole": "宁王｜北方强藩",
+      "role": "royal",
+      "sourceType": "重要皇室子嗣",
+      "confidence": "高",
+      "x": 1630,
+      "y": 900
+    },
+    {
+      "id": "徐达",
+      "name": "徐达",
+      "periodRole": "武官｜北伐主帅",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 2180,
+      "y": 500
+    },
+    {
+      "id": "常遇春",
+      "name": "常遇春",
+      "periodRole": "武官｜北伐主力",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 2540,
+      "y": 500
+    },
+    {
+      "id": "汤和",
+      "name": "汤和",
+      "periodRole": "武官｜开国将领",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 2180,
+      "y": 720
+    },
+    {
+      "id": "李文忠",
+      "name": "李文忠",
+      "periodRole": "武官｜北方征战",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 2540,
+      "y": 720
+    },
+    {
+      "id": "邓愈",
+      "name": "邓愈",
+      "periodRole": "武官｜西北征战",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 2180,
+      "y": 940
+    },
+    {
+      "id": "沐英",
+      "name": "沐英",
+      "periodRole": "武官｜镇守云南",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "高",
+      "x": 2540,
+      "y": 940
+    },
+    {
+      "id": "傅友德",
+      "name": "傅友德",
+      "periodRole": "武官｜征南主将",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "中",
+      "x": 2180,
+      "y": 1160
+    },
+    {
+      "id": "蓝玉",
+      "name": "蓝玉",
+      "periodRole": "武官｜北元大捷",
+      "role": "official",
+      "sourceType": "核心人物",
+      "confidence": "中",
+      "x": 2540,
+      "y": 1160
+    }
+  ],
+  "edges": [
+    {
+      "source": "朱元璋",
+      "target": "朱允炆",
+      "type": "succession",
+      "types": [
+        "succession"
+      ],
+      "label": "立为皇太孙",
+      "evidence": [
+        "1392·太子朱标去世",
+        "1393·蓝玉案",
+        "1398·洪武帝去世、建文帝继位"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱标",
+      "type": "family",
+      "types": [
+        "family"
+      ],
+      "label": "父子",
+      "evidence": [
+        "1392·太子朱标去世"
+      ]
+    },
+    {
+      "source": "朱标",
+      "target": "朱允炆",
+      "type": "family",
+      "types": [
+        "family"
+      ],
+      "label": "父子",
+      "evidence": [
+        "1392·朱标去世后，朱允炆被立为皇太孙",
+        "1392·太子朱标去世"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱棣",
+      "type": "family",
+      "types": [
+        "family"
+      ],
+      "label": "父子",
+      "evidence": [
+        "1370·首次大规模分封诸王",
+        "1392·太子朱标去世"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱橚",
+      "type": "family",
+      "types": [
+        "family"
+      ],
+      "label": "父子",
+      "evidence": []
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱柏",
+      "type": "family",
+      "types": [
+        "family"
+      ],
+      "label": "父子",
+      "evidence": []
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱权",
+      "type": "family",
+      "types": [
+        "family"
+      ],
+      "label": "父子",
+      "evidence": [
+        "1370·首次大规模分封诸王"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "朱高炽",
+      "type": "family",
+      "types": [
+        "family"
+      ],
+      "label": "父子",
+      "evidence": []
+    },
+    {
+      "source": "朱元璋",
+      "target": "刘基",
+      "type": "cooperation",
+      "types": [
+        "cooperation"
+      ],
+      "label": "开国君臣",
+      "evidence": [
+        "1368·朱元璋建立明朝"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "宋濂",
+      "type": "cooperation",
+      "types": [
+        "cooperation"
+      ],
+      "label": "开国君臣",
+      "evidence": []
+    },
+    {
+      "source": "朱元璋",
+      "target": "徐达",
+      "type": "cooperation",
+      "types": [
+        "cooperation"
+      ],
+      "label": "开国君臣",
+      "evidence": [
+        "1368·朱元璋建立明朝",
+        "1368·明军攻占大都"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "常遇春",
+      "type": "cooperation",
+      "types": [
+        "cooperation"
+      ],
+      "label": "开国君臣",
+      "evidence": [
+        "1368·明军攻占大都"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "汤和",
+      "type": "cooperation",
+      "types": [
+        "cooperation"
+      ],
+      "label": "开国君臣",
+      "evidence": [
+        "1371·平定明夏、控制四川"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "李文忠",
+      "type": "cooperation",
+      "types": [
+        "cooperation"
+      ],
+      "label": "开国君臣",
+      "evidence": []
+    },
+    {
+      "source": "朱元璋",
+      "target": "邓愈",
+      "type": "cooperation",
+      "types": [
+        "cooperation"
+      ],
+      "label": "开国君臣",
+      "evidence": []
+    },
+    {
+      "source": "朱元璋",
+      "target": "沐英",
+      "type": "cooperation",
+      "types": [
+        "cooperation"
+      ],
+      "label": "开国君臣",
+      "evidence": [
+        "1381·明军征服云南"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "傅友德",
+      "type": "conflict",
+      "types": [
+        "cooperation",
+        "conflict"
+      ],
+      "label": "开国／赐死",
+      "evidence": [
+        "1371·平定明夏、控制四川",
+        "1381·明军征服云南",
+        "人物底表：晚年被赐死，具体罪名与过程有争议（中置信度）"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "李善长",
+      "type": "conflict",
+      "types": [
+        "conflict"
+      ],
+      "label": "开国／功臣案",
+      "evidence": [
+        "1368·朱元璋建立明朝",
+        "1380·胡惟庸案与废除丞相"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "蓝玉",
+      "type": "conflict",
+      "types": [
+        "conflict"
+      ],
+      "label": "北征／蓝玉案",
+      "evidence": [
+        "1381·明军征服云南",
+        "1387·纳哈出降明、辽东形势改变",
+        "1388·捕鱼儿海之战",
+        "1393·蓝玉案"
+      ]
+    }
+  ]
+}

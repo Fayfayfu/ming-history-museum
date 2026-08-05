@@ -1,0 +1,14 @@
+{
+  "name": "ming-history-museum",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:museum": "node scripts/build_ming_museum.mjs",
+    "build:deploy": "node scripts/build_vercel_bundle.mjs",
+    "verify": "node scripts/verify_ming_museum.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
+}

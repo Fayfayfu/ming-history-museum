@@ -1,0 +1,3796 @@
+{
+  "meta": {
+    "nodes": 129,
+    "edges": 204,
+    "roleCounts": {
+      "emperor": 16,
+      "official": 81,
+      "commoner": 8,
+      "royal": 24
+    },
+    "edgeCounts": {
+      "succession": 15,
+      "lineage": 37,
+      "event": 130,
+      "era": 43
+    },
+    "generated": "2026年8月5日"
+  },
+  "nodes": [
+    {
+      "id": "朱元璋",
+      "name": "朱元璋",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 88,
+      "confidence": "高",
+      "influence": 64.55,
+      "x": 240,
+      "y": 1386
+    },
+    {
+      "id": "朱允炆",
+      "name": "朱允炆",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 58,
+      "confidence": "中",
+      "influence": 42.1,
+      "x": 554.7,
+      "y": 1454
+    },
+    {
+      "id": "朱棣",
+      "name": "朱棣",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 90,
+      "confidence": "高",
+      "influence": 59.6,
+      "x": 869.3,
+      "y": 1386
+    },
+    {
+      "id": "朱高炽",
+      "name": "朱高炽",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 82,
+      "confidence": "中",
+      "influence": 37.7,
+      "x": 1184,
+      "y": 1454
+    },
+    {
+      "id": "朱瞻基",
+      "name": "朱瞻基",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 86,
+      "confidence": "高",
+      "influence": 34,
+      "x": 1498.7,
+      "y": 1386
+    },
+    {
+      "id": "朱祁镇",
+      "name": "朱祁镇",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 45,
+      "confidence": "高",
+      "influence": 47.3,
+      "x": 1813.3,
+      "y": 1454
+    },
+    {
+      "id": "朱祁钰",
+      "name": "朱祁钰",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 72,
+      "confidence": "中",
+      "influence": 36.25,
+      "x": 2128,
+      "y": 1386
+    },
+    {
+      "id": "朱见深",
+      "name": "朱见深",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 68,
+      "confidence": "中",
+      "influence": 31.6,
+      "x": 2442.7,
+      "y": 1454
+    },
+    {
+      "id": "朱祐樘",
+      "name": "朱祐樘",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 84,
+      "confidence": "高",
+      "influence": 34.05,
+      "x": 2757.3,
+      "y": 1386
+    },
+    {
+      "id": "朱厚照",
+      "name": "朱厚照",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 57,
+      "confidence": "中",
+      "influence": 34.4,
+      "x": 3072,
+      "y": 1454
+    },
+    {
+      "id": "朱厚熜",
+      "name": "朱厚熜",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 60,
+      "confidence": "高",
+      "influence": 39.7,
+      "x": 3386.7,
+      "y": 1386
+    },
+    {
+      "id": "朱载坖",
+      "name": "朱载坖",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 79,
+      "confidence": "中",
+      "influence": 33.13,
+      "x": 3701.3,
+      "y": 1454
+    },
+    {
+      "id": "朱翊钧",
+      "name": "朱翊钧",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 62,
+      "confidence": "高",
+      "influence": 61.5,
+      "x": 4016,
+      "y": 1386
+    },
+    {
+      "id": "朱常洛",
+      "name": "朱常洛",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 65,
+      "confidence": "低",
+      "influence": 33.4,
+      "x": 4330.7,
+      "y": 1454
+    },
+    {
+      "id": "朱由校",
+      "name": "朱由校",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 40,
+      "confidence": "高",
+      "influence": 26.5,
+      "x": 4645.3,
+      "y": 1386
+    },
+    {
+      "id": "朱由检",
+      "name": "朱由检",
+      "role": "emperor",
+      "subtype": "皇帝",
+      "score": 58,
+      "confidence": "高",
+      "influence": 41.9,
+      "x": 4960,
+      "y": 1454
+    },
+    {
+      "id": "李善长",
+      "name": "李善长",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 75,
+      "confidence": "中",
+      "influence": 6.22,
+      "x": 185,
+      "y": 1192.3
+    },
+    {
+      "id": "刘基",
+      "name": "刘基",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 84,
+      "confidence": "高",
+      "influence": 5.95,
+      "x": 370.7,
+      "y": 1102
+    },
+    {
+      "id": "宋濂",
+      "name": "宋濂",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 82,
+      "confidence": "高",
+      "influence": 2,
+      "x": 185,
+      "y": 1039.4
+    },
+    {
+      "id": "方孝孺",
+      "name": "方孝孺",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 77,
+      "confidence": "高",
+      "influence": 10.67,
+      "x": 559.3,
+      "y": 1175.8
+    },
+    {
+      "id": "姚广孝",
+      "name": "姚广孝",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 76,
+      "confidence": "高",
+      "influence": 10.55,
+      "x": 753.4,
+      "y": 1145.6
+    },
+    {
+      "id": "解缙",
+      "name": "解缙",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 74,
+      "confidence": "高",
+      "influence": 3.3,
+      "x": 856.3,
+      "y": 940.9
+    },
+    {
+      "id": "夏原吉",
+      "name": "夏原吉",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 89,
+      "confidence": "高",
+      "influence": 2.88,
+      "x": 971.3,
+      "y": 1017.8
+    },
+    {
+      "id": "蹇义",
+      "name": "蹇义",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 82,
+      "confidence": "中",
+      "influence": 2,
+      "x": 955,
+      "y": 756.6
+    },
+    {
+      "id": "杨士奇",
+      "name": "杨士奇",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 88,
+      "confidence": "高",
+      "influence": 19.05,
+      "x": 1305.7,
+      "y": 1275
+    },
+    {
+      "id": "杨荣",
+      "name": "杨荣",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 84,
+      "confidence": "高",
+      "influence": 18.55,
+      "x": 1350,
+      "y": 1164.4
+    },
+    {
+      "id": "杨溥",
+      "name": "杨溥",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 83,
+      "confidence": "高",
+      "influence": 18.42,
+      "x": 1373.9,
+      "y": 1394.4
+    },
+    {
+      "id": "于谦",
+      "name": "于谦",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 94,
+      "confidence": "高",
+      "influence": 21.2,
+      "x": 1981.3,
+      "y": 1261.4
+    },
+    {
+      "id": "李贤",
+      "name": "李贤",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 81,
+      "confidence": "中",
+      "influence": 1.88,
+      "x": 1557.8,
+      "y": 1180.9
+    },
+    {
+      "id": "商辂",
+      "name": "商辂",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 82,
+      "confidence": "高",
+      "influence": 2,
+      "x": 2094.9,
+      "y": 1050.8
+    },
+    {
+      "id": "刘健",
+      "name": "刘健",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 85,
+      "confidence": "高",
+      "influence": 17.27,
+      "x": 2707.8,
+      "y": 1181.6
+    },
+    {
+      "id": "谢迁",
+      "name": "谢迁",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 83,
+      "confidence": "高",
+      "influence": 11.42,
+      "x": 2821,
+      "y": 1082.5
+    },
+    {
+      "id": "李东阳",
+      "name": "李东阳",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 76,
+      "confidence": "高",
+      "influence": 18.95,
+      "x": 2885.5,
+      "y": 1263.8
+    },
+    {
+      "id": "刘大夏",
+      "name": "刘大夏",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 82,
+      "confidence": "中",
+      "influence": 2,
+      "x": 2305.5,
+      "y": 1031.3
+    },
+    {
+      "id": "杨廷和",
+      "name": "杨廷和",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 87,
+      "confidence": "高",
+      "influence": 6.32,
+      "x": 3102.9,
+      "y": 1243
+    },
+    {
+      "id": "王守仁",
+      "name": "王守仁",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 93,
+      "confidence": "高",
+      "influence": 4.28,
+      "x": 2937.6,
+      "y": 1106.2
+    },
+    {
+      "id": "夏言",
+      "name": "夏言",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 78,
+      "confidence": "中",
+      "influence": 1.5,
+      "x": 3199.5,
+      "y": 945.5
+    },
+    {
+      "id": "严嵩",
+      "name": "严嵩",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 30,
+      "confidence": "高",
+      "influence": 4.2,
+      "x": 3255.2,
+      "y": 1090.3
+    },
+    {
+      "id": "徐阶",
+      "name": "徐阶",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 78,
+      "confidence": "高",
+      "influence": 9.4,
+      "x": 3464,
+      "y": 1170.3
+    },
+    {
+      "id": "高拱",
+      "name": "高拱",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 84,
+      "confidence": "高",
+      "influence": 8.75,
+      "x": 3644.3,
+      "y": 1063.8
+    },
+    {
+      "id": "张居正",
+      "name": "张居正",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 92,
+      "confidence": "高",
+      "influence": 15.35,
+      "x": 3833.4,
+      "y": 1128.9
+    },
+    {
+      "id": "海瑞",
+      "name": "海瑞",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 84,
+      "confidence": "高",
+      "influence": 4.55,
+      "x": 3653.6,
+      "y": 1180.4
+    },
+    {
+      "id": "沈一贯",
+      "name": "沈一贯",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 56,
+      "confidence": "中",
+      "influence": 0.5,
+      "x": 4026.7,
+      "y": 900.5
+    },
+    {
+      "id": "沈鲤",
+      "name": "沈鲤",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 72,
+      "confidence": "中",
+      "influence": 0.75,
+      "x": 4006.1,
+      "y": 841.5
+    },
+    {
+      "id": "徐光启",
+      "name": "徐光启",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 92,
+      "confidence": "高",
+      "influence": 3.25,
+      "x": 4382.7,
+      "y": 1128.8
+    },
+    {
+      "id": "申时行",
+      "name": "申时行",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 70,
+      "confidence": "高",
+      "influence": 4.2,
+      "x": 4193.6,
+      "y": 1128.6
+    },
+    {
+      "id": "顾宪成",
+      "name": "顾宪成",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 80,
+      "confidence": "高",
+      "influence": 1.75,
+      "x": 4026.7,
+      "y": 756.5
+    },
+    {
+      "id": "高攀龙",
+      "name": "高攀龙",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 82,
+      "confidence": "高",
+      "influence": 2,
+      "x": 4260.5,
+      "y": 1007.9
+    },
+    {
+      "id": "叶向高",
+      "name": "叶向高",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 76,
+      "confidence": "高",
+      "influence": 1.25,
+      "x": 4206,
+      "y": 977.8
+    },
+    {
+      "id": "杨涟",
+      "name": "杨涟",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 87,
+      "confidence": "高",
+      "influence": 6.32,
+      "x": 4647.6,
+      "y": 1028
+    },
+    {
+      "id": "左光斗",
+      "name": "左光斗",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 88,
+      "confidence": "高",
+      "influence": 6.45,
+      "x": 4529.7,
+      "y": 1168.8
+    },
+    {
+      "id": "孙承宗",
+      "name": "孙承宗",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 90,
+      "confidence": "高",
+      "influence": 3.9,
+      "x": 4680.8,
+      "y": 773.4
+    },
+    {
+      "id": "杨嗣昌",
+      "name": "杨嗣昌",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 60,
+      "confidence": "中",
+      "influence": 0.5,
+      "x": 4728,
+      "y": 1220
+    },
+    {
+      "id": "倪元璐",
+      "name": "倪元璐",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 79,
+      "confidence": "中",
+      "influence": 1.63,
+      "x": 4836.7,
+      "y": 1173.7
+    },
+    {
+      "id": "黄道周",
+      "name": "黄道周",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 82,
+      "confidence": "高",
+      "influence": 2,
+      "x": 4876.3,
+      "y": 1045
+    },
+    {
+      "id": "史可法",
+      "name": "史可法",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 78,
+      "confidence": "高",
+      "influence": 1.5,
+      "x": 4918,
+      "y": 863.2
+    },
+    {
+      "id": "徐达",
+      "name": "徐达",
+      "role": "official",
+      "subtype": "武官",
+      "score": 95,
+      "confidence": "高",
+      "influence": 10.13,
+      "x": 242.9,
+      "y": 1022.1
+    },
+    {
+      "id": "常遇春",
+      "name": "常遇春",
+      "role": "official",
+      "subtype": "武官",
+      "score": 88,
+      "confidence": "高",
+      "influence": 5.05,
+      "x": 185,
+      "y": 896.4
+    },
+    {
+      "id": "汤和",
+      "name": "汤和",
+      "role": "official",
+      "subtype": "武官",
+      "score": 86,
+      "confidence": "高",
+      "influence": 4.8,
+      "x": 243.6,
+      "y": 1122.6
+    },
+    {
+      "id": "李文忠",
+      "name": "李文忠",
+      "role": "official",
+      "subtype": "武官",
+      "score": 87,
+      "confidence": "高",
+      "influence": 2.63,
+      "x": 244.1,
+      "y": 955.3
+    },
+    {
+      "id": "邓愈",
+      "name": "邓愈",
+      "role": "official",
+      "subtype": "武官",
+      "score": 84,
+      "confidence": "高",
+      "influence": 2.25,
+      "x": 185,
+      "y": 955.4
+    },
+    {
+      "id": "沐英",
+      "name": "沐英",
+      "role": "official",
+      "subtype": "武官",
+      "score": 89,
+      "confidence": "高",
+      "influence": 6.57,
+      "x": 189.2,
+      "y": 1101
+    },
+    {
+      "id": "傅友德",
+      "name": "傅友德",
+      "role": "official",
+      "subtype": "武官",
+      "score": 89,
+      "confidence": "中",
+      "influence": 9.38,
+      "x": 310.4,
+      "y": 947.3
+    },
+    {
+      "id": "蓝玉",
+      "name": "蓝玉",
+      "role": "official",
+      "subtype": "武官",
+      "score": 84,
+      "confidence": "中",
+      "influence": 11.55,
+      "x": 415.8,
+      "y": 1143.2
+    },
+    {
+      "id": "张玉",
+      "name": "张玉",
+      "role": "official",
+      "subtype": "武官",
+      "score": 80,
+      "confidence": "中",
+      "influence": 1.75,
+      "x": 696.9,
+      "y": 1179.1
+    },
+    {
+      "id": "朱能",
+      "name": "朱能",
+      "role": "official",
+      "subtype": "武官",
+      "score": 78,
+      "confidence": "高",
+      "influence": 1.5,
+      "x": 811.4,
+      "y": 856.4
+    },
+    {
+      "id": "丘福",
+      "name": "丘福",
+      "role": "official",
+      "subtype": "武官",
+      "score": 62,
+      "confidence": "高",
+      "influence": 0.5,
+      "x": 804.6,
+      "y": 975.4
+    },
+    {
+      "id": "石亨",
+      "name": "石亨",
+      "role": "official",
+      "subtype": "武官",
+      "score": 58,
+      "confidence": "中",
+      "influence": 9.8,
+      "x": 1952.4,
+      "y": 1089.5
+    },
+    {
+      "id": "翁万达",
+      "name": "翁万达",
+      "role": "official",
+      "subtype": "武官",
+      "score": 86,
+      "confidence": "高",
+      "influence": 2.5,
+      "x": 3274.5,
+      "y": 886
+    },
+    {
+      "id": "胡宗宪",
+      "name": "胡宗宪",
+      "role": "official",
+      "subtype": "武官",
+      "score": 81,
+      "confidence": "高",
+      "influence": 4.17,
+      "x": 3391.5,
+      "y": 1164.2
+    },
+    {
+      "id": "戚继光",
+      "name": "戚继光",
+      "role": "official",
+      "subtype": "武官",
+      "score": 95,
+      "confidence": "高",
+      "influence": 10.13,
+      "x": 3610.9,
+      "y": 1231.6
+    },
+    {
+      "id": "俞大猷",
+      "name": "俞大猷",
+      "role": "official",
+      "subtype": "武官",
+      "score": 90,
+      "confidence": "高",
+      "influence": 5.3,
+      "x": 3532.7,
+      "y": 960.1
+    },
+    {
+      "id": "谭纶",
+      "name": "谭纶",
+      "role": "official",
+      "subtype": "武官",
+      "score": 89,
+      "confidence": "高",
+      "influence": 2.88,
+      "x": 3593.2,
+      "y": 1169.7
+    },
+    {
+      "id": "马芳",
+      "name": "马芳",
+      "role": "official",
+      "subtype": "武官",
+      "score": 86,
+      "confidence": "中",
+      "influence": 2.5,
+      "x": 3559.2,
+      "y": 1119
+    },
+    {
+      "id": "李成梁",
+      "name": "李成梁",
+      "role": "official",
+      "subtype": "武官",
+      "score": 68,
+      "confidence": "高",
+      "influence": 1.4,
+      "x": 4032.7,
+      "y": 1103.5
+    },
+    {
+      "id": "李如松",
+      "name": "李如松",
+      "role": "official",
+      "subtype": "武官",
+      "score": 87,
+      "confidence": "高",
+      "influence": 4.92,
+      "x": 4028,
+      "y": 1024.1
+    },
+    {
+      "id": "宋应昌",
+      "name": "宋应昌",
+      "role": "official",
+      "subtype": "武官",
+      "score": 85,
+      "confidence": "中",
+      "influence": 2.38,
+      "x": 3908.7,
+      "y": 1070
+    },
+    {
+      "id": "刘綎",
+      "name": "刘綎",
+      "role": "official",
+      "subtype": "武官",
+      "score": 79,
+      "confidence": "高",
+      "influence": 1.63,
+      "x": 4144,
+      "y": 922.3
+    },
+    {
+      "id": "秦良玉",
+      "name": "秦良玉",
+      "role": "official",
+      "subtype": "武官",
+      "score": 90,
+      "confidence": "高",
+      "influence": 3,
+      "x": 4418.3,
+      "y": 1194
+    },
+    {
+      "id": "毛文龙",
+      "name": "毛文龙",
+      "role": "official",
+      "subtype": "武官",
+      "score": 64,
+      "confidence": "中",
+      "influence": 0.5,
+      "x": 4294.7,
+      "y": 860
+    },
+    {
+      "id": "袁崇焕",
+      "name": "袁崇焕",
+      "role": "official",
+      "subtype": "武官",
+      "score": 84,
+      "confidence": "高",
+      "influence": 4.55,
+      "x": 4834.6,
+      "y": 1000.7
+    },
+    {
+      "id": "洪承畴",
+      "name": "洪承畴",
+      "role": "official",
+      "subtype": "武官",
+      "score": 55,
+      "confidence": "高",
+      "influence": 2.8,
+      "x": 4932.8,
+      "y": 1026.1
+    },
+    {
+      "id": "卢象升",
+      "name": "卢象升",
+      "role": "official",
+      "subtype": "武官",
+      "score": 87,
+      "confidence": "高",
+      "influence": 2.63,
+      "x": 4870.7,
+      "y": 902.8
+    },
+    {
+      "id": "孙传庭",
+      "name": "孙传庭",
+      "role": "official",
+      "subtype": "武官",
+      "score": 80,
+      "confidence": "高",
+      "influence": 1.75,
+      "x": 4891.6,
+      "y": 980.4
+    },
+    {
+      "id": "吴三桂",
+      "name": "吴三桂",
+      "role": "official",
+      "subtype": "武官",
+      "score": 25,
+      "confidence": "高",
+      "influence": 1.4,
+      "x": 4950.9,
+      "y": 1084.8
+    },
+    {
+      "id": "郑和",
+      "name": "郑和",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 92,
+      "confidence": "高",
+      "influence": 5.55,
+      "x": 1171.4,
+      "y": 1272.8
+    },
+    {
+      "id": "王景弘",
+      "name": "王景弘",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 81,
+      "confidence": "低",
+      "influence": 1.88,
+      "x": 967.7,
+      "y": 843.1
+    },
+    {
+      "id": "王振",
+      "name": "王振",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 18,
+      "confidence": "高",
+      "influence": 8.4,
+      "x": 1620.1,
+      "y": 1184.3
+    },
+    {
+      "id": "金英",
+      "name": "金英",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 45,
+      "confidence": "低",
+      "influence": 0.5,
+      "x": 1613.4,
+      "y": 1014.2
+    },
+    {
+      "id": "曹吉祥",
+      "name": "曹吉祥",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 20,
+      "confidence": "高",
+      "influence": 7,
+      "x": 1816.6,
+      "y": 1172.1
+    },
+    {
+      "id": "汪直",
+      "name": "汪直",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 32,
+      "confidence": "中",
+      "influence": 5.6,
+      "x": 2230.9,
+      "y": 1289
+    },
+    {
+      "id": "刘瑾",
+      "name": "刘瑾",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 15,
+      "confidence": "高",
+      "influence": 11.2,
+      "x": 2991.8,
+      "y": 1068.4
+    },
+    {
+      "id": "张永",
+      "name": "张永",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 66,
+      "confidence": "中",
+      "influence": 2.8,
+      "x": 2945.2,
+      "y": 1241.5
+    },
+    {
+      "id": "冯保",
+      "name": "冯保",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 72,
+      "confidence": "高",
+      "influence": 5.85,
+      "x": 3984.9,
+      "y": 979
+    },
+    {
+      "id": "陈矩",
+      "name": "陈矩",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 78,
+      "confidence": "中",
+      "influence": 1.5,
+      "x": 4066.2,
+      "y": 852.1
+    },
+    {
+      "id": "魏忠贤",
+      "name": "魏忠贤",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 8,
+      "confidence": "高",
+      "influence": 5.6,
+      "x": 4785.9,
+      "y": 1202.3
+    },
+    {
+      "id": "王承恩",
+      "name": "王承恩",
+      "role": "official",
+      "subtype": "宦官",
+      "score": 70,
+      "confidence": "中",
+      "influence": 0.5,
+      "x": 4960,
+      "y": 904.5
+    },
+    {
+      "id": "沈周",
+      "name": "沈周",
+      "role": "commoner",
+      "subtype": "在野人物",
+      "score": 89,
+      "confidence": "高",
+      "influence": 2.88,
+      "x": 1816.1,
+      "y": 2050.9
+    },
+    {
+      "id": "唐寅",
+      "name": "唐寅",
+      "role": "commoner",
+      "subtype": "在野人物",
+      "score": 86,
+      "confidence": "高",
+      "influence": 2.5,
+      "x": 2677.7,
+      "y": 2098.9
+    },
+    {
+      "id": "仇英",
+      "name": "仇英",
+      "role": "commoner",
+      "subtype": "在野人物",
+      "score": 88,
+      "confidence": "中",
+      "influence": 2.75,
+      "x": 3212.1,
+      "y": 2059.3
+    },
+    {
+      "id": "李时珍",
+      "name": "李时珍",
+      "role": "commoner",
+      "subtype": "在野人物",
+      "score": 95,
+      "confidence": "高",
+      "influence": 3.63,
+      "x": 3392.2,
+      "y": 2053.8
+    },
+    {
+      "id": "徐渭",
+      "name": "徐渭",
+      "role": "commoner",
+      "subtype": "在野人物",
+      "score": 78,
+      "confidence": "高",
+      "influence": 1.5,
+      "x": 3450.1,
+      "y": 2073.1
+    },
+    {
+      "id": "马守真",
+      "name": "马守真",
+      "role": "commoner",
+      "subtype": "在野人物",
+      "score": 84,
+      "confidence": "高",
+      "influence": 2.25,
+      "x": 3993.5,
+      "y": 2085.1
+    },
+    {
+      "id": "陈继儒",
+      "name": "陈继儒",
+      "role": "commoner",
+      "subtype": "在野人物",
+      "score": 82,
+      "confidence": "高",
+      "influence": 2,
+      "x": 4073,
+      "y": 2142.4
+    },
+    {
+      "id": "徐霞客",
+      "name": "徐霞客",
+      "role": "commoner",
+      "subtype": "在野人物",
+      "score": 94,
+      "confidence": "高",
+      "influence": 3.5,
+      "x": 4651.8,
+      "y": 2088.1
+    },
+    {
+      "id": "朱标",
+      "name": "朱标",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 80,
+      "confidence": "中",
+      "influence": 8.45,
+      "x": 469.6,
+      "y": 1583.3
+    },
+    {
+      "id": "朱橚",
+      "name": "朱橚",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 76,
+      "confidence": "中",
+      "influence": 3.75,
+      "x": 335.6,
+      "y": 1621.4
+    },
+    {
+      "id": "朱柏",
+      "name": "朱柏",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 60,
+      "confidence": "中",
+      "influence": 3,
+      "x": 374.7,
+      "y": 1578.8
+    },
+    {
+      "id": "朱权",
+      "name": "朱权",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 78,
+      "confidence": "高",
+      "influence": 6.8,
+      "x": 516.9,
+      "y": 1518.4
+    },
+    {
+      "id": "宁国公主",
+      "name": "宁国公主",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "低",
+      "influence": 3,
+      "x": 417.5,
+      "y": 1545.4
+    },
+    {
+      "id": "朱文奎",
+      "name": "朱文奎",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "高",
+      "influence": 3,
+      "x": 909.8,
+      "y": 1555.3
+    },
+    {
+      "id": "朱文圭",
+      "name": "朱文圭",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "高",
+      "influence": 3,
+      "x": 765.9,
+      "y": 1612.2
+    },
+    {
+      "id": "朱高煦",
+      "name": "朱高煦",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 28,
+      "confidence": "高",
+      "influence": 3,
+      "x": 881.8,
+      "y": 1607.6
+    },
+    {
+      "id": "朱高燧",
+      "name": "朱高燧",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 52,
+      "confidence": "中",
+      "influence": 3,
+      "x": 925,
+      "y": 1648.4
+    },
+    {
+      "id": "朱瞻墡",
+      "name": "朱瞻墡",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 74,
+      "confidence": "中",
+      "influence": 3.5,
+      "x": 1256.9,
+      "y": 1700
+    },
+    {
+      "id": "朱见济",
+      "name": "朱见济",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "高",
+      "influence": 3,
+      "x": 2001.4,
+      "y": 1613.6
+    },
+    {
+      "id": "朱祐杬",
+      "name": "朱祐杬",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 65,
+      "confidence": "中",
+      "influence": 3,
+      "x": 2530.1,
+      "y": 1669
+    },
+    {
+      "id": "朱载壡",
+      "name": "朱载壡",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "高",
+      "influence": 3,
+      "x": 3377.4,
+      "y": 1609.4
+    },
+    {
+      "id": "朱载圳",
+      "name": "朱载圳",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 45,
+      "confidence": "中",
+      "influence": 3,
+      "x": 3468.2,
+      "y": 1615.4
+    },
+    {
+      "id": "朱翊镠",
+      "name": "朱翊镠",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 52,
+      "confidence": "中",
+      "influence": 3,
+      "x": 3880.9,
+      "y": 1630.7
+    },
+    {
+      "id": "朱常洵",
+      "name": "朱常洵",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 30,
+      "confidence": "高",
+      "influence": 8.6,
+      "x": 4408.5,
+      "y": 1393
+    },
+    {
+      "id": "朱常浩",
+      "name": "朱常浩",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 45,
+      "confidence": "中",
+      "influence": 3,
+      "x": 4161.9,
+      "y": 1635.9
+    },
+    {
+      "id": "朱常润",
+      "name": "朱常润",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 55,
+      "confidence": "低",
+      "influence": 3,
+      "x": 4187.1,
+      "y": 1582.2
+    },
+    {
+      "id": "朱常瀛",
+      "name": "朱常瀛",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 62,
+      "confidence": "中",
+      "influence": 3,
+      "x": 4221.6,
+      "y": 1619.3
+    },
+    {
+      "id": "朱慈烺",
+      "name": "朱慈烺",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "低",
+      "influence": 3,
+      "x": 5015,
+      "y": 1635.7
+    },
+    {
+      "id": "朱慈炯",
+      "name": "朱慈炯",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "低",
+      "influence": 3,
+      "x": 4964.8,
+      "y": 1717.5
+    },
+    {
+      "id": "朱慈炤",
+      "name": "朱慈炤",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "低",
+      "influence": 3,
+      "x": 4960.2,
+      "y": 1659.9
+    },
+    {
+      "id": "朱慈焕",
+      "name": "朱慈煥",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "低",
+      "influence": 3,
+      "x": 5015,
+      "y": 1687.8
+    },
+    {
+      "id": "长平公主",
+      "name": "长平公主",
+      "role": "royal",
+      "subtype": "皇室子女",
+      "score": 0,
+      "confidence": "中",
+      "influence": 3,
+      "x": 4576.3,
+      "y": 1533.2
+    }
+  ],
+  "edges": [
+    {
+      "source": "朱元璋",
+      "target": "朱允炆",
+      "types": [
+        "succession",
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "帝位承接",
+        "太子朱标去世",
+        "蓝玉案",
+        "洪武帝去世、建文帝继位"
+      ]
+    },
+    {
+      "source": "朱允炆",
+      "target": "朱棣",
+      "types": [
+        "succession",
+        "event"
+      ],
+      "eventCount": 4,
+      "details": [
+        "帝位承接",
+        "太子朱标去世",
+        "建文削藩",
+        "靖难之役爆发",
+        "南京陷落与永乐帝即位"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "朱高炽",
+      "types": [
+        "succession",
+        "lineage",
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "帝位承接",
+        "明成祖朱棣—朱高炽",
+        "永乐帝北征途中去世"
+      ]
+    },
+    {
+      "source": "朱高炽",
+      "target": "朱瞻基",
+      "types": [
+        "succession",
+        "lineage",
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "帝位承接",
+        "明仁宗朱高熾—朱瞻基",
+        "宣德帝继位与仁宣治理延续"
+      ]
+    },
+    {
+      "source": "朱瞻基",
+      "target": "朱祁镇",
+      "types": [
+        "succession",
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "帝位承接",
+        "明宣宗朱瞻基—朱祁镇"
+      ]
+    },
+    {
+      "source": "朱祁镇",
+      "target": "朱祁钰",
+      "types": [
+        "succession",
+        "event"
+      ],
+      "eventCount": 4,
+      "details": [
+        "帝位承接",
+        "郕王即位、改元景泰",
+        "北京保卫战",
+        "英宗获释返京",
+        "夺门之变"
+      ]
+    },
+    {
+      "source": "朱祁钰",
+      "target": "朱见深",
+      "types": [
+        "succession"
+      ],
+      "eventCount": 0,
+      "details": [
+        "帝位承接"
+      ]
+    },
+    {
+      "source": "朱见深",
+      "target": "朱祐樘",
+      "types": [
+        "succession",
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "帝位承接",
+        "明憲宗朱見深—朱祐樘"
+      ]
+    },
+    {
+      "source": "朱祐樘",
+      "target": "朱厚照",
+      "types": [
+        "succession",
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "帝位承接",
+        "明孝宗朱祐樘—朱厚照"
+      ]
+    },
+    {
+      "source": "朱厚照",
+      "target": "朱厚熜",
+      "types": [
+        "succession",
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "帝位承接",
+        "正德帝无嗣而亡、嘉靖帝入继"
+      ]
+    },
+    {
+      "source": "朱厚熜",
+      "target": "朱载坖",
+      "types": [
+        "succession",
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "帝位承接",
+        "明世宗朱厚熜—朱载坖"
+      ]
+    },
+    {
+      "source": "朱载坖",
+      "target": "朱翊钧",
+      "types": [
+        "succession",
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "帝位承接",
+        "明穆宗朱載坖—朱翊钧"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "朱常洛",
+      "types": [
+        "succession",
+        "lineage",
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "帝位承接",
+        "明神宗朱翊鈞—朱常洛",
+        "朱常洛被立为皇太子",
+        "梃击案",
+        "万历、泰昌、天启三帝递嬗与红丸案"
+      ]
+    },
+    {
+      "source": "朱常洛",
+      "target": "朱由校",
+      "types": [
+        "succession",
+        "lineage",
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "帝位承接",
+        "明光宗朱常洛—朱由校",
+        "万历、泰昌、天启三帝递嬗与红丸案"
+      ]
+    },
+    {
+      "source": "朱由校",
+      "target": "朱由检",
+      "types": [
+        "succession"
+      ],
+      "eventCount": 0,
+      "details": [
+        "帝位承接"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱标",
+      "types": [
+        "lineage",
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "明太祖朱元璋—朱标",
+        "太子朱标去世"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱棣",
+      "types": [
+        "lineage",
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "明太祖朱元璋—朱棣",
+        "首次大规模分封诸王",
+        "太子朱标去世"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱橚",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明太祖朱元璋—朱橚"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱柏",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明太祖朱元璋—朱柏"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "朱权",
+      "types": [
+        "lineage",
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "明太祖朱元璋—朱权",
+        "首次大规模分封诸王"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "宁国公主",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明太祖朱元璋—宁国公主"
+      ]
+    },
+    {
+      "source": "朱允炆",
+      "target": "朱文奎",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "建文帝朱允炆—朱文奎"
+      ]
+    },
+    {
+      "source": "朱允炆",
+      "target": "朱文圭",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "建文帝朱允炆—朱文圭"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "朱高煦",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明成祖朱棣—朱高煦"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "朱高燧",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明成祖朱棣—朱高燧"
+      ]
+    },
+    {
+      "source": "朱高炽",
+      "target": "朱瞻墡",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明仁宗朱高熾—朱瞻墡"
+      ]
+    },
+    {
+      "source": "朱瞻基",
+      "target": "朱祁钰",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明宣宗朱瞻基—朱祁钰"
+      ]
+    },
+    {
+      "source": "朱祁镇",
+      "target": "朱见深",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明英宗朱祁鎮—朱见深"
+      ]
+    },
+    {
+      "source": "朱祁钰",
+      "target": "朱见济",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "景泰帝朱祁鈺—朱见济"
+      ]
+    },
+    {
+      "source": "朱见深",
+      "target": "朱祐杬",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明憲宗朱見深—朱祐杬"
+      ]
+    },
+    {
+      "source": "朱厚熜",
+      "target": "朱载壡",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明世宗朱厚熜—朱载壡"
+      ]
+    },
+    {
+      "source": "朱厚熜",
+      "target": "朱载圳",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明世宗朱厚熜—朱载圳"
+      ]
+    },
+    {
+      "source": "朱载坖",
+      "target": "朱翊镠",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明穆宗朱載坖—朱翊镠"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "朱常洵",
+      "types": [
+        "lineage",
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "明神宗朱翊鈞—朱常洵",
+        "朱常洛被立为皇太子"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "朱常浩",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明神宗朱翊鈞—朱常浩"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "朱常润",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明神宗朱翊鈞—朱常润"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "朱常瀛",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明神宗朱翊鈞—朱常瀛"
+      ]
+    },
+    {
+      "source": "朱常洛",
+      "target": "朱由检",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "明光宗朱常洛—朱由检"
+      ]
+    },
+    {
+      "source": "朱由检",
+      "target": "朱慈烺",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "崇祯帝朱由檢—朱慈烺"
+      ]
+    },
+    {
+      "source": "朱由检",
+      "target": "朱慈炯",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "崇祯帝朱由檢—朱慈炯"
+      ]
+    },
+    {
+      "source": "朱由检",
+      "target": "朱慈炤",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "崇祯帝朱由檢—朱慈炤"
+      ]
+    },
+    {
+      "source": "朱由检",
+      "target": "朱慈焕",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "崇祯帝朱由檢—朱慈煥"
+      ]
+    },
+    {
+      "source": "朱由检",
+      "target": "长平公主",
+      "types": [
+        "lineage"
+      ],
+      "eventCount": 0,
+      "details": [
+        "崇祯帝朱由檢—长平公主"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "李善长",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "朱元璋建立明朝",
+        "胡惟庸案与废除丞相"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "刘基",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "朱元璋建立明朝"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "徐达",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "朱元璋建立明朝",
+        "明军攻占大都"
+      ]
+    },
+    {
+      "source": "李善长",
+      "target": "刘基",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "朱元璋建立明朝"
+      ]
+    },
+    {
+      "source": "李善长",
+      "target": "徐达",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "朱元璋建立明朝"
+      ]
+    },
+    {
+      "source": "刘基",
+      "target": "徐达",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "朱元璋建立明朝"
+      ]
+    },
+    {
+      "source": "徐达",
+      "target": "常遇春",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "明军攻占大都"
+      ]
+    },
+    {
+      "source": "常遇春",
+      "target": "朱元璋",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "明军攻占大都"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "朱权",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "首次大规模分封诸王"
+      ]
+    },
+    {
+      "source": "傅友德",
+      "target": "汤和",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "平定明夏、控制四川"
+      ]
+    },
+    {
+      "source": "傅友德",
+      "target": "朱元璋",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "平定明夏、控制四川",
+        "明军征服云南"
+      ]
+    },
+    {
+      "source": "汤和",
+      "target": "朱元璋",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "平定明夏、控制四川"
+      ]
+    },
+    {
+      "source": "傅友德",
+      "target": "蓝玉",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "明军征服云南"
+      ]
+    },
+    {
+      "source": "傅友德",
+      "target": "沐英",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "明军征服云南"
+      ]
+    },
+    {
+      "source": "蓝玉",
+      "target": "沐英",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "明军征服云南"
+      ]
+    },
+    {
+      "source": "蓝玉",
+      "target": "朱元璋",
+      "types": [
+        "event"
+      ],
+      "eventCount": 4,
+      "details": [
+        "明军征服云南",
+        "纳哈出降明、辽东形势改变",
+        "捕鱼儿海之战",
+        "蓝玉案"
+      ]
+    },
+    {
+      "source": "沐英",
+      "target": "朱元璋",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "明军征服云南"
+      ]
+    },
+    {
+      "source": "朱标",
+      "target": "朱允炆",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "太子朱标去世"
+      ]
+    },
+    {
+      "source": "朱标",
+      "target": "朱棣",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "太子朱标去世"
+      ]
+    },
+    {
+      "source": "蓝玉",
+      "target": "朱允炆",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "蓝玉案"
+      ]
+    },
+    {
+      "source": "朱元璋",
+      "target": "方孝孺",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "洪武帝去世、建文帝继位"
+      ]
+    },
+    {
+      "source": "朱允炆",
+      "target": "方孝孺",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "洪武帝去世、建文帝继位",
+        "建文削藩",
+        "南京陷落与永乐帝即位"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "方孝孺",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "建文削藩",
+        "南京陷落与永乐帝即位"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "姚广孝",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "靖难之役爆发",
+        "南京陷落与永乐帝即位",
+        "《永乐大典》完成"
+      ]
+    },
+    {
+      "source": "朱允炆",
+      "target": "姚广孝",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "靖难之役爆发",
+        "南京陷落与永乐帝即位"
+      ]
+    },
+    {
+      "source": "方孝孺",
+      "target": "姚广孝",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "南京陷落与永乐帝即位"
+      ]
+    },
+    {
+      "source": "郑和",
+      "target": "朱棣",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "郑和首次下西洋"
+      ]
+    },
+    {
+      "source": "解缙",
+      "target": "姚广孝",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "《永乐大典》完成"
+      ]
+    },
+    {
+      "source": "解缙",
+      "target": "朱棣",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "《永乐大典》完成"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "杨士奇",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "永乐帝北征途中去世"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "杨荣",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "永乐帝北征途中去世"
+      ]
+    },
+    {
+      "source": "朱棣",
+      "target": "杨溥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "永乐帝北征途中去世"
+      ]
+    },
+    {
+      "source": "朱高炽",
+      "target": "杨士奇",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "永乐帝北征途中去世",
+        "宣德帝继位与仁宣治理延续"
+      ]
+    },
+    {
+      "source": "朱高炽",
+      "target": "杨荣",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "永乐帝北征途中去世",
+        "宣德帝继位与仁宣治理延续"
+      ]
+    },
+    {
+      "source": "朱高炽",
+      "target": "杨溥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "永乐帝北征途中去世",
+        "宣德帝继位与仁宣治理延续"
+      ]
+    },
+    {
+      "source": "杨士奇",
+      "target": "杨荣",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "永乐帝北征途中去世",
+        "宣德帝继位与仁宣治理延续",
+        "英宗幼年即位与辅政格局"
+      ]
+    },
+    {
+      "source": "杨士奇",
+      "target": "杨溥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "永乐帝北征途中去世",
+        "宣德帝继位与仁宣治理延续",
+        "英宗幼年即位与辅政格局"
+      ]
+    },
+    {
+      "source": "杨荣",
+      "target": "杨溥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "永乐帝北征途中去世",
+        "宣德帝继位与仁宣治理延续",
+        "英宗幼年即位与辅政格局"
+      ]
+    },
+    {
+      "source": "朱瞻基",
+      "target": "杨士奇",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "宣德帝继位与仁宣治理延续"
+      ]
+    },
+    {
+      "source": "朱瞻基",
+      "target": "杨荣",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "宣德帝继位与仁宣治理延续"
+      ]
+    },
+    {
+      "source": "朱瞻基",
+      "target": "杨溥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "宣德帝继位与仁宣治理延续"
+      ]
+    },
+    {
+      "source": "郑和",
+      "target": "朱瞻基",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "郑和第七次下西洋及航海终止"
+      ]
+    },
+    {
+      "source": "朱祁镇",
+      "target": "杨士奇",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "英宗幼年即位与辅政格局"
+      ]
+    },
+    {
+      "source": "朱祁镇",
+      "target": "杨荣",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "英宗幼年即位与辅政格局"
+      ]
+    },
+    {
+      "source": "朱祁镇",
+      "target": "杨溥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "英宗幼年即位与辅政格局"
+      ]
+    },
+    {
+      "source": "朱祁镇",
+      "target": "王振",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "英宗幼年即位与辅政格局",
+        "土木堡之变"
+      ]
+    },
+    {
+      "source": "杨士奇",
+      "target": "王振",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "英宗幼年即位与辅政格局"
+      ]
+    },
+    {
+      "source": "杨荣",
+      "target": "王振",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "英宗幼年即位与辅政格局"
+      ]
+    },
+    {
+      "source": "杨溥",
+      "target": "王振",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "英宗幼年即位与辅政格局"
+      ]
+    },
+    {
+      "source": "朱祁镇",
+      "target": "于谦",
+      "types": [
+        "event"
+      ],
+      "eventCount": 4,
+      "details": [
+        "土木堡之变",
+        "郕王即位、改元景泰",
+        "北京保卫战",
+        "夺门之变"
+      ]
+    },
+    {
+      "source": "王振",
+      "target": "于谦",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "土木堡之变"
+      ]
+    },
+    {
+      "source": "朱祁钰",
+      "target": "于谦",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "郕王即位、改元景泰",
+        "北京保卫战",
+        "夺门之变"
+      ]
+    },
+    {
+      "source": "于谦",
+      "target": "石亨",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "北京保卫战",
+        "夺门之变"
+      ]
+    },
+    {
+      "source": "朱祁钰",
+      "target": "石亨",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "北京保卫战",
+        "夺门之变"
+      ]
+    },
+    {
+      "source": "朱祁镇",
+      "target": "石亨",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "北京保卫战",
+        "夺门之变"
+      ]
+    },
+    {
+      "source": "朱祁镇",
+      "target": "曹吉祥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "夺门之变",
+        "曹石之变"
+      ]
+    },
+    {
+      "source": "朱祁钰",
+      "target": "曹吉祥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "夺门之变"
+      ]
+    },
+    {
+      "source": "于谦",
+      "target": "曹吉祥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "夺门之变"
+      ]
+    },
+    {
+      "source": "石亨",
+      "target": "曹吉祥",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "夺门之变"
+      ]
+    },
+    {
+      "source": "朱见深",
+      "target": "于谦",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "成化帝继位"
+      ]
+    },
+    {
+      "source": "朱见深",
+      "target": "汪直",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "成化帝继位",
+        "设立西厂",
+        "西厂被废"
+      ]
+    },
+    {
+      "source": "于谦",
+      "target": "汪直",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "成化帝继位"
+      ]
+    },
+    {
+      "source": "朱祐樘",
+      "target": "刘健",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "弘治帝继位与政治整顿",
+        "敕修《大明会典》",
+        "弘治《大明会典》修成"
+      ]
+    },
+    {
+      "source": "朱祐樘",
+      "target": "谢迁",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "弘治帝继位与政治整顿"
+      ]
+    },
+    {
+      "source": "朱祐樘",
+      "target": "李东阳",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "弘治帝继位与政治整顿",
+        "敕修《大明会典》",
+        "弘治《大明会典》修成"
+      ]
+    },
+    {
+      "source": "刘健",
+      "target": "谢迁",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "弘治帝继位与政治整顿",
+        "正德帝继位"
+      ]
+    },
+    {
+      "source": "刘健",
+      "target": "李东阳",
+      "types": [
+        "event"
+      ],
+      "eventCount": 4,
+      "details": [
+        "弘治帝继位与政治整顿",
+        "敕修《大明会典》",
+        "弘治《大明会典》修成",
+        "正德帝继位"
+      ]
+    },
+    {
+      "source": "谢迁",
+      "target": "李东阳",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "弘治帝继位与政治整顿",
+        "正德帝继位"
+      ]
+    },
+    {
+      "source": "朱厚照",
+      "target": "刘瑾",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "正德帝继位",
+        "刘瑾集团掌权",
+        "安化王叛乱与刘瑾伏诛"
+      ]
+    },
+    {
+      "source": "朱厚照",
+      "target": "刘健",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "正德帝继位"
+      ]
+    },
+    {
+      "source": "朱厚照",
+      "target": "谢迁",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "正德帝继位"
+      ]
+    },
+    {
+      "source": "朱厚照",
+      "target": "李东阳",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "正德帝继位",
+        "刘瑾集团掌权"
+      ]
+    },
+    {
+      "source": "刘瑾",
+      "target": "刘健",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "正德帝继位"
+      ]
+    },
+    {
+      "source": "刘瑾",
+      "target": "谢迁",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "正德帝继位"
+      ]
+    },
+    {
+      "source": "刘瑾",
+      "target": "李东阳",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "正德帝继位",
+        "刘瑾集团掌权"
+      ]
+    },
+    {
+      "source": "朱厚照",
+      "target": "张永",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "安化王叛乱与刘瑾伏诛"
+      ]
+    },
+    {
+      "source": "刘瑾",
+      "target": "张永",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "安化王叛乱与刘瑾伏诛"
+      ]
+    },
+    {
+      "source": "王守仁",
+      "target": "朱厚照",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "宁王之乱"
+      ]
+    },
+    {
+      "source": "朱厚照",
+      "target": "杨廷和",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "正德帝无嗣而亡、嘉靖帝入继"
+      ]
+    },
+    {
+      "source": "朱厚熜",
+      "target": "杨廷和",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "正德帝无嗣而亡、嘉靖帝入继",
+        "大礼议"
+      ]
+    },
+    {
+      "source": "朱厚熜",
+      "target": "严嵩",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "庚戌之变",
+        "严嵩失势"
+      ]
+    },
+    {
+      "source": "戚继光",
+      "target": "胡宗宪",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "戚继光台州抗倭战役"
+      ]
+    },
+    {
+      "source": "戚继光",
+      "target": "俞大猷",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "戚继光台州抗倭战役"
+      ]
+    },
+    {
+      "source": "胡宗宪",
+      "target": "俞大猷",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "戚继光台州抗倭战役"
+      ]
+    },
+    {
+      "source": "严嵩",
+      "target": "徐阶",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "严嵩失势"
+      ]
+    },
+    {
+      "source": "徐阶",
+      "target": "朱厚熜",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "严嵩失势",
+        "海瑞上《治安疏》"
+      ]
+    },
+    {
+      "source": "海瑞",
+      "target": "朱厚熜",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "海瑞上《治安疏》"
+      ]
+    },
+    {
+      "source": "海瑞",
+      "target": "徐阶",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "海瑞上《治安疏》"
+      ]
+    },
+    {
+      "source": "朱载坖",
+      "target": "高拱",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "隆庆开关",
+        "俺答封贡与隆庆和议"
+      ]
+    },
+    {
+      "source": "朱载坖",
+      "target": "徐阶",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "隆庆开关"
+      ]
+    },
+    {
+      "source": "高拱",
+      "target": "徐阶",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "隆庆开关"
+      ]
+    },
+    {
+      "source": "朱载坖",
+      "target": "张居正",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "俺答封贡与隆庆和议"
+      ]
+    },
+    {
+      "source": "朱载坖",
+      "target": "戚继光",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "俺答封贡与隆庆和议"
+      ]
+    },
+    {
+      "source": "高拱",
+      "target": "张居正",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "俺答封贡与隆庆和议"
+      ]
+    },
+    {
+      "source": "高拱",
+      "target": "戚继光",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "俺答封贡与隆庆和议"
+      ]
+    },
+    {
+      "source": "张居正",
+      "target": "戚继光",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "俺答封贡与隆庆和议"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "张居正",
+      "types": [
+        "event"
+      ],
+      "eventCount": 4,
+      "details": [
+        "万历帝即位与张居正辅政",
+        "全国清丈田亩推进",
+        "一条鞭法在全国推广",
+        "张居正去世与改革反攻倒算"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "冯保",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "万历帝即位与张居正辅政",
+        "张居正去世与改革反攻倒算"
+      ]
+    },
+    {
+      "source": "张居正",
+      "target": "冯保",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "万历帝即位与张居正辅政",
+        "张居正去世与改革反攻倒算"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "李如松",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "宁夏哱拜之乱",
+        "援朝抗倭战争"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "申时行",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "朱常洛被立为皇太子"
+      ]
+    },
+    {
+      "source": "朱常洛",
+      "target": "朱常洵",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "朱常洛被立为皇太子"
+      ]
+    },
+    {
+      "source": "朱常洛",
+      "target": "申时行",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "朱常洛被立为皇太子"
+      ]
+    },
+    {
+      "source": "朱常洵",
+      "target": "申时行",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "朱常洛被立为皇太子"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "李成梁",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "后金建立并以“七大恨”攻明"
+      ]
+    },
+    {
+      "source": "朱翊钧",
+      "target": "朱由校",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "万历、泰昌、天启三帝递嬗与红丸案"
+      ]
+    },
+    {
+      "source": "魏忠贤",
+      "target": "朱由校",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "魏忠贤掌权与东林党祸"
+      ]
+    },
+    {
+      "source": "魏忠贤",
+      "target": "杨涟",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "魏忠贤掌权与东林党祸"
+      ]
+    },
+    {
+      "source": "魏忠贤",
+      "target": "左光斗",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "魏忠贤掌权与东林党祸"
+      ]
+    },
+    {
+      "source": "朱由校",
+      "target": "杨涟",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "魏忠贤掌权与东林党祸"
+      ]
+    },
+    {
+      "source": "朱由校",
+      "target": "左光斗",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "魏忠贤掌权与东林党祸"
+      ]
+    },
+    {
+      "source": "杨涟",
+      "target": "左光斗",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "魏忠贤掌权与东林党祸"
+      ]
+    },
+    {
+      "source": "袁崇焕",
+      "target": "孙承宗",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "宁远之战"
+      ]
+    },
+    {
+      "source": "朱由检",
+      "target": "魏忠贤",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "崇祯帝继位并清除魏忠贤集团"
+      ]
+    },
+    {
+      "source": "朱由检",
+      "target": "洪承畴",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "陕北民变扩展",
+        "松锦之战失败"
+      ]
+    },
+    {
+      "source": "朱由检",
+      "target": "袁崇焕",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "己巳之变与袁崇焕被杀"
+      ]
+    },
+    {
+      "source": "朱常洵",
+      "target": "朱由检",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "李自成攻占洛阳"
+      ]
+    },
+    {
+      "source": "朱由检",
+      "target": "吴三桂",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "大顺建立与北京陷落"
+      ]
+    },
+    {
+      "source": "宋濂",
+      "target": "朱元璋",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "夏原吉",
+      "target": "朱棣",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "蹇义",
+      "target": "朱棣",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "李贤",
+      "target": "朱祁镇",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "商辂",
+      "target": "朱见深",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "刘大夏",
+      "target": "朱见深",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "夏言",
+      "target": "朱厚熜",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "沈一贯",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "沈鲤",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "徐光启",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "顾宪成",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "高攀龙",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "叶向高",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "杨嗣昌",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "倪元璐",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "黄道周",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "史可法",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "李文忠",
+      "target": "朱元璋",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "邓愈",
+      "target": "朱元璋",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "张玉",
+      "target": "朱允炆",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "朱能",
+      "target": "朱棣",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "丘福",
+      "target": "朱棣",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "翁万达",
+      "target": "朱厚熜",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "谭纶",
+      "target": "朱厚熜",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "马芳",
+      "target": "朱厚熜",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "宋应昌",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "刘綎",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "秦良玉",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "毛文龙",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "卢象升",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "孙传庭",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "王景弘",
+      "target": "朱棣",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "金英",
+      "target": "朱祁镇",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "陈矩",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "王承恩",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "沈周",
+      "target": "朱祁镇",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "唐寅",
+      "target": "朱祐樘",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "仇英",
+      "target": "朱厚熜",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "李时珍",
+      "target": "朱厚熜",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "徐渭",
+      "target": "朱厚熜",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "马守真",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "陈继儒",
+      "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "徐霞客",
+      "target": "朱由校",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    }
+  ]
+}

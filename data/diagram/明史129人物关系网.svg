@@ -1,0 +1,880 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5200 3000" role="img" aria-labelledby="title desc">
+<title id="title">明史129人物关系网</title>
+<desc id="desc">皇帝、官员、百姓和重要皇族按颜色区分；姓名大小综合关系中心性与研究评分；连线表示帝位承接、父子父女、共同历史事件或主要活跃朝。</desc>
+<defs>
+  <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#1e293b" stroke-width="1"/></pattern>
+  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#0f172a"/><stop offset=".5" stop-color="#111827"/><stop offset="1" stop-color="#0f172a"/></linearGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#020617" flood-opacity=".65"/></filter>
+</defs>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+  text{font-family:'JetBrains Mono','Noto Sans SC','PingFang SC',sans-serif}
+  .edge{vector-effect:non-scaling-stroke}.node{filter:url(#shadow)}
+</style>
+<rect width="5200" height="3000" fill="url(#fade)"/><rect width="5200" height="3000" fill="url(#grid)"/>
+<g aria-label="title block">
+  <text x="150" y="92" fill="#f8fafc" font-size="46" font-weight="700">明史 129 人物关系网</text>
+  <text x="150" y="142" fill="#94a3b8" font-size="19">1368—1644 · 关系来自现有研究底表、重要子嗣表与 95 条事件记录</text>
+  <text x="150" y="182" fill="#64748b" font-size="15">姓名越大＝关系中心性与研究评分越高；悬停节点或连线可查看说明</text>
+  <text x="5050" y="92" fill="#94a3b8" font-size="17" text-anchor="end">129 NODES · 204 EDGES</text>
+</g>
+<g aria-label="era spine"><line x1="150" y1="1420" x2="5050" y2="1420" stroke="#334155" stroke-width="2" stroke-dasharray="5 14"/></g>
+<g aria-label="relationships"><line class="edge edge-succession" x1="240.0" y1="1386.0" x2="554.7" y2="1454.0" stroke="#fbbf24" stroke-width="3.9000000000000004" stroke-opacity="0.78"><title>朱元璋 ↔ 朱允炆｜帝位承接；共同事件 ×3｜帝位承接｜太子朱标去世｜蓝玉案｜洪武帝去世、建文帝继位</title></line>
+<line class="edge edge-succession" x1="554.7" y1="1454.0" x2="869.3" y2="1386.0" stroke="#fbbf24" stroke-width="4.25" stroke-opacity="0.78"><title>朱允炆 ↔ 朱棣｜帝位承接；共同事件 ×4｜帝位承接｜太子朱标去世｜建文削藩｜靖难之役爆发｜南京陷落与永乐帝即位</title></line>
+<line class="edge edge-succession" x1="869.3" y1="1386.0" x2="1184.0" y2="1454.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱棣 ↔ 朱高炽｜帝位承接；父子／父女；共同事件 ×1｜帝位承接｜明成祖朱棣—朱高炽｜永乐帝北征途中去世</title></line>
+<line class="edge edge-succession" x1="1184.0" y1="1454.0" x2="1498.7" y2="1386.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱高炽 ↔ 朱瞻基｜帝位承接；父子／父女；共同事件 ×1｜帝位承接｜明仁宗朱高熾—朱瞻基｜宣德帝继位与仁宣治理延续</title></line>
+<line class="edge edge-succession" x1="1498.7" y1="1386.0" x2="1813.3" y2="1454.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱瞻基 ↔ 朱祁镇｜帝位承接；父子／父女｜帝位承接｜明宣宗朱瞻基—朱祁镇</title></line>
+<line class="edge edge-succession" x1="1813.3" y1="1454.0" x2="2128.0" y2="1386.0" stroke="#fbbf24" stroke-width="4.25" stroke-opacity="0.78"><title>朱祁镇 ↔ 朱祁钰｜帝位承接；共同事件 ×4｜帝位承接｜郕王即位、改元景泰｜北京保卫战｜英宗获释返京｜夺门之变</title></line>
+<line class="edge edge-succession" x1="2128.0" y1="1386.0" x2="2442.7" y2="1454.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱祁钰 ↔ 朱见深｜帝位承接｜帝位承接</title></line>
+<line class="edge edge-succession" x1="2442.7" y1="1454.0" x2="2757.3" y2="1386.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱见深 ↔ 朱祐樘｜帝位承接；父子／父女｜帝位承接｜明憲宗朱見深—朱祐樘</title></line>
+<line class="edge edge-succession" x1="2757.3" y1="1386.0" x2="3072.0" y2="1454.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱祐樘 ↔ 朱厚照｜帝位承接；父子／父女｜帝位承接｜明孝宗朱祐樘—朱厚照</title></line>
+<line class="edge edge-succession" x1="3072.0" y1="1454.0" x2="3386.7" y2="1386.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱厚照 ↔ 朱厚熜｜帝位承接；共同事件 ×1｜帝位承接｜正德帝无嗣而亡、嘉靖帝入继</title></line>
+<line class="edge edge-succession" x1="3386.7" y1="1386.0" x2="3701.3" y2="1454.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱厚熜 ↔ 朱载坖｜帝位承接；父子／父女｜帝位承接｜明世宗朱厚熜—朱载坖</title></line>
+<line class="edge edge-succession" x1="3701.3" y1="1454.0" x2="4016.0" y2="1386.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱载坖 ↔ 朱翊钧｜帝位承接；父子／父女｜帝位承接｜明穆宗朱載坖—朱翊钧</title></line>
+<line class="edge edge-succession" x1="4016.0" y1="1386.0" x2="4330.7" y2="1454.0" stroke="#fbbf24" stroke-width="3.9000000000000004" stroke-opacity="0.78"><title>朱翊钧 ↔ 朱常洛｜帝位承接；父子／父女；共同事件 ×3｜帝位承接｜明神宗朱翊鈞—朱常洛｜朱常洛被立为皇太子｜梃击案｜万历、泰昌、天启三帝递嬗与红丸案</title></line>
+<line class="edge edge-succession" x1="4330.7" y1="1454.0" x2="4645.3" y2="1386.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱常洛 ↔ 朱由校｜帝位承接；父子／父女；共同事件 ×1｜帝位承接｜明光宗朱常洛—朱由校｜万历、泰昌、天启三帝递嬗与红丸案</title></line>
+<line class="edge edge-succession" x1="4645.3" y1="1386.0" x2="4960.0" y2="1454.0" stroke="#fbbf24" stroke-width="3.2" stroke-opacity="0.78"><title>朱由校 ↔ 朱由检｜帝位承接｜帝位承接</title></line>
+<line class="edge edge-lineage" x1="240.0" y1="1386.0" x2="469.6" y2="1583.3" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱元璋 ↔ 朱标｜父子／父女；共同事件 ×1｜明太祖朱元璋—朱标｜太子朱标去世</title></line>
+<line class="edge edge-lineage" x1="240.0" y1="1386.0" x2="869.3" y2="1386.0" stroke="#a78bfa" stroke-width="2.45" stroke-opacity="0.58"><title>朱元璋 ↔ 朱棣｜父子／父女；共同事件 ×2｜明太祖朱元璋—朱棣｜首次大规模分封诸王｜太子朱标去世</title></line>
+<line class="edge edge-lineage" x1="240.0" y1="1386.0" x2="335.6" y2="1621.4" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱元璋 ↔ 朱橚｜父子／父女｜明太祖朱元璋—朱橚</title></line>
+<line class="edge edge-lineage" x1="240.0" y1="1386.0" x2="374.7" y2="1578.8" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱元璋 ↔ 朱柏｜父子／父女｜明太祖朱元璋—朱柏</title></line>
+<line class="edge edge-lineage" x1="240.0" y1="1386.0" x2="516.9" y2="1518.4" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱元璋 ↔ 朱权｜父子／父女；共同事件 ×1｜明太祖朱元璋—朱权｜首次大规模分封诸王</title></line>
+<line class="edge edge-lineage" x1="240.0" y1="1386.0" x2="417.5" y2="1545.4" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱元璋 ↔ 宁国公主｜父子／父女｜明太祖朱元璋—宁国公主</title></line>
+<line class="edge edge-lineage" x1="554.7" y1="1454.0" x2="909.8" y2="1555.3" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱允炆 ↔ 朱文奎｜父子／父女｜建文帝朱允炆—朱文奎</title></line>
+<line class="edge edge-lineage" x1="554.7" y1="1454.0" x2="765.9" y2="1612.2" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱允炆 ↔ 朱文圭｜父子／父女｜建文帝朱允炆—朱文圭</title></line>
+<line class="edge edge-lineage" x1="869.3" y1="1386.0" x2="881.8" y2="1607.6" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱棣 ↔ 朱高煦｜父子／父女｜明成祖朱棣—朱高煦</title></line>
+<line class="edge edge-lineage" x1="869.3" y1="1386.0" x2="925.0" y2="1648.4" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱棣 ↔ 朱高燧｜父子／父女｜明成祖朱棣—朱高燧</title></line>
+<line class="edge edge-lineage" x1="1184.0" y1="1454.0" x2="1256.9" y2="1700.0" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱高炽 ↔ 朱瞻墡｜父子／父女｜明仁宗朱高熾—朱瞻墡</title></line>
+<line class="edge edge-lineage" x1="1498.7" y1="1386.0" x2="2128.0" y2="1386.0" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱瞻基 ↔ 朱祁钰｜父子／父女｜明宣宗朱瞻基—朱祁钰</title></line>
+<line class="edge edge-lineage" x1="1813.3" y1="1454.0" x2="2442.7" y2="1454.0" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱祁镇 ↔ 朱见深｜父子／父女｜明英宗朱祁鎮—朱见深</title></line>
+<line class="edge edge-lineage" x1="2128.0" y1="1386.0" x2="2001.4" y2="1613.6" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱祁钰 ↔ 朱见济｜父子／父女｜景泰帝朱祁鈺—朱见济</title></line>
+<line class="edge edge-lineage" x1="2442.7" y1="1454.0" x2="2530.1" y2="1669.0" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱见深 ↔ 朱祐杬｜父子／父女｜明憲宗朱見深—朱祐杬</title></line>
+<line class="edge edge-lineage" x1="3386.7" y1="1386.0" x2="3377.4" y2="1609.4" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱厚熜 ↔ 朱载壡｜父子／父女｜明世宗朱厚熜—朱载壡</title></line>
+<line class="edge edge-lineage" x1="3386.7" y1="1386.0" x2="3468.2" y2="1615.4" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱厚熜 ↔ 朱载圳｜父子／父女｜明世宗朱厚熜—朱载圳</title></line>
+<line class="edge edge-lineage" x1="3701.3" y1="1454.0" x2="3880.9" y2="1630.7" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱载坖 ↔ 朱翊镠｜父子／父女｜明穆宗朱載坖—朱翊镠</title></line>
+<line class="edge edge-lineage" x1="4016.0" y1="1386.0" x2="4408.5" y2="1393.0" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱翊钧 ↔ 朱常洵｜父子／父女；共同事件 ×1｜明神宗朱翊鈞—朱常洵｜朱常洛被立为皇太子</title></line>
+<line class="edge edge-lineage" x1="4016.0" y1="1386.0" x2="4161.9" y2="1635.9" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱翊钧 ↔ 朱常浩｜父子／父女｜明神宗朱翊鈞—朱常浩</title></line>
+<line class="edge edge-lineage" x1="4016.0" y1="1386.0" x2="4187.1" y2="1582.2" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱翊钧 ↔ 朱常润｜父子／父女｜明神宗朱翊鈞—朱常润</title></line>
+<line class="edge edge-lineage" x1="4016.0" y1="1386.0" x2="4221.6" y2="1619.3" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱翊钧 ↔ 朱常瀛｜父子／父女｜明神宗朱翊鈞—朱常瀛</title></line>
+<line class="edge edge-lineage" x1="4330.7" y1="1454.0" x2="4960.0" y2="1454.0" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱常洛 ↔ 朱由检｜父子／父女｜明光宗朱常洛—朱由检</title></line>
+<line class="edge edge-lineage" x1="4960.0" y1="1454.0" x2="5015.0" y2="1635.7" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱由检 ↔ 朱慈烺｜父子／父女｜崇祯帝朱由檢—朱慈烺</title></line>
+<line class="edge edge-lineage" x1="4960.0" y1="1454.0" x2="4964.8" y2="1717.5" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱由检 ↔ 朱慈炯｜父子／父女｜崇祯帝朱由檢—朱慈炯</title></line>
+<line class="edge edge-lineage" x1="4960.0" y1="1454.0" x2="4960.2" y2="1659.9" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱由检 ↔ 朱慈炤｜父子／父女｜崇祯帝朱由檢—朱慈炤</title></line>
+<line class="edge edge-lineage" x1="4960.0" y1="1454.0" x2="5015.0" y2="1687.8" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱由检 ↔ 朱慈煥｜父子／父女｜崇祯帝朱由檢—朱慈煥</title></line>
+<line class="edge edge-lineage" x1="4960.0" y1="1454.0" x2="4576.3" y2="1533.2" stroke="#a78bfa" stroke-width="2.1" stroke-opacity="0.58"><title>朱由检 ↔ 长平公主｜父子／父女｜崇祯帝朱由檢—长平公主</title></line>
+<line class="edge edge-event" x1="240.0" y1="1386.0" x2="185.0" y2="1192.3" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱元璋 ↔ 李善长｜共同事件 ×2｜朱元璋建立明朝｜胡惟庸案与废除丞相</title></line>
+<line class="edge edge-event" x1="240.0" y1="1386.0" x2="370.7" y2="1102.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱元璋 ↔ 刘基｜共同事件 ×1｜朱元璋建立明朝</title></line>
+<line class="edge edge-event" x1="240.0" y1="1386.0" x2="242.9" y2="1022.1" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱元璋 ↔ 徐达｜共同事件 ×2｜朱元璋建立明朝｜明军攻占大都</title></line>
+<line class="edge edge-event" x1="185.0" y1="1192.3" x2="370.7" y2="1102.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>李善长 ↔ 刘基｜共同事件 ×1｜朱元璋建立明朝</title></line>
+<line class="edge edge-event" x1="185.0" y1="1192.3" x2="242.9" y2="1022.1" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>李善长 ↔ 徐达｜共同事件 ×1｜朱元璋建立明朝</title></line>
+<line class="edge edge-event" x1="370.7" y1="1102.0" x2="242.9" y2="1022.1" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>刘基 ↔ 徐达｜共同事件 ×1｜朱元璋建立明朝</title></line>
+<line class="edge edge-event" x1="242.9" y1="1022.1" x2="185.0" y2="896.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>徐达 ↔ 常遇春｜共同事件 ×1｜明军攻占大都</title></line>
+<line class="edge edge-event" x1="185.0" y1="896.4" x2="240.0" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>常遇春 ↔ 朱元璋｜共同事件 ×1｜明军攻占大都</title></line>
+<line class="edge edge-event" x1="869.3" y1="1386.0" x2="516.9" y2="1518.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱棣 ↔ 朱权｜共同事件 ×1｜首次大规模分封诸王</title></line>
+<line class="edge edge-event" x1="310.4" y1="947.3" x2="243.6" y2="1122.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>傅友德 ↔ 汤和｜共同事件 ×1｜平定明夏、控制四川</title></line>
+<line class="edge edge-event" x1="310.4" y1="947.3" x2="240.0" y2="1386.0" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>傅友德 ↔ 朱元璋｜共同事件 ×2｜平定明夏、控制四川｜明军征服云南</title></line>
+<line class="edge edge-event" x1="243.6" y1="1122.6" x2="240.0" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>汤和 ↔ 朱元璋｜共同事件 ×1｜平定明夏、控制四川</title></line>
+<line class="edge edge-event" x1="310.4" y1="947.3" x2="415.8" y2="1143.2" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>傅友德 ↔ 蓝玉｜共同事件 ×1｜明军征服云南</title></line>
+<line class="edge edge-event" x1="310.4" y1="947.3" x2="189.2" y2="1101.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>傅友德 ↔ 沐英｜共同事件 ×1｜明军征服云南</title></line>
+<line class="edge edge-event" x1="415.8" y1="1143.2" x2="189.2" y2="1101.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>蓝玉 ↔ 沐英｜共同事件 ×1｜明军征服云南</title></line>
+<line class="edge edge-event" x1="415.8" y1="1143.2" x2="240.0" y2="1386.0" stroke="#64748b" stroke-width="2.1999999999999997" stroke-opacity="0.3"><title>蓝玉 ↔ 朱元璋｜共同事件 ×4｜明军征服云南｜纳哈出降明、辽东形势改变｜捕鱼儿海之战｜蓝玉案</title></line>
+<line class="edge edge-event" x1="189.2" y1="1101.0" x2="240.0" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>沐英 ↔ 朱元璋｜共同事件 ×1｜明军征服云南</title></line>
+<line class="edge edge-event" x1="469.6" y1="1583.3" x2="554.7" y2="1454.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱标 ↔ 朱允炆｜共同事件 ×1｜太子朱标去世</title></line>
+<line class="edge edge-event" x1="469.6" y1="1583.3" x2="869.3" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱标 ↔ 朱棣｜共同事件 ×1｜太子朱标去世</title></line>
+<line class="edge edge-event" x1="415.8" y1="1143.2" x2="554.7" y2="1454.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>蓝玉 ↔ 朱允炆｜共同事件 ×1｜蓝玉案</title></line>
+<line class="edge edge-event" x1="240.0" y1="1386.0" x2="559.3" y2="1175.8" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱元璋 ↔ 方孝孺｜共同事件 ×1｜洪武帝去世、建文帝继位</title></line>
+<line class="edge edge-event" x1="554.7" y1="1454.0" x2="559.3" y2="1175.8" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>朱允炆 ↔ 方孝孺｜共同事件 ×3｜洪武帝去世、建文帝继位｜建文削藩｜南京陷落与永乐帝即位</title></line>
+<line class="edge edge-event" x1="869.3" y1="1386.0" x2="559.3" y2="1175.8" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱棣 ↔ 方孝孺｜共同事件 ×2｜建文削藩｜南京陷落与永乐帝即位</title></line>
+<line class="edge edge-event" x1="869.3" y1="1386.0" x2="753.4" y2="1145.6" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>朱棣 ↔ 姚广孝｜共同事件 ×3｜靖难之役爆发｜南京陷落与永乐帝即位｜《永乐大典》完成</title></line>
+<line class="edge edge-event" x1="554.7" y1="1454.0" x2="753.4" y2="1145.6" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱允炆 ↔ 姚广孝｜共同事件 ×2｜靖难之役爆发｜南京陷落与永乐帝即位</title></line>
+<line class="edge edge-event" x1="559.3" y1="1175.8" x2="753.4" y2="1145.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>方孝孺 ↔ 姚广孝｜共同事件 ×1｜南京陷落与永乐帝即位</title></line>
+<line class="edge edge-event" x1="1171.4" y1="1272.8" x2="869.3" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>郑和 ↔ 朱棣｜共同事件 ×1｜郑和首次下西洋</title></line>
+<line class="edge edge-event" x1="856.3" y1="940.9" x2="753.4" y2="1145.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>解缙 ↔ 姚广孝｜共同事件 ×1｜《永乐大典》完成</title></line>
+<line class="edge edge-event" x1="856.3" y1="940.9" x2="869.3" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>解缙 ↔ 朱棣｜共同事件 ×1｜《永乐大典》完成</title></line>
+<line class="edge edge-event" x1="869.3" y1="1386.0" x2="1305.7" y2="1275.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱棣 ↔ 杨士奇｜共同事件 ×1｜永乐帝北征途中去世</title></line>
+<line class="edge edge-event" x1="869.3" y1="1386.0" x2="1350.0" y2="1164.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱棣 ↔ 杨荣｜共同事件 ×1｜永乐帝北征途中去世</title></line>
+<line class="edge edge-event" x1="869.3" y1="1386.0" x2="1373.9" y2="1394.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱棣 ↔ 杨溥｜共同事件 ×1｜永乐帝北征途中去世</title></line>
+<line class="edge edge-event" x1="1184.0" y1="1454.0" x2="1305.7" y2="1275.0" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱高炽 ↔ 杨士奇｜共同事件 ×2｜永乐帝北征途中去世｜宣德帝继位与仁宣治理延续</title></line>
+<line class="edge edge-event" x1="1184.0" y1="1454.0" x2="1350.0" y2="1164.4" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱高炽 ↔ 杨荣｜共同事件 ×2｜永乐帝北征途中去世｜宣德帝继位与仁宣治理延续</title></line>
+<line class="edge edge-event" x1="1184.0" y1="1454.0" x2="1373.9" y2="1394.4" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱高炽 ↔ 杨溥｜共同事件 ×2｜永乐帝北征途中去世｜宣德帝继位与仁宣治理延续</title></line>
+<line class="edge edge-event" x1="1305.7" y1="1275.0" x2="1350.0" y2="1164.4" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>杨士奇 ↔ 杨荣｜共同事件 ×3｜永乐帝北征途中去世｜宣德帝继位与仁宣治理延续｜英宗幼年即位与辅政格局</title></line>
+<line class="edge edge-event" x1="1305.7" y1="1275.0" x2="1373.9" y2="1394.4" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>杨士奇 ↔ 杨溥｜共同事件 ×3｜永乐帝北征途中去世｜宣德帝继位与仁宣治理延续｜英宗幼年即位与辅政格局</title></line>
+<line class="edge edge-event" x1="1350.0" y1="1164.4" x2="1373.9" y2="1394.4" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>杨荣 ↔ 杨溥｜共同事件 ×3｜永乐帝北征途中去世｜宣德帝继位与仁宣治理延续｜英宗幼年即位与辅政格局</title></line>
+<line class="edge edge-event" x1="1498.7" y1="1386.0" x2="1305.7" y2="1275.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱瞻基 ↔ 杨士奇｜共同事件 ×1｜宣德帝继位与仁宣治理延续</title></line>
+<line class="edge edge-event" x1="1498.7" y1="1386.0" x2="1350.0" y2="1164.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱瞻基 ↔ 杨荣｜共同事件 ×1｜宣德帝继位与仁宣治理延续</title></line>
+<line class="edge edge-event" x1="1498.7" y1="1386.0" x2="1373.9" y2="1394.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱瞻基 ↔ 杨溥｜共同事件 ×1｜宣德帝继位与仁宣治理延续</title></line>
+<line class="edge edge-event" x1="1171.4" y1="1272.8" x2="1498.7" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>郑和 ↔ 朱瞻基｜共同事件 ×1｜郑和第七次下西洋及航海终止</title></line>
+<line class="edge edge-event" x1="1813.3" y1="1454.0" x2="1305.7" y2="1275.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱祁镇 ↔ 杨士奇｜共同事件 ×1｜英宗幼年即位与辅政格局</title></line>
+<line class="edge edge-event" x1="1813.3" y1="1454.0" x2="1350.0" y2="1164.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱祁镇 ↔ 杨荣｜共同事件 ×1｜英宗幼年即位与辅政格局</title></line>
+<line class="edge edge-event" x1="1813.3" y1="1454.0" x2="1373.9" y2="1394.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱祁镇 ↔ 杨溥｜共同事件 ×1｜英宗幼年即位与辅政格局</title></line>
+<line class="edge edge-event" x1="1813.3" y1="1454.0" x2="1620.1" y2="1184.3" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱祁镇 ↔ 王振｜共同事件 ×2｜英宗幼年即位与辅政格局｜土木堡之变</title></line>
+<line class="edge edge-event" x1="1305.7" y1="1275.0" x2="1620.1" y2="1184.3" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>杨士奇 ↔ 王振｜共同事件 ×1｜英宗幼年即位与辅政格局</title></line>
+<line class="edge edge-event" x1="1350.0" y1="1164.4" x2="1620.1" y2="1184.3" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>杨荣 ↔ 王振｜共同事件 ×1｜英宗幼年即位与辅政格局</title></line>
+<line class="edge edge-event" x1="1373.9" y1="1394.4" x2="1620.1" y2="1184.3" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>杨溥 ↔ 王振｜共同事件 ×1｜英宗幼年即位与辅政格局</title></line>
+<line class="edge edge-event" x1="1813.3" y1="1454.0" x2="1981.3" y2="1261.4" stroke="#64748b" stroke-width="2.1999999999999997" stroke-opacity="0.3"><title>朱祁镇 ↔ 于谦｜共同事件 ×4｜土木堡之变｜郕王即位、改元景泰｜北京保卫战｜夺门之变</title></line>
+<line class="edge edge-event" x1="1620.1" y1="1184.3" x2="1981.3" y2="1261.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>王振 ↔ 于谦｜共同事件 ×1｜土木堡之变</title></line>
+<line class="edge edge-event" x1="2128.0" y1="1386.0" x2="1981.3" y2="1261.4" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>朱祁钰 ↔ 于谦｜共同事件 ×3｜郕王即位、改元景泰｜北京保卫战｜夺门之变</title></line>
+<line class="edge edge-event" x1="1981.3" y1="1261.4" x2="1952.4" y2="1089.5" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>于谦 ↔ 石亨｜共同事件 ×2｜北京保卫战｜夺门之变</title></line>
+<line class="edge edge-event" x1="2128.0" y1="1386.0" x2="1952.4" y2="1089.5" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱祁钰 ↔ 石亨｜共同事件 ×2｜北京保卫战｜夺门之变</title></line>
+<line class="edge edge-event" x1="1813.3" y1="1454.0" x2="1952.4" y2="1089.5" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱祁镇 ↔ 石亨｜共同事件 ×2｜北京保卫战｜夺门之变</title></line>
+<line class="edge edge-event" x1="1813.3" y1="1454.0" x2="1816.6" y2="1172.1" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱祁镇 ↔ 曹吉祥｜共同事件 ×2｜夺门之变｜曹石之变</title></line>
+<line class="edge edge-event" x1="2128.0" y1="1386.0" x2="1816.6" y2="1172.1" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱祁钰 ↔ 曹吉祥｜共同事件 ×1｜夺门之变</title></line>
+<line class="edge edge-event" x1="1981.3" y1="1261.4" x2="1816.6" y2="1172.1" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>于谦 ↔ 曹吉祥｜共同事件 ×1｜夺门之变</title></line>
+<line class="edge edge-event" x1="1952.4" y1="1089.5" x2="1816.6" y2="1172.1" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>石亨 ↔ 曹吉祥｜共同事件 ×1｜夺门之变</title></line>
+<line class="edge edge-event" x1="2442.7" y1="1454.0" x2="1981.3" y2="1261.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱见深 ↔ 于谦｜共同事件 ×1｜成化帝继位</title></line>
+<line class="edge edge-event" x1="2442.7" y1="1454.0" x2="2230.9" y2="1289.0" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>朱见深 ↔ 汪直｜共同事件 ×3｜成化帝继位｜设立西厂｜西厂被废</title></line>
+<line class="edge edge-event" x1="1981.3" y1="1261.4" x2="2230.9" y2="1289.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>于谦 ↔ 汪直｜共同事件 ×1｜成化帝继位</title></line>
+<line class="edge edge-event" x1="2757.3" y1="1386.0" x2="2707.8" y2="1181.6" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>朱祐樘 ↔ 刘健｜共同事件 ×3｜弘治帝继位与政治整顿｜敕修《大明会典》｜弘治《大明会典》修成</title></line>
+<line class="edge edge-event" x1="2757.3" y1="1386.0" x2="2821.0" y2="1082.5" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱祐樘 ↔ 谢迁｜共同事件 ×1｜弘治帝继位与政治整顿</title></line>
+<line class="edge edge-event" x1="2757.3" y1="1386.0" x2="2885.5" y2="1263.8" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>朱祐樘 ↔ 李东阳｜共同事件 ×3｜弘治帝继位与政治整顿｜敕修《大明会典》｜弘治《大明会典》修成</title></line>
+<line class="edge edge-event" x1="2707.8" y1="1181.6" x2="2821.0" y2="1082.5" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>刘健 ↔ 谢迁｜共同事件 ×2｜弘治帝继位与政治整顿｜正德帝继位</title></line>
+<line class="edge edge-event" x1="2707.8" y1="1181.6" x2="2885.5" y2="1263.8" stroke="#64748b" stroke-width="2.1999999999999997" stroke-opacity="0.3"><title>刘健 ↔ 李东阳｜共同事件 ×4｜弘治帝继位与政治整顿｜敕修《大明会典》｜弘治《大明会典》修成｜正德帝继位</title></line>
+<line class="edge edge-event" x1="2821.0" y1="1082.5" x2="2885.5" y2="1263.8" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>谢迁 ↔ 李东阳｜共同事件 ×2｜弘治帝继位与政治整顿｜正德帝继位</title></line>
+<line class="edge edge-event" x1="3072.0" y1="1454.0" x2="2991.8" y2="1068.4" stroke="#64748b" stroke-width="1.8499999999999999" stroke-opacity="0.3"><title>朱厚照 ↔ 刘瑾｜共同事件 ×3｜正德帝继位｜刘瑾集团掌权｜安化王叛乱与刘瑾伏诛</title></line>
+<line class="edge edge-event" x1="3072.0" y1="1454.0" x2="2707.8" y2="1181.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱厚照 ↔ 刘健｜共同事件 ×1｜正德帝继位</title></line>
+<line class="edge edge-event" x1="3072.0" y1="1454.0" x2="2821.0" y2="1082.5" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱厚照 ↔ 谢迁｜共同事件 ×1｜正德帝继位</title></line>
+<line class="edge edge-event" x1="3072.0" y1="1454.0" x2="2885.5" y2="1263.8" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱厚照 ↔ 李东阳｜共同事件 ×2｜正德帝继位｜刘瑾集团掌权</title></line>
+<line class="edge edge-event" x1="2991.8" y1="1068.4" x2="2707.8" y2="1181.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>刘瑾 ↔ 刘健｜共同事件 ×1｜正德帝继位</title></line>
+<line class="edge edge-event" x1="2991.8" y1="1068.4" x2="2821.0" y2="1082.5" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>刘瑾 ↔ 谢迁｜共同事件 ×1｜正德帝继位</title></line>
+<line class="edge edge-event" x1="2991.8" y1="1068.4" x2="2885.5" y2="1263.8" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>刘瑾 ↔ 李东阳｜共同事件 ×2｜正德帝继位｜刘瑾集团掌权</title></line>
+<line class="edge edge-event" x1="3072.0" y1="1454.0" x2="2945.2" y2="1241.5" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱厚照 ↔ 张永｜共同事件 ×1｜安化王叛乱与刘瑾伏诛</title></line>
+<line class="edge edge-event" x1="2991.8" y1="1068.4" x2="2945.2" y2="1241.5" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>刘瑾 ↔ 张永｜共同事件 ×1｜安化王叛乱与刘瑾伏诛</title></line>
+<line class="edge edge-event" x1="2937.6" y1="1106.2" x2="3072.0" y2="1454.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>王守仁 ↔ 朱厚照｜共同事件 ×1｜宁王之乱</title></line>
+<line class="edge edge-event" x1="3072.0" y1="1454.0" x2="3102.9" y2="1243.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱厚照 ↔ 杨廷和｜共同事件 ×1｜正德帝无嗣而亡、嘉靖帝入继</title></line>
+<line class="edge edge-event" x1="3386.7" y1="1386.0" x2="3102.9" y2="1243.0" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱厚熜 ↔ 杨廷和｜共同事件 ×2｜正德帝无嗣而亡、嘉靖帝入继｜大礼议</title></line>
+<line class="edge edge-event" x1="3386.7" y1="1386.0" x2="3255.2" y2="1090.3" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱厚熜 ↔ 严嵩｜共同事件 ×2｜庚戌之变｜严嵩失势</title></line>
+<line class="edge edge-event" x1="3610.9" y1="1231.6" x2="3391.5" y2="1164.2" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>戚继光 ↔ 胡宗宪｜共同事件 ×1｜戚继光台州抗倭战役</title></line>
+<line class="edge edge-event" x1="3610.9" y1="1231.6" x2="3532.7" y2="960.1" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>戚继光 ↔ 俞大猷｜共同事件 ×1｜戚继光台州抗倭战役</title></line>
+<line class="edge edge-event" x1="3391.5" y1="1164.2" x2="3532.7" y2="960.1" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>胡宗宪 ↔ 俞大猷｜共同事件 ×1｜戚继光台州抗倭战役</title></line>
+<line class="edge edge-event" x1="3255.2" y1="1090.3" x2="3464.0" y2="1170.3" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>严嵩 ↔ 徐阶｜共同事件 ×1｜严嵩失势</title></line>
+<line class="edge edge-event" x1="3464.0" y1="1170.3" x2="3386.7" y2="1386.0" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>徐阶 ↔ 朱厚熜｜共同事件 ×2｜严嵩失势｜海瑞上《治安疏》</title></line>
+<line class="edge edge-event" x1="3653.6" y1="1180.4" x2="3386.7" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>海瑞 ↔ 朱厚熜｜共同事件 ×1｜海瑞上《治安疏》</title></line>
+<line class="edge edge-event" x1="3653.6" y1="1180.4" x2="3464.0" y2="1170.3" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>海瑞 ↔ 徐阶｜共同事件 ×1｜海瑞上《治安疏》</title></line>
+<line class="edge edge-event" x1="3701.3" y1="1454.0" x2="3644.3" y2="1063.8" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱载坖 ↔ 高拱｜共同事件 ×2｜隆庆开关｜俺答封贡与隆庆和议</title></line>
+<line class="edge edge-event" x1="3701.3" y1="1454.0" x2="3464.0" y2="1170.3" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱载坖 ↔ 徐阶｜共同事件 ×1｜隆庆开关</title></line>
+<line class="edge edge-event" x1="3644.3" y1="1063.8" x2="3464.0" y2="1170.3" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>高拱 ↔ 徐阶｜共同事件 ×1｜隆庆开关</title></line>
+<line class="edge edge-event" x1="3701.3" y1="1454.0" x2="3833.4" y2="1128.9" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱载坖 ↔ 张居正｜共同事件 ×1｜俺答封贡与隆庆和议</title></line>
+<line class="edge edge-event" x1="3701.3" y1="1454.0" x2="3610.9" y2="1231.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱载坖 ↔ 戚继光｜共同事件 ×1｜俺答封贡与隆庆和议</title></line>
+<line class="edge edge-event" x1="3644.3" y1="1063.8" x2="3833.4" y2="1128.9" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>高拱 ↔ 张居正｜共同事件 ×1｜俺答封贡与隆庆和议</title></line>
+<line class="edge edge-event" x1="3644.3" y1="1063.8" x2="3610.9" y2="1231.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>高拱 ↔ 戚继光｜共同事件 ×1｜俺答封贡与隆庆和议</title></line>
+<line class="edge edge-event" x1="3833.4" y1="1128.9" x2="3610.9" y2="1231.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>张居正 ↔ 戚继光｜共同事件 ×1｜俺答封贡与隆庆和议</title></line>
+<line class="edge edge-event" x1="4016.0" y1="1386.0" x2="3833.4" y2="1128.9" stroke="#64748b" stroke-width="2.1999999999999997" stroke-opacity="0.3"><title>朱翊钧 ↔ 张居正｜共同事件 ×4｜万历帝即位与张居正辅政｜全国清丈田亩推进｜一条鞭法在全国推广｜张居正去世与改革反攻倒算</title></line>
+<line class="edge edge-event" x1="4016.0" y1="1386.0" x2="3984.9" y2="979.0" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱翊钧 ↔ 冯保｜共同事件 ×2｜万历帝即位与张居正辅政｜张居正去世与改革反攻倒算</title></line>
+<line class="edge edge-event" x1="3833.4" y1="1128.9" x2="3984.9" y2="979.0" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>张居正 ↔ 冯保｜共同事件 ×2｜万历帝即位与张居正辅政｜张居正去世与改革反攻倒算</title></line>
+<line class="edge edge-event" x1="4016.0" y1="1386.0" x2="4028.0" y2="1024.1" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱翊钧 ↔ 李如松｜共同事件 ×2｜宁夏哱拜之乱｜援朝抗倭战争</title></line>
+<line class="edge edge-event" x1="4016.0" y1="1386.0" x2="4193.6" y2="1128.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱翊钧 ↔ 申时行｜共同事件 ×1｜朱常洛被立为皇太子</title></line>
+<line class="edge edge-event" x1="4330.7" y1="1454.0" x2="4408.5" y2="1393.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱常洛 ↔ 朱常洵｜共同事件 ×1｜朱常洛被立为皇太子</title></line>
+<line class="edge edge-event" x1="4330.7" y1="1454.0" x2="4193.6" y2="1128.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱常洛 ↔ 申时行｜共同事件 ×1｜朱常洛被立为皇太子</title></line>
+<line class="edge edge-event" x1="4408.5" y1="1393.0" x2="4193.6" y2="1128.6" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱常洵 ↔ 申时行｜共同事件 ×1｜朱常洛被立为皇太子</title></line>
+<line class="edge edge-event" x1="4016.0" y1="1386.0" x2="4032.7" y2="1103.5" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱翊钧 ↔ 李成梁｜共同事件 ×1｜后金建立并以“七大恨”攻明</title></line>
+<line class="edge edge-event" x1="4016.0" y1="1386.0" x2="4645.3" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱翊钧 ↔ 朱由校｜共同事件 ×1｜万历、泰昌、天启三帝递嬗与红丸案</title></line>
+<line class="edge edge-event" x1="4785.9" y1="1202.3" x2="4645.3" y2="1386.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>魏忠贤 ↔ 朱由校｜共同事件 ×1｜魏忠贤掌权与东林党祸</title></line>
+<line class="edge edge-event" x1="4785.9" y1="1202.3" x2="4647.6" y2="1028.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>魏忠贤 ↔ 杨涟｜共同事件 ×1｜魏忠贤掌权与东林党祸</title></line>
+<line class="edge edge-event" x1="4785.9" y1="1202.3" x2="4529.7" y2="1168.8" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>魏忠贤 ↔ 左光斗｜共同事件 ×1｜魏忠贤掌权与东林党祸</title></line>
+<line class="edge edge-event" x1="4645.3" y1="1386.0" x2="4647.6" y2="1028.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱由校 ↔ 杨涟｜共同事件 ×1｜魏忠贤掌权与东林党祸</title></line>
+<line class="edge edge-event" x1="4645.3" y1="1386.0" x2="4529.7" y2="1168.8" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱由校 ↔ 左光斗｜共同事件 ×1｜魏忠贤掌权与东林党祸</title></line>
+<line class="edge edge-event" x1="4647.6" y1="1028.0" x2="4529.7" y2="1168.8" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>杨涟 ↔ 左光斗｜共同事件 ×1｜魏忠贤掌权与东林党祸</title></line>
+<line class="edge edge-event" x1="4834.6" y1="1000.7" x2="4680.8" y2="773.4" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>袁崇焕 ↔ 孙承宗｜共同事件 ×1｜宁远之战</title></line>
+<line class="edge edge-event" x1="4960.0" y1="1454.0" x2="4785.9" y2="1202.3" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱由检 ↔ 魏忠贤｜共同事件 ×1｜崇祯帝继位并清除魏忠贤集团</title></line>
+<line class="edge edge-event" x1="4960.0" y1="1454.0" x2="4932.8" y2="1026.1" stroke="#64748b" stroke-width="1.5" stroke-opacity="0.3"><title>朱由检 ↔ 洪承畴｜共同事件 ×2｜陕北民变扩展｜松锦之战失败</title></line>
+<line class="edge edge-event" x1="4960.0" y1="1454.0" x2="4834.6" y2="1000.7" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱由检 ↔ 袁崇焕｜共同事件 ×1｜己巳之变与袁崇焕被杀</title></line>
+<line class="edge edge-event" x1="4408.5" y1="1393.0" x2="4960.0" y2="1454.0" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱常洵 ↔ 朱由检｜共同事件 ×1｜李自成攻占洛阳</title></line>
+<line class="edge edge-event" x1="4960.0" y1="1454.0" x2="4950.9" y2="1084.8" stroke="#64748b" stroke-width="1.15" stroke-opacity="0.3"><title>朱由检 ↔ 吴三桂｜共同事件 ×1｜大顺建立与北京陷落</title></line>
+<line class="edge edge-era" x1="185.0" y1="1039.4" x2="240.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>宋濂 ↔ 朱元璋｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="971.3" y1="1017.8" x2="869.3" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>夏原吉 ↔ 朱棣｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="955.0" y1="756.6" x2="869.3" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>蹇义 ↔ 朱棣｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="1557.8" y1="1180.9" x2="1813.3" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>李贤 ↔ 朱祁镇｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="2094.9" y1="1050.8" x2="2442.7" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>商辂 ↔ 朱见深｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="2305.5" y1="1031.3" x2="2442.7" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>刘大夏 ↔ 朱见深｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="3199.5" y1="945.5" x2="3386.7" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>夏言 ↔ 朱厚熜｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4026.7" y1="900.5" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>沈一贯 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4006.1" y1="841.5" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>沈鲤 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4382.7" y1="1128.8" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>徐光启 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4026.7" y1="756.5" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>顾宪成 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4260.5" y1="1007.9" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>高攀龙 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4206.0" y1="977.8" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>叶向高 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4728.0" y1="1220.0" x2="4960.0" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>杨嗣昌 ↔ 朱由检｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4836.7" y1="1173.7" x2="4960.0" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>倪元璐 ↔ 朱由检｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4876.3" y1="1045.0" x2="4960.0" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>黄道周 ↔ 朱由检｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4918.0" y1="863.2" x2="4960.0" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>史可法 ↔ 朱由检｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="244.1" y1="955.3" x2="240.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>李文忠 ↔ 朱元璋｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="185.0" y1="955.4" x2="240.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>邓愈 ↔ 朱元璋｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="696.9" y1="1179.1" x2="554.7" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>张玉 ↔ 朱允炆｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="811.4" y1="856.4" x2="869.3" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>朱能 ↔ 朱棣｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="804.6" y1="975.4" x2="869.3" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>丘福 ↔ 朱棣｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="3274.5" y1="886.0" x2="3386.7" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>翁万达 ↔ 朱厚熜｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="3593.2" y1="1169.7" x2="3386.7" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>谭纶 ↔ 朱厚熜｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="3559.2" y1="1119.0" x2="3386.7" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>马芳 ↔ 朱厚熜｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="3908.7" y1="1070.0" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>宋应昌 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4144.0" y1="922.3" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>刘綎 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4418.3" y1="1194.0" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>秦良玉 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4294.7" y1="860.0" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>毛文龙 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4870.7" y1="902.8" x2="4960.0" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>卢象升 ↔ 朱由检｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4891.6" y1="980.4" x2="4960.0" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>孙传庭 ↔ 朱由检｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="967.7" y1="843.1" x2="869.3" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>王景弘 ↔ 朱棣｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="1613.4" y1="1014.2" x2="1813.3" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>金英 ↔ 朱祁镇｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4066.2" y1="852.1" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>陈矩 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4960.0" y1="904.5" x2="4960.0" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>王承恩 ↔ 朱由检｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="1816.1" y1="2050.9" x2="1813.3" y2="1454.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>沈周 ↔ 朱祁镇｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="2677.7" y1="2098.9" x2="2757.3" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>唐寅 ↔ 朱祐樘｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="3212.1" y1="2059.3" x2="3386.7" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>仇英 ↔ 朱厚熜｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="3392.2" y1="2053.8" x2="3386.7" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>李时珍 ↔ 朱厚熜｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="3450.1" y1="2073.1" x2="3386.7" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>徐渭 ↔ 朱厚熜｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="3993.5" y1="2085.1" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>马守真 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4073.0" y1="2142.4" x2="4016.0" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>陈继儒 ↔ 朱翊钧｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line>
+<line class="edge edge-era" x1="4651.8" y1="2088.1" x2="4645.3" y2="1386.0" stroke="#475569" stroke-width="1.1" stroke-opacity="0.34" stroke-dasharray="9 10"><title>徐霞客 ↔ 朱由校｜主要活跃朝／约略同时代｜主要活跃朝／约略同时代</title></line></g>
+<g aria-label="people"><g class="node role-official" transform="translate(4026.7 900.5)">
+    <title>沈一贯｜文臣｜评分 56｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">沈一贯</text>
+  </g>
+<g class="node role-official" transform="translate(4728.0 1220.0)">
+    <title>杨嗣昌｜文臣｜评分 60｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">杨嗣昌</text>
+  </g>
+<g class="node role-official" transform="translate(804.6 975.4)">
+    <title>丘福｜武官｜评分 62｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">丘福</text>
+  </g>
+<g class="node role-official" transform="translate(4294.7 860.0)">
+    <title>毛文龙｜武官｜评分 64｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">毛文龙</text>
+  </g>
+<g class="node role-official" transform="translate(1613.4 1014.2)">
+    <title>金英｜宦官｜评分 45｜关系权重 0.5｜置信度 低</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">金英</text>
+  </g>
+<g class="node role-official" transform="translate(4960.0 904.5)">
+    <title>王承恩｜宦官｜评分 70｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">王承恩</text>
+  </g>
+<g class="node role-official" transform="translate(4006.1 841.5)">
+    <title>沈鲤｜文臣｜评分 72｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">沈鲤</text>
+  </g>
+<g class="node role-official" transform="translate(4206.0 977.8)">
+    <title>叶向高｜文臣｜评分 76｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">叶向高</text>
+  </g>
+<g class="node role-official" transform="translate(4032.7 1103.5)">
+    <title>李成梁｜武官｜评分 68｜关系权重 1.4｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">李成梁</text>
+  </g>
+<g class="node role-official" transform="translate(4950.9 1084.8)">
+    <title>吴三桂｜武官｜评分 25｜关系权重 1.4｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">吴三桂</text>
+  </g>
+<g class="node role-official" transform="translate(3199.5 945.5)">
+    <title>夏言｜文臣｜评分 78｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">夏言</text>
+  </g>
+<g class="node role-official" transform="translate(4918.0 863.2)">
+    <title>史可法｜文臣｜评分 78｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">史可法</text>
+  </g>
+<g class="node role-official" transform="translate(811.4 856.4)">
+    <title>朱能｜武官｜评分 78｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱能</text>
+  </g>
+<g class="node role-official" transform="translate(4066.2 852.1)">
+    <title>陈矩｜宦官｜评分 78｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">陈矩</text>
+  </g>
+<g class="node role-commoner" transform="translate(3450.1 2073.1)">
+    <title>徐渭｜百姓／在野人物｜评分 78｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">徐渭</text>
+  </g>
+<g class="node role-official" transform="translate(4836.7 1173.7)">
+    <title>倪元璐｜文臣｜评分 79｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">倪元璐</text>
+  </g>
+<g class="node role-official" transform="translate(4144.0 922.3)">
+    <title>刘綎｜武官｜评分 79｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">刘綎</text>
+  </g>
+<g class="node role-official" transform="translate(4026.7 756.5)">
+    <title>顾宪成｜文臣｜评分 80｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">顾宪成</text>
+  </g>
+<g class="node role-official" transform="translate(696.9 1179.1)">
+    <title>张玉｜武官｜评分 80｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">张玉</text>
+  </g>
+<g class="node role-official" transform="translate(4891.6 980.4)">
+    <title>孙传庭｜武官｜评分 80｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">孙传庭</text>
+  </g>
+<g class="node role-official" transform="translate(1557.8 1180.9)">
+    <title>李贤｜文臣｜评分 81｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">李贤</text>
+  </g>
+<g class="node role-official" transform="translate(967.7 843.1)">
+    <title>王景弘｜宦官｜评分 81｜关系权重 0.5｜置信度 低</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">王景弘</text>
+  </g>
+<g class="node role-official" transform="translate(185.0 1039.4)">
+    <title>宋濂｜文臣｜评分 82｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">宋濂</text>
+  </g>
+<g class="node role-official" transform="translate(955.0 756.6)">
+    <title>蹇义｜文臣｜评分 82｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">蹇义</text>
+  </g>
+<g class="node role-official" transform="translate(2094.9 1050.8)">
+    <title>商辂｜文臣｜评分 82｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">商辂</text>
+  </g>
+<g class="node role-official" transform="translate(2305.5 1031.3)">
+    <title>刘大夏｜文臣｜评分 82｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">刘大夏</text>
+  </g>
+<g class="node role-official" transform="translate(4260.5 1007.9)">
+    <title>高攀龙｜文臣｜评分 82｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">高攀龙</text>
+  </g>
+<g class="node role-official" transform="translate(4876.3 1045.0)">
+    <title>黄道周｜文臣｜评分 82｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">黄道周</text>
+  </g>
+<g class="node role-commoner" transform="translate(4073.0 2142.4)">
+    <title>陈继儒｜百姓／在野人物｜评分 82｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">陈继儒</text>
+  </g>
+<g class="node role-official" transform="translate(185.0 955.4)">
+    <title>邓愈｜武官｜评分 84｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">邓愈</text>
+  </g>
+<g class="node role-commoner" transform="translate(3993.5 2085.1)">
+    <title>马守真｜百姓／在野人物｜评分 84｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">马守真</text>
+  </g>
+<g class="node role-official" transform="translate(3908.7 1070.0)">
+    <title>宋应昌｜武官｜评分 85｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">宋应昌</text>
+  </g>
+<g class="node role-official" transform="translate(3274.5 886.0)">
+    <title>翁万达｜武官｜评分 86｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">翁万达</text>
+  </g>
+<g class="node role-official" transform="translate(3559.2 1119.0)">
+    <title>马芳｜武官｜评分 86｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">马芳</text>
+  </g>
+<g class="node role-commoner" transform="translate(2677.7 2098.9)">
+    <title>唐寅｜百姓／在野人物｜评分 86｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">唐寅</text>
+  </g>
+<g class="node role-official" transform="translate(244.1 955.3)">
+    <title>李文忠｜武官｜评分 87｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">李文忠</text>
+  </g>
+<g class="node role-official" transform="translate(4870.7 902.8)">
+    <title>卢象升｜武官｜评分 87｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">卢象升</text>
+  </g>
+<g class="node role-commoner" transform="translate(3212.1 2059.3)">
+    <title>仇英｜百姓／在野人物｜评分 88｜关系权重 0.5｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">仇英</text>
+  </g>
+<g class="node role-official" transform="translate(4932.8 1026.1)">
+    <title>洪承畴｜武官｜评分 55｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">洪承畴</text>
+  </g>
+<g class="node role-official" transform="translate(2945.2 1241.5)">
+    <title>张永｜宦官｜评分 66｜关系权重 2.8｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">张永</text>
+  </g>
+<g class="node role-official" transform="translate(971.3 1017.8)">
+    <title>夏原吉｜文臣｜评分 89｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">夏原吉</text>
+  </g>
+<g class="node role-official" transform="translate(3593.2 1169.7)">
+    <title>谭纶｜武官｜评分 89｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">谭纶</text>
+  </g>
+<g class="node role-commoner" transform="translate(1816.1 2050.9)">
+    <title>沈周｜百姓／在野人物｜评分 89｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">沈周</text>
+  </g>
+<g class="node role-official" transform="translate(4418.3 1194.0)">
+    <title>秦良玉｜武官｜评分 90｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">秦良玉</text>
+  </g>
+<g class="node role-royal" transform="translate(374.7 1578.8)">
+    <title>朱柏｜重要皇族｜评分 60｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱柏</text>
+  </g>
+<g class="node role-royal" transform="translate(417.5 1545.4)">
+    <title>宁国公主｜重要皇族｜评分 0｜关系权重 3｜置信度 低</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">宁国公主</text>
+  </g>
+<g class="node role-royal" transform="translate(909.8 1555.3)">
+    <title>朱文奎｜重要皇族｜评分 0｜关系权重 3｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱文奎</text>
+  </g>
+<g class="node role-royal" transform="translate(765.9 1612.2)">
+    <title>朱文圭｜重要皇族｜评分 0｜关系权重 3｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱文圭</text>
+  </g>
+<g class="node role-royal" transform="translate(881.8 1607.6)">
+    <title>朱高煦｜重要皇族｜评分 28｜关系权重 3｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱高煦</text>
+  </g>
+<g class="node role-royal" transform="translate(925.0 1648.4)">
+    <title>朱高燧｜重要皇族｜评分 52｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱高燧</text>
+  </g>
+<g class="node role-royal" transform="translate(2001.4 1613.6)">
+    <title>朱见济｜重要皇族｜评分 0｜关系权重 3｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱见济</text>
+  </g>
+<g class="node role-royal" transform="translate(2530.1 1669.0)">
+    <title>朱祐杬｜重要皇族｜评分 65｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱祐杬</text>
+  </g>
+<g class="node role-royal" transform="translate(3377.4 1609.4)">
+    <title>朱载壡｜重要皇族｜评分 0｜关系权重 3｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱载壡</text>
+  </g>
+<g class="node role-royal" transform="translate(3468.2 1615.4)">
+    <title>朱载圳｜重要皇族｜评分 45｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱载圳</text>
+  </g>
+<g class="node role-royal" transform="translate(3880.9 1630.7)">
+    <title>朱翊镠｜重要皇族｜评分 52｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱翊镠</text>
+  </g>
+<g class="node role-royal" transform="translate(4161.9 1635.9)">
+    <title>朱常浩｜重要皇族｜评分 45｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱常浩</text>
+  </g>
+<g class="node role-royal" transform="translate(4187.1 1582.2)">
+    <title>朱常润｜重要皇族｜评分 55｜关系权重 3｜置信度 低</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱常润</text>
+  </g>
+<g class="node role-royal" transform="translate(4221.6 1619.3)">
+    <title>朱常瀛｜重要皇族｜评分 62｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱常瀛</text>
+  </g>
+<g class="node role-royal" transform="translate(5015.0 1635.7)">
+    <title>朱慈烺｜重要皇族｜评分 0｜关系权重 3｜置信度 低</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱慈烺</text>
+  </g>
+<g class="node role-royal" transform="translate(4964.8 1717.5)">
+    <title>朱慈炯｜重要皇族｜评分 0｜关系权重 3｜置信度 低</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱慈炯</text>
+  </g>
+<g class="node role-royal" transform="translate(4960.2 1659.9)">
+    <title>朱慈炤｜重要皇族｜评分 0｜关系权重 3｜置信度 低</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱慈炤</text>
+  </g>
+<g class="node role-royal" transform="translate(5015.0 1687.8)">
+    <title>朱慈煥｜重要皇族｜评分 0｜关系权重 3｜置信度 低</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱慈煥</text>
+  </g>
+<g class="node role-royal" transform="translate(4576.3 1533.2)">
+    <title>长平公主｜重要皇族｜评分 0｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">长平公主</text>
+  </g>
+<g class="node role-official" transform="translate(4382.7 1128.8)">
+    <title>徐光启｜文臣｜评分 92｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">徐光启</text>
+  </g>
+<g class="node role-official" transform="translate(856.3 940.9)">
+    <title>解缙｜文臣｜评分 74｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">解缙</text>
+  </g>
+<g class="node role-commoner" transform="translate(4651.8 2088.1)">
+    <title>徐霞客｜百姓／在野人物｜评分 94｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">徐霞客</text>
+  </g>
+<g class="node role-royal" transform="translate(1256.9 1700.0)">
+    <title>朱瞻墡｜重要皇族｜评分 74｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱瞻墡</text>
+  </g>
+<g class="node role-commoner" transform="translate(3392.2 2053.8)">
+    <title>李时珍｜百姓／在野人物｜评分 95｜关系权重 0.5｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">李时珍</text>
+  </g>
+<g class="node role-royal" transform="translate(335.6 1621.4)">
+    <title>朱橚｜重要皇族｜评分 76｜关系权重 3｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱橚</text>
+  </g>
+<g class="node role-official" transform="translate(4680.8 773.4)">
+    <title>孙承宗｜文臣｜评分 90｜关系权重 1.4｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">孙承宗</text>
+  </g>
+<g class="node role-official" transform="translate(3391.5 1164.2)">
+    <title>胡宗宪｜武官｜评分 81｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">胡宗宪</text>
+  </g>
+<g class="node role-official" transform="translate(3255.2 1090.3)">
+    <title>严嵩｜文臣｜评分 30｜关系权重 4.2｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">严嵩</text>
+  </g>
+<g class="node role-official" transform="translate(4193.6 1128.6)">
+    <title>申时行｜文臣｜评分 70｜关系权重 4.2｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">申时行</text>
+  </g>
+<g class="node role-official" transform="translate(2937.6 1106.2)">
+    <title>王守仁｜文臣｜评分 93｜关系权重 1.4｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">王守仁</text>
+  </g>
+<g class="node role-official" transform="translate(3653.6 1180.4)">
+    <title>海瑞｜文臣｜评分 84｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">海瑞</text>
+  </g>
+<g class="node role-official" transform="translate(4834.6 1000.7)">
+    <title>袁崇焕｜武官｜评分 84｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">袁崇焕</text>
+  </g>
+<g class="node role-official" transform="translate(243.6 1122.6)">
+    <title>汤和｜武官｜评分 86｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">汤和</text>
+  </g>
+<g class="node role-official" transform="translate(4028.0 1024.1)">
+    <title>李如松｜武官｜评分 87｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">李如松</text>
+  </g>
+<g class="node role-official" transform="translate(185.0 896.4)">
+    <title>常遇春｜武官｜评分 88｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">常遇春</text>
+  </g>
+<g class="node role-official" transform="translate(3532.7 960.1)">
+    <title>俞大猷｜武官｜评分 90｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">俞大猷</text>
+  </g>
+<g class="node role-official" transform="translate(1171.4 1272.8)">
+    <title>郑和｜宦官｜评分 92｜关系权重 2.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">郑和</text>
+  </g>
+<g class="node role-official" transform="translate(2230.9 1289.0)">
+    <title>汪直｜宦官｜评分 32｜关系权重 5.6｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">汪直</text>
+  </g>
+<g class="node role-official" transform="translate(4785.9 1202.3)">
+    <title>魏忠贤｜宦官｜评分 8｜关系权重 5.6｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">魏忠贤</text>
+  </g>
+<g class="node role-official" transform="translate(3984.9 979.0)">
+    <title>冯保｜宦官｜评分 72｜关系权重 5.6｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">冯保</text>
+  </g>
+<g class="node role-official" transform="translate(370.7 1102.0)">
+    <title>刘基｜文臣｜评分 84｜关系权重 4.2｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">刘基</text>
+  </g>
+<g class="node role-official" transform="translate(185.0 1192.3)">
+    <title>李善长｜文臣｜评分 75｜关系权重 5.6｜置信度 中</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">李善长</text>
+  </g>
+<g class="node role-official" transform="translate(3102.9 1243.0)">
+    <title>杨廷和｜文臣｜评分 87｜关系权重 4.2｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">杨廷和</text>
+  </g>
+<g class="node role-official" transform="translate(4647.6 1028.0)">
+    <title>杨涟｜文臣｜评分 87｜关系权重 4.2｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">杨涟</text>
+  </g>
+<g class="node role-official" transform="translate(4529.7 1168.8)">
+    <title>左光斗｜文臣｜评分 88｜关系权重 4.2｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">左光斗</text>
+  </g>
+<g class="node role-official" transform="translate(189.2 1101.0)">
+    <title>沐英｜武官｜评分 89｜关系权重 4.2｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">沐英</text>
+  </g>
+<g class="node role-royal" transform="translate(516.9 1518.4)">
+    <title>朱权｜重要皇族｜评分 78｜关系权重 5.8｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">朱权</text>
+  </g>
+<g class="node role-official" transform="translate(1816.6 1172.1)">
+    <title>曹吉祥｜宦官｜评分 20｜关系权重 7｜置信度 高</title>
+    <circle r="9" fill="#0f172a"/><circle r="9" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-18" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="13" font-weight="600" text-anchor="middle">曹吉祥</text>
+  </g>
+<g class="node role-official" transform="translate(1620.1 1184.3)">
+    <title>王振｜宦官｜评分 18｜关系权重 8.4｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">王振</text>
+  </g>
+<g class="node role-royal" transform="translate(469.6 1583.3)">
+    <title>朱标｜重要皇族｜评分 80｜关系权重 7.2｜置信度 中</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">朱标</text>
+  </g>
+<g class="node role-royal" transform="translate(4408.5 1393.0)">
+    <title>朱常洵｜重要皇族｜评分 30｜关系权重 8.6｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">朱常洵</text>
+  </g>
+<g class="node role-official" transform="translate(3644.3 1063.8)">
+    <title>高拱｜文臣｜评分 84｜关系权重 7｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">高拱</text>
+  </g>
+<g class="node role-official" transform="translate(310.4 947.3)">
+    <title>傅友德｜武官｜评分 89｜关系权重 7｜置信度 中</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">傅友德</text>
+  </g>
+<g class="node role-official" transform="translate(3464.0 1170.3)">
+    <title>徐阶｜文臣｜评分 78｜关系权重 8.4｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">徐阶</text>
+  </g>
+<g class="node role-official" transform="translate(1952.4 1089.5)">
+    <title>石亨｜武官｜评分 58｜关系权重 9.8｜置信度 中</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">石亨</text>
+  </g>
+<g class="node role-official" transform="translate(242.9 1022.1)">
+    <title>徐达｜武官｜评分 95｜关系权重 7｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">徐达</text>
+  </g>
+<g class="node role-official" transform="translate(3610.9 1231.6)">
+    <title>戚继光｜武官｜评分 95｜关系权重 7｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">戚继光</text>
+  </g>
+<g class="node role-official" transform="translate(753.4 1145.6)">
+    <title>姚广孝｜文臣｜评分 76｜关系权重 9.8｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">姚广孝</text>
+  </g>
+<g class="node role-official" transform="translate(559.3 1175.8)">
+    <title>方孝孺｜文臣｜评分 77｜关系权重 9.8｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">方孝孺</text>
+  </g>
+<g class="node role-official" transform="translate(2991.8 1068.4)">
+    <title>刘瑾｜宦官｜评分 15｜关系权重 11.2｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">刘瑾</text>
+  </g>
+<g class="node role-official" transform="translate(2821.0 1082.5)">
+    <title>谢迁｜文臣｜评分 83｜关系权重 9.8｜置信度 高</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">谢迁</text>
+  </g>
+<g class="node role-official" transform="translate(415.8 1143.2)">
+    <title>蓝玉｜武官｜评分 84｜关系权重 9.8｜置信度 中</title>
+    <circle r="12" fill="#0f172a"/><circle r="12" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-21" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="17" font-weight="600" text-anchor="middle">蓝玉</text>
+  </g>
+<g class="node role-official" transform="translate(3833.4 1128.9)">
+    <title>张居正｜文臣｜评分 92｜关系权重 12.6｜置信度 高</title>
+    <circle r="23" fill="none" stroke="#22d3ee" stroke-opacity=".18" stroke-width="3"/><circle r="15" fill="#0f172a"/><circle r="15" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-24" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="21" font-weight="700" text-anchor="middle">张居正</text>
+  </g>
+<g class="node role-official" transform="translate(2707.8 1181.6)">
+    <title>刘健｜文臣｜评分 85｜关系权重 15.4｜置信度 高</title>
+    <circle r="23" fill="none" stroke="#22d3ee" stroke-opacity=".18" stroke-width="3"/><circle r="15" fill="#0f172a"/><circle r="15" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-24" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="21" font-weight="700" text-anchor="middle">刘健</text>
+  </g>
+<g class="node role-official" transform="translate(1373.9 1394.4)">
+    <title>杨溥｜文臣｜评分 83｜关系权重 16.8｜置信度 高</title>
+    <circle r="23" fill="none" stroke="#22d3ee" stroke-opacity=".18" stroke-width="3"/><circle r="15" fill="#0f172a"/><circle r="15" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-24" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="21" font-weight="700" text-anchor="middle">杨溥</text>
+  </g>
+<g class="node role-official" transform="translate(1350.0 1164.4)">
+    <title>杨荣｜文臣｜评分 84｜关系权重 16.8｜置信度 高</title>
+    <circle r="23" fill="none" stroke="#22d3ee" stroke-opacity=".18" stroke-width="3"/><circle r="15" fill="#0f172a"/><circle r="15" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-24" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="21" font-weight="700" text-anchor="middle">杨荣</text>
+  </g>
+<g class="node role-official" transform="translate(2885.5 1263.8)">
+    <title>李东阳｜文臣｜评分 76｜关系权重 18.2｜置信度 高</title>
+    <circle r="23" fill="none" stroke="#22d3ee" stroke-opacity=".18" stroke-width="3"/><circle r="15" fill="#0f172a"/><circle r="15" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-24" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="21" font-weight="700" text-anchor="middle">李东阳</text>
+  </g>
+<g class="node role-official" transform="translate(1305.7 1275.0)">
+    <title>杨士奇｜文臣｜评分 88｜关系权重 16.8｜置信度 高</title>
+    <circle r="23" fill="none" stroke="#22d3ee" stroke-opacity=".18" stroke-width="3"/><circle r="15" fill="#0f172a"/><circle r="15" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-24" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="21" font-weight="700" text-anchor="middle">杨士奇</text>
+  </g>
+<g class="node role-official" transform="translate(1981.3 1261.4)">
+    <title>于谦｜文臣｜评分 94｜关系权重 18.2｜置信度 高</title>
+    <circle r="23" fill="none" stroke="#22d3ee" stroke-opacity=".18" stroke-width="3"/><circle r="15" fill="#0f172a"/><circle r="15" fill="#083344" stroke="#22d3ee" stroke-width="2"/>
+    <text x="0" y="-24" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">于谦</text>
+  </g>
+<g class="node role-emperor" transform="translate(4645.3 1386.0)">
+    <title>朱由校｜皇帝｜评分 40｜关系权重 18.5｜置信度 高</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱由校</text>
+  </g>
+<g class="node role-emperor" transform="translate(2442.7 1454.0)">
+    <title>朱见深｜皇帝｜评分 68｜关系权重 23.6｜置信度 中</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱见深</text>
+  </g>
+<g class="node role-emperor" transform="translate(3701.3 1454.0)">
+    <title>朱载坖｜皇帝｜评分 79｜关系权重 24｜置信度 中</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱载坖</text>
+  </g>
+<g class="node role-emperor" transform="translate(4330.7 1454.0)">
+    <title>朱常洛｜皇帝｜评分 65｜关系权重 25.4｜置信度 低</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱常洛</text>
+  </g>
+<g class="node role-emperor" transform="translate(1498.7 1386.0)">
+    <title>朱瞻基｜皇帝｜评分 86｜关系权重 24｜置信度 高</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱瞻基</text>
+  </g>
+<g class="node role-emperor" transform="translate(2757.3 1386.0)">
+    <title>朱祐樘｜皇帝｜评分 84｜关系权重 24.3｜置信度 高</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱祐樘</text>
+  </g>
+<g class="node role-emperor" transform="translate(3072.0 1454.0)">
+    <title>朱厚照｜皇帝｜评分 57｜关系权重 26.4｜置信度 中</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱厚照</text>
+  </g>
+<g class="node role-emperor" transform="translate(2128.0 1386.0)">
+    <title>朱祁钰｜皇帝｜评分 72｜关系权重 28｜置信度 中</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱祁钰</text>
+  </g>
+<g class="node role-emperor" transform="translate(1184.0 1454.0)">
+    <title>朱高炽｜皇帝｜评分 82｜关系权重 28.2｜置信度 中</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱高炽</text>
+  </g>
+<g class="node role-emperor" transform="translate(3386.7 1386.0)">
+    <title>朱厚熜｜皇帝｜评分 60｜关系权重 31.7｜置信度 高</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱厚熜</text>
+  </g>
+<g class="node role-emperor" transform="translate(4960.0 1454.0)">
+    <title>朱由检｜皇帝｜评分 58｜关系权重 33.9｜置信度 高</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱由检</text>
+  </g>
+<g class="node role-emperor" transform="translate(554.7 1454.0)">
+    <title>朱允炆｜皇帝｜评分 58｜关系权重 34.1｜置信度 中</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱允炆</text>
+  </g>
+<g class="node role-emperor" transform="translate(1813.3 1454.0)">
+    <title>朱祁镇｜皇帝｜评分 45｜关系权重 39.3｜置信度 高</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱祁镇</text>
+  </g>
+<g class="node role-emperor" transform="translate(869.3 1386.0)">
+    <title>朱棣｜皇帝｜评分 90｜关系权重 49.1｜置信度 高</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱棣</text>
+  </g>
+<g class="node role-emperor" transform="translate(4016.0 1386.0)">
+    <title>朱翊钧｜皇帝｜评分 62｜关系权重 53.5｜置信度 高</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱翊钧</text>
+  </g>
+<g class="node role-emperor" transform="translate(240.0 1386.0)">
+    <title>朱元璋｜皇帝｜评分 88｜关系权重 54.3｜置信度 高</title>
+    <circle r="27" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="3"/><circle r="19" fill="#0f172a"/><circle r="19" fill="#4a1525" stroke="#fb7185" stroke-width="3"/>
+    <text x="0" y="-28" fill="#f8fafc" stroke="#0f172a" stroke-width="5" paint-order="stroke" font-size="25" font-weight="700" text-anchor="middle">朱元璋</text>
+  </g></g>
+<g aria-label="legend" transform="translate(150 2840)">
+  <rect x="0" y="-54" width="4900" height="110" rx="12" fill="#0b1220" fill-opacity=".94" stroke="#334155"/>
+  <g transform="translate(34 -20)"><circle r="10" fill="#4a1525" stroke="#fb7185" stroke-width="2"/><text x="23" y="6" fill="#cbd5e1" font-size="17">皇帝 · 16人</text></g><g transform="translate(714 -20)"><circle r="10" fill="#083344" stroke="#22d3ee" stroke-width="2"/><text x="23" y="6" fill="#cbd5e1" font-size="17">官员（文臣／武官／宦官） · 81人</text></g><g transform="translate(1394 -20)"><circle r="10" fill="#422006" stroke="#fbbf24" stroke-width="2"/><text x="23" y="6" fill="#cbd5e1" font-size="17">百姓／在野人物 · 8人</text></g><g transform="translate(2074 -20)"><circle r="10" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/><text x="23" y="6" fill="#cbd5e1" font-size="17">重要皇族 · 24人</text></g>
+  <g transform="translate(2820 -20)"><line x1="0" y1="0" x2="52" y2="0" stroke="#fbbf24" stroke-width="4"/><text x="67" y="6" fill="#cbd5e1" font-size="16">帝位承接 15</text></g>
+  <g transform="translate(3270 -20)"><line x1="0" y1="0" x2="52" y2="0" stroke="#a78bfa" stroke-width="3"/><text x="67" y="6" fill="#cbd5e1" font-size="16">父子／父女 37</text></g>
+  <g transform="translate(3790 -20)"><line x1="0" y1="0" x2="52" y2="0" stroke="#64748b" stroke-width="2"/><text x="67" y="6" fill="#cbd5e1" font-size="16">共同事件 130</text></g>
+  <g transform="translate(4270 -20)"><line x1="0" y1="0" x2="52" y2="0" stroke="#64748b" stroke-width="2" stroke-dasharray="8 8"/><text x="67" y="6" fill="#cbd5e1" font-size="16">时代锚定 43</text></g>
+  <text x="34" y="35" fill="#64748b" font-size="13">口径：共同事件只表示同载于同一事件，不自动等于盟友或敌人；时代锚定只用于无其他关系记录的人物。生成于 2026年8月5日。</text>
+</g>
+</svg>
