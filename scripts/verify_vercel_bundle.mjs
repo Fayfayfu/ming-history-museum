@@ -61,6 +61,8 @@ for (const file of files) {
     broken: [...document.images].filter(image => !image.naturalWidth).length,
     bodyWidth: document.body.scrollWidth,
     viewport: innerWidth,
+    navLabels: [...document.querySelectorAll('.museum-links a')].map(link => link.textContent.trim()),
+    exhibitionCards: document.querySelectorAll('.specials .special').length,
   }), file));
 }
 
@@ -85,6 +87,8 @@ const audit = {
   errors,
   pass: pages.length === files.length
     && pages.every(record => record.title && record.broken === 0 && record.bodyWidth === record.viewport)
+    && pages.every(record => record.navLabels.includes('专题展'))
+    && pages.find(record => record.file === 'index.html')?.exhibitionCards === 6
     && yao.open && yao.loaded && yao.src?.endsWith('.webp')
     && mobile.bodyWidth === mobile.viewport
     && errors.length === 0,

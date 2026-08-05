@@ -21,7 +21,7 @@ await fs.mkdir(museum, {recursive:true});
 await fs.rm(`${museum}/assets`, {recursive:true, force:true});
 await fs.cp(`${root}/assets`, `${museum}/assets`, {recursive:true,force:true});
 
-const nav = active => `<a class="skip" href="#main">跳到主要内容</a><nav class="museum-nav" aria-label="博物馆主导航"><a class="museum-brand" href="index.html"><span class="brand-seal">明</span><span><b>步入大明</b><small>数字历史博物馆</small></span></a><div class="museum-links"><a ${active==='home'?'class="active"':''} href="index.html">序厅</a><a ${active==='people'?'class="active"':''} href="people.html">人物馆</a><a ${active==='events'?'class="active"':''} href="events.html">事件馆</a><a href="index.html#research">研究台</a></div></nav>`;
+const nav = active => `<a class="skip" href="#main">跳到主要内容</a><nav class="museum-nav" aria-label="博物馆主导航"><a class="museum-brand" href="index.html"><span class="brand-seal">明</span><span><b>步入大明</b><small>数字历史博物馆</small></span></a><div class="museum-links"><a ${active==='home'?'class="active"':''} href="index.html">序厅</a><a ${active==='people'?'class="active"':''} href="people.html">人物馆</a><a ${active==='events'?'class="active"':''} href="events.html">事件馆</a><a href="exhibitions.html">专题展</a><a href="index.html#research">研究台</a></div></nav>`;
 
 const hallCSS = `
 .skip{position:fixed;left:12px;top:-70px;z-index:100;background:#fff;color:#181713;padding:10px 14px}.skip:focus{top:12px}

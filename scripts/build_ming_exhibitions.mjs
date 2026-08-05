@@ -83,8 +83,10 @@ for(const [i,e] of exhibitions.entries())await fs.writeFile(`${root}/${fileOf(e)
 // Add the new wing to the already generated museum navigation and homepage.
 for(const file of ['index.html','people.html','events.html']){
   const path=`${root}/${file}`;let html=await fs.readFile(path,'utf8');
-  html=html.replaceAll('<a href="index.html#research">研究台</a>','<a href="exhibitions.html">专题展</a><a href="index.html#research">研究台</a>');
-  if(file==='index.html'){
+  if(!html.includes('href="exhibitions.html">专题展</a>')){
+    html=html.replaceAll('<a href="index.html#research">研究台</a>','<a href="exhibitions.html">专题展</a><a href="index.html#research">研究台</a>');
+  }
+  if(file==='index.html'&&!html.includes('class="specials"')){
     const teaserCSS=`.specials{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;padding:1px;background:var(--line)}.special{min-height:280px;padding:25px;background:var(--ink);text-decoration:none;display:flex;flex-direction:column}.special:hover{background:#24211a}.special span{font:700 42px/1 Georgia,serif;color:rgba(232,223,201,.14)}.special small{margin-top:auto;font:10px/1.4 ui-monospace,monospace;color:var(--red2)}.special b{font-size:24px;margin:10px 0}.special p{font-size:12px;line-height:1.65;color:var(--muted)}@media(max-width:960px){.specials{grid-template-columns:1fr 1fr}}@media(max-width:620px){.specials{grid-template-columns:1fr}}`;
     html=html.replace('</style>',teaserCSS+'</style>');
     const teaser=`<section class="section"><header class="section-head"><div><div class="eyebrow">CURATED EXHIBITIONS</div><h2>专题展览</h2></div><p>不再按人物或年份浏览，而是带着一个历史问题连续参观。每展连接地图、人物、事件、文物与史学争论。</p></header><div class="specials">${exhibitions.map(e=>`<a class="special" href="${fileOf(e)}"><span>${e.number}</span><small>${esc(e.years)}</small><b>${esc(e.title)}</b><p>${esc(e.subtitle)}</p></a>`).join('')}</div></section>`;
