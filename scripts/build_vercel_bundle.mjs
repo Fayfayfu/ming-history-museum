@@ -5,6 +5,8 @@ import sharp from 'sharp';
 const source = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆';
 const destination = 'dist';
 const rasterPattern = /assets\/[^"'<>\s]+?\.(?:jpe?g|png|webp)/gi;
+const vercelProjectFile = path.join(destination, '.vercel', 'project.json');
+const vercelProject = await fs.readFile(vercelProjectFile, 'utf8').catch(() => null);
 
 const walk = async directory => {
   const entries = await fs.readdir(directory, {withFileTypes: true});
@@ -41,6 +43,10 @@ if (missingAssets.length) {
 
 await fs.rm(destination, {recursive: true, force: true});
 await fs.mkdir(destination, {recursive: true});
+if (vercelProject) {
+  await fs.mkdir(path.dirname(vercelProjectFile), {recursive: true});
+  await fs.writeFile(vercelProjectFile, vercelProject, 'utf8');
+}
 
 const assetMap = new Map();
 for (const relative of [...referencedAssets].sort()) {
