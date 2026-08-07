@@ -73,6 +73,23 @@ const yao = await page.evaluate(() => ({
   loaded: Boolean(document.querySelector('#detail .portrait img')?.naturalWidth),
 }));
 
+await page.goto(`${base}/people.html?person=${encodeURIComponent('杨继盛')}`, {waitUntil:'domcontentloaded', timeout:60000});
+const yangJisheng = await page.evaluate(async () => {
+  const image = document.querySelector('#detail .portrait img');
+  if (image && !image.complete) await new Promise(resolve => {
+    image.addEventListener('load', resolve, {once:true});
+    image.addEventListener('error', resolve, {once:true});
+  });
+  return {
+    open: document.querySelector('#drawer')?.classList.contains('open'),
+    name: document.querySelector('#detail h2')?.textContent.trim(),
+    portraitLoaded: Boolean(image?.naturalWidth),
+    portraitLabel: document.querySelector('#detail .portrait-label')?.textContent.trim(),
+    chapters: document.querySelectorAll('#detail .life-chapter').length,
+    quoteLines: document.querySelectorAll('#detail .work-voice blockquote div').length,
+  };
+});
+
 await page.setViewportSize({width:390,height:844});
 await page.goto(`${base}/index.html`, {waitUntil:'domcontentloaded', timeout:60000});
 const mobile = await page.evaluate(() => ({bodyWidth:document.body.scrollWidth,viewport:innerWidth}));
@@ -83,6 +100,7 @@ if (server) await new Promise(resolve => server.close(resolve));
 const audit = {
   pages,
   yao,
+  yangJisheng,
   mobile,
   errors,
   pass: pages.length === files.length
@@ -90,6 +108,9 @@ const audit = {
     && pages.every(record => record.navLabels.includes('专题展'))
     && pages.find(record => record.file === 'index.html')?.exhibitionCards === 6
     && yao.open && yao.loaded && yao.src?.endsWith('.webp')
+    && yangJisheng.open && yangJisheng.name === '杨继盛' && yangJisheng.portraitLoaded
+    && yangJisheng.portraitLabel === '18世纪清人绘像'
+    && yangJisheng.chapters === 6 && yangJisheng.quoteLines === 2
     && mobile.bodyWidth === mobile.viewport
     && errors.length === 0,
 };
