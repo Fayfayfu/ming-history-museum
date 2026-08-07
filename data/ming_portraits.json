@@ -1,14 +1,14 @@
 {
   "generatedAt": "2026-08-06T00:35:00+08:00",
-  "downloaded": 74,
+  "downloaded": 79,
   "generated": 31,
   "currentBatch": {
-    "id": 10,
-    "label": "第十批 · 杨继盛",
-    "count": 1,
-    "selection": "新增杨继盛人物记录，并优先采用有公开来源与公版许可的18世纪清人绘像；网页明确标记为身后绘像，不将其视为本人写生。"
+    "id": 11,
+    "label": "第十一批 · 后妃与明清转折人物",
+    "count": 5,
+    "selection": "为马皇后、李太后、朱标、努尔哈赤、皇太极采用Wikimedia Commons公版图像；帝后宫廷像与来源链较弱的后世叙事图分级标注，不把它们一概宣称为本人写生。"
   },
-  "total": 126,
+  "total": 131,
   "people": {
     "朱元璋": {
       "status": "image",
@@ -1465,6 +1465,81 @@
       ],
       "objectPosition": "50% 18%",
       "note": "没有找到可核验的本人传世肖像。画面锚定1644年受伤幸存、顺治二年请求出家未获准的史实，以冬日旧宅、空垂长袖、念珠和无文字奏疏表现王朝创伤；五官、服饰细节、陈设与具体时刻均为艺术想象，不采用戏曲中的殉情结局。"
+    },
+    "马皇后": {
+      "status": "image",
+      "file": "assets/portraits/batch-11/1101_马皇后.jpg",
+      "portraitKind": "明代帝后像册传世像",
+      "confidence": "高",
+      "batch": 11,
+      "page": "https://commons.wikimedia.org/wiki/File:X_Ming_Dynasty_Empress_Ma_of_Taizu.JPG",
+      "commons": "https://commons.wikimedia.org/wiki/File:X_Ming_Dynasty_Empress_Ma_of_Taizu.JPG",
+      "fileName": "X Ming Dynasty Empress Ma of Taizu.JPG",
+      "width": 1280,
+      "height": 1780,
+      "license": "Public domain",
+      "objectPosition": "50% 17%",
+      "note": "故宫博物院藏明代帝后像册系统中的马皇后像，属宫廷传世形象；具有高来源价值，但仍不应等同于现代意义的现场写生。"
+    },
+    "朱标": {
+      "status": "image",
+      "file": "assets/portraits/batch-11/1105_朱标.jpg",
+      "portraitKind": "后世母子叙事图",
+      "confidence": "低",
+      "batch": 11,
+      "page": "https://commons.wikimedia.org/wiki/File:Zhu_Biao_and_Empress_Ma.jpg",
+      "commons": "https://commons.wikimedia.org/wiki/File:Zhu_Biao_and_Empress_Ma.jpg",
+      "fileName": "Zhu Biao and Empress Ma.jpg",
+      "width": 250,
+      "height": 330,
+      "license": "Public domain",
+      "objectPosition": "34% 18%",
+      "note": "公开来源题作朱标与马皇后母子图，但未提供足以确认原作年代、作者与递藏的完整证据链。页面只把它作为后世叙事形象，不据此判断朱标真容，也不借图像解决其生母争议。"
+    },
+    "李太后": {
+      "status": "image",
+      "file": "assets/portraits/batch-11/1102_李太后.jpg",
+      "portraitKind": "明代宫廷传世像",
+      "confidence": "高",
+      "batch": 11,
+      "page": "https://commons.wikimedia.org/wiki/File:China%27s_Ming_Dynasty_Empress_Xiaoding.jpg",
+      "commons": "https://commons.wikimedia.org/wiki/File:China%27s_Ming_Dynasty_Empress_Xiaoding.jpg",
+      "fileName": "China's Ming Dynasty Empress Xiaoding.jpg",
+      "width": 376,
+      "height": 478,
+      "license": "Public domain",
+      "objectPosition": "50% 18%",
+      "note": "传为孝定皇太后李氏的明代宫廷像，来源页列作公版；页面将其视为传世识别形象，不据画像推断性格。"
+    },
+    "努尔哈赤": {
+      "status": "image",
+      "file": "assets/portraits/batch-11/1103_努尔哈赤.jpg",
+      "portraitKind": "清宫祖宗像",
+      "confidence": "中",
+      "batch": 11,
+      "page": "https://commons.wikimedia.org/wiki/File:Qing-Nurhaci.jpg",
+      "commons": "https://commons.wikimedia.org/wiki/File:Qing-Nurhaci.jpg",
+      "fileName": "Qing-Nurhaci.jpg",
+      "width": 538,
+      "height": 815,
+      "license": "Public domain",
+      "objectPosition": "50% 16%",
+      "note": "清宫祖宗像体系中的努尔哈赤形象，可能经过后世标准化与重绘；可用于辨识，不作为其真实面貌的高精度复原。"
+    },
+    "皇太极": {
+      "status": "image",
+      "file": "assets/portraits/batch-11/1104_皇太极.jpg",
+      "portraitKind": "17世纪清宫肖像",
+      "confidence": "高",
+      "batch": 11,
+      "page": "https://commons.wikimedia.org/wiki/File:Hong_Taiji_(closeup).jpg",
+      "commons": "https://commons.wikimedia.org/wiki/File:Hong_Taiji_(closeup).jpg",
+      "fileName": "Hong Taiji (closeup).jpg",
+      "width": 493,
+      "height": 657,
+      "license": "Public domain",
+      "objectPosition": "50% 15%",
+      "note": "来源页标注为17世纪清宫画师所绘皇太极像，现藏故宫博物院；来源可靠，但宫廷礼仪肖像仍具有程式化特征。"
     }
   }
 }
