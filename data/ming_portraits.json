@@ -1,14 +1,14 @@
 {
   "generatedAt": "2026-08-06T00:35:00+08:00",
-  "downloaded": 73,
+  "downloaded": 74,
   "generated": 31,
   "currentBatch": {
-    "id": 9,
-    "label": "第九批 · 王朝裂变中的公主",
-    "count": 2,
-    "selection": "为人物底表中现有的两位重要公主宁国公主、长平公主补像。未找到可追溯至可靠馆藏或古籍版本的本人肖像，两人均采用明确标注的AI历史情境想象图；宁国公主锚定靖难后的皇室处境，长平公主锚定1644年幸存后的王朝创伤。"
+    "id": 10,
+    "label": "第十批 · 杨继盛",
+    "count": 1,
+    "selection": "新增杨继盛人物记录，并优先采用有公开来源与公版许可的18世纪清人绘像；网页明确标记为身后绘像，不将其视为本人写生。"
   },
-  "total": 125,
+  "total": 126,
   "people": {
     "朱元璋": {
       "status": "image",
@@ -1395,6 +1395,21 @@
       "objectPosition": "50% 28%",
       "batch": 7,
       "note": "上海博物馆藏《佚名 明人画徐渭小像》，馆方标为明代纸本设色并明确人物、尺寸及1998年捐赠来源。作者和具体年份不详，但馆藏、时代与人物指向完整，故在本馆标为高置信度历史画像。"
+    },
+    "杨继盛": {
+      "status": "image",
+      "file": "assets/portraits/batch-10/1001_杨继盛.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Yang_Jisheng.jpg",
+      "commons": "https://commons.wikimedia.org/wiki/File:Yang_Jisheng.jpg",
+      "fileName": "Yang Jisheng.jpg",
+      "width": 1500,
+      "height": 1837,
+      "license": "Public Domain Mark",
+      "portraitKind": "18世纪清人绘像",
+      "confidence": "低",
+      "objectPosition": "50% 24%",
+      "batch": 10,
+      "note": "图像来源页记为18世纪清人绘，收入《中国历代名人画像谱》。作品年代、来源书目与公版状态明确，但绘制晚于杨继盛约两个世纪，只能作为有出处的后世纪念性形象，不能据此确认其真实五官。"
     },
     "严世蕃": {
       "status": "imagined",
