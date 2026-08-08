@@ -6,6 +6,7 @@
   "scripts": {
     "build:museum": "node scripts/build_ming_exhibitions.mjs",
     "build:deploy": "node scripts/build_vercel_bundle.mjs",
+    "audit:museum": "node scripts/audit_ming_museum_data.mjs",
     "verify": "node scripts/verify_ming_museum.mjs"
   },
   "dependencies": {

@@ -1,0 +1,1190 @@
+{
+  "version": 8,
+  "archivedAt": "2026-08-08T23:00:00+08:00",
+  "taskId": "019fc8d2-0e97-7ed3-a23b-47b434c01dc9",
+  "sourceDirectory": "/Users/fayfay/.codex/generated_images/019fc8d2-0e97-7ed3-a23b-47b434c01dc9",
+  "archiveDirectory": "data/media-originals/imagegen-archive/019fc8d2-0e97-7ed3-a23b-47b434c01dc9",
+  "policy": "人物原图统一存入data/media-originals/portraits，场景原图统一存入data/media-originals/scenes；场景仅按adopted与candidates分层，主场景与多方视角由文件名和subtype表达；originalFile保留最初exec-UUID，SHA-256与matchingProjectFiles保留来源及采用链。",
+  "summary": {
+    "images": 76,
+    "bytes": 189090647,
+    "adopted": 65,
+    "candidates": 11,
+    "portraits": 54,
+    "scenes": 22,
+    "sceneAdopted": 12,
+    "sceneCandidates": 10
+  },
+  "files": [
+    {
+      "file": "data/media-originals/portraits/batch-1/112_秦良玉_AI想象像_原图.png",
+      "bytes": 2743260,
+      "sha256": "0a898d9911faaaf914fc5188c1eb647c4c23ca5649cfd056bd58dda6d02ec12d",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-1/112_秦良玉_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-1/112_秦良玉_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "秦良玉 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-bbdc5dcf-c0c2-4484-89b9-b9458933911e.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-12/1201_万贵妃_AI想象像_原图.png",
+      "bytes": 2636181,
+      "sha256": "dbfee78532b4d4221ff240546253579f6cf362d149dc4a82dd16343bda3c76e3",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-12/1201_万贵妃_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "万贵妃 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-de133665-ba51-47e9-ab3d-c8ee01f55eab.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-12/1202_纪氏_AI想象像_原图.png",
+      "bytes": 2716361,
+      "sha256": "617217feb71ca74692320c3d6b083d3c753a55233c7b028b011e3dbf2858e18a",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-12/1202_纪氏_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "纪氏 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-f7d6fd12-76c8-4d1b-9142-a88d7c2aca5b.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-12/1203_客氏_AI想象像_原图.png",
+      "bytes": 2230182,
+      "sha256": "c794cc691292f3d195274ec3c19e99fecb90b73265e104064a9ec38e332b45c7",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-12/1203_客氏_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "客氏 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-80509e8b-8fb7-4574-b4ad-d6180fe5c832.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-13/1302_李贽_AI想象像_原图.png",
+      "bytes": 2370420,
+      "sha256": "67acc2a6b38bab29367f9a84f79ab0de359a45ab801ed55aded715e5b6afae60",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-13/1302_李贽_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "李贽 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-e94919a3-640e-4766-9cde-89a42ef2d11a.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-13/1303_吴承恩_AI想象像_原图.png",
+      "bytes": 2358669,
+      "sha256": "dded6b2efb7e54d779bb4d81f935b7442a170e61d8bf0cd908cd175a5ef696ff",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-13/1303_吴承恩_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "吴承恩 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-38cc382f-58d6-4a2d-a2a2-4da5e21cef59.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-13/1304_汤显祖_AI想象像_原图.png",
+      "bytes": 2417046,
+      "sha256": "a7a0c0b9773567afdd8939158d3f6a4ac6eebb25b3381604ff49b4663f8d3edd",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-13/1304_汤显祖_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "汤显祖 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-670293ea-5dc0-4435-88dc-f40f4efe4532.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-13/1305_张景岳_AI想象像_原图.png",
+      "bytes": 2440181,
+      "sha256": "efb8d863915822f14dfdd2fb177f664f5ec2ec0751a367175ae5ee69047dc695",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-13/1305_张景岳_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "张景岳 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-856c7b97-5a2a-4829-93b2-882fd5745af8.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-13/1306_宋应星_AI想象像_原图.png",
+      "bytes": 2898646,
+      "sha256": "7149e876f14dd9b07b99601c1fe9da17e32a8e80e68b7c650e7c6cf38a7a1969",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-13/1306_宋应星_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "宋应星 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-8cb2b08b-f465-4369-98bb-4f15e9d5febd.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-13/1307_郑贵妃_AI想象像_原图.png",
+      "bytes": 2434192,
+      "sha256": "8ad63ef7487ed5bf43cec59ec0a3015bf2715475688f1afeeb27435f78763de9",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-13/1307_郑贵妃_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "郑贵妃 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-521e2691-29c7-4ae3-bc06-5ee72f2b2496.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-14/1401_郭子兴_AI想象像_原图.png",
+      "bytes": 2532563,
+      "sha256": "6f3cf623262991c0767322452143db591859aa1373e74c834b55f76495751f02",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-14/1401_郭子兴_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "郭子兴 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-e7ee1ad1-2777-42e9-b44c-a09e996606aa.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-14/1402_陈友谅_AI想象像_原图.png",
+      "bytes": 2574921,
+      "sha256": "1d8dcf6060516d925767e1cadf988e42962d2cbf78ee754dfa0d8a9392c6db84",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-14/1402_陈友谅_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "陈友谅 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-38aad8a3-3608-48a9-9863-dc3fed34b95f.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-14/1403_张士诚_AI想象像_原图.png",
+      "bytes": 2383417,
+      "sha256": "4dc4b055e054a394a707b5b925ae476547ae41bbe736756a05fffd2bc7ddb7c9",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-14/1403_张士诚_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "张士诚 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-cbb0d861-f5a2-4801-9858-1cf1b9c9a151.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-14/1404_也先_AI想象像_原图.png",
+      "bytes": 2610064,
+      "sha256": "1bb7355914427b88fc29c7012b3d3b29f1329ba045399531436dfb9c716fd87d",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-14/1404_也先_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "也先 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-43f51a21-63cf-4181-8a72-e30d4e4b8b39.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-15/1501_张璁_AI想象像_候选02.png",
+      "bytes": 2563621,
+      "sha256": "7b5c6ce2e95c0957bd47f37353a41ba1b66bd1fb2846dbeed89049f188d6693d",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "candidate",
+      "displayName": "张璁 AI想象像｜另一构图",
+      "confidence": "高（与已采用张璁稿同批生成，人物和提示词锚点一致）",
+      "originalFile": "exec-27225f95-2888-43b7-b2ed-6661f1ed1f15.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-15/1501_张璁_AI想象像_原图.png",
+      "bytes": 2593147,
+      "sha256": "635d09cef47db048da74acd769d5b25e818fe48fe4169743ea5423a21f8442cd",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "data/media-originals/portraits/batch-15/1501_张璁_AI想象像_原图.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "张璁 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-7e7b18db-483f-4371-b3a8-3a15bf77afd1.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-3/303_马芳_AI想象像_原图.png",
+      "bytes": 2429179,
+      "sha256": "d50c5d6523e56e23ce27daa8bbc1c96a2c687ebecc64428695e8af36802b1fd0",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-3/303_马芳_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-3/303_马芳_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "马芳 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-1d0a0477-52ae-4470-8f34-f0a0fed14c06.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-3/304_刘健_AI想象像_原图.png",
+      "bytes": 2278479,
+      "sha256": "85e42679af53c2685603406a455cff660213f81591b175933dfd76be2390ff94",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-3/304_刘健_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-3/304_刘健_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "刘健 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-19094530-12cc-46b9-a29f-872c59c3a09b.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-3/305_宋应昌_AI想象像_原图.png",
+      "bytes": 2646250,
+      "sha256": "66b600e062e9508b9994f6f34baa7439e06bc0f26e40b85aa8723a81c93d6d8f",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-3/305_宋应昌_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-3/305_宋应昌_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "宋应昌 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-494a6273-636c-4a7d-a303-8e9e15de48ec.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-3/310_蓝玉_AI想象像_原图.png",
+      "bytes": 2797160,
+      "sha256": "439c8be24c525d1191e1167f836ebda241d519cf3a73999391be79ab6b2e0ac5",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-3/310_蓝玉_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-3/310_蓝玉_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "蓝玉 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-f87f7ba8-4666-4d1d-9951-c1bf72fc7aa9.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-3/312_马守真_AI想象像_原图.png",
+      "bytes": 2310290,
+      "sha256": "53d3d7592830b1361fa7a343cbaaf7b5553f1a7d32c8b572799b3cb4b54c3ad6",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-3/312_马守真_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-3/312_马守真_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "马守真 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-dbc119d8-b953-4e9c-bd4d-bcc8b37ac6a5.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-4/410_商辂_AI想象像_原图.png",
+      "bytes": 2298127,
+      "sha256": "6ceb718f2e5e39f37edf044b0183d2a1cdd48e6ef5ee2f7bac3b108559d14737",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-4/410_商辂_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-4/410_商辂_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "商辂 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-8f948077-3057-4dd8-9ef8-c5eac5670f31.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-4/411_李贤_AI想象像_原图.png",
+      "bytes": 2318997,
+      "sha256": "7c55cd932c4c43d85bd6528dac609bfad4e04014f511f5487be06ecde84fb33d",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-4/411_李贤_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-4/411_李贤_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "李贤 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-fecb4a14-8f45-4e35-9b18-6941e345e61d.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-4/412_王景弘_AI想象像_原图.png",
+      "bytes": 2450946,
+      "sha256": "cdadb2080cd21000f3ca7dec76062ec9610a2c871311bdd68b5a5ca50aff4772",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-4/412_王景弘_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-4/412_王景弘_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "王景弘 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-ffe13dac-a960-404a-9c36-49c2ece27f1f.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-5/503_夏言_AI想象像_原图.png",
+      "bytes": 2252751,
+      "sha256": "dbda201804534ddcdbbf3d12c93253ba4bf958c69f8f56e39487504dd6dc79fe",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-5/503_夏言_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-5/503_夏言_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "夏言 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-90c416d4-fe5a-48bd-bfe0-3a9994fdbe4a.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-5/505_张玉_AI想象像_原图.png",
+      "bytes": 2260039,
+      "sha256": "c26a81b35637a599fa067f2a2823001023d6fe20c37ed6c089df67a6409c892a",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-5/505_张玉_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-5/505_张玉_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "张玉 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-58ca80bc-f26b-4f54-95c3-3194d09d2677.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-5/507_丘福_AI想象像_原图.png",
+      "bytes": 2821517,
+      "sha256": "11bf09554a7d804462d8b310ea7b75279ec7bc2137f38bd87f9b0456bcdfcd67",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-5/507_丘福_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-5/507_丘福_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "丘福 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-28189efa-bf4a-4101-9b46-7b8d02eed27f.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-5/509_朱能_AI想象像_原图.png",
+      "bytes": 2499127,
+      "sha256": "88f1cb62e204236f55341a9cace215f0100d91d57be07590efe52d3fa94a2755",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-5/509_朱能_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-5/509_朱能_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "朱能 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-edeb85e3-153e-4097-8393-f75413282877.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-5/510_刘瑾_AI想象像_原图.png",
+      "bytes": 1840582,
+      "sha256": "c6ee041d175ce6a7f3bb8b38b2248a03a9af4acfd594adef9e085ac175ed9841",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-5/510_刘瑾_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-5/510_刘瑾_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "刘瑾 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-be767422-574a-4f23-a1ca-9dd3bd573f9b.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-5/511_张永_AI想象像_原图.png",
+      "bytes": 2287956,
+      "sha256": "d1d200a150a77884bfb744b8555fc3aedce2ad590c639f0571de74c2045bd425",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-5/511_张永_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-5/511_张永_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "张永 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-3b19413d-2b83-4b9b-bce3-4aefeb6cc363.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-6/602_沈鲤_AI想象像_原图.png",
+      "bytes": 2072877,
+      "sha256": "0188dd5330c636dde5ecde2fe3eb4f0d98666b1ec1ff75f426e9179a1acaaae4",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-6/602_沈鲤_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-6/602_沈鲤_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "沈鲤 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-d682980e-f2ba-4b90-8877-5900edc9a405.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-6/604_叶向高_AI想象像_原图.png",
+      "bytes": 2052953,
+      "sha256": "57c4de0388588594d83f27621a43d604d57e6a74493de010b0211d300a55a780",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-6/604_叶向高_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-6/604_叶向高_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "叶向高 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-f1e555b1-5acd-48ac-a9f5-6f854c95584f.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-6/607_石亨_AI想象像_原图.png",
+      "bytes": 2334347,
+      "sha256": "e72f5b31ee525cffd5f9989492d630daabcfd2dafac2ed4e4071934b716e068b",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-6/607_石亨_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-6/607_石亨_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "石亨 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-5301b8cb-bd8f-475d-912c-7a6678aa09f7.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-6/609_李成梁_AI想象像_原图.png",
+      "bytes": 2327016,
+      "sha256": "8b739e39ce8355740cc394696efc369220c4829dddf6be7168aec8208d329b92",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-6/609_李成梁_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-6/609_李成梁_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "李成梁 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-e78ed133-90ec-4143-ab5c-e40e28c049ac.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-6/610_刘綎_AI想象像_原图.png",
+      "bytes": 2528722,
+      "sha256": "540831f0428ad0bd1477eb46725bc8866ea613d38a484e90793e3eb4cbe3ca5b",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-6/610_刘綎_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-6/610_刘綎_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "刘綎 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-9a48e547-8c18-48bd-ae47-36c0a081b0ed.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-6/611_毛文龙_AI想象像_原图.png",
+      "bytes": 2704704,
+      "sha256": "1e3f96f6ef48c7f5f314db6c62183347f916754b9713a87192bd1b6b7a7338fb",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-6/611_毛文龙_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-6/611_毛文龙_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "毛文龙 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-af9da765-3d60-4b8e-8cd1-64a8157c6e54.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-7/702_金英_AI想象像_原图.png",
+      "bytes": 2149148,
+      "sha256": "7ce6f8151049cf1e33d31cae50f56d123c8dabedb1608d841120029715bf0b40",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-7/702_金英_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-7/702_金英_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "金英 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-4cf1231b-8f3a-478b-8244-ff1779f687b6.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-7/703_曹吉祥_AI想象像_原图.png",
+      "bytes": 2050584,
+      "sha256": "3bd75062eda36cfc955cd26fa30bc0cc12e965b3613091760dd7bb2d80b17744",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-7/703_曹吉祥_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-7/703_曹吉祥_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "曹吉祥 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-00d0d431-8634-4b12-a33c-46098878bca3.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-7/704_汪直_AI想象像_原图.png",
+      "bytes": 2227640,
+      "sha256": "97d4c26364a1b55c7475e6c5bbc5ec100021c3f72894ecacabfef48562fa9030",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-7/704_汪直_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-7/704_汪直_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "汪直 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-ba995b51-9b90-4116-b086-2afc0df976de.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-7/705_冯保_AI想象像_原图.png",
+      "bytes": 2047104,
+      "sha256": "21ac4635f493aac883a92ed032f1d8c4124a5a08831f2337665d149a7c6fe678",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-7/705_冯保_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-7/705_冯保_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "冯保 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-8ebaf993-5fd0-4787-a156-aa748c50d797.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-7/706_陈矩_AI想象像_原图.png",
+      "bytes": 2017800,
+      "sha256": "c20275d6ed4bd4467615e0b619424cb7b8b56a11db535cfe38b13fb6eeeb3657",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-7/706_陈矩_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-7/706_陈矩_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "陈矩 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-659dc88e-7991-4f1e-9fea-71c180cb782f.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-7/707_魏忠贤_AI想象像_原图.png",
+      "bytes": 1898342,
+      "sha256": "6156a54b54b93ba893938682281f7982933914e8a727ce8d98d7ba51c99812ce",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-7/707_魏忠贤_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-7/707_魏忠贤_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "魏忠贤 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-1a43ea20-f3d9-4826-9707-8d654e13f9e3.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-8/801_严世蕃_AI想象像_原图.png",
+      "bytes": 2104658,
+      "sha256": "46311326f4374f9634ae642a1df46b1d123b7834569feefa1872457c1e127ffc",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-8/801_严世蕃.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-8/801_严世蕃.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "严世蕃 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-387459cc-8f11-4402-9c6c-a8cad6fbe092.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-8/802_胡惟庸_AI想象像_原图.png",
+      "bytes": 2059704,
+      "sha256": "bb4bc25c916a60741642cea66bbd9cec6b529a6122c1fae9a25f72a0b8ef2394",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-8/802_胡惟庸.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-8/802_胡惟庸.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "胡惟庸 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-671e94e9-4b2c-4256-a359-0bde56c245c3.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-9/901_宁国公主_AI想象像_原图.png",
+      "bytes": 2059764,
+      "sha256": "782a34d113ac1190ee634b9facda62f72f2c259896791bf30769c32b3344566b",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-9/901_宁国公主_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-9/901_宁国公主_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "宁国公主 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-10cab549-ddb1-4a48-a38e-5935438f381d.png"
+    },
+    {
+      "file": "data/media-originals/portraits/batch-9/902_长平公主_AI想象像_原图.png",
+      "bytes": 2001083,
+      "sha256": "66145898a960bd7fe52bae99d8bad5706416afe0d9704cf115639f1ef365a03f",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/batch-9/902_长平公主_AI想象像.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/batch-9/902_长平公主_AI想象像.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "长平公主 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-7d93ee02-bcad-4cba-895b-09623975e120.png"
+    },
+    {
+      "file": "data/media-originals/portraits/imagined/冯保_AI想象像_原图.png",
+      "bytes": 2370789,
+      "sha256": "b07d0d1ed41b6892017e5e59b09c0346d9fd0d1647d1e2a83f3813dea3a26185",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/imagined/冯保.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/imagined/冯保.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "冯保 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-2f656465-bdf8-46f4-887e-5d5feb6e4522.png"
+    },
+    {
+      "file": "data/media-originals/portraits/imagined/李如松_AI想象像_原图.png",
+      "bytes": 2433241,
+      "sha256": "cd518fb7abfa4cf1f1e18d54fd37fbdcc1210f42454e773c3f36e36ec95a3cf7",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/imagined/李如松.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/imagined/李如松.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "李如松 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-0777ea7c-5f0d-434d-a290-5de23fa323a5.png"
+    },
+    {
+      "file": "data/media-originals/portraits/imagined/李自成_AI想象像_原图.png",
+      "bytes": 2498311,
+      "sha256": "d695f3b6f8d329e0a9be2252faacaaa6530fc6108a3415fe85d549c59faf88f5",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/imagined/李自成.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/imagined/李自成.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "李自成 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-a76ed541-c24f-421f-ae63-0fc6a70993a4.png"
+    },
+    {
+      "file": "data/media-originals/portraits/imagined/戚继光_AI想象像_原图.png",
+      "bytes": 2562906,
+      "sha256": "f977a573ae820cdd5f365ed0a91114f94427ab00d2b9fe019b2d91cb172d8615",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/imagined/戚继光.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/imagined/戚继光.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "戚继光 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-40dbfd44-fa5a-4f96-9b1b-abd16dafafb4.png"
+    },
+    {
+      "file": "data/media-originals/portraits/imagined/史可法_AI想象像_原图.png",
+      "bytes": 2461249,
+      "sha256": "889ee579de02cf0de555257356a06a68680d434eff1002411ef53201f7e8b1f8",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/imagined/史可法.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/imagined/史可法.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "史可法 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-44929d80-bb9e-45a9-9892-4d49d447ee07.png"
+    },
+    {
+      "file": "data/media-originals/portraits/imagined/王振_AI想象像_原图.png",
+      "bytes": 2446684,
+      "sha256": "0b9a33c91e2aeecc6eb4e6e771925e8d00ed3844c8161de63ebcf374dfa0c8b5",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/imagined/王振.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/imagined/王振.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "王振 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-c56ae447-61e1-4a89-8917-58e77af2b10a.png"
+    },
+    {
+      "file": "data/media-originals/portraits/imagined/于谦_AI想象像_原图.png",
+      "bytes": 2466641,
+      "sha256": "9ace60a03a40c924cc63d3ffca5fee0b99bccdf67d1709c87c3b253f68450116",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/imagined/于谦.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/imagined/于谦.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "于谦 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-9f2fd6be-049a-4419-a260-f73af65e63f5.png"
+    },
+    {
+      "file": "data/media-originals/portraits/imagined/张居正_AI想象像_原图.png",
+      "bytes": 2377716,
+      "sha256": "ddea7bd034feb2c535c3b6f8451ec6e6644c4076712537464cc7bc67e2f6f191",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/portraits/imagined/张居正.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/portraits/imagined/张居正.png"
+      ],
+      "category": "portrait",
+      "subtype": "character-portrait",
+      "status": "adopted",
+      "displayName": "张居正 AI想象像",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-f21f5fb8-0bc8-4b4b-a279-16bb295b0237.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_1644王朝崩解_多方视角_南京留都运作_采用.png",
+      "bytes": 2709132,
+      "sha256": "9ba4a9ddcd05e281fe352cefc7f78042fc1c8ed8dd8dc688645a1b32304877b5",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/perspectives/fall-nanjing.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/perspectives/fall-nanjing.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "adopted",
+      "displayName": "1644王朝崩解｜多方视角｜南京留都运作",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-4e082b7a-4bfa-405e-82c6-461aae7d9284.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_1644王朝崩解_主场景_北京城破与失序_采用.png",
+      "bytes": 2738960,
+      "sha256": "71817ce604d3c6054c6c015d523a05ad1b0177eb67ec7223143503b26e37c9f1",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/scenes/fall-1644.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/scenes/fall-1644.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "adopted",
+      "displayName": "1644王朝崩解｜主场景｜北京城破与失序",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-2811f32d-856d-4146-b629-393703f70e87.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_土木堡之变_多方视角_败讯抵京与固守争论_采用.png",
+      "bytes": 2313060,
+      "sha256": "441655ad503ea48a6bb95329021078a3c3c93233a3ef694e43042065c7a93314",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/perspectives/tumu-court.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/perspectives/tumu-court.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "adopted",
+      "displayName": "土木堡之变｜多方视角｜败讯抵京与固守争论",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-42c27f76-e0d2-4f22-bbfb-09975909d387.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_土木堡之变_主场景_北京城防准备_采用.png",
+      "bytes": 2748790,
+      "sha256": "e8e67f933d49317b813561b7fe5490f0fe01d2686e973d96ac638d5a26825ff5",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/scenes/tumu-crisis.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/scenes/tumu-crisis.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "adopted",
+      "displayName": "土木堡之变｜主场景｜北京城防准备",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-d09e3b5b-7037-4769-97b7-d9b440405f71.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_万历援朝_多方视角_战争后方村落_采用.png",
+      "bytes": 3026750,
+      "sha256": "69963d6d90c68eb80c88a40a1bbd1724e72c22d85eb416f80145a43875e1c129",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/perspectives/imjin-village.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/perspectives/imjin-village.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "adopted",
+      "displayName": "万历援朝｜多方视角｜战争后方村落",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-f578fecd-0804-4c33-9ed4-5a4e074e65ff.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_万历援朝_主场景_平壤雪地攻城_采用.png",
+      "bytes": 2794982,
+      "sha256": "b92a999592235f2c82bb8dc675435bbd25f6a17b1b11523fb5180da15bbb1ff0",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/scenes/imjin-war.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/scenes/imjin-war.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "adopted",
+      "displayName": "万历援朝｜主场景｜平壤雪地攻城",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-f8f4d998-0152-44a0-bd6f-241f67fed67f.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_永乐迁都_多方视角_大运河漕运_采用.png",
+      "bytes": 2806803,
+      "sha256": "516365a1554d25f1a9a6b5af8fe91a02cda4cd797c1e8c489c656cd2538bfb04",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/perspectives/yongle-canal.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/perspectives/yongle-canal.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "adopted",
+      "displayName": "永乐迁都｜多方视角｜大运河漕运",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-45ecf383-b35d-4dcc-ac09-5fab849f1eeb.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_永乐迁都_主场景_北京营建_采用.png",
+      "bytes": 2748836,
+      "sha256": "494d04f6b28d40268fae64ec633cd049208a81654b8ed5f2a2b5b19aa51ecc85",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/scenes/yongle-capital.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/scenes/yongle-capital.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "adopted",
+      "displayName": "永乐迁都｜主场景｜北京营建",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-e2861ce5-fe57-402c-8477-3c30be527884.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_张居正改革_多方视角_乡村清丈_采用.png",
+      "bytes": 3191486,
+      "sha256": "5d55fe7ca9fb2b3a2494cb94775bec0030b7e65bf16b9a1d5a4fa85b36452c65",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/perspectives/zhang-land-survey.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/perspectives/zhang-land-survey.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "adopted",
+      "displayName": "张居正改革｜多方视角｜乡村清丈",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-1d8f006d-09df-41c7-ae07-9d7315e926d8.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_张居正改革_主场景_北京官署考成运作_采用.png",
+      "bytes": 2630861,
+      "sha256": "08b3b3d7c72f881b525c04b52042e653349f61b9641fd8eaed0f44faec581dba",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/scenes/zhang-reform.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/scenes/zhang-reform.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "adopted",
+      "displayName": "张居正改革｜主场景｜北京官署考成运作",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-5a8b8ced-54e9-4329-bd0f-db184eb0270e.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_郑和下西洋_多方视角_海外港市相遇_采用.png",
+      "bytes": 2908596,
+      "sha256": "e5acd1c67255991925c978c0e25caf9df56aef7d82041154face87a28916643c",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/perspectives/zheng-he-port.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/perspectives/zheng-he-port.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "adopted",
+      "displayName": "郑和下西洋｜多方视角｜海外港市相遇",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-ef18575f-a585-40f4-824a-12232ed165fa.png"
+    },
+    {
+      "file": "data/media-originals/scenes/adopted/专题_郑和下西洋_主场景_南京龙江港远航整备_采用.png",
+      "bytes": 2687633,
+      "sha256": "ba0ed964ee916327ca620c7fb8983abd9804efd26314d17017a52f90e727493f",
+      "adopted": true,
+      "matchingProjectFiles": [
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/assets/exhibitions/scenes/zheng-he-voyages.png",
+        "outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/exhibitions/scenes/zheng-he-voyages.png"
+      ],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "adopted",
+      "displayName": "郑和下西洋｜主场景｜南京龙江港远航整备",
+      "confidence": "高（SHA-256精确匹配项目采用文件）",
+      "originalFile": "exec-0ce16a9a-8874-4758-83ec-5440602c3bcd.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_1644王朝崩解_主场景_北京城破与失序_候选02.png",
+      "bytes": 2379366,
+      "sha256": "02c600a1f380f53e4712a8370ca02b713b9caa8b9b7e6e7235d8f74b533c7fd1",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "candidate",
+      "displayName": "1644王朝崩解｜主场景｜北京城破与失序｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-2e14562d-61f3-4449-a5af-5390b3a693d0.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_土木堡之变_多方视角_败讯抵京与固守争论_候选02.png",
+      "bytes": 2703740,
+      "sha256": "3854014c3e8d7e81a67dda85d7d79557cb4bd455c81e48d8e10551fd8d33af1c",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "candidate",
+      "displayName": "土木堡之变｜多方视角｜败讯抵京与固守争论｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-8275a0dc-08bd-4f9c-b16b-12b5d157a8f8.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_土木堡之变_主场景_北京城防准备_候选02.png",
+      "bytes": 2730772,
+      "sha256": "dc9d533026110906255f481a22d38e374e2ca295f3ca2bc21539d5d0253642c2",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "candidate",
+      "displayName": "土木堡之变｜主场景｜北京城防准备｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-d1efb1cd-e2ae-438b-905c-a56aa594b932.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_万历援朝_多方视角_战争后方村落_候选02.png",
+      "bytes": 2926335,
+      "sha256": "5011ba294c72d1771e7c950a3f687563251e366c2e20b0d02ed2e90522f7f818",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "candidate",
+      "displayName": "万历援朝｜多方视角｜战争后方村落｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-62318361-2abb-429e-9baf-1f5261a5ff1e.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_万历援朝_主场景_平壤雪地攻城_候选02.png",
+      "bytes": 3020319,
+      "sha256": "24dce4a6c3509e12e2701062ef1ca1392908d24450d79b8ae3befb331d8fab24",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "candidate",
+      "displayName": "万历援朝｜主场景｜平壤雪地攻城｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-0cc06699-0873-4528-a30e-471de281e4f9.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_永乐迁都_多方视角_大运河漕运_候选02.png",
+      "bytes": 2766063,
+      "sha256": "4a1da99e41a1998ed1fad2ec40978e0ecb28a4c909e33487089334fb3a5f5e6e",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "candidate",
+      "displayName": "永乐迁都｜多方视角｜大运河漕运｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-59b9d858-cc42-49c5-8481-20d1445dd595.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_永乐迁都_主场景_北京营建_候选02.png",
+      "bytes": 2746735,
+      "sha256": "c438d2192fa1e9f6112c4e5d7d9cf91f103483f97173b42ff816da437a714d9d",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "candidate",
+      "displayName": "永乐迁都｜主场景｜北京营建｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-ff6c65cc-0126-4c59-ae71-8661e13bb9a7.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_张居正改革_多方视角_乡村清丈_候选02.png",
+      "bytes": 3076546,
+      "sha256": "fd6ef564a15a0fc75e40b74d71c9500c7b96533ee90a1372beec4435d1179ef2",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "candidate",
+      "displayName": "张居正改革｜多方视角｜乡村清丈｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-18b5105d-937d-4ba0-830f-21ea4e6cbb8a.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_张居正改革_主场景_北京官署考成运作_候选02.png",
+      "bytes": 2448558,
+      "sha256": "2168d805fc406eeb87c5e2fab3bea03d892c97762cdad1af16816baed0e84e4e",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-main",
+      "status": "candidate",
+      "displayName": "张居正改革｜主场景｜北京官署考成运作｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-f940e3b1-a809-489b-957a-de789f0213e9.png"
+    },
+    {
+      "file": "data/media-originals/scenes/candidates/专题_郑和下西洋_多方视角_海外港市相遇_候选02.png",
+      "bytes": 2738070,
+      "sha256": "963455c8d0f735a0c10b11f93f621c98fc998b6b9a1cf921caebe5249a9665da",
+      "adopted": false,
+      "matchingProjectFiles": [],
+      "category": "scene",
+      "subtype": "exhibition-perspective",
+      "status": "candidate",
+      "displayName": "郑和下西洋｜多方视角｜海外港市相遇｜候选02",
+      "confidence": "高（画面内容、生成批次、展览提示与对应已采用稿一致）",
+      "originalFile": "exec-625e4783-19a3-4a54-bfb3-311046d2f304.png"
+    }
+  ],
+  "organizedAt": "2026-08-08T23:55:00+08:00"
+}

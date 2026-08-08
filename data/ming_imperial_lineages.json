@@ -1,0 +1,219 @@
+{
+  "version": 1,
+  "scope": "明朝十六位皇帝的独立帝系关系",
+  "shared_sources": [
+    {
+      "label": "故宫博物院·宫廷世系",
+      "url": "https://www.dpm.org.cn/court/lineages.html"
+    },
+    {
+      "label": "《明史》卷113·后妃列传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷113"
+    },
+    {
+      "label": "《明史》卷114·后妃列传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷114"
+    },
+    {
+      "label": "《明史》卷115·诸王列传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷115"
+    }
+  ],
+  "people": {
+    "朱元璋": {
+      "relations": [
+        {"label": "父", "value": "朱世珍（后追尊明仁祖）"},
+        {"label": "母", "value": "陈氏（后追尊淳皇后）"},
+        {"label": "帝系起点", "value": "明朝开国皇帝，无明朝前任皇帝"}
+      ],
+      "branch": "濠州朱氏开国一系",
+      "succession": "1368年在应天称帝，建立明朝；帝位不是由前一位明朝皇帝继承而来",
+      "confidence": "高",
+      "boundary": "父朱世珍、母陈氏见《明史》太祖本纪；更早祖系主要来自王朝建立后的追尊谱系，不与可同时核验的在世皇族记录等量齐观。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷1", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱允炆": {
+      "relations": [
+        {"label": "父", "value": "懿文太子朱标（后追尊明兴宗）"},
+        {"label": "母", "value": "吕氏"},
+        {"label": "祖父兼前任", "value": "明太祖朱元璋"}
+      ],
+      "branch": "太祖长子朱标一支",
+      "succession": "父亲朱标早逝后被立为皇太孙，1398年以皇孙身份继承祖父帝位",
+      "confidence": "高",
+      "boundary": "朱允炆为朱标第二子、母吕氏及皇太孙继位均有正史与故宫世系资料支持。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷4", "https://www.dpm.org.cn/court/lineage/226245.html", "https://zh.wikisource.org/zh-hans/明史/卷115"]
+    },
+    "朱棣": {
+      "relations": [
+        {"label": "父", "value": "明太祖朱元璋"},
+        {"label": "母", "value": "马皇后（正史记载；另有异说）"},
+        {"label": "前任", "value": "侄明惠帝朱允炆"}
+      ],
+      "branch": "太祖第四子燕王一支",
+      "succession": "1402年靖难军攻入南京后即位，帝位由朱标一支转入燕王一支",
+      "confidence": "中",
+      "boundary": "父系与叔侄关系确定；《明史》记朱棣为马皇后所生，但明代以来存在生母异说，因此母系不标为无争议事实。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷5", "https://zh.wikisource.org/zh-hans/明史/卷113", "https://www.dpm.org.cn/court/lineage/226257.html"]
+    },
+    "朱高炽": {
+      "relations": [
+        {"label": "父", "value": "明成祖朱棣"},
+        {"label": "母", "value": "仁孝徐皇后"},
+        {"label": "前任", "value": "父明成祖朱棣"}
+      ],
+      "branch": "成祖嫡长子一支",
+      "succession": "长期居太子位并多次监国，1424年承父即位",
+      "confidence": "高",
+      "boundary": "父母、太子身份与父子相承关系记载明确。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷8", "https://zh.wikisource.org/zh-hans/明史/卷113", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱瞻基": {
+      "relations": [
+        {"label": "父", "value": "明仁宗朱高炽"},
+        {"label": "母", "value": "诚孝张皇后"},
+        {"label": "前任", "value": "父明仁宗朱高炽"}
+      ],
+      "branch": "仁宗嫡长子一支",
+      "succession": "1425年承父即位，为常规父子继承",
+      "confidence": "高",
+      "boundary": "父母与储位关系在本纪、后妃列传中相互一致。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷9", "https://zh.wikisource.org/zh-hans/明史/卷113", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱祁镇": {
+      "relations": [
+        {"label": "父", "value": "明宣宗朱瞻基"},
+        {"label": "母", "value": "孝恭孙皇后（正史记载；另有异说）"},
+        {"label": "首次前任", "value": "父明宣宗朱瞻基"},
+        {"label": "复辟前任", "value": "异母弟明代宗朱祁钰"}
+      ],
+      "branch": "宣宗长子一支",
+      "succession": "1435年承父即位；1449年被俘后失位，1457年夺门之变复辟，形成两段统治",
+      "confidence": "中",
+      "boundary": "父系、兄弟关系和两次即位确定；正史以孙皇后为生母，其他材料存在生母异说，故整体保守标为中置信度。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷10", "https://zh.wikisource.org/zh-hans/明史/卷12", "https://zh.wikisource.org/zh-hans/明史/卷113", "https://www.dpm.org.cn/court/lineage/226258.html"]
+    },
+    "朱祁钰": {
+      "relations": [
+        {"label": "父", "value": "明宣宗朱瞻基"},
+        {"label": "母", "value": "吴贤妃"},
+        {"label": "前任", "value": "异母兄明英宗朱祁镇"}
+      ],
+      "branch": "宣宗次子郕王一支",
+      "succession": "1449年英宗被俘后，由监国郕王被群臣拥立，以兄终弟及方式应对国家危机",
+      "confidence": "高",
+      "boundary": "继位并非英宗主动禅让；1457年英宗复辟后，景泰一支没有延续帝位。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷11", "https://zh.wikisource.org/zh-hans/明史/卷113", "https://www.dpm.org.cn/court/lineage/226258.html"]
+    },
+    "朱见深": {
+      "relations": [
+        {"label": "父", "value": "明英宗朱祁镇"},
+        {"label": "母", "value": "孝肃周太后"},
+        {"label": "前任", "value": "父明英宗朱祁镇"}
+      ],
+      "branch": "英宗长子一支",
+      "succession": "曾在景泰朝被废太子，英宗复辟后重新确立储位，1464年承父即位",
+      "confidence": "高",
+      "boundary": "父母、两次储位变化与最终继位均有连续记录。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷13", "https://zh.wikisource.org/zh-hans/明史/卷113", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱祐樘": {
+      "relations": [
+        {"label": "父", "value": "明宪宗朱见深"},
+        {"label": "母", "value": "纪淑妃"},
+        {"label": "前任", "value": "父明宪宗朱见深"}
+      ],
+      "branch": "宪宗第三子一支",
+      "succession": "幼年经历宫廷保护后被立为太子，1487年承父即位",
+      "confidence": "高",
+      "boundary": "纪氏生母身份与太子继位有正史明确记载；幼年宫廷故事的具体对话仍需谨慎。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷14", "https://zh.wikisource.org/zh-hans/明史/卷113", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱厚照": {
+      "relations": [
+        {"label": "父", "value": "明孝宗朱祐樘"},
+        {"label": "母", "value": "孝康张皇后"},
+        {"label": "前任", "value": "父明孝宗朱祐樘"}
+      ],
+      "branch": "孝宗嫡长子一支",
+      "succession": "1505年以皇太子身份承父即位；1521年无子而崩，使直系继承中断",
+      "confidence": "高",
+      "boundary": "父母、太子与无嗣事实明确；其无嗣直接开启旁支选择。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷15", "https://zh.wikisource.org/zh-hans/明史/卷114", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱厚熜": {
+      "relations": [
+        {"label": "父", "value": "兴献王朱祐杬（后追尊明睿宗）"},
+        {"label": "母", "value": "蒋氏（兴献王妃，嘉靖朝尊皇太后）"},
+        {"label": "祖父", "value": "明宪宗朱见深"},
+        {"label": "伯父", "value": "明孝宗朱祐樘"},
+        {"label": "前任", "value": "堂兄明武宗朱厚照（无嗣）"}
+      ],
+      "branch": "宪宗第四子兴献王一支",
+      "succession": "1521年由兴王入继大统，皇位由孝宗一支转入兴献王一支",
+      "confidence": "高",
+      "boundary": "宪宗之孙、兴献王之子及武宗无嗣后从兴邸迎立均有明确记载；继统是否必须同时继嗣，正是大礼议的争论核心。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷17", "https://zh.wikisource.org/zh-hans/明史/卷115", "https://www.dpm.org.cn/court/lineage/226241.html"]
+    },
+    "朱载坖": {
+      "relations": [
+        {"label": "父", "value": "明世宗朱厚熜"},
+        {"label": "母", "value": "孝恪杜太后"},
+        {"label": "前任", "value": "父明世宗朱厚熜"}
+      ],
+      "branch": "世宗第三子裕王一支",
+      "succession": "兄长庄敬太子朱载壡早逝后成为事实继承人，1567年承父即位",
+      "confidence": "高",
+      "boundary": "父母与兄长早逝后的继承次序明确；长期未正式册立太子的政治背景另需结合嘉靖朝储位制度理解。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷19", "https://zh.wikisource.org/zh-hans/明史/卷114", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱翊钧": {
+      "relations": [
+        {"label": "父", "value": "明穆宗朱载坖"},
+        {"label": "母", "value": "孝定李太后"},
+        {"label": "前任", "value": "父明穆宗朱载坖"}
+      ],
+      "branch": "穆宗第三子一支",
+      "succession": "兄长早夭后被立为太子，1572年约九岁时承父即位",
+      "confidence": "高",
+      "boundary": "父母、储位与幼年继位关系有本纪和后妃列传支持。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷20", "https://zh.wikisource.org/zh-hans/明史/卷114", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱常洛": {
+      "relations": [
+        {"label": "父", "value": "明神宗朱翊钧"},
+        {"label": "母", "value": "孝靖王太后"},
+        {"label": "前任", "value": "父明神宗朱翊钧"}
+      ],
+      "branch": "神宗长子一支",
+      "succession": "经历长期国本之争后于1601年被立为太子，1620年承父即位",
+      "confidence": "高",
+      "boundary": "生母、长子身份和正式册立时间明确；围绕易储意图的判断需与实际诏令区分。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷21", "https://zh.wikisource.org/zh-hans/明史/卷114", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱由校": {
+      "relations": [
+        {"label": "父", "value": "明光宗朱常洛"},
+        {"label": "母", "value": "孝和王太后"},
+        {"label": "前任", "value": "父明光宗朱常洛"}
+      ],
+      "branch": "光宗长子一支",
+      "succession": "1620年光宗在位约一月去世后，仓促完成移宫与即位程序",
+      "confidence": "高",
+      "boundary": "父母与长子身份明确；即位过程必须结合移宫案理解，不能写成毫无争议的日常父子相承。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷22", "https://zh.wikisource.org/zh-hans/明史/卷114", "https://www.dpm.org.cn/court/lineages.html"]
+    },
+    "朱由检": {
+      "relations": [
+        {"label": "父", "value": "明光宗朱常洛"},
+        {"label": "母", "value": "孝纯刘太后"},
+        {"label": "前任", "value": "异母兄明熹宗朱由校（无子）"}
+      ],
+      "branch": "光宗第五子信王一支",
+      "succession": "1627年熹宗无子而崩，信王以兄终弟及方式继位",
+      "confidence": "高",
+      "boundary": "父母、兄弟关系与熹宗无子后入继均有明确记录。",
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷23", "https://zh.wikisource.org/zh-hans/明史/卷114", "https://www.dpm.org.cn/court/lineages.html"]
+    }
+  }
+}
