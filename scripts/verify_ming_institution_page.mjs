@@ -99,6 +99,18 @@ try {
   expect(topic.visibleNodes.includes('transmission_office') && topic.visibleNodes.includes('directorate_ceremonial'), 'document-flow view must show its core institutions');
 
   await page.locator('.view-button[data-view="justice_vs_imperial_prison"]').click();
+  const judicialCollisions = [];
+  for (const viewport of [{width: 1440, height: 1000}, {width: 1024, height: 768}]) {
+    await page.setViewportSize(viewport);
+    const boxes = await page.evaluate(() => ['court_judicial_review', 'three_judicial_offices'].map(id =>
+      document.querySelector(`.institution-node[data-id="${id}"]`)?.getBoundingClientRect().toJSON()
+    ));
+    const [court, offices] = boxes;
+    const overlaps = court && offices && court.left < offices.right && court.right > offices.left && court.top < offices.bottom && court.bottom > offices.top;
+    if (overlaps) judicialCollisions.push(`${viewport.width}×${viewport.height}`);
+  }
+  expect(judicialCollisions.length === 0, `court of judicial review and three judicial offices must not overlap at desktop widths; collisions: ${judicialCollisions.join(', ')}`);
+  await page.setViewportSize({width: 1440, height: 1000});
   const before = await page.locator('.graph-stage').boundingBox();
   const clickedNode = page.locator('.institution-node[data-id="embroidered_uniform_guard"]');
   await clickedNode.click();
