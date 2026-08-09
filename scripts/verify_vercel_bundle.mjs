@@ -104,6 +104,9 @@ if (server) await new Promise(resolve => server.close(resolve));
 
 const audit = {
   pages,
+  topLevelInstitutionNavigation: pages
+    .filter(record => ['index.html','people.html','events.html','exhibitions.html'].includes(record.file))
+    .map(record => ({file: record.file, hasInstitutionHall: record.navLabels.includes('制度馆')})),
   yao,
   yangJisheng,
   mobile,
@@ -111,6 +114,9 @@ const audit = {
   pass: pages.length === files.length
     && pages.every(record => record.title && record.broken === 0 && record.bodyWidth === record.viewport)
     && pages.every(record => record.navLabels.includes('专题展'))
+    && ['index.html','people.html','events.html','exhibitions.html'].every(file =>
+      pages.find(record => record.file === file)?.navLabels.includes('制度馆')
+    )
     && pages.find(record => record.file === 'index.html')?.exhibitionCards === 6
     && yao.open && yao.loaded && yao.src?.endsWith('.webp')
     && yangJisheng.open && yangJisheng.name === '杨继盛' && yangJisheng.portraitLoaded

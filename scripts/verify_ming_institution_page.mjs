@@ -61,6 +61,45 @@ try {
   expect(initial.heroHeight >= 500 && initial.heroHeight <= 780, 'desktop hero must occupy the intended editorial range');
   expect(initial.emperorBox && initial.cabinetBox && Math.abs((initial.emperorBox.x + initial.emperorBox.width / 2) - (initial.cabinetBox.x + initial.cabinetBox.width / 2)) < 8, 'emperor and cabinet must share the central axis');
   expect(initial.bodyWidth <= initial.viewport, 'desktop page must not overflow horizontally');
+  const initialOverviewLabels = await page.evaluate(() => [...document.querySelectorAll('.relation-label:not([hidden])')]
+    .filter(label => {
+      const box = label.getBoundingClientRect();
+      return box.width > 0 && box.height > 0;
+    }).length);
+  expect(initialOverviewLabels === 0, `overview relation labels must remain hidden until a node is focused; visible labels: ${initialOverviewLabels}`);
+
+  const phaseNodeCollisions = [];
+  const phaseDefaults = await page.evaluate(() => {
+    const data = JSON.parse(document.querySelector('#institutionGraphData').textContent);
+    return data.phases.map(phase => ({id: phase.id, year: phase.default_year}));
+  });
+  for (const viewport of [{width: 1440, height: 1000}, {width: 1024, height: 768}]) {
+    await page.setViewportSize(viewport);
+    for (const phase of phaseDefaults) {
+      await page.evaluate(year => setInstitutionYear(year), phase.year);
+      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => resolve())));
+      const collisions = await page.evaluate(() => {
+        const visible = [...document.querySelectorAll('.institution-node:not([hidden])')].map(node => ({
+          id: node.dataset.id,
+          box: node.getBoundingClientRect().toJSON()
+        }));
+        const pairs = [];
+        for (let leftIndex = 0; leftIndex < visible.length; leftIndex += 1) {
+          for (let rightIndex = leftIndex + 1; rightIndex < visible.length; rightIndex += 1) {
+            const left = visible[leftIndex];
+            const right = visible[rightIndex];
+            if (left.box.left < right.box.right && left.box.right > right.box.left && left.box.top < right.box.bottom && left.box.bottom > right.box.top) {
+              pairs.push(`${left.id}/${right.id}`);
+            }
+          }
+        }
+        return pairs;
+      });
+      phaseNodeCollisions.push(...collisions.map(pair => `${pair}@${phase.year}/${viewport.width}×${viewport.height}`));
+    }
+  }
+  expect(phaseNodeCollisions.length === 0, `visible institution nodes must not overlap across phase defaults and desktop widths; collisions: ${phaseNodeCollisions.join(', ')}`);
+  await page.setViewportSize({width: 1440, height: 1000});
 
   await page.locator('.phase-button[data-phase="early_hongwu"]').click();
   const early = await page.evaluate(() => ({
@@ -187,6 +226,28 @@ try {
   expect(judicialEndpointFailures.length === 0, `judicial relation endpoints must stay attached after node nudges; failures: ${judicialEndpointFailures.join(', ')}`);
   expect(judicialLabelCollisions.length === 0, `judicial relation labels must not overlap visible institution nodes; collisions: ${judicialLabelCollisions.join(', ')}`);
   expect(visibleNodeCollisions.length === 0, `visible institution nodes must not overlap at desktop widths; collisions: ${visibleNodeCollisions.join(', ')}`);
+
+  await page.setViewportSize({width: 1440, height: 1000});
+  await page.evaluate(() => setInstitutionYear(1600));
+  await page.locator('.view-button[data-view="overview"]').click();
+  await page.locator('.institution-node[data-id="emperor"]').dispatchEvent('click');
+  const focusedOverviewLabels = await page.evaluate(() => {
+    const visibleNodes = [...document.querySelectorAll('.institution-node:not([hidden])')].map(node => ({
+      id: node.dataset.id,
+      box: node.getBoundingClientRect()
+    }));
+    const labels = [...document.querySelectorAll('.relation-label:not([hidden])')]
+      .map(label => ({id: label.dataset.id, box: label.getBoundingClientRect()}))
+      .filter(label => label.box.width > 0 && label.box.height > 0);
+    const collisions = labels.flatMap(label => visibleNodes
+      .filter(node => label.box.left < node.box.right && label.box.right > node.box.left && label.box.top < node.box.bottom && label.box.bottom > node.box.top)
+      .map(node => `${label.id}/${node.id}`));
+    return {count: labels.length, collisions};
+  });
+  expect(focusedOverviewLabels.count > 0, 'overview focus must reveal adjacent relation labels');
+  expect(focusedOverviewLabels.collisions.length === 0, `focused overview relation labels must avoid every visible institution node; collisions: ${focusedOverviewLabels.collisions.join(', ')}`);
+  await page.keyboard.press('Escape');
+
   await page.setViewportSize({width: 1440, height: 1000});
   const before = await page.locator('.graph-stage').boundingBox();
   const clickedNode = page.locator('.institution-node[data-id="embroidered_uniform_guard"]');
@@ -216,6 +277,53 @@ try {
   expect(linkedPeople.includes('蒋瓛'), '锦衣卫 detail must link 蒋瓛');
   expect(linkedPeople.includes('田尔耕'), '锦衣卫 detail must link 田尔耕');
   expect(linkedPeople.includes('钱宁'), '锦衣卫 detail must link 钱宁');
+
+  await clickedNode.dispatchEvent('click');
+  await page.locator('.imperial-axis').dispatchEvent('click');
+  expect(await drawer.getAttribute('aria-hidden') === 'false', 'clicking a graph child must not close the institution drawer');
+  await page.locator('.graph-stage').dispatchEvent('click');
+  const blankCloseState = await page.evaluate(() => ({
+    drawerHidden: document.querySelector('.institution-drawer')?.hidden,
+    drawerOpenClass: document.body.classList.contains('drawer-open'),
+    focusedNodes: document.querySelectorAll('.institution-node.is-focused').length,
+    dimmedNodes: document.querySelectorAll('.institution-node.is-dimmed').length,
+    focusedRelations: document.querySelectorAll('.relation-path.is-focused').length
+  }));
+  expect(blankCloseState.drawerHidden === true, 'clicking true graph-stage whitespace must close the institution drawer');
+  expect(!blankCloseState.drawerOpenClass, 'blank-stage close must clear the drawer-open body state');
+  expect(blankCloseState.focusedNodes === 0 && blankCloseState.dimmedNodes === 0 && blankCloseState.focusedRelations === 0, `blank-stage close must clear selected-node focus and dimming; state: ${JSON.stringify(blankCloseState)}`);
+
+  const desktopEmperor = page.locator('.institution-node[data-id="emperor"]');
+  await desktopEmperor.dispatchEvent('click');
+  await page.setViewportSize({width: 390, height: 844});
+  await page.keyboard.press('Escape');
+  const resizeFocus = await page.evaluate(() => {
+    const active = document.activeElement;
+    const mobile = document.querySelector('.mobile-node[data-id="emperor"]');
+    const box = active?.getBoundingClientRect();
+    return {
+      currentMobileTrigger: active === mobile,
+      activeVisible: Boolean(box && box.width > 0 && box.height > 0 && getComputedStyle(active).visibility !== 'hidden')
+    };
+  });
+  expect(resizeFocus.currentMobileTrigger && resizeFocus.activeVisible, 'desktop-to-mobile drawer close must focus the current visible mobile trigger');
+
+  const mobileEmperor = page.locator('.mobile-node[data-id="emperor"]');
+  await mobileEmperor.dispatchEvent('click');
+  await page.evaluate(() => setInstitutionYear(1600));
+  await page.keyboard.press('Escape');
+  const rebuiltMobileFocus = await page.evaluate(() => {
+    const active = document.activeElement;
+    const current = document.querySelector('.mobile-node[data-id="emperor"]');
+    const box = active?.getBoundingClientRect();
+    return {
+      currentTrigger: active === current,
+      connected: Boolean(active?.isConnected),
+      visible: Boolean(box && box.width > 0 && box.height > 0 && getComputedStyle(active).visibility !== 'hidden')
+    };
+  });
+  expect(rebuiltMobileFocus.currentTrigger && rebuiltMobileFocus.connected && rebuiltMobileFocus.visible, 'mobile drawer close after renderMobile rebuild must focus the current connected mobile trigger');
+  await page.setViewportSize({width: 1440, height: 1000});
 
   if (!failures.length) {
     await page.screenshot({path: path.join(root, '制度馆_桌面预览.png'), fullPage: false});
