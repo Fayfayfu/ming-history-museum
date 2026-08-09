@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 .vercel/
+.superpowers/
 dist/
 
 # Generated pages and QA screenshots; source data, scripts and root assets remain versioned.
