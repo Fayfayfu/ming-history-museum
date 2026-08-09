@@ -56,6 +56,12 @@ const inspectDesktop=async(width,height)=>{
     const backgroundOf=element=>{let node=element;while(node){const color=rgba(getComputedStyle(node).backgroundColor);if(color[3]>.95)return color;node=node.parentElement}return rgba('white')};
     const contrastSelectors=['.palace-intro-copy p','.canonical-institution span','.canonical-institution small','.room-trigger b','.room-trigger span'];
     const textContrasts=contrastSelectors.map(selector=>{const element=document.querySelector(selector);return element?contrast(rgba(getComputedStyle(element).color),backgroundOf(element)):99});
+    const historyCopySelectors=['.canonical-institution small','.axis-cluster>header span','.subinstitution p','.nested-groups span','.boundary-slip','.role-plaque span'];
+    const historyFontSizes=historyCopySelectors.flatMap(selector=>[...document.querySelectorAll(selector)].map(element=>parseFloat(getComputedStyle(element).fontSize)));
+    const ministryGroup=document.querySelector('.six-ministries-composition');
+    const ministryMembers=[...document.querySelectorAll('[data-composed-of="six_ministries"]')];
+    const transmission=document.querySelector('.canonical-institution[data-id="transmission_office"]');
+    const ministryParent=document.querySelector('.canonical-institution[data-id="six_ministries"]');
     return {
       nodes:embedded.institutions?.length,relations:embedded.relations?.length,
       axis:document.querySelectorAll('.power-axis').length,
@@ -67,6 +73,14 @@ const inspectDesktop=async(width,height)=>{
       bodyOverflow:document.body.scrollWidth>innerWidth,
       collisions,endpointMisses,lineWidths,distorted:transforms.length,
       minTextContrast:Math.min(...textContrasts),
+      minHistoryFontSize:Math.min(...historyFontSizes),
+      sixMinistryGroup:Boolean(ministryGroup),
+      sixMinistryMemberCount:ministryMembers.length,
+      transmissionOutsideGroup:Boolean(transmission&&ministryGroup&&!ministryGroup.contains(transmission)),
+      sixMinistryLabel:ministryGroup?.querySelector('.composition-label')?.textContent.trim()||'',
+      groupStripeWidth:ministryGroup?parseFloat(getComputedStyle(ministryGroup).borderLeftWidth):0,
+      memberStripeWidth:ministryMembers[0]?parseFloat(getComputedStyle(ministryMembers[0]).borderLeftWidth):0,
+      parentNodeType:ministryParent?.dataset.nodeType||'',
       desktopDisplay:getComputedStyle(document.querySelector('.palace-stage')).display,
       mobileDisplay:getComputedStyle(document.querySelector('.mobile-room-chapters')).display
     };
@@ -89,6 +103,13 @@ for(const [width,height] of [[1440,1000],[1024,768],[1800,1000]]){
   expect(missed.length===0,`${width}: relation endpoints must touch measured card borders (${missed.slice(0,3).map(item=>`${item.id}:${item.distance.toFixed(1)}px[y=${item.y1},svg=${item.svgTop},node=${item.nodeTop}]`).join(', ')})`);
   expect(state.lineWidths.length>0&&state.lineWidths.every(width=>width>=2),`${width}: normal relation lines must be at least 2px`);
   expect(state.minTextContrast>=4.5,`${width}: ordinary text contrast must be at least 4.5:1 (got ${state.minTextContrast.toFixed(2)})`);
+  expect(state.minHistoryFontSize>=12,`${width}: historical explanatory copy must be at least 12px (got ${state.minHistoryFontSize}px)`);
+  expect(state.sixMinistryGroup,`${width}: six ministries must render as an explicit composition group`);
+  expect(state.sixMinistryMemberCount===6,`${width}: six-ministry composition must contain exactly six parallel ministries`);
+  expect(state.transmissionOutsideGroup,`${width}: Transmission Office must remain outside the six-ministry composition`);
+  expect(state.sixMinistryLabel.includes('合称')&&state.sixMinistryLabel.includes('并列'),`${width}: composition must state that 六部 is a collective term for parallel ministries`);
+  expect(state.groupStripeWidth>state.memberStripeWidth,`${width}: composition stripe must be thicker than member stripes`);
+  expect(state.parentNodeType==='group',`${width}: 六部 must retain group semantics rather than become a superior institution`);
   expect(state.distorted===0,`${width}: Chinese text must not be horizontally distorted`);
   expect(state.desktopDisplay!=='none'&&state.mobileDisplay==='none',`${width}: desktop must use the palace stage only`);
 }
@@ -128,6 +149,7 @@ expect(interaction.year===1600,'global year state must return to 1600');
 await page.goto(url,{waitUntil:'domcontentloaded'});
 await page.locator('.room-approach').scrollIntoViewIfNeeded();
 await page.screenshot({path:path.join(root,'制度馆C版_桌面预览.png'),fullPage:false});
+await page.locator('.axis-cluster[data-system="civil_administration"]').screenshot({path:path.join(root,'制度馆C版_六部组成关系.png')});
 
 await page.setViewportSize({width:390,height:844});
 await page.goto(url,{waitUntil:'domcontentloaded'});
@@ -142,13 +164,15 @@ const mobile=await page.evaluate(async()=>{
   const card=chapters.querySelector('[data-id="directorate_ceremonial"]');
   card.click();await new Promise(resolve=>requestAnimationFrame(resolve));
   const drawer=document.querySelector('.institution-dossier').getBoundingClientRect();
-  return {stage,chapterDisplay,chapters:chapters.querySelectorAll('.mobile-room-chapter').length,expanded,drawerRatio:drawer.height/innerHeight,overflow:document.body.scrollWidth>innerWidth};
+  const historyCopy=[...document.querySelectorAll('.mobile-institution small,.mobile-room-body details p,.mobile-sublist span')];
+  return {stage,chapterDisplay,chapters:chapters.querySelectorAll('.mobile-room-chapter').length,expanded,drawerRatio:drawer.height/innerHeight,overflow:document.body.scrollWidth>innerWidth,minHistoryFontSize:Math.min(...historyCopy.map(element=>parseFloat(getComputedStyle(element).fontSize)))};
 });
 expect(mobile.stage==='none'&&mobile.chapterDisplay!=='none','mobile must replace freeform stage with narrative chapters');
 expect(mobile.chapters===5,'mobile must expose five room chapters');
 expect(mobile.expanded,'mobile room chapter must expand inline');
 expect(mobile.drawerRatio<=.82,'mobile dossier must not exceed 82% of viewport height');
 expect(!mobile.overflow,'mobile page must not overflow horizontally');
+expect(mobile.minHistoryFontSize>=12,`mobile historical explanatory copy must be at least 12px (got ${mobile.minHistoryFontSize}px)`);
 
 const reduced=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
 await reduced.goto(url,{waitUntil:'domcontentloaded'});
