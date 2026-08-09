@@ -16,7 +16,7 @@ function renderHead(){
 .atlas-shell{display:grid;grid-template-columns:176px minmax(0,1fr);min-height:980px;border-top:1px solid var(--line)}.topic-rail{position:sticky;top:72px;align-self:start;display:grid;background:#171511;border-right:1px solid var(--line)}.view-button{min-height:86px;padding:18px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:12px;line-height:1.45}.view-button:before{content:attr(data-index);display:block;margin-bottom:9px;color:var(--gold);font:8px/1 ui-monospace,monospace}.view-button:hover,.view-button[aria-pressed="true"]{background:#27231d;color:#fff;box-shadow:inset 3px 0 var(--red2)}.atlas-field{min-width:0}.view-band{min-height:132px;display:grid;grid-template-columns:1fr minmax(280px,.7fr);gap:32px;align-items:end;padding:28px clamp(24px,4vw,62px);border-bottom:1px solid var(--line);background:#191713}.view-band h2{margin:0;font-size:clamp(35px,4vw,59px);line-height:1}.view-band p{margin:0;color:var(--muted);font-size:13px;line-height:1.75}.graph-stage{height:900px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 0,rgba(184,145,72,.07),transparent 43%),#11100d}.imperial-axis{position:absolute;left:50%;top:3%;bottom:4%;width:1px;background:linear-gradient(transparent,var(--gold) 12%,rgba(181,138,60,.16) 85%,transparent)}.imperial-axis:before{content:"皇权中轴";position:absolute;top:6%;left:10px;white-space:nowrap;color:rgba(181,138,60,.56);font:8px/1 ui-monospace,monospace;letter-spacing:.16em}.relation-layer{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}.relation-layer path{fill:none;stroke-width:.24;opacity:.48;vector-effect:non-scaling-stroke}.relation-layer path.document_flow{stroke:#d5ae58;stroke-dasharray:1.2 .8}.relation-layer path.direct_imperial_control{stroke:#df7b62}.relation-layer path.formal_subordination{stroke:#9aa8b5}.relation-layer path.supervision_review{stroke:#c16053;stroke-dasharray:.6 .6}.relation-layer path.special_imperial_mandate{stroke:#9a6c99;stroke-width:.34}.relation-layer path.military_coordination{stroke:#718f9f;stroke-dasharray:1.6 .6}.relation-layer path.operational_coordination{stroke:#70967a}.institution-node{position:absolute;left:calc(var(--x)*1% + var(--nudge-x,0px));top:calc(var(--y)*1%);transform:translate(-50%,-50%);transition:opacity .22s ease,transform .22s ease,border-color .22s ease;z-index:4;width:clamp(94px,9vw,132px);min-height:54px;padding:9px 10px;border:1px solid rgba(197,160,87,.34);background:rgba(21,20,16,.94);color:var(--paper);text-align:left;cursor:pointer;box-shadow:0 7px 22px rgba(0,0,0,.24)}.institution-node[data-id="court_judicial_review"]{--nudge-x:-28px}.institution-node[data-id="three_judicial_offices"]{--nudge-x:28px}.institution-node span{display:block;font-size:13px;font-weight:700;line-height:1.25}.institution-node small{display:block;margin-top:6px;color:var(--muted);font:8px/1 ui-monospace,monospace}.institution-node[data-region="axis"]{border-color:rgba(197,160,87,.8)}.institution-node[data-region="supervision"]{border-color:rgba(185,91,78,.64)}.institution-node[data-region="inner"]{border-color:rgba(134,103,134,.72)}.institution-node[data-region="military"]{border-color:rgba(110,135,146,.66)}.institution-node[data-region="local"]{border-color:rgba(111,146,120,.66)}.institution-node:hover,.institution-node:focus-visible{outline:0;background:#2b2821;box-shadow:0 0 0 2px rgba(213,84,66,.45)}.institution-node.is-dimmed{opacity:.18}.institution-node.is-focused{z-index:8;transform:translate(-50%,-50%) scale(1.045);border-color:var(--red2)}.relation-legend{display:grid;grid-template-columns:repeat(7,1fr);list-style:none;padding:0;margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.relation-legend li{padding:13px 10px;border-right:1px solid var(--line);font-size:10px;color:var(--muted)}.relation-legend li:last-child{border-right:0}.relation-legend i{display:block;width:34px;height:2px;margin-bottom:9px;background:var(--paper)}.relation-legend li:nth-child(2) i{background:var(--red2)}.relation-legend li:nth-child(3) i{background:#9aa8b5}.relation-legend li:nth-child(4) i{background:var(--justice)}.relation-legend li:nth-child(5) i{background:var(--inner)}.relation-legend li:nth-child(6) i{background:var(--military)}.relation-legend li:nth-child(7) i{background:var(--local)}.mobile-structure{display:none}.method-band{display:grid;grid-template-columns:.65fr 1.35fr;gap:42px;padding:50px clamp(24px,4vw,62px);border-bottom:1px solid var(--line)}.method-band h2{margin:0;font-size:28px}.method-band p{margin:0;color:var(--muted);font-size:13px;line-height:1.85}.method-band p+p{grid-column:2}.footer{padding:35px clamp(24px,6vw,100px);display:flex;justify-content:space-between;color:#70695c;font:10px/1.5 ui-monospace,monospace;border-top:1px solid var(--line)}
 .institution-drawer{position:fixed;z-index:90;right:0;top:72px;bottom:0;width:min(430px,92vw);padding:34px;background:var(--paper);color:var(--ink);box-shadow:-24px 0 60px rgba(0,0,0,.38);overflow:auto;transition:transform .25s ease}.drawer-close{float:right;padding:8px 10px;border:1px solid #9c8d71;background:transparent;color:var(--ink);cursor:pointer}.institution-drawer h2{clear:both;margin:55px 0 17px;font-size:44px}.institution-drawer>p{font-size:13px;line-height:1.8;color:#5f584c}.institution-drawer #detailState{display:inline-block;padding:6px 8px;border:1px solid #9c8d71;font:700 9px/1.4 ui-monospace,monospace}.institution-drawer #detailBoundary{padding:13px;border-left:3px solid var(--red);background:#d9cdb5}.institution-drawer #detailConfidence{color:var(--red);font:700 10px/1.6 ui-monospace,monospace}.institution-drawer #detailPeople{display:flex;gap:6px;flex-wrap:wrap;margin:24px 0}.institution-drawer #detailPeople a{padding:7px 9px;border:1px solid #a69a82;color:#7f2f27;text-decoration:none;font-size:11px}.institution-drawer #detailSources{list-style:none;padding:0;margin:0}.institution-drawer #detailSources a{display:grid;grid-template-columns:1fr auto;gap:8px;padding:9px 0;border-bottom:1px solid #c8bda6;color:#4f493f;text-decoration:none;font-size:11px}[hidden]{display:none!important}
 @media(max-width:1080px){.museum-links a{padding:0 10px}.institution-node{width:100px}.view-band{grid-template-columns:1fr}.view-band p{max-width:650px}}
-@media(max-width:800px){.museum-nav{height:auto;min-height:68px;padding:8px 14px;align-items:flex-start}.museum-brand small{display:none}.museum-links{align-self:stretch}.museum-links a{padding:0 8px;font-size:11px}.museum-links a:last-child{display:none}.hall-hero{grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:35px;padding:65px 20px 25px}.hero-title h1{font-size:67px}.hero-year{justify-self:start;border-left:0;border-top:1px solid var(--gold);padding:20px 0;width:100%}.hero-year output{font-size:72px}.dynasty-ruler{grid-template-columns:1fr 1fr}.atlas-shell{display:block}.topic-rail{position:static;display:flex;overflow:auto}.view-button{min-width:142px}.view-band{padding:28px 20px}.graph-stage{display:none}.mobile-structure{display:block;padding:18px 16px 48px}.mobile-system-group{border:1px solid var(--line);margin-bottom:10px}.mobile-system-head{display:flex;align-items:center;justify-content:space-between;padding:14px;background:#211f19}.mobile-system-head b{font-size:16px}.mobile-system-head span{font:9px/1 ui-monospace,monospace;color:var(--muted)}.mobile-node-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}.mobile-node{border:0;background:#171611;color:var(--paper);min-height:58px;padding:12px;text-align:left;font-size:13px}.mobile-node small{display:block;margin-top:6px;color:var(--muted);font:8px/1 ui-monospace,monospace}.relation-legend{grid-template-columns:1fr 1fr}.relation-legend li{border-bottom:1px solid var(--line)}.method-band{grid-template-columns:1fr;padding:38px 20px}.method-band p+p{grid-column:auto}.institution-drawer{top:auto;width:100%;height:min(88svh,760px)}.footer{display:block}.footer span{display:block;margin-top:8px}}
+@media(max-width:800px){.museum-nav{height:auto;min-height:68px;padding:8px 14px;align-items:flex-start}.museum-brand small{display:none}.museum-links{align-self:stretch}.museum-links a{padding:0 8px;font-size:11px}.museum-links a:last-child{display:none}.hall-hero{grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:35px;padding:65px 20px 25px}.hero-title h1{font-size:67px}.hero-year{justify-self:start;border-left:0;border-top:1px solid var(--gold);padding:20px 0;width:100%}.hero-year output{font-size:72px}.dynasty-ruler{grid-template-columns:1fr 1fr}.atlas-shell{display:block}.topic-rail{position:static;display:flex;overflow:auto}.view-button{min-width:142px}.view-band{padding:28px 20px}.graph-stage{display:none}.mobile-structure{display:block;padding:18px 16px 48px}.mobile-system-group{border:1px solid var(--line);margin-bottom:10px}.mobile-system-head{display:flex;align-items:center;justify-content:space-between;padding:14px;background:#211f19}.mobile-system-head b{font-size:16px}.mobile-system-head span{font:9px/1 ui-monospace,monospace;color:var(--muted)}.mobile-node-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}.mobile-node{border:0;background:#171611;color:var(--paper);min-height:58px;padding:12px;text-align:left;font-size:13px}.mobile-node small{display:block;margin-top:6px;color:var(--muted);font:8px/1 ui-monospace,monospace}.mobile-relation-list{list-style:none;margin:0;padding:10px 14px;border-top:1px solid var(--line);color:var(--muted);font-size:10px;line-height:1.55}.mobile-relation-list li+li{margin-top:5px}.relation-legend{grid-template-columns:1fr 1fr}.relation-legend li{border-bottom:1px solid var(--line)}.method-band{grid-template-columns:1fr;padding:38px 20px}.method-band p+p{grid-column:auto}.institution-drawer{top:auto;width:100%;height:min(88svh,760px)}.footer{display:block}.footer span{display:block;margin-top:8px}}
 @media(max-width:470px){.museum-links a{padding:0 5px;font-size:10px}.museum-links a[href="exhibitions.html"]{display:none}.hero-title h1{font-size:58px}.phase-button{padding:12px 8px;font-size:11px}.mobile-node-list{grid-template-columns:1fr}.relation-legend{grid-template-columns:1fr}.relation-legend li{border-right:0}}
 .relation-layer path.is-focused{opacity:1;stroke-width:.55}.relation-label{fill:#d6c9ae;stroke:#11100d;stroke-width:.28;paint-order:stroke;font:1.25px/1 sans-serif;text-anchor:middle}.institution-node.is-context{opacity:.48}.institution-node.is-dimmed{opacity:.18}
 @media(prefers-reduced-motion:reduce){.institution-node,.institution-drawer{transition-duration:0s!important;animation:none!important}html{scroll-behavior:auto}}
@@ -149,7 +149,16 @@ function renderMobile(){
       button.addEventListener('click',()=>openDrawer(node.id,button));
       list.append(button);
     }
-    section.append(head,list);
+    const relationList=document.createElement('ul');
+    relationList.className='mobile-relation-list';
+    relationList.setAttribute('aria-label','当前关键关系');
+    const relations=currentRelations().filter(relation=>institutionById.get(relation.from).system===system.id||institutionById.get(relation.to).system===system.id).slice(0,3);
+    for(const relation of relations){
+      const item=document.createElement('li');
+      item.textContent=relation.label;
+      relationList.append(item);
+    }
+    section.append(head,list,relationList);
     root.append(section);
   }
 }
@@ -229,13 +238,13 @@ function openDrawer(id,trigger=document.activeElement){
   setFocus(id);
 }
 
-function closeDrawer(){
+function closeDrawer(focusTarget=state.lastTrigger){
   drawer.setAttribute('aria-hidden','true');
   drawer.hidden=true;
   document.body.classList.remove('drawer-open');
   state.selectedNode=null;
   setFocus(state.hoveredNode);
-  state.lastTrigger?.focus?.();
+  focusTarget?.focus?.();
 }
 
 function renderAtlas(){
@@ -252,7 +261,7 @@ function renderAtlas(){
   document.querySelectorAll('.view-button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===state.view)));
   if(state.selectedNode&&!activeAt(institutionById.get(state.selectedNode),state.year)){
     state.hoveredNode=null;
-    closeDrawer();
+    closeDrawer(document.getElementById('yearRange'));
   }
   renderNodes();
   renderRelations();
@@ -282,7 +291,14 @@ document.querySelectorAll('.institution-node').forEach(button=>{
   });
   button.addEventListener('click',()=>openDrawer(button.dataset.id,button));
 });
-drawer.querySelector('.drawer-close').addEventListener('click',closeDrawer);
+drawer.querySelector('.drawer-close').addEventListener('click',()=>closeDrawer());
+drawer.addEventListener('keydown',event=>{
+  if(event.key!=='Tab')return;
+  const focusable=[...drawer.querySelectorAll('button:not([disabled]),a[href]')];
+  const first=focusable[0],last=focusable.at(-1);
+  if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+  else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+});
 addEventListener('keydown',event=>{if(event.key==='Escape'&&!drawer.hidden)closeDrawer();});
 renderAtlas();`;
 }

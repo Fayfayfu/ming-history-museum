@@ -111,15 +111,24 @@ try {
 
   await page.locator('.view-button[data-view="justice_vs_imperial_prison"]').click();
   const judicialCollisions = [];
+  const judicialVisibilityFailures = [];
   for (const viewport of [{width: 1440, height: 1000}, {width: 1024, height: 768}]) {
     await page.setViewportSize(viewport);
-    const boxes = await page.evaluate(() => ['court_judicial_review', 'three_judicial_offices'].map(id =>
-      document.querySelector(`.institution-node[data-id="${id}"]`)?.getBoundingClientRect().toJSON()
-    ));
+    const nodes = await page.evaluate(() => ['court_judicial_review', 'three_judicial_offices'].map(id => {
+      const element = document.querySelector(`.institution-node[data-id="${id}"]`);
+      return {id, hidden: element?.hidden ?? true, box: element?.getBoundingClientRect().toJSON() ?? null};
+    }));
+    for (const node of nodes) {
+      if (node.hidden || !node.box || node.box.width <= 0 || node.box.height <= 0) {
+        judicialVisibilityFailures.push(`${node.id}@${viewport.width}×${viewport.height}`);
+      }
+    }
+    const boxes = nodes.map(node => node.box);
     const [court, offices] = boxes;
     const overlaps = court && offices && court.left < offices.right && court.right > offices.left && court.top < offices.bottom && court.bottom > offices.top;
     if (overlaps) judicialCollisions.push(`${viewport.width}×${viewport.height}`);
   }
+  expect(judicialVisibilityFailures.length === 0, `Dali Temple and Three Judicial Offices must both be visible with non-zero rectangles before collision checks; failures: ${judicialVisibilityFailures.join(', ')}`);
   expect(judicialCollisions.length === 0, `court of judicial review and three judicial offices must not overlap at desktop widths; collisions: ${judicialCollisions.join(', ')}`);
   await page.setViewportSize({width: 1440, height: 1000});
   const before = await page.locator('.graph-stage').boundingBox();
@@ -129,6 +138,9 @@ try {
   const drawerExists = await drawer.count() === 1;
   expect(drawerExists, 'institution dossier drawer must exist for node focus');
   if (drawerExists) {
+    expect(await drawer.getAttribute('role') === 'dialog', 'institution dossier must expose dialog semantics');
+    expect(await drawer.getAttribute('aria-modal') === 'true', 'institution dossier must be marked modal');
+    expect(await drawer.getAttribute('aria-labelledby') === 'detailTitle', 'institution dossier must be labelled by its visible title');
     expect(await drawer.getAttribute('aria-hidden') === 'false', 'node click must open dossier drawer');
     expect(await drawer.evaluate(node => node === document.activeElement || node.contains(document.activeElement)), 'node click must move focus into dossier drawer');
   }
@@ -184,6 +196,72 @@ try {
   expect(mobileDrawerExists, 'mobile institution selection must expose dossier drawer');
   const mobileDrawerBox = mobileDrawerExists ? await mobileDrawer.boundingBox() : null;
   expect((mobileDrawerBox?.height ?? 0) >= 844 * .75, 'mobile dossier drawer must reach at least 75% of viewport height');
+  const mobileRelations = await page.evaluate(() => {
+    const graph = JSON.parse(document.querySelector('#institutionGraphData').textContent);
+    const year = Number(document.querySelector('#yearValue').textContent);
+    const viewId = document.querySelector('.view-button[aria-pressed="true"]')?.dataset.view;
+    const view = graph.views.find(item => item.id === viewId);
+    const institutionById = new Map(graph.institutions.map(item => [item.id, item]));
+    const activeAt = item => item.active_periods.some(period => year >= period.start && year <= period.end);
+    const viewRelationIds = new Set(view?.relation_ids ?? []);
+    const activeViewRelations = graph.relations.filter(relation =>
+      viewRelationIds.has(relation.id) && activeAt(relation) && activeAt(institutionById.get(relation.from)) && activeAt(institutionById.get(relation.to))
+    );
+    return [...document.querySelectorAll('.mobile-system-group')].map(group => {
+      const list = group.querySelector('[aria-label="当前关键关系"]');
+      const summaries = list ? [...list.querySelectorAll('li')].map(item => item.textContent.trim()) : [];
+      const name = group.querySelector('.mobile-system-head b')?.textContent.trim();
+      const system = graph.systems.find(item => item.name === name);
+      const validRelations = activeViewRelations.filter(relation =>
+        institutionById.get(relation.from).system === system?.id || institutionById.get(relation.to).system === system?.id
+      );
+      return {
+        name,
+        hasLabelledList: Boolean(list),
+        count: summaries.length,
+        expectedCount: Math.min(3, validRelations.length),
+        usesActiveViewRelations: summaries.every(summary => validRelations.some(relation => relation.label === summary))
+      };
+    });
+  });
+  expect(mobileRelations.length >= 4, 'mobile relation verification requires the rendered system groups');
+  expect(mobileRelations.every(group => group.hasLabelledList), 'every mobile system group must label its relation summary list as 当前关键关系');
+  expect(mobileRelations.every(group => group.count <= 3), 'mobile system groups must render at most three relation summaries');
+  expect(mobileRelations.some(group => group.count > 0), 'mobile system groups must render active in-view relation summaries');
+  expect(mobileRelations.every(group => group.count === group.expectedCount), 'each mobile system group must summarize up to three relations that touch that system');
+  expect(mobileRelations.every(group => group.usesActiveViewRelations), 'mobile relation summaries must reuse active, in-view relation labels for their system');
+
+  if (mobileDrawerExists) {
+    const closeButton = mobileDrawer.locator('.drawer-close');
+    const finalLink = mobileDrawer.locator('a').last();
+    await closeButton.focus();
+    await page.keyboard.press('Shift+Tab');
+    expect(await finalLink.evaluate(node => node === document.activeElement), 'Shift+Tab from drawer close must wrap to the final focusable link');
+    await page.keyboard.press('Tab');
+    expect(await closeButton.evaluate(node => node === document.activeElement), 'Tab from the final drawer link must wrap to drawer close');
+    await page.keyboard.press('Escape');
+    const mobileTrigger = page.locator('.mobile-node').filter({hasText: '锦衣卫'});
+    expect(await mobileTrigger.evaluate(node => node === document.activeElement), 'closing the mobile drawer must restore focus to its mobile node trigger');
+    await mobileTrigger.click();
+    await closeButton.click();
+    expect(await mobileTrigger.evaluate(node => node === document.activeElement), 'clicking drawer close must restore focus to its mobile node trigger');
+  }
+
+  await page.evaluate(() => setInstitutionYear(1477));
+  await page.locator('.mobile-node').filter({hasText: '西厂'}).click();
+  await page.evaluate(() => setInstitutionYear(1390));
+  const invalidatedFocus = await page.evaluate(() => {
+    const active = document.activeElement;
+    const box = active?.getBoundingClientRect();
+    return {
+      drawerHidden: document.querySelector('.institution-drawer')?.hidden,
+      id: active?.id,
+      visible: Boolean(box && box.width > 0 && box.height > 0 && getComputedStyle(active).visibility !== 'hidden')
+    };
+  });
+  expect(invalidatedFocus.drawerHidden === true, 'invalidating the selected institution by year must close the drawer');
+  expect(invalidatedFocus.id === 'yearRange', `invalidating the selected institution must focus the visible year control, got ${invalidatedFocus.id || 'no id'}`);
+  expect(invalidatedFocus.visible, 'focus fallback after year invalidation must be visibly rendered');
   if (!failures.length) {
     await page.screenshot({path: path.join(root, '制度馆_移动端预览.png'), fullPage: false});
   }
