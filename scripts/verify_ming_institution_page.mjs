@@ -87,6 +87,17 @@ try {
   expect(westernDepot.state?.includes('反复设置'), 'western depot must be marked intermittent');
   expect(westernDepot.boundary?.includes('不得伪造'), 'western depot detail must expose the evidence boundary');
 
+  await page.evaluate(() => setInstitutionYear(1390));
+  await page.locator('.institution-node[data-id="court_judicial_review"]').click();
+  const courtEarlyState = await page.locator('#detailState').textContent();
+  await page.evaluate(() => setInstitutionYear(1425));
+  const courtLaterState = await page.locator('#detailState').textContent();
+  const courtFocusPreserved = await page.evaluate(() => document.activeElement?.classList.contains('drawer-close'));
+  expect(courtEarlyState?.includes('反复改组 · 1381—1395'), 'court of judicial review drawer must show its 1390 active period');
+  expect(courtLaterState?.includes('恢复后渐趋稳定 · 1399—1644'), 'open drawer must refresh when the selected institution crosses into a later active period');
+  expect(courtFocusPreserved, 'drawer refresh must not steal focus from the current drawer control');
+  await page.keyboard.press('Escape');
+
   await page.evaluate(() => setInstitutionYear(1600));
   await page.locator('.view-button[data-view="document_to_decree"]').click();
   const topic = await page.evaluate(() => ({

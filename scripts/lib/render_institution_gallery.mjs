@@ -257,6 +257,7 @@ function renderAtlas(){
   renderNodes();
   renderRelations();
   renderMobile();
+  if(state.selectedNode&&!drawer.hidden)populateDrawer(institutionById.get(state.selectedNode));
   setFocus(state.selectedNode||state.hoveredNode);
 }
 
