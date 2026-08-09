@@ -61,6 +61,76 @@ try {
   expect(initial.heroHeight >= 500 && initial.heroHeight <= 780, 'desktop hero must occupy the intended editorial range');
   expect(initial.emperorBox && initial.cabinetBox && Math.abs((initial.emperorBox.x + initial.emperorBox.width / 2) - (initial.cabinetBox.x + initial.cabinetBox.width / 2)) < 8, 'emperor and cabinet must share the central axis');
   expect(initial.bodyWidth <= initial.viewport, 'desktop page must not overflow horizontally');
+  const visualAccessibility = await page.evaluate(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 1;
+    const context = canvas.getContext('2d', {willReadFrequently: true});
+    const rgba = color => {
+      context.clearRect(0, 0, 1, 1);
+      context.fillStyle = color;
+      context.fillRect(0, 0, 1, 1);
+      const [red, green, blue, alpha] = context.getImageData(0, 0, 1, 1).data;
+      return [red / 255, green / 255, blue / 255, alpha / 255];
+    };
+    const blend = (foreground, background, alpha = foreground[3]) => foreground.slice(0, 3).map((channel, index) => channel * alpha + background[index] * (1 - alpha));
+    const luminance = color => color.slice(0, 3).map(channel => channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4).reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0);
+    const contrast = (left, right) => (Math.max(luminance(left), luminance(right)) + 0.05) / (Math.min(luminance(left), luminance(right)) + 0.05);
+    const stage = document.querySelector('.graph-stage');
+    const stageColor = rgba(getComputedStyle(stage).backgroundColor);
+    const stageRgb = stageColor.slice(0, 3);
+    const regionNodes = [...document.querySelectorAll('.institution-node:not([hidden])')].filter((node, index, nodes) => nodes.findIndex(candidate => candidate.dataset.region === node.dataset.region) === index);
+    const cards = regionNodes.map(node => {
+      const style = getComputedStyle(node);
+      const surface = blend(rgba(style.backgroundColor), stageRgb);
+      const border = blend(rgba(style.borderColor), surface);
+      const main = node.querySelector('span');
+      const meta = node.querySelector('small');
+      return {
+        region: node.dataset.region,
+        surface,
+        surfaceDistance: Math.hypot(...surface.map((channel, index) => (channel - stageRgb[index]) * 255)),
+        borderContrast: contrast(border, surface),
+        borderWidth: parseFloat(style.borderTopWidth),
+        mainContrast: contrast(rgba(getComputedStyle(main).color), surface),
+        metaContrast: contrast(rgba(getComputedStyle(meta).color), surface),
+        metaSize: parseFloat(getComputedStyle(meta).fontSize)
+      };
+    });
+    const paths = [...document.querySelectorAll('.relation-path')].map(path => {
+      const style = getComputedStyle(path);
+      const stroke = rgba(style.stroke);
+      const opacity = parseFloat(style.opacity) * stroke[3];
+      return {
+        id: path.dataset.id,
+        width: parseFloat(style.strokeWidth),
+        opacity,
+        contrast: contrast(blend(stroke, stageRgb, opacity), stageRgb)
+      };
+    });
+    return {
+      stageLuminance: luminance(stageRgb),
+      cardRegions: cards.map(card => card.region),
+      distinctCardSurfaces: new Set(cards.map(card => card.surface.map(channel => Math.round(channel * 255)).join(','))).size,
+      minSurfaceDistance: Math.min(...cards.map(card => card.surfaceDistance)),
+      minBorderContrast: Math.min(...cards.map(card => card.borderContrast)),
+      minBorderWidth: Math.min(...cards.map(card => card.borderWidth)),
+      minMainContrast: Math.min(...cards.map(card => card.mainContrast)),
+      minMetaContrast: Math.min(...cards.map(card => card.metaContrast)),
+      minMetaSize: Math.min(...cards.map(card => card.metaSize)),
+      thinPaths: paths.filter(path => path.width < 1.4).map(path => `${path.id}:${path.width}`),
+      faintPaths: paths.filter(path => path.opacity < 0.7).map(path => `${path.id}:${path.opacity.toFixed(2)}`),
+      lowContrastPaths: paths.filter(path => path.contrast < 3).map(path => `${path.id}:${path.contrast.toFixed(2)}`)
+    };
+  });
+  expect(visualAccessibility.stageLuminance >= 0.65, `archive theme graph must use a light paper surface; luminance: ${visualAccessibility.stageLuminance.toFixed(2)}`);
+  expect(visualAccessibility.cardRegions.length >= 5 && visualAccessibility.distinctCardSurfaces >= 5, `institution systems must use visibly distinct archive-card fills; regions/surfaces: ${visualAccessibility.cardRegions.join(',')}/${visualAccessibility.distinctCardSurfaces}`);
+  expect(visualAccessibility.minSurfaceDistance >= 18, `institution cards must separate visibly from the paper canvas; minimum RGB distance: ${visualAccessibility.minSurfaceDistance.toFixed(1)}`);
+  expect(visualAccessibility.minBorderWidth >= 1.5 && visualAccessibility.minBorderContrast >= 3, `institution card boundaries must meet non-text contrast; width/contrast: ${visualAccessibility.minBorderWidth}/${visualAccessibility.minBorderContrast.toFixed(2)}`);
+  expect(visualAccessibility.minMainContrast >= 4.5 && visualAccessibility.minMetaContrast >= 4.5, `institution text must meet WCAG AA; main/meta: ${visualAccessibility.minMainContrast.toFixed(2)}/${visualAccessibility.minMetaContrast.toFixed(2)}`);
+  expect(visualAccessibility.minMetaSize >= 10, `institution metadata must not use microscopic text; minimum size: ${visualAccessibility.minMetaSize}px`);
+  expect(visualAccessibility.thinPaths.length === 0, `relation lines must be at least 1.4px; failures: ${visualAccessibility.thinPaths.join(', ')}`);
+  expect(visualAccessibility.faintPaths.length === 0, `relation lines must remain at least 70% opaque; failures: ${visualAccessibility.faintPaths.join(', ')}`);
+  expect(visualAccessibility.lowContrastPaths.length === 0, `relation lines must meet 3:1 non-text contrast against paper; failures: ${visualAccessibility.lowContrastPaths.join(', ')}`);
   const initialOverviewLabels = await page.evaluate(() => [...document.querySelectorAll('.relation-label:not([hidden])')]
     .filter(label => {
       const box = label.getBoundingClientRect();
