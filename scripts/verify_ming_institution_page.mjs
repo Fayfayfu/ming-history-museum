@@ -13,7 +13,7 @@ const expect = (condition, message) => {
 page.on('pageerror', error => failures.push(`page error: ${error.message}`));
 
 try {
-  await page.goto(url('institutions.html'), {waitUntil: 'networkidle'});
+  await page.goto(url('institutions.html'), {waitUntil: 'domcontentloaded'});
   const initial = await page.evaluate(() => {
     const data = JSON.parse(document.querySelector('#institutionGraphData').textContent);
     return {
@@ -59,7 +59,7 @@ try {
   expect(initial.legacyControlDeck === 0, 'legacy dashboard control deck must be removed');
   expect(initial.drawerHidden === true, 'institution dossier drawer must start closed');
   expect(initial.heroHeight >= 500 && initial.heroHeight <= 780, 'desktop hero must occupy the intended editorial range');
-  expect(Math.abs((initial.emperorBox.x + initial.emperorBox.width / 2) - (initial.cabinetBox.x + initial.cabinetBox.width / 2)) < 8, 'emperor and cabinet must share the central axis');
+  expect(initial.emperorBox && initial.cabinetBox && Math.abs((initial.emperorBox.x + initial.emperorBox.width / 2) - (initial.cabinetBox.x + initial.cabinetBox.width / 2)) < 8, 'emperor and cabinet must share the central axis');
   expect(initial.bodyWidth <= initial.viewport, 'desktop page must not overflow horizontally');
 
   await page.locator('.phase-button[data-phase="early_hongwu"]').click();
@@ -100,15 +100,24 @@ try {
 
   await page.locator('.view-button[data-view="justice_vs_imperial_prison"]').click();
   const before = await page.locator('.graph-stage').boundingBox();
-  await page.locator('.institution-node[data-id="embroidered_uniform_guard"]').click();
+  const clickedNode = page.locator('.institution-node[data-id="embroidered_uniform_guard"]');
+  await clickedNode.click();
   const drawer = page.locator('.institution-drawer');
-  expect(await drawer.getAttribute('aria-hidden', {timeout: 1_000}) === 'false', 'node click must open dossier drawer');
+  const drawerExists = await drawer.count() === 1;
+  expect(drawerExists, 'institution dossier drawer must exist for node focus');
+  if (drawerExists) {
+    expect(await drawer.getAttribute('aria-hidden') === 'false', 'node click must open dossier drawer');
+    expect(await drawer.evaluate(node => node === document.activeElement || node.contains(document.activeElement)), 'node click must move focus into dossier drawer');
+  }
   expect(await page.locator('.institution-node.is-dimmed').count() > 0, 'node focus must dim unrelated nodes');
   expect(await page.locator('.relation-path.is-focused').count() > 0, 'node focus must highlight adjacent relations');
   const after = await page.locator('.graph-stage').boundingBox();
   expect(before?.width === after?.width && before?.height === after?.height, 'drawer must not reflow the atlas');
   await page.keyboard.press('Escape');
-  expect(await drawer.getAttribute('aria-hidden', {timeout: 1_000}) === 'true', 'Escape must close dossier drawer');
+  if (drawerExists) {
+    expect(await drawer.getAttribute('aria-hidden') === 'true', 'Escape must close dossier drawer');
+    expect(await clickedNode.evaluate(node => node === document.activeElement), 'Escape must return focus to the clicked institution node');
+  }
   const linkedPeople = await page.locator('#detailPeople a').allTextContents();
   expect(linkedPeople.includes('陆炳'), '锦衣卫 detail must link 陆炳');
   expect(linkedPeople.includes('纪纲'), '锦衣卫 detail must link 纪纲');
@@ -116,36 +125,54 @@ try {
   expect(linkedPeople.includes('田尔耕'), '锦衣卫 detail must link 田尔耕');
   expect(linkedPeople.includes('钱宁'), '锦衣卫 detail must link 钱宁');
 
-  await page.screenshot({path: path.join(root, '制度馆_桌面预览.png'), fullPage: false});
+  if (!failures.length) {
+    await page.screenshot({path: path.join(root, '制度馆_桌面预览.png'), fullPage: false});
+  }
 
   for (const file of ['index.html', 'people.html', 'events.html', 'exhibitions.html']) {
-    await page.goto(url(file), {waitUntil: 'networkidle'});
+    await page.goto(url(file), {waitUntil: 'domcontentloaded'});
     const navHasInstitutionHall = await page.locator('.museum-links a[href="institutions.html"]').count();
     expect(navHasInstitutionHall === 1, `${file}: navigation must link the institution hall`);
   }
 
   await page.setViewportSize({width: 390, height: 844});
-  await page.goto(url('institutions.html'), {waitUntil: 'networkidle'});
-  const mobile = await page.evaluate(() => ({
-    graphDisplay: getComputedStyle(document.querySelector('.graph-stage')).display,
-    mobileDisplay: getComputedStyle(document.querySelector('.mobile-structure')).display,
-    mobileGroups: document.querySelectorAll('.mobile-system-group').length,
-    drawerPosition: getComputedStyle(document.querySelector('.institution-drawer')).position,
-    bodyWidth: document.body.scrollWidth,
-    viewport: innerWidth
-  }));
+  await page.goto(url('institutions.html'), {waitUntil: 'domcontentloaded'});
+  const mobile = await page.evaluate(() => {
+    const graphStage = document.querySelector('.graph-stage');
+    const mobileStructure = document.querySelector('.mobile-structure');
+    const drawer = document.querySelector('.institution-drawer');
+    return {
+      graphDisplay: graphStage ? getComputedStyle(graphStage).display : null,
+      mobileDisplay: mobileStructure ? getComputedStyle(mobileStructure).display : null,
+      mobileGroups: document.querySelectorAll('.mobile-system-group').length,
+      drawerPosition: drawer ? getComputedStyle(drawer).position : null,
+      bodyWidth: document.body.scrollWidth,
+      viewport: innerWidth
+    };
+  });
   expect(mobile.graphDisplay === 'none', 'mobile must replace the dense graph instead of shrinking it');
   expect(mobile.mobileDisplay !== 'none', 'mobile narrative structure must be visible');
   expect(mobile.mobileGroups >= 4, 'mobile narrative must retain system grouping');
-  expect(mobile.drawerPosition === 'fixed', 'mobile dossier drawer must use fixed positioning');
+  expect(mobile.drawerPosition === 'fixed', 'mobile dossier drawer must exist and use fixed positioning');
   expect(mobile.bodyWidth <= mobile.viewport, 'mobile page must not overflow horizontally');
-  await page.locator('.mobile-node[data-id="embroidered_uniform_guard"]').click();
-  const mobileDrawerBox = await page.locator('.institution-drawer').boundingBox();
+  await page.locator('.mobile-node').filter({hasText: '锦衣卫'}).click();
+  const mobileDrawer = page.locator('.institution-drawer');
+  const mobileDrawerExists = await mobileDrawer.count() === 1;
+  expect(mobileDrawerExists, 'mobile institution selection must expose dossier drawer');
+  const mobileDrawerBox = mobileDrawerExists ? await mobileDrawer.boundingBox() : null;
   expect((mobileDrawerBox?.height ?? 0) >= 844 * .75, 'mobile dossier drawer must reach at least 75% of viewport height');
-  await page.screenshot({path: path.join(root, '制度馆_移动端预览.png'), fullPage: false});
+  if (!failures.length) {
+    await page.screenshot({path: path.join(root, '制度馆_移动端预览.png'), fullPage: false});
+  }
+
+  const motionEnabled = await browser.newPage({viewport: {width: 1440, height: 1000}});
+  await motionEnabled.goto(url('institutions.html'), {waitUntil: 'domcontentloaded'});
+  const normalTransition = await motionEnabled.locator('.institution-node').first().evaluate(node => getComputedStyle(node).transitionDuration);
+  expect(normalTransition !== '0s', 'motion-enabled mode must retain node transitions before reduced-motion is applied');
+  await motionEnabled.close();
 
   const reduced = await browser.newPage({viewport: {width: 1440, height: 1000}, reducedMotion: 'reduce'});
-  await reduced.goto(url('institutions.html'), {waitUntil: 'networkidle'});
+  await reduced.goto(url('institutions.html'), {waitUntil: 'domcontentloaded'});
   const transition = await reduced.locator('.institution-node').first().evaluate(node => getComputedStyle(node).transitionDuration);
   expect(transition === '0s', 'reduced-motion mode must remove node transitions');
   await reduced.close();
