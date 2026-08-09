@@ -112,8 +112,12 @@ try {
   await page.locator('.view-button[data-view="justice_vs_imperial_prison"]').click();
   const judicialCollisions = [];
   const judicialVisibilityFailures = [];
+  const judicialEndpointFailures = [];
+  const judicialLabelCollisions = [];
+  const visibleNodeCollisions = [];
   for (const viewport of [{width: 1440, height: 1000}, {width: 1024, height: 768}]) {
     await page.setViewportSize(viewport);
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => resolve())));
     const nodes = await page.evaluate(() => ['court_judicial_review', 'three_judicial_offices'].map(id => {
       const element = document.querySelector(`.institution-node[data-id="${id}"]`);
       return {id, hidden: element?.hidden ?? true, box: element?.getBoundingClientRect().toJSON() ?? null};
@@ -127,9 +131,62 @@ try {
     const [court, offices] = boxes;
     const overlaps = court && offices && court.left < offices.right && court.right > offices.left && court.top < offices.bottom && court.bottom > offices.top;
     if (overlaps) judicialCollisions.push(`${viewport.width}×${viewport.height}`);
+    const allVisibleNodes = await page.evaluate(() => [...document.querySelectorAll('.institution-node:not([hidden])')].map(node => ({
+      id: node.dataset.id,
+      box: node.getBoundingClientRect().toJSON()
+    })));
+    for (let leftIndex = 0; leftIndex < allVisibleNodes.length; leftIndex += 1) {
+      for (let rightIndex = leftIndex + 1; rightIndex < allVisibleNodes.length; rightIndex += 1) {
+        const left = allVisibleNodes[leftIndex];
+        const right = allVisibleNodes[rightIndex];
+        if (left.box.left < right.box.right && left.box.right > right.box.left && left.box.top < right.box.bottom && left.box.bottom > right.box.top) {
+          visibleNodeCollisions.push(`${left.id}/${right.id}@${viewport.width}×${viewport.height}`);
+        }
+      }
+    }
+    const relationGeometry = await page.evaluate(() => ['r_ml_09', 'r_ml_10'].map(id => {
+      const path = document.querySelector(`.relation-path[data-id="${id}"]`);
+      const label = document.querySelector(`.relation-label[data-id="${id}"]`);
+      if (!path || !label) return {id, missing: true, endpointDistances: [], labelNodeCollisions: []};
+      const ctm = path.getScreenCTM();
+      const screenPoint = point => new DOMPoint(point.x, point.y).matrixTransform(ctm);
+      const start = screenPoint(path.getPointAtLength(0));
+      const end = screenPoint(path.getPointAtLength(path.getTotalLength()));
+      const nodeCenter = nodeId => {
+        const rect = document.querySelector(`.institution-node[data-id="${nodeId}"]`).getBoundingClientRect();
+        return {x: rect.left + rect.width / 2, y: rect.top + rect.height / 2};
+      };
+      const from = nodeCenter(path.dataset.from);
+      const to = nodeCenter(path.dataset.to);
+      const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+      const labelBox = label.getBoundingClientRect();
+      const labelNodeCollisions = [...document.querySelectorAll('.institution-node:not([hidden])')]
+        .filter(node => {
+          const box = node.getBoundingClientRect();
+          return labelBox.left < box.right && labelBox.right > box.left && labelBox.top < box.bottom && labelBox.bottom > box.top;
+        })
+        .map(node => node.dataset.id);
+      return {
+        id,
+        missing: false,
+        endpointDistances: [distance(start, from), distance(end, to)],
+        labelNodeCollisions
+      };
+    }));
+    for (const relation of relationGeometry) {
+      if (relation.missing || relation.endpointDistances.some(distance => distance > 2.5)) {
+        judicialEndpointFailures.push(`${relation.id}@${viewport.width}×${viewport.height}:${relation.endpointDistances.map(distance => distance.toFixed(1)).join('/') || 'missing'}`);
+      }
+      if (relation.labelNodeCollisions.length) {
+        judicialLabelCollisions.push(`${relation.id}@${viewport.width}×${viewport.height}:${relation.labelNodeCollisions.join(',')}`);
+      }
+    }
   }
   expect(judicialVisibilityFailures.length === 0, `Dali Temple and Three Judicial Offices must both be visible with non-zero rectangles before collision checks; failures: ${judicialVisibilityFailures.join(', ')}`);
   expect(judicialCollisions.length === 0, `court of judicial review and three judicial offices must not overlap at desktop widths; collisions: ${judicialCollisions.join(', ')}`);
+  expect(judicialEndpointFailures.length === 0, `judicial relation endpoints must stay attached after node nudges; failures: ${judicialEndpointFailures.join(', ')}`);
+  expect(judicialLabelCollisions.length === 0, `judicial relation labels must not overlap visible institution nodes; collisions: ${judicialLabelCollisions.join(', ')}`);
+  expect(visibleNodeCollisions.length === 0, `visible institution nodes must not overlap at desktop widths; collisions: ${visibleNodeCollisions.join(', ')}`);
   await page.setViewportSize({width: 1440, height: 1000});
   const before = await page.locator('.graph-stage').boundingBox();
   const clickedNode = page.locator('.institution-node[data-id="embroidered_uniform_guard"]');
