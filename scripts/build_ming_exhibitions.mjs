@@ -114,3 +114,4 @@ for(const file of ['index.html','people.html','events.html']){
 
 console.log(`wrote ${exhibitions.length} exhibitions and exhibitions.html`);
 await import('./build_ming_institutions.mjs');
+await import('./build_ming_institution_palace.mjs');

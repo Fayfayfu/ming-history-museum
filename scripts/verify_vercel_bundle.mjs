@@ -36,7 +36,7 @@ const immersivePeople = (await fs.readdir(path.join(root, 'people')))
   .map(file => `people/${file}`);
 const files = [
   'index.html','people.html','events.html','exhibitions.html',
-  'institutions.html',
+  'institutions.html','institutions-palace.html',
   'exhibit-yongle-capital.html','exhibit-zheng-he-voyages.html','exhibit-tumu-crisis.html',
   'exhibit-zhang-reform.html','exhibit-imjin-war.html','exhibit-fall-1644.html',
   ...immersivePeople,
@@ -68,6 +68,8 @@ for (const file of files) {
     viewport: innerWidth,
     navLabels: [...document.querySelectorAll('.museum-links a')].map(link => link.textContent.trim()),
     exhibitionCards: document.querySelectorAll('.specials .special').length,
+    palaceNavLinks: document.querySelectorAll('.museum-links a[href="institutions-palace.html"]').length,
+    palaceReturnLink: document.querySelector('.return-archive')?.getAttribute('href') || '',
   }), file));
 }
 
@@ -114,6 +116,8 @@ const audit = {
   pass: pages.length === files.length
     && pages.every(record => record.title && record.broken === 0 && record.bodyWidth === record.viewport)
     && pages.every(record => record.navLabels.includes('专题展'))
+    && pages.every(record => record.palaceNavLinks === 0)
+    && pages.find(record => record.file === 'institutions-palace.html')?.palaceReturnLink === 'institutions.html'
     && ['index.html','people.html','events.html','exhibitions.html'].every(file =>
       pages.find(record => record.file === file)?.navLabels.includes('制度馆')
     )
