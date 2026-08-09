@@ -18,7 +18,7 @@ function renderHead(){
 @media(max-width:1080px){.museum-links a{padding:0 10px}.institution-node{width:100px}.institution-node[data-id="central_secretariat"],.institution-node[data-id="chancellor"]{width:90px}.view-band{grid-template-columns:1fr}.view-band p{max-width:650px}}
 @media(max-width:800px){.museum-nav{height:auto;min-height:68px;padding:8px 14px;align-items:flex-start}.museum-brand small{display:none}.museum-links{align-self:stretch}.museum-links a{padding:0 8px;font-size:11px}.museum-links a:last-child{display:none}.hall-hero{grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:35px;padding:65px 20px 25px}.hero-title h1{font-size:67px}.hero-year{justify-self:start;border-left:0;border-top:1px solid var(--gold);padding:20px 0;width:100%}.hero-year output{font-size:72px}.dynasty-ruler{grid-template-columns:1fr 1fr}.atlas-shell{display:block}.topic-rail{position:static;display:flex;overflow:auto}.view-button{min-width:142px}.view-band{padding:28px 20px}.graph-stage{display:none}.mobile-structure{display:block;padding:18px 16px 48px}.mobile-system-group{border:1px solid var(--line);margin-bottom:10px}.mobile-system-head{display:flex;align-items:center;justify-content:space-between;padding:14px;background:#211f19}.mobile-system-head b{font-size:16px}.mobile-system-head span{font:9px/1 ui-monospace,monospace;color:var(--muted)}.mobile-node-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}.mobile-node{border:0;background:#171611;color:var(--paper);min-height:58px;padding:12px;text-align:left;font-size:13px}.mobile-node small{display:block;margin-top:6px;color:var(--muted);font:8px/1 ui-monospace,monospace}.mobile-relation-list{list-style:none;margin:0;padding:10px 14px;border-top:1px solid var(--line);color:var(--muted);font-size:10px;line-height:1.55}.mobile-relation-list li+li{margin-top:5px}.relation-legend{grid-template-columns:1fr 1fr}.relation-legend li{border-bottom:1px solid var(--line)}.method-band{grid-template-columns:1fr;padding:38px 20px}.method-band p+p{grid-column:auto}.institution-drawer{top:auto;width:100%;height:min(88svh,760px)}.footer{display:block}.footer span{display:block;margin-top:8px}}
 @media(max-width:470px){.museum-links a{padding:0 5px;font-size:10px}.museum-links a[href="exhibitions.html"]{display:none}.hero-title h1{font-size:58px}.phase-button{padding:12px 8px;font-size:11px}.mobile-node-list{grid-template-columns:1fr}.relation-legend{grid-template-columns:1fr}.relation-legend li{border-right:0}}
-.relation-layer path.is-focused{opacity:1;stroke-width:.55}.relation-label{fill:#d6c9ae;stroke:#11100d;stroke-width:.28;paint-order:stroke;font:1.25px/1 sans-serif;text-anchor:middle}.institution-node.is-context{opacity:.48}.institution-node.is-dimmed{opacity:.18}
+.relation-layer path.is-focused{opacity:1;stroke-width:.55}.relation-label{fill:#d6c9ae;stroke:#11100d;stroke-width:.18;stroke-linejoin:round;paint-order:stroke;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:1.35px;font-weight:600;font-synthesis:none;text-anchor:middle}.institution-node.is-context{opacity:.48}.institution-node.is-dimmed{opacity:.18}
 @media(prefers-reduced-motion:reduce){.institution-node,.institution-drawer{transition-duration:0s!important;animation:none!important}html{scroll-behavior:auto}}
 </style>`;
 }
@@ -104,18 +104,23 @@ function placeRelationLabel(label,path,index,placedLabels){
   ];
   const nodeBoxes=[...document.querySelectorAll('.institution-node:not([hidden])')].map(node=>node.getBoundingClientRect());
   const overlaps=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
+  const setPosition=(x,y)=>{
+    label.setAttribute('x',x);
+    label.setAttribute('y',y);
+    const stageBox=document.querySelector('.graph-stage').getBoundingClientRect();
+    const horizontalCorrection=stageBox.width&&stageBox.height?stageBox.height/stageBox.width:1;
+    label.setAttribute('transform','translate('+x+' '+y+') scale('+horizontalCorrection+' 1) translate('+(-x)+' '+(-y)+')');
+  };
   let best=null;
   for(const [fraction,offsetY] of candidates){
     const point=path.getPointAtLength(length*fraction);
-    label.setAttribute('x',point.x);
-    label.setAttribute('y',point.y+offsetY);
+    setPosition(point.x,point.y+offsetY);
     const box=label.getBoundingClientRect();
     const score=nodeBoxes.filter(nodeBox=>overlaps(box,nodeBox)).length+placedLabels.filter(other=>overlaps(box,other.getBoundingClientRect())).length;
     if(!best||score<best.score)best={x:point.x,y:point.y+offsetY,score};
     if(score===0)break;
   }
-  label.setAttribute('x',best.x);
-  label.setAttribute('y',best.y);
+  setPosition(best.x,best.y);
   placedLabels.push(label);
 }
 

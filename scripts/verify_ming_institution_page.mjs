@@ -246,6 +246,20 @@ try {
   });
   expect(focusedOverviewLabels.count > 0, 'overview focus must reveal adjacent relation labels');
   expect(focusedOverviewLabels.collisions.length === 0, `focused overview relation labels must avoid every visible institution node; collisions: ${focusedOverviewLabels.collisions.join(', ')}`);
+  const relationLabelTypography = await page.evaluate(() => [...document.querySelectorAll('.relation-label:not([hidden])')].map(label => {
+    const matrix = label.getScreenCTM();
+    const horizontalScale = Math.hypot(matrix?.a ?? 0, matrix?.b ?? 0);
+    const verticalScale = Math.hypot(matrix?.c ?? 0, matrix?.d ?? 0);
+    return {
+      id: label.dataset.id,
+      distortion: Math.abs(horizontalScale - verticalScale) / Math.max(horizontalScale, verticalScale, 1),
+      fontFamily: getComputedStyle(label).fontFamily
+    };
+  }));
+  const distortedRelationLabels = relationLabelTypography.filter(label => label.distortion > 0.05).map(label => `${label.id}:${label.distortion.toFixed(2)}`);
+  const genericRelationLabels = relationLabelTypography.filter(label => !/PingFang SC|Microsoft YaHei|Noto Sans CJK SC/.test(label.fontFamily)).map(label => `${label.id}:${label.fontFamily}`);
+  expect(distortedRelationLabels.length === 0, `relation labels must preserve undistorted glyph proportions inside the stretched SVG; failures: ${distortedRelationLabels.join(', ')}`);
+  expect(genericRelationLabels.length === 0, `relation labels must use an explicit Chinese UI font stack instead of a generic sans fallback; failures: ${genericRelationLabels.join(', ')}`);
   await page.keyboard.press('Escape');
 
   await page.setViewportSize({width: 1440, height: 1000});
