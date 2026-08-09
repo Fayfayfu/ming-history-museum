@@ -1,0 +1,129 @@
+import {chromium} from 'playwright';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+
+const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
+const url = file => `file://${path.join(root, file)}`;
+const browser = await chromium.launch({headless: true, executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+const page = await browser.newPage({viewport: {width: 1440, height: 1000}});
+const failures = [];
+const expect = (condition, message) => {
+  if (!condition) failures.push(message);
+};
+page.on('pageerror', error => failures.push(`page error: ${error.message}`));
+
+try {
+  await page.goto(url('institutions.html'), {waitUntil: 'networkidle'});
+  const initial = await page.evaluate(() => {
+    const data = JSON.parse(document.querySelector('#institutionGraphData').textContent);
+    return {
+      title: document.title,
+      nodes: data.institutions.length,
+      relations: data.relations.length,
+      views: data.views.length,
+      year: Number(document.querySelector('#yearValue').textContent),
+      activePhase: document.querySelector('.phase-button[aria-pressed="true"]')?.textContent.trim(),
+      visibleNodes: document.querySelectorAll('.institution-node:not([hidden])').length,
+      secretariatVisible: Boolean(document.querySelector('.institution-node[data-id="central_secretariat"]:not([hidden])')),
+      cabinetVisible: Boolean(document.querySelector('.institution-node[data-id="grand_secretariat"]:not([hidden])')),
+      westernDepotVisible: Boolean(document.querySelector('.institution-node[data-id="western_depot"]:not([hidden])')),
+      legendItems: document.querySelectorAll('.relation-legend li').length,
+      topicButtons: document.querySelectorAll('.view-button').length,
+      bodyWidth: document.body.scrollWidth,
+      viewport: innerWidth
+    };
+  });
+  expect(initial.title.includes('制度馆'), 'page title must identify the institution hall');
+  expect(initial.nodes === 29, `expected 29 embedded nodes, got ${initial.nodes}`);
+  expect(initial.relations === 47, `expected 47 embedded relations, got ${initial.relations}`);
+  expect(initial.views === 6, `expected 6 embedded views, got ${initial.views}`);
+  expect(initial.year === 1600, `expected default year 1600, got ${initial.year}`);
+  expect(initial.activePhase?.includes('正统至崇祯'), 'mid-late phase must be active by default');
+  expect(initial.visibleNodes > 12, 'default graph must show a meaningful set of active nodes');
+  expect(!initial.secretariatVisible, 'central secretariat must be hidden in 1600');
+  expect(initial.cabinetVisible, 'grand secretariat must be visible in 1600');
+  expect(!initial.westernDepotVisible, 'western depot must be hidden in 1600');
+  expect(initial.legendItems === 7, `expected 7 relation legend items, got ${initial.legendItems}`);
+  expect(initial.topicButtons === 6, `expected 6 view buttons, got ${initial.topicButtons}`);
+  expect(initial.bodyWidth <= initial.viewport, 'desktop page must not overflow horizontally');
+
+  await page.locator('.phase-button[data-phase="early_hongwu"]').click();
+  const early = await page.evaluate(() => ({
+    year: Number(document.querySelector('#yearValue').textContent),
+    secretariatVisible: Boolean(document.querySelector('.institution-node[data-id="central_secretariat"]:not([hidden])')),
+    cabinetVisible: Boolean(document.querySelector('.institution-node[data-id="grand_secretariat"]:not([hidden])')),
+    grandCommissionVisible: Boolean(document.querySelector('.institution-node[data-id="chief_military_commission"]:not([hidden])'))
+  }));
+  expect(early.year === 1370, `early phase must set year 1370, got ${early.year}`);
+  expect(early.secretariatVisible, 'central secretariat must be visible in 1370');
+  expect(!early.cabinetVisible, 'grand secretariat must be hidden in 1370');
+  expect(early.grandCommissionVisible, 'chief military commission must be visible in 1370');
+
+  await page.evaluate(() => setInstitutionYear(1477));
+  await page.locator('.institution-node[data-id="western_depot"]').click();
+  const westernDepot = await page.evaluate(() => ({
+    visible: Boolean(document.querySelector('.institution-node[data-id="western_depot"]:not([hidden])')),
+    title: document.querySelector('#detailTitle')?.textContent.trim(),
+    state: document.querySelector('#detailState')?.textContent.trim(),
+    boundary: document.querySelector('#detailBoundary')?.textContent.trim()
+  }));
+  expect(westernDepot.visible, 'western depot must be visible at the 1477 range');
+  expect(westernDepot.title === '西厂', 'western depot detail must open');
+  expect(westernDepot.state?.includes('反复设置'), 'western depot must be marked intermittent');
+  expect(westernDepot.boundary?.includes('不得伪造'), 'western depot detail must expose the evidence boundary');
+
+  await page.evaluate(() => setInstitutionYear(1600));
+  await page.locator('.view-button[data-view="document_to_decree"]').click();
+  const topic = await page.evaluate(() => ({
+    activeView: document.querySelector('.view-button[aria-pressed="true"]')?.dataset.view,
+    title: document.querySelector('#viewTitle')?.textContent.trim(),
+    visibleNodes: [...document.querySelectorAll('.institution-node:not([hidden])')].map(node => node.dataset.id)
+  }));
+  expect(topic.activeView === 'document_to_decree', 'document-flow view must become active');
+  expect(topic.title === '一道奏章如何变成命令', 'document-flow view title must update');
+  expect(topic.visibleNodes.includes('transmission_office') && topic.visibleNodes.includes('directorate_ceremonial'), 'document-flow view must show its core institutions');
+
+  await page.locator('.view-button[data-view="justice_vs_imperial_prison"]').click();
+  await page.locator('.institution-node[data-id="embroidered_uniform_guard"]').click();
+  const linkedPeople = await page.locator('#detailPeople a').allTextContents();
+  expect(linkedPeople.includes('陆炳'), '锦衣卫 detail must link 陆炳');
+  expect(linkedPeople.includes('纪纲'), '锦衣卫 detail must link 纪纲');
+  expect(linkedPeople.includes('蒋瓛'), '锦衣卫 detail must link 蒋瓛');
+  expect(linkedPeople.includes('田尔耕'), '锦衣卫 detail must link 田尔耕');
+  expect(linkedPeople.includes('钱宁'), '锦衣卫 detail must link 钱宁');
+
+  await page.screenshot({path: path.join(root, '制度馆_桌面预览.png'), fullPage: false});
+
+  for (const file of ['index.html', 'people.html', 'events.html', 'exhibitions.html']) {
+    await page.goto(url(file), {waitUntil: 'networkidle'});
+    const navHasInstitutionHall = await page.locator('.museum-links a[href="institutions.html"]').count();
+    expect(navHasInstitutionHall === 1, `${file}: navigation must link the institution hall`);
+  }
+
+  await page.setViewportSize({width: 390, height: 844});
+  await page.goto(url('institutions.html'), {waitUntil: 'networkidle'});
+  const mobile = await page.evaluate(() => ({
+    graphDisplay: getComputedStyle(document.querySelector('.graph-stage')).display,
+    mobileDisplay: getComputedStyle(document.querySelector('.mobile-structure')).display,
+    mobileGroups: document.querySelectorAll('.mobile-system-group').length,
+    bodyWidth: document.body.scrollWidth,
+    viewport: innerWidth
+  }));
+  expect(mobile.graphDisplay === 'none', 'mobile must replace the dense graph instead of shrinking it');
+  expect(mobile.mobileDisplay !== 'none', 'mobile narrative structure must be visible');
+  expect(mobile.mobileGroups >= 4, 'mobile narrative must retain system grouping');
+  expect(mobile.bodyWidth <= mobile.viewport, 'mobile page must not overflow horizontally');
+  await page.screenshot({path: path.join(root, '制度馆_移动端预览.png'), fullPage: false});
+} catch (error) {
+  failures.push(error.message);
+} finally {
+  await browser.close();
+}
+
+if (failures.length) {
+  console.error(`Institution page verification failed (${failures.length}):`);
+  for (const failure of failures) console.error(`- ${failure}`);
+  process.exit(1);
+}
+
+console.log('Institution page verification passed: timeline, views, node details, people links, navigation and mobile layout.');

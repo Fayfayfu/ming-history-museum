@@ -1,12 +1,17 @@
 {
   "name": "ming-history-museum",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
     "build:museum": "node scripts/build_ming_exhibitions.mjs",
     "build:deploy": "node scripts/build_vercel_bundle.mjs",
     "audit:museum": "node scripts/audit_ming_museum_data.mjs",
+    "audit:portraits": "node scripts/audit_ming_portrait_coverage.mjs",
+    "verify:portraits": "node scripts/verify_ming_portrait_batch19.mjs",
+    "verify:institutions": "node scripts/verify_ming_institution_graph.mjs",
+    "verify:institution-page": "node scripts/verify_ming_institution_page.mjs",
+    "verify:deploy": "node scripts/verify_vercel_bundle.mjs",
     "verify": "node scripts/verify_ming_museum.mjs"
   },
   "dependencies": {

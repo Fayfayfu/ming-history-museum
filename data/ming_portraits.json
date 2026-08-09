@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-08-08T23:30:00+08:00",
-  "downloaded": 81,
-  "generated": 45,
+  "generatedAt": "2026-08-09T07:06:53.023Z",
+  "downloaded": 84,
+  "generated": 73,
   "currentBatch": {
-    "id": 16,
-    "label": "第十六批 · 皇室子女可信画像审校",
-    "count": 1,
-    "selection": "审校21位画像空缺的皇室子女，仅朱祐杬找到馆藏身份、年代说明与公版文件均可核验的明代追尊宫廷像；其余人物未找到达到采用标准的画像，继续保留空缺且不生成想象像。"
+    "id": 19,
+    "label": "第十九批 · 剩余重要皇嗣AI想象像",
+    "count": 20,
+    "selection": "补齐人物馆剩余20位重要皇嗣画像；全部明确标注AI想象像，史实只用于身份、时代和情境锚定，相貌与现场不作史实。"
   },
-  "total": 131,
+  "total": 157,
   "people": {
     "朱元璋": {
       "status": "image",
@@ -181,9 +181,18 @@
       "note": "维基百科页面题图；可能是传世画像、后世摹绘、雕像或现代纪念性塑像，须结合来源页辨别。"
     },
     "刘基": {
-      "status": "placeholder",
-      "page": "https://zh.wikipedia.org/wiki/%E5%88%98%E5%9F%BA",
-      "reason": "页面无题图"
+      "status": "image",
+      "file": "assets/portraits/batch-1/110_刘基.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Portrait_of_Liu_Ji_by_Gu_Jianlong.jpg",
+      "commons": "https://commons.wikimedia.org/wiki/File:Portrait_of_Liu_Ji_by_Gu_Jianlong.jpg",
+      "fileName": "Portrait of Liu Ji by Gu Jianlong.jpg",
+      "width": 400,
+      "height": 476,
+      "license": "Public Domain",
+      "portraitKind": "清初绘像",
+      "confidence": "中",
+      "batch": 1,
+      "note": "顾见龙约17世纪所绘的身后像。它比民间神化故事更适合作为有来源题图，但仍不能证明刘基本人的真实面貌。"
     },
     "宋濂": {
       "status": "image",
@@ -333,20 +342,6 @@
       "confidence": "低",
       "batch": 1,
       "note": "李岳云1898年《吴门四家小像轴》中的仇英形象，南京博物院藏；属于后世纪念性想象，不是同时代肖像。"
-    },
-    "刘基": {
-      "status": "image",
-      "file": "assets/portraits/batch-1/110_刘基.jpg",
-      "page": "https://commons.wikimedia.org/wiki/File:Portrait_of_Liu_Ji_by_Gu_Jianlong.jpg",
-      "commons": "https://commons.wikimedia.org/wiki/File:Portrait_of_Liu_Ji_by_Gu_Jianlong.jpg",
-      "fileName": "Portrait of Liu Ji by Gu Jianlong.jpg",
-      "width": 400,
-      "height": 476,
-      "license": "Public Domain",
-      "portraitKind": "清初绘像",
-      "confidence": "中",
-      "batch": 1,
-      "note": "顾见龙约17世纪所绘的身后像。它比民间神化故事更适合作为有来源题图，但仍不能证明刘基本人的真实面貌。"
     },
     "常遇春": {
       "status": "image",
@@ -1614,7 +1609,10 @@
       "batch": 13,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch13.md",
-      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷221", "https://zh.wikisource.org/zh-hans/焚书"],
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷221",
+        "https://zh.wikisource.org/zh-hans/焚书"
+      ],
       "objectPosition": "50% 18%",
       "note": "未找到来源链可靠的本人旧像。画面以李贽晚年剃发、寺居著述与批判性写作为人物锚点；具体年龄状态、五官、体态、室内陈设与当下情绪均属艺术想象。"
     },
@@ -1627,7 +1625,10 @@
       "batch": 13,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch13.md",
-      "evidence": ["https://zh.wikisource.org/zh-hans/射陽先生存稿", "https://ctext.org/wiki.pl?if=gb&res=410835"],
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/射陽先生存稿",
+        "https://ctext.org/wiki.pl?if=gb&res=410835"
+      ],
       "objectPosition": "50% 18%",
       "note": "未找到来源链可靠的本人旧像。画面依据淮安文人、长兴县丞与晚年著述身份构成雨窗书斋，不使用孙悟空等小说符号，以避免把《西游记》作者归属争议画成定论；容貌和场景均属艺术想象。"
     },
@@ -1640,7 +1641,10 @@
       "batch": 13,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch13.md",
-      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷230", "https://zh.wikisource.org/zh-hans/牡丹亭"],
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷230",
+        "https://zh.wikisource.org/zh-hans/牡丹亭"
+      ],
       "objectPosition": "50% 17%",
       "note": "未找到来源链可靠的本人旧像。画面锚定退出官场前后与临川戏曲创作，以灯下稿卷和远处园林组织环境；五官、服饰细节、舞台草图和具体夜晚均为艺术想象。"
     },
@@ -1653,7 +1657,10 @@
       "batch": 13,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch13.md",
-      "evidence": ["https://www.nmtcm.cn/stars_detail/262.html", "https://bowuguan.bucm.edu.cn/kpzl/ysmt/47320.htm"],
+      "evidence": [
+        "https://www.nmtcm.cn/stars_detail/262.html",
+        "https://bowuguan.bucm.edu.cn/kpzl/ysmt/47320.htm"
+      ],
       "objectPosition": "50% 17%",
       "note": "未找到来源链可靠的本人旧像。画面以晚年整理医案、药柜和脉枕为职业锚点，不把医家神秘化；五官、体态、服饰细节、医案文字和诊室陈设均为艺术想象。"
     },
@@ -1666,7 +1673,10 @@
       "batch": 13,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch13.md",
-      "evidence": ["https://www.chnmuseum.cn/zp/zpml/gjwxbt/202203/t20220301_254061.shtml", "https://heritage.bnf.fr/france-chine/zh-hans/tiangongkaiwu"],
+      "evidence": [
+        "https://www.chnmuseum.cn/zp/zpml/gjwxbt/202203/t20220301_254061.shtml",
+        "https://heritage.bnf.fr/france-chine/zh-hans/tiangongkaiwu"
+      ],
       "objectPosition": "50% 17%",
       "note": "未找到来源链可靠的本人旧像。画面锚定1637年前后观察和记录农业、纺织与冶炼技术的知识实践，把他表现为记录劳动的士人而非现代科学家；容貌、工具组合与具体场景均属艺术想象。"
     },
@@ -1679,7 +1689,10 @@
       "batch": 13,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch13.md",
-      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷114", "https://zh.wikisource.org/zh-hans/明史/卷240"],
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷114",
+        "https://zh.wikisource.org/zh-hans/明史/卷240"
+      ],
       "objectPosition": "50% 16%",
       "note": "未找到可核验的本人传世肖像。画面依据万历朝贵妃身份和国本之争的宫廷环境构成，避免把政治指控脸谱化；五官、年龄状态、服饰纹样、神态与宫殿空间均为艺术想象。"
     },
@@ -1692,7 +1705,10 @@
       "batch": 14,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch14.md",
-      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷122", "https://ctext.org/wiki.pl?if=gb&res=410835"],
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷122",
+        "https://ctext.org/wiki.pl?if=gb&res=410835"
+      ],
       "objectPosition": "50% 16%",
       "note": "未找到来源链可靠的本人旧像。画面以元末濠州红巾军首领、军粮与城防组织者的身份为锚点，采用元末军民混合服饰和濠州指挥空间；五官、年龄状态、服饰细节、地图与具体时刻均为艺术想象。"
     },
@@ -1705,7 +1721,10 @@
       "batch": 14,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch14.md",
-      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷123", "https://zh.wikisource.org/zh-hans/明史纪事本末/卷03"],
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷123",
+        "https://zh.wikisource.org/zh-hans/明史纪事本末/卷03"
+      ],
       "objectPosition": "50% 15%",
       "note": "未找到来源链可靠的本人旧像。画面锚定至正二十三年鄱阳湖战役前后的陈汉水军统帅身份，以舰队布置、江面战船和元末甲胄组织情境；人物五官、服饰纹样、指挥舱与具体瞬间均为艺术想象。"
     },
@@ -1718,7 +1737,10 @@
       "batch": 14,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch14.md",
-      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷123", "https://zh.wikisource.org/zh-hans/明史纪事本末/卷04"],
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷123",
+        "https://zh.wikisource.org/zh-hans/明史纪事本末/卷04"
+      ],
       "objectPosition": "50% 15%",
       "note": "未找到来源链可靠的本人旧像。画面以盐运出身、据有苏州并经营江南政权为历史锚点，把粮册、税籍、丝绸与运河城防并置；人物五官、服饰纹样、厅堂陈设和具体时刻均为艺术想象。"
     },
@@ -1731,7 +1753,10 @@
       "batch": 14,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch14.md",
-      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷328", "https://zh.wikisource.org/zh-hans/明史纪事本末/卷32"],
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷328",
+        "https://zh.wikisource.org/zh-hans/明史纪事本末/卷32"
+      ],
       "objectPosition": "50% 14%",
       "note": "未找到来源链可靠的本人旧像。画面依据十五世纪中叶瓦剌太师与草原军事统帅身份构成，使用中期蒙古—瓦剌服饰、层甲、马具和行军营帐，明确避开清代服装；五官、装备细节、地图和具体时刻均为艺术想象。"
     },
@@ -1744,7 +1769,10 @@
       "batch": 15,
       "generatedWith": "OpenAI image generation",
       "promptFile": "data/portrait_prompts_batch15.md",
-      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷196", "https://www.dpm.org.cn/explode/others/209918.html"],
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷196",
+        "https://www.dpm.org.cn/explode/others/209918.html"
+      ],
       "objectPosition": "50% 16%",
       "note": "未找到来源链可靠的本人旧像。画面锚定1524年前后大礼议持续、张璁约四十九岁并进入嘉靖朝权力中心的阶段，以朝房、奏疏与无文字礼制关系图构成环境；五官、神态、服装细节、陈设与具体时刻均为艺术想象，服装不显示可识别品级补子。"
     },
@@ -1761,9 +1789,544 @@
       "width": 2044,
       "height": 2938,
       "license": "Public domain",
-      "evidence": ["https://www.dpm.org.cn/collection/paint/231086.html", "https://commons.wikimedia.org/wiki/File:明興獻王坐像_軸_(1).jpg"],
+      "evidence": [
+        "https://www.dpm.org.cn/collection/paint/231086.html",
+        "https://commons.wikimedia.org/wiki/File:明興獻王坐像_軸_(1).jpg"
+      ],
       "objectPosition": "50% 17%",
       "note": "台北故宫博物院南薰殿系统所藏《明兴献王坐像》公版图。人物识别、明代年代与馆藏来源可靠；但朱祐杬1519年去世后才被嘉靖帝追尊，故宫博物院对同题画像亦判断为嘉靖以后作品，因此更适合作为追尊礼制形象，不能视为生前写生或真实五官的高精度记录。"
+    },
+    "宋礼": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-17/1701_宋礼_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-17/1701_宋礼_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 17,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch17.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷153",
+        "https://zh.wikisource.org/zh-hans/明史纪事本末/卷27"
+      ],
+      "width": 576,
+      "height": 960,
+      "objectPosition": "50% 21%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定永乐九年南旺分水工程，以运河测绘、水位标杆、闸坝模型与工地组织呈现其漕运工程角色；五官、服饰纹样、地图、模型、工地空间与具体动作均属艺术想象。"
+    },
+    "潘季驯": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-17/1702_潘季驯_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-17/1702_潘季驯_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 17,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch17.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷223",
+        "https://ctext.org/wiki.pl?if=gb&res=929545"
+      ],
+      "width": 576,
+      "height": 960,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定万历六年前后治理黄、淮、运河的阶段，以河图、堤防模型与工地呈现其束水攻沙思想；五官、服饰纹样、图纸、模型、工地空间与具体动作均属艺术想象。"
+    },
+    "李舜臣": {
+      "status": "image",
+      "file": "assets/portraits/batch-17/1703_李舜臣_朝鲜时代忠武公图.webp",
+      "originalFile": "data/media-originals/portraits/batch-17/1703_李舜臣_朝鲜时代忠武公图.jpg",
+      "portraitKind": "朝鲜时代忠武公图",
+      "confidence": "低",
+      "batch": 17,
+      "page": "https://commons.wikimedia.org/wiki/File:충무공도_-_조선민화박물관.jpg",
+      "commons": "https://commons.wikimedia.org/wiki/File:충무공도_-_조선민화박물관.jpg",
+      "fileName": "충무공도 - 조선민화박물관.jpg",
+      "width": 430,
+      "height": 917,
+      "license": "Public domain",
+      "objectPosition": "50% 17%",
+      "note": "来源页题作朝鲜时代《忠武公图》，藏于朝鲜民画博物馆。它能代表后世对李舜臣的纪念形象，但没有证据表明是其生前写真，且现存可靠同时代相貌记录不足，因此相貌置信度标为低。"
+    },
+    "丰臣秀吉": {
+      "status": "image",
+      "file": "assets/portraits/batch-17/1704_丰臣秀吉_约1602年狩野派画像.webp",
+      "originalFile": "data/media-originals/portraits/batch-17/1704_丰臣秀吉_约1602年狩野派画像.png",
+      "portraitKind": "约1602年狩野派画像",
+      "confidence": "中",
+      "batch": 17,
+      "page": "https://commons.wikimedia.org/wiki/File:Toyotomi_hideyoshi_face.png",
+      "commons": "https://commons.wikimedia.org/wiki/File:Toyotomi_hideyoshi_face.png",
+      "fileName": "Toyotomi hideyoshi face.png",
+      "width": 507,
+      "height": 456,
+      "license": "Public domain",
+      "objectPosition": "50% 28%",
+      "note": "来源页将其标作高台寺藏、狩野光信约1602年绘的丰臣秀吉画像。人物、作者系统与年代较清楚，但作品约在秀吉死后四年完成，不能等同生前现场写生，故保守标为中置信度。"
+    },
+    "多尔衮": {
+      "status": "image",
+      "file": "assets/portraits/batch-17/1705_多尔衮_17世纪传像.webp",
+      "originalFile": "data/media-originals/portraits/batch-17/1705_多尔衮_17世纪传像.jpg",
+      "portraitKind": "17世纪传为多尔衮像",
+      "confidence": "低",
+      "batch": 17,
+      "page": "https://commons.wikimedia.org/wiki/File:睿亲王多尔衮像.jpg",
+      "commons": "https://commons.wikimedia.org/wiki/File:睿亲王多尔衮像.jpg",
+      "fileName": "睿亲王多尔衮像.jpg",
+      "width": 530,
+      "height": 960,
+      "license": "Public domain",
+      "objectPosition": "50% 14%",
+      "note": "来源页将作品断为17世纪并题作‘传为多尔衮像’，作者不详。时代接近但人物识别带有‘传为’性质，不能把画中五官当作已确证的本人相貌，因此标为低置信度。"
+    },
+    "何心隐": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-18/1801_何心隐_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-18/1801_何心隐_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 18,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch18.md",
+      "evidence": [
+        "https://www.cambridge.org/core/journals/diogenes/article/friendship-and-sovereignty-in-he-xinyin-15171579-a-16th-century-politics-of-friendship/DA6D0DD9A1772355F1B2E98E1F723D7E",
+        "https://ctext.org/library.pl?if=gb&remap=gb&res=3843"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定何心隐的泰州学派身份与聚和堂共同体实践，以宗族院落、讲学人群、无文字账册和筹算呈现思想进入日常组织的尝试；五官、年龄神态、听众、服饰、陈设与具体时刻均为艺术想象。"
+    },
+    "蒋瓛": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-18/1802_蒋瓛_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-18/1802_蒋瓛_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 18,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch18.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史_(四庫全書本)/卷132",
+        "https://ctext.org/dictionary.pl?chapter=879959&if=gb&remap=gb&sid=2090&trid=2220847"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 16%",
+      "note": "未找到来源链可靠的本人旧像。画面只锚定洪武二十六年蒋瓛以锦衣卫指挥身份告发蓝玉这一可考节点；五官、年龄、服饰、奏报、宫廷空间与守卫均为艺术想象，不补写其生卒和结局。"
+    },
+    "纪纲": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-18/1803_纪纲_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-18/1803_纪纲_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 18,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch18.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷307",
+        "https://www.dpm.org.cn/lemmas/241426.html"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 16%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定永乐初纪纲掌锦衣卫、亲军与诏狱的阶段，以文书箱、案卷架和传递人员表现侦缉体系；五官、年龄、服饰、官署与具体动作均为艺术想象。"
+    },
+    "钱宁": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-18/1804_钱宁_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-18/1804_钱宁_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 18,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch18.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷307",
+        "https://www.dpm.org.cn/lemmas/241426.html"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 16%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定正德朝钱宁受宠并掌锦衣卫的阶段，以弓具、封闭文书箱与宫廷近侍暗示善射和私人权力通道；五官、年龄、服饰、弓具、宫室与现场均为艺术想象。"
+    },
+    "陆炳": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-18/1805_陆炳_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-18/1805_陆炳_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 18,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch18.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷307",
+        "https://www.dpm.org.cn/lemmas/241426.html"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 16%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定嘉靖中期陆炳长期掌锦衣卫并介入重大政治案件的阶段，以案件文书、等候官员和深宫通道呈现其权力位置；五官、服饰、官署、人物与光线均为艺术想象。"
+    },
+    "田尔耕": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-18/1806_田尔耕_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-18/1806_田尔耕_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 18,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch18.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷306",
+        "https://www.dpm.org.cn/lemmas/241426.html"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 16%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定天启四年以后田尔耕掌锦衣卫、广布侦卒的阶段，以封缄案卷、木制文书架和派出人员呈现政治侦缉；五官、年龄、服饰、官署、人物与具体时刻均为艺术想象。"
+    },
+    "朱橚": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1901_朱橚_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1901_朱橚_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 20%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定开封藩府园圃、可食植物与植物图页；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱柏": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1902_朱柏_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1902_朱柏_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 19%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定建文削藩压力下的荆州书室与未开启诏书；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱权": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1903_朱权_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1903_朱权_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定南昌书室中的古琴、典籍与茶事；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱文奎": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1904_朱文奎_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1904_朱文奎_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7118"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定1402年前后的南京宫廷儿童书室；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱文圭": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1905_朱文圭_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1905_朱文圭_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7118"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定长期幽禁后走向开启院门的晚年时刻；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱高煦": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1906_朱高煦_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1906_朱高煦_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定宣德初年之前的藩府军务书室；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱高燧": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1907_朱高燧_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1907_朱高燧_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定永乐后期远离封缄文书的藩府前室；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱瞻墡": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1908_朱瞻墡_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1908_朱瞻墡_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定土木危机后克制自守的襄阳书室；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱见济": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1909_朱见济_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1909_朱见济_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定景泰朝宫廷课堂中的五岁储君；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱载壡": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1910_朱载壡_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1910_朱载壡_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定嘉靖朝东宫书室中的少年储君；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱载圳": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1911_朱载圳_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1911_朱载圳_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定储位长期未定时期准备就藩的景王；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱翊镠": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1912_朱翊镠_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1912_朱翊镠_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定晚万历藩府营建、田产册与工地；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱常洵": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1913_朱常洵_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1913_朱常洵_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定洛阳福藩粮册、仓门与旱院；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱常浩": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1914_朱常浩_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1914_朱常浩_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定明末西南避乱途中整理册籍与箱笼；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱常润": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1915_朱常润_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1915_朱常润_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定北京陷落后暂居江南河岸的流离处境；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱常瀛": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1916_朱常瀛_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1916_朱常瀛_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定从衡州向广西避乱并连接南明帝系；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱慈烺": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1917_朱慈烺_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1917_朱慈烺_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定1644年初东宫中面对城防危机的少年储君；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱慈炯": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1918_朱慈炯_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1918_朱慈炯_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定北京危机中抱着书卷行囊等待撤离的少年宗室；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱慈炤": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1919_朱慈炤_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1919_朱慈炤_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定1644年内廷书室中聆听远处动静的少年宗室；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "朱慈煥": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-19/1920_朱慈煥_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-19/1920_朱慈煥_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 19,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch19.md",
+      "evidence": [
+        "https://zh.wikipedia.org/wiki/%E6%98%8E%E6%9C%9D%E5%90%9B%E4%B8%BB%E5%AD%90%E5%A5%B3%E5%88%97%E8%A1%A8"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面锚定仅表现1644年前的儿童身份，不采用后世案件的确定叙事；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
     }
   }
 }

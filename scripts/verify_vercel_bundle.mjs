@@ -30,11 +30,16 @@ page.on('response', response => {
   if (response.url().startsWith(base) && response.status() >= 400) errors.push(`${response.status()} ${response.url()}`);
 });
 
+const immersivePeople = (await fs.readdir(path.join(root, 'people')))
+  .filter(file => file.endsWith('.html'))
+  .sort()
+  .map(file => `people/${file}`);
 const files = [
   'index.html','people.html','events.html','exhibitions.html',
+  'institutions.html',
   'exhibit-yongle-capital.html','exhibit-zheng-he-voyages.html','exhibit-tumu-crisis.html',
   'exhibit-zhang-reform.html','exhibit-imjin-war.html','exhibit-fall-1644.html',
-  'people/yu-qian.html','people/zhang-ju-zheng.html','people/tang-yin.html','people/qi-ji-guang.html',
+  ...immersivePeople,
 ];
 const pages = [];
 for (const file of files) {

@@ -1,0 +1,173 @@
+{
+  "version": "1.0",
+  "scope": "人物作用关系图研究底表；第一版仅收录土木堡危机专题。关系不由人物同现自动推断。",
+  "sourceCatalog": {
+    "DPM_TUMU": {
+      "label": "故宫博物院：土木之变",
+      "url": "https://www.dpm.org.cn/lemmas/243962.html",
+      "kind": "博物馆历史词条"
+    },
+    "MINGSHI_YUQIAN": {
+      "label": "《明史》卷170：于谦传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷170",
+      "kind": "清修正史"
+    },
+    "CAMBRIDGE_CRISIS": {
+      "label": "Ability and Authority in the Context of Crisis and Conflict: The Mid-Fifteenth Century",
+      "url": "https://www.cambridge.org/core/journals/journal-of-chinese-history/article/ability-and-authority-in-the-context-of-crisis-and-conflict-the-midfifteenth-century/2C5745C9E62DB3BDF49D250DC026D4FC",
+      "kind": "现代专题研究"
+    }
+  },
+  "graphs": [
+    {
+      "id": "tumu-crisis",
+      "title": "土木堡之变人物作用图",
+      "exhibitionId": "tumu-crisis",
+      "eventId": "e033",
+      "compactStageId": "defeat",
+      "stages": [
+        {
+          "id": "defeat",
+          "label": "亲征与战败",
+          "range": "1449.08",
+          "intro": "年轻皇帝进入前线，把军事失败与政权核心绑在一起。图中只表达可追溯的人物作用，不把失败压缩成单一奸臣故事。",
+          "outcome": "明军在撤退途中崩溃，英宗被俘；具体兵力、伤亡数字和单一责任叙事仍需谨慎。",
+          "nodes": [
+            {"name": "王振", "x": 18, "y": 18},
+            {"name": "也先", "x": 82, "y": 18},
+            {"name": "朱祁镇", "x": 50, "y": 46}
+          ],
+          "edges": [
+            {
+              "from": "王振",
+              "to": "朱祁镇",
+              "label": "影响亲征与行军",
+              "note": "决策影响",
+              "type": "support",
+              "directed": true,
+              "confidence": "中",
+              "sourceIds": ["DPM_TUMU", "MINGSHI_YUQIAN"],
+              "labelX": 37,
+              "labelY": 30
+            },
+            {
+              "from": "也先",
+              "to": "朱祁镇",
+              "label": "率军围击 · 英宗被俘",
+              "note": "战争与俘获",
+              "type": "conflict",
+              "directed": true,
+              "confidence": "高",
+              "sourceIds": ["DPM_TUMU", "MINGSHI_YUQIAN"],
+              "labelX": 63,
+              "labelY": 30
+            }
+          ]
+        },
+        {
+          "id": "beijing",
+          "label": "北京危机",
+          "range": "1449.09—11",
+          "intro": "皇帝被俘后，明廷必须重新建立合法决策中枢，同时组织京师防务并削弱瓦剌的人质筹码。",
+          "outcome": "朱祁钰即位建立新的决策中枢，于谦组织北京防务；瓦剌未能凭被俘皇帝迫使明廷屈服。",
+          "nodes": [
+            {"name": "朱祁钰", "x": 18, "y": 17},
+            {"name": "于谦", "x": 82, "y": 17},
+            {"name": "朱祁镇", "x": 18, "y": 47},
+            {"name": "也先", "x": 82, "y": 47}
+          ],
+          "edges": [
+            {
+              "from": "朱祁钰",
+              "to": "于谦",
+              "label": "任用 · 组织防务",
+              "note": "协作关系",
+              "type": "support",
+              "directed": true,
+              "confidence": "高",
+              "sourceIds": ["MINGSHI_YUQIAN"],
+              "labelX": 50,
+              "labelY": 15
+            },
+            {
+              "from": "也先",
+              "to": "朱祁镇",
+              "label": "挟英宗施压",
+              "note": "人质政治",
+              "type": "conflict",
+              "directed": true,
+              "confidence": "高",
+              "sourceIds": ["MINGSHI_YUQIAN"],
+              "labelX": 50,
+              "labelY": 45
+            },
+            {
+              "from": "朱祁镇",
+              "to": "朱祁钰",
+              "label": "兄弟 · 皇位替代",
+              "note": "两帝并存的起点",
+              "type": "status",
+              "directed": false,
+              "confidence": "高",
+              "sourceIds": ["MINGSHI_YUQIAN", "CAMBRIDGE_CRISIS"],
+              "labelX": 31.5,
+              "labelY": 32
+            }
+          ]
+        },
+        {
+          "id": "restoration",
+          "label": "复辟与清算",
+          "range": "1450—1457",
+          "intro": "英宗归来后长期幽居南宫。景泰八年，石亨、曹吉祥、徐有贞等迎英宗复位，救亡时期形成的权力结构随即遭到清算。",
+          "outcome": "英宗复位，于谦被处死，复辟功臣进入权力中枢；“夺门是否必要”仍属于历史评价争议。",
+          "nodes": [
+            {"name": "朱祁镇", "x": 18, "y": 17},
+            {"name": "石亨", "x": 82, "y": 17},
+            {"name": "于谦", "x": 18, "y": 47},
+            {"name": "曹吉祥", "x": 82, "y": 47}
+          ],
+          "edges": [
+            {
+              "from": "石亨",
+              "to": "朱祁镇",
+              "label": "迎立英宗复位",
+              "note": "夺门参与者",
+              "type": "support",
+              "directed": true,
+              "confidence": "高",
+              "sourceIds": ["MINGSHI_YUQIAN"],
+              "labelX": 50,
+              "labelY": 15
+            },
+            {
+              "from": "曹吉祥",
+              "to": "朱祁镇",
+              "label": "参与发动政变",
+              "note": "夺门参与者",
+              "type": "support",
+              "directed": true,
+              "confidence": "高",
+              "sourceIds": ["MINGSHI_YUQIAN"],
+              "labelX": 65,
+              "labelY": 34
+            },
+            {
+              "from": "朱祁镇",
+              "to": "于谦",
+              "label": "裁决处死于谦",
+              "note": "政治清算结果",
+              "type": "conflict",
+              "directed": true,
+              "confidence": "高",
+              "sourceIds": ["MINGSHI_YUQIAN"],
+              "labelX": 32,
+              "labelY": 32
+            }
+          ]
+        }
+      ],
+      "sources": ["DPM_TUMU", "MINGSHI_YUQIAN", "CAMBRIDGE_CRISIS"]
+    }
+  ]
+}

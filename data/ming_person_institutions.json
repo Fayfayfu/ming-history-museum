@@ -1,0 +1,191 @@
+{
+  "method": {
+    "label": "人物—机构关联",
+    "scope": "仅收录人物馆已有正式人物卡，且人物与机构存在明确任职、提督、创设或直接制度塑造关系；不是机构历任人员全表。",
+    "relation_types": {
+      "任职": "人物在该机构拥有可核验的正式职衔或实际任职。",
+      "提督": "人物奉命统领厂卫等特定机构。",
+      "创设": "君主直接创设、恢复或重组该机构。",
+      "制度塑造": "人物对机构权力结构有直接、可识别的制度影响。"
+    }
+  },
+  "groups": [
+    {"label": "中枢与监察", "institution_ids": ["cabinet", "censorate"]},
+    {"label": "六部", "institution_ids": ["ministry-personnel", "ministry-revenue", "ministry-rites", "ministry-war", "ministry-justice", "ministry-works"]},
+    {"label": "内廷", "institution_ids": ["silijian"]},
+    {"label": "厂卫", "institution_ids": ["jinyiwei", "dongchang", "xichang"]}
+  ],
+  "institutions": [
+    {
+      "id": "jinyiwei",
+      "name": "锦衣卫",
+      "description": "皇帝直属的侍卫、仪仗与侦缉体系。人物关联既包括创设、强化者，也包括掌卫并直接参与诏狱与重大政治案件者。",
+      "people": [
+        {"name": "朱元璋", "relation": "创设", "note": "洪武朝将侍卫亲军改置锦衣卫，并赋予侦缉、诏狱职能。"},
+        {"name": "朱棣", "relation": "制度塑造", "note": "永乐朝恢复并强化锦衣卫侦缉职能，使其与新设东厂并行。"},
+        {"name": "蒋瓛", "relation": "任职", "note": "洪武二十六年以锦衣卫指挥身份告发蓝玉谋反，成为蓝玉案启动的关键节点。"},
+        {"name": "纪纲", "relation": "任职", "note": "永乐初任锦衣卫指挥使，掌亲军与诏狱。"},
+        {"name": "钱宁", "relation": "任职", "note": "正德朝掌锦衣卫事、典诏狱，并深度介入武宗近侍政治。"},
+        {"name": "陆炳", "relation": "任职", "note": "嘉靖朝长期掌锦衣卫事，参与夏言、仇鸾等重大政治案件。"},
+        {"name": "田尔耕", "relation": "任职", "note": "天启四年起掌锦衣卫事，配合魏忠贤集团制造政治大狱。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷74", "https://zh.wikisource.org/zh-hans/明史/卷306", "https://zh.wikisource.org/zh-hans/明史/卷307"]
+    },
+    {
+      "id": "dongchang",
+      "name": "东厂",
+      "description": "永乐朝创设、由宦官提督的侦缉机构；与锦衣卫既协作又相互牵制。",
+      "people": [
+        {"name": "朱棣", "relation": "创设", "note": "永乐十八年设东厂，以亲信宦官提督。"},
+        {"name": "魏忠贤", "relation": "提督", "note": "天启朝提督东厂，并借厂卫系统扩大政治迫害。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷74", "https://zh.wikisource.org/zh-hans/明史/卷305"]
+    },
+    {
+      "id": "xichang",
+      "name": "西厂",
+      "description": "成化朝两度设置的侦缉机构，存在时间较短，却因越权侦缉形成强烈政治影响。",
+      "people": [
+        {"name": "朱见深", "relation": "创设", "note": "成化十三年设置西厂，后罢而复设。"},
+        {"name": "汪直", "relation": "提督", "note": "奉命提督西厂，权力一度超越常规司法与监察边界。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷304"]
+    },
+    {
+      "id": "silijian",
+      "name": "司礼监",
+      "description": "掌宫廷礼仪、文书与批红的重要内廷机构；掌印、秉笔等职位在中晚明能够深度介入政务流转。",
+      "people": [
+        {"name": "王振", "relation": "任职", "note": "任司礼监太监，正统朝深度介入军政。"},
+        {"name": "金英", "relation": "任职", "note": "任司礼监太监，历事永乐至景泰数朝。"},
+        {"name": "曹吉祥", "relation": "任职", "note": "本馆以司礼监太监身份收录，并参与夺门后权力结构。"},
+        {"name": "刘瑾", "relation": "任职", "note": "任司礼监太监，正德初年控制章奏与内廷信息。"},
+        {"name": "冯保", "relation": "任职", "note": "任司礼监掌印太监，与两宫太后、张居正形成万历初政治联盟。"},
+        {"name": "陈矩", "relation": "任职", "note": "任司礼监掌印太监，以相对克制著称。"},
+        {"name": "魏忠贤", "relation": "任职", "note": "任司礼监秉笔太监并提督东厂。"},
+        {"name": "王承恩", "relation": "任职", "note": "任司礼监秉笔太监，崇祯末随帝殉死。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷74", "https://zh.wikisource.org/zh-hans/明史/卷304"]
+    },
+    {
+      "id": "cabinet",
+      "name": "内阁",
+      "description": "由翰林入直文渊阁发展而来的政务中枢。‘首辅’是实际政治称谓，不能简单等同现代内阁总理。",
+      "people": [
+        {"name": "朱棣", "relation": "创设", "note": "永乐初命解缙等入直文渊阁，形成内阁起点。"},
+        {"name": "解缙", "relation": "任职", "note": "永乐初入直文渊阁，为首批阁臣。"},
+        {"name": "杨士奇", "relation": "任职", "note": "历永乐、洪熙、宣德、正统朝为阁臣。"},
+        {"name": "杨荣", "relation": "任职", "note": "永乐初入阁，长期参与机务。"},
+        {"name": "杨溥", "relation": "任职", "note": "出狱后入阁，与杨士奇、杨荣并称三杨。"},
+        {"name": "李贤", "relation": "任职", "note": "天顺朝主要阁臣。"},
+        {"name": "商辂", "relation": "任职", "note": "景泰、成化间入阁。"},
+        {"name": "刘健", "relation": "任职", "note": "弘治朝首辅。"},
+        {"name": "谢迁", "relation": "任职", "note": "弘治朝阁臣。"},
+        {"name": "李东阳", "relation": "任职", "note": "弘治、正德间阁臣与首辅。"},
+        {"name": "杨廷和", "relation": "任职", "note": "正德、嘉靖交替期首辅。"},
+        {"name": "张璁", "relation": "任职", "note": "大礼议后入阁并任首辅。"},
+        {"name": "夏言", "relation": "任职", "note": "嘉靖朝首辅。"},
+        {"name": "严嵩", "relation": "任职", "note": "嘉靖朝长期任首辅。"},
+        {"name": "徐阶", "relation": "任职", "note": "嘉靖后期首辅。"},
+        {"name": "高拱", "relation": "任职", "note": "隆庆、万历交替期首辅。"},
+        {"name": "张居正", "relation": "任职", "note": "万历初年首辅。"},
+        {"name": "申时行", "relation": "任职", "note": "万历朝首辅。"},
+        {"name": "沈一贯", "relation": "任职", "note": "万历后期首辅。"},
+        {"name": "沈鲤", "relation": "任职", "note": "万历朝阁臣。"},
+        {"name": "叶向高", "relation": "任职", "note": "万历、天启两度入阁。"},
+        {"name": "徐光启", "relation": "任职", "note": "崇祯朝入阁。"},
+        {"name": "黄道周", "relation": "任职", "note": "南明隆武朝任武英殿大学士。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72"]
+    },
+    {
+      "id": "censorate",
+      "name": "都察院",
+      "description": "明代中央监察机关。都御史、御史既承担监察，也常以巡抚、总督等差遣处理地方与军事事务。",
+      "people": [
+        {"name": "王守仁", "relation": "任职", "note": "以左佥都御史等职巡抚南赣。"},
+        {"name": "海瑞", "relation": "任职", "note": "晚年任南京右都御史。"},
+        {"name": "高攀龙", "relation": "任职", "note": "天启朝任左都御史。"},
+        {"name": "杨涟", "relation": "任职", "note": "任左副都御史，上疏劾魏忠贤。"},
+        {"name": "左光斗", "relation": "任职", "note": "任左佥都御史。"},
+        {"name": "潘季驯", "relation": "任职", "note": "以右都御史等衔总理河道。"},
+        {"name": "胡宗宪", "relation": "任职", "note": "以都御史衔总督东南军务。"},
+        {"name": "袁崇焕", "relation": "任职", "note": "以右副都御史等衔督理辽东。"},
+        {"name": "卢象升", "relation": "任职", "note": "以右副都御史等衔总督军务。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73"]
+    },
+    {
+      "id": "ministry-personnel",
+      "name": "吏部",
+      "description": "掌文官选授、考课、封勋等事务，六部中被视为尤重。人物关系只记录本馆人物可核实的正式任职。",
+      "people": [
+        {"name": "蹇义", "relation": "任职", "note": "历任吏部侍郎、吏部尚书，长期主持文官铨选。"},
+        {"name": "顾宪成", "relation": "任职", "note": "任吏部文选司郎中，因推举与执政意见相左被革职。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72", "https://zh.wikisource.org/zh-hans/明史/卷149", "https://zh.wikisource.org/zh-hans/明史/卷231"]
+    },
+    {
+      "id": "ministry-revenue",
+      "name": "户部",
+      "description": "掌户籍、田赋、仓储、财政与漕粮等事务，是理解明代国家财政运转的核心机构。",
+      "people": [
+        {"name": "夏原吉", "relation": "任职", "note": "永乐至宣德初长期任户部尚书，主持国家财政与漕运事务。"},
+        {"name": "倪元璐", "relation": "任职", "note": "崇祯末任户部尚书，北京失陷后殉国。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72", "https://zh.wikisource.org/zh-hans/明史/卷149", "https://zh.wikisource.org/zh-hans/明史/卷265"]
+    },
+    {
+      "id": "ministry-rites",
+      "name": "礼部",
+      "description": "掌礼制、祭祀、学校、科举、册封与朝贡等事务，既处理国内秩序，也承担部分对外礼仪。",
+      "people": [
+        {"name": "张璁", "relation": "任职", "note": "大礼议后任礼部尚书，并以礼制议论进入权力中枢。"},
+        {"name": "徐光启", "relation": "任职", "note": "崇祯朝任礼部尚书，并主持历法修订相关工作。"},
+        {"name": "黄道周", "relation": "任职", "note": "南明隆武朝任礼部尚书，后兼大学士。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72", "https://zh.wikisource.org/zh-hans/明史/卷196", "https://zh.wikisource.org/zh-hans/明史/卷251", "https://zh.wikisource.org/zh-hans/明史/卷255"]
+    },
+    {
+      "id": "ministry-war",
+      "name": "兵部",
+      "description": "掌武官选授、军令、边防与军籍等事务；尚书、侍郎与具体司官的权责层级并不相同。",
+      "people": [
+        {"name": "于谦", "relation": "任职", "note": "北京保卫战时任兵部尚书。"},
+        {"name": "刘大夏", "relation": "任职", "note": "弘治朝任兵部尚书。"},
+        {"name": "王守仁", "relation": "任职", "note": "晚年任南京兵部尚书。"},
+        {"name": "杨继盛", "relation": "任职", "note": "终官兵部武选司员外郎。"},
+        {"name": "孙承宗", "relation": "任职", "note": "任兵部尚书并督师辽东。"},
+        {"name": "杨嗣昌", "relation": "任职", "note": "崇祯朝任兵部尚书。"},
+        {"name": "史可法", "relation": "任职", "note": "明末、南明任兵部尚书。"},
+        {"name": "翁万达", "relation": "任职", "note": "嘉靖朝任兵部尚书。"},
+        {"name": "谭纶", "relation": "任职", "note": "隆庆、万历间任兵部尚书。"},
+        {"name": "宋应昌", "relation": "任职", "note": "以兵部右侍郎经略援朝军务。"},
+        {"name": "卢象升", "relation": "任职", "note": "崇祯朝任兵部尚书。"},
+        {"name": "孙传庭", "relation": "任职", "note": "崇祯末任兵部尚书。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72"]
+    },
+    {
+      "id": "ministry-justice",
+      "name": "刑部",
+      "description": "掌刑名、复核与中央司法行政，并与都察院、大理寺共同构成明代三法司体系。",
+      "people": [
+        {"name": "张璁", "relation": "任职", "note": "嘉靖初授南京刑部主事，随后因大礼议迅速进入中枢。"},
+        {"name": "李贽", "relation": "任职", "note": "曾任南京刑部员外郎，后外任姚安知府并辞官讲学。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72", "https://zh.wikisource.org/zh-hans/明史/卷196", "https://zh.wikisource.org/zh-hans/明史/卷221"]
+    },
+    {
+      "id": "ministry-works",
+      "name": "工部",
+      "description": "掌营造、河防、水利、工程物料与官办手工业等事务，具体工程往往还涉及都察院及地方差遣。",
+      "people": [
+        {"name": "宋礼", "relation": "任职", "note": "永乐二年起任工部尚书，主持会通河与南旺分水等漕运工程。"},
+        {"name": "潘季驯", "relation": "任职", "note": "万历后期以工部尚书兼都御史等衔总理河道。"},
+        {"name": "严世蕃", "relation": "任职", "note": "官至工部左侍郎，其权势很大程度来自严嵩执政与内阁网络。"}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72", "https://zh.wikisource.org/zh-hans/明史/卷153", "https://zh.wikisource.org/zh-hans/明史/卷223", "https://zh.wikisource.org/zh-hans/明史/卷308"]
+    }
+  ]
+}

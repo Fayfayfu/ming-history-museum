@@ -1,0 +1,555 @@
+{
+  "meta": {
+    "version": "0.1",
+    "status": "content-baseline",
+    "title": "明朝机构结构图",
+    "scope": "步入大明数字历史博物馆P0机构关系图",
+    "updated_at": "2026-08-09",
+    "confidence": "中高",
+    "time_model": "4个宏观切片加选中年份状态",
+    "boundary": "本数据表达制度关系示意，不是现代组织架构，也不是明代全部官署表。",
+    "person_link_policy": "人物任职、提督、创设和制度塑造关系继续由ming_person_institutions.json维护；被侦办或发生冲突不等于任职。"
+  },
+  "phases": [
+    {
+      "id": "early_hongwu",
+      "name": "洪武前期：中书省统政",
+      "start": 1368,
+      "end": 1379,
+      "default_year": 1370,
+      "key_years": [1376, 1379],
+      "summary": "中央保留中书省和丞相体系；1376年后地方行省逐步改为三司。",
+      "confidence": "高"
+    },
+    {
+      "id": "late_hongwu_jianwen",
+      "name": "洪武后期至建文：皇帝直辖六部",
+      "start": 1380,
+      "end": 1402,
+      "default_year": 1390,
+      "key_years": [1380, 1382, 1395, 1402],
+      "summary": "罢中书省、废丞相；六部直接对皇帝负责，五军都督府、都察院、锦衣卫等形成。",
+      "confidence": "高"
+    },
+    {
+      "id": "yongle_xuande",
+      "name": "永乐至宣德：内阁与内廷机制形成",
+      "start": 1403,
+      "end": 1435,
+      "default_year": 1425,
+      "key_years": [1403, 1420, 1429, 1435],
+      "summary": "内阁逐渐形成，1420年设置东厂，司礼监地位在宣德朝上升。",
+      "confidence": "高"
+    },
+    {
+      "id": "mid_late_ming",
+      "name": "正统至崇祯：监阁、厂卫与督抚体系展开",
+      "start": 1436,
+      "end": 1644,
+      "default_year": 1600,
+      "key_years": [1442, 1477, 1482, 1506, 1510, 1572, 1621, 1627, 1644],
+      "summary": "票拟、批红趋于成熟，督抚差遣逐渐常态化，厂卫权势随时期变化。",
+      "confidence": "中高"
+    }
+  ],
+  "systems": [
+    {
+      "id": "imperial_center",
+      "name": "皇权与中枢辅政",
+      "question": "谁提出处理意见，谁最终裁决？",
+      "color_semantic": "金色"
+    },
+    {
+      "id": "civil_administration",
+      "name": "外廷行政与文书",
+      "question": "政令如何上传下达并执行？",
+      "color_semantic": "靛蓝"
+    },
+    {
+      "id": "supervision_justice",
+      "name": "监察与司法",
+      "question": "谁调查、审理、纠察和复核？",
+      "color_semantic": "朱红"
+    },
+    {
+      "id": "inner_court_surveillance",
+      "name": "内廷与厂卫",
+      "question": "皇帝如何通过内廷和侦缉机构获得信息并执行特殊命令？",
+      "color_semantic": "紫黑"
+    },
+    {
+      "id": "military",
+      "name": "军事",
+      "question": "谁掌军令、军政、军籍和调兵？",
+      "color_semantic": "蓝灰"
+    },
+    {
+      "id": "local_governance",
+      "name": "地方治理",
+      "question": "中央如何连接地方三司与府州县？",
+      "color_semantic": "青绿"
+    }
+  ],
+  "institutions": [
+    {
+      "id": "emperor",
+      "name": "皇帝",
+      "system": "imperial_center",
+      "node_type": "role",
+      "active_periods": [{"start": 1368, "end": 1644, "confidence": "高"}],
+      "summary": "国家最高裁决者，掌握重大政务、军令、司法与特殊侦缉的最终授权。",
+      "boundary": "最终裁决不等于皇帝逐件亲自处理全部政务。",
+      "confidence": "高",
+      "source_ids": ["mingshi_2"]
+    },
+    {
+      "id": "central_secretariat",
+      "name": "中书省",
+      "system": "imperial_center",
+      "node_type": "institution",
+      "active_periods": [{"start": 1368, "end": 1379, "state": "active_until_reform_in_1380", "confidence": "高"}],
+      "summary": "明初中央辅政与行政中枢，丞相总理六部事务，洪武十三年正月罢除。",
+      "boundary": "产品年度状态在1380年隐藏该节点；不能延续到明代中后期。",
+      "confidence": "高",
+      "source_ids": ["mingshi_2", "dpm_secretariat", "dpm_six_ministries"]
+    },
+    {
+      "id": "chancellor",
+      "name": "丞相",
+      "system": "imperial_center",
+      "node_type": "role",
+      "active_periods": [{"start": 1368, "end": 1379, "state": "active_until_reform_in_1380", "confidence": "高"}],
+      "summary": "中书省长官，位于皇帝与百官行政体系之间，洪武十三年废除。",
+      "boundary": "明代后期首辅不得改写为丞相。",
+      "confidence": "高",
+      "source_ids": ["mingshi_2", "dpm_secretariat"]
+    },
+    {
+      "id": "grand_secretariat",
+      "name": "内阁",
+      "system": "imperial_center",
+      "node_type": "institution",
+      "active_periods": [{"start": 1403, "end": 1644, "state": "evolving_advisory_center", "confidence": "高"}],
+      "summary": "由殿阁大学士辅政机制逐步发展而来，重要职能包括参与机务与票拟。",
+      "boundary": "不是法定宰相府或现代责任内阁，也不是六部始终固定的正式上级。",
+      "confidence": "高",
+      "source_ids": ["dpm_cabinet", "dpm_draft_rescript"]
+    },
+    {
+      "id": "six_ministries",
+      "name": "六部",
+      "system": "civil_administration",
+      "node_type": "group",
+      "active_periods": [{"start": 1368, "end": 1644, "confidence": "高"}],
+      "summary": "吏、户、礼、兵、刑、工六部，分别处理国家主要行政事务。",
+      "boundary": "1380年前后隶属关系不同；六部彼此不是上下级。",
+      "confidence": "高",
+      "source_ids": ["mingshi_2", "dpm_six_ministries"]
+    },
+    {
+      "id": "ministry_personnel",
+      "name": "吏部",
+      "system": "civil_administration",
+      "node_type": "institution",
+      "parent_group": "six_ministries",
+      "active_periods": [{"start": 1368, "end": 1644, "confidence": "高"}],
+      "summary": "掌文官选授、考核、升降等事务。",
+      "boundary": "现代人事部门只能帮助理解，不能代替具体职掌。",
+      "confidence": "高",
+      "source_ids": ["dpm_six_ministries"]
+    },
+    {
+      "id": "ministry_revenue",
+      "name": "户部",
+      "system": "civil_administration",
+      "node_type": "institution",
+      "parent_group": "six_ministries",
+      "active_periods": [{"start": 1368, "end": 1644, "confidence": "高"}],
+      "summary": "掌户籍、田赋、财政、仓储等事务。",
+      "boundary": "各时期具体财政职掌和临时机构需要另行展开。",
+      "confidence": "高",
+      "source_ids": ["dpm_six_ministries"]
+    },
+    {
+      "id": "ministry_rites",
+      "name": "礼部",
+      "system": "civil_administration",
+      "node_type": "institution",
+      "parent_group": "six_ministries",
+      "active_periods": [{"start": 1368, "end": 1644, "confidence": "高"}],
+      "summary": "掌礼仪、学校、科举、朝贡等事务。",
+      "boundary": "不等同于单一文化或外交部门。",
+      "confidence": "高",
+      "source_ids": ["dpm_six_ministries"]
+    },
+    {
+      "id": "ministry_war",
+      "name": "兵部",
+      "system": "civil_administration",
+      "node_type": "institution",
+      "parent_group": "six_ministries",
+      "active_periods": [{"start": 1368, "end": 1644, "confidence": "高"}],
+      "summary": "掌军官选授、军令及相关军政事务。",
+      "boundary": "不直接等于全部军队的统帅机关。",
+      "confidence": "高",
+      "source_ids": ["mingshi_76", "dpm_six_ministries"]
+    },
+    {
+      "id": "ministry_justice",
+      "name": "刑部",
+      "system": "civil_administration",
+      "node_type": "institution",
+      "parent_group": "six_ministries",
+      "active_periods": [{"start": 1368, "end": 1644, "confidence": "高"}],
+      "summary": "受理、审拟全国刑名案件，是三法司之一。",
+      "boundary": "重大案件仍受大理寺复核、都察院纠察及皇帝裁决。",
+      "confidence": "高",
+      "source_ids": ["mingshi_73", "mingshi_94", "dpm_six_ministries"]
+    },
+    {
+      "id": "ministry_works",
+      "name": "工部",
+      "system": "civil_administration",
+      "node_type": "institution",
+      "parent_group": "six_ministries",
+      "active_periods": [{"start": 1368, "end": 1644, "confidence": "高"}],
+      "summary": "掌营造、水利、工程、工匠等事务。",
+      "boundary": "不等同于现代单一建设部门。",
+      "confidence": "高",
+      "source_ids": ["dpm_six_ministries"]
+    },
+    {
+      "id": "transmission_office",
+      "name": "通政使司",
+      "system": "civil_administration",
+      "node_type": "institution",
+      "active_periods": [{"start": 1377, "end": 1644, "confidence": "高"}],
+      "summary": "掌受内外章奏、传达命令、通达下情等。",
+      "boundary": "不同文书类型和时期的奏章流程并不完全一致。",
+      "confidence": "高",
+      "source_ids": ["mingshi_73", "dpm_transmission"]
+    },
+    {
+      "id": "censorate_platform",
+      "name": "御史台",
+      "system": "supervision_justice",
+      "node_type": "institution",
+      "active_periods": [{"start": 1368, "end": 1379, "state": "abolished_in_1380", "confidence": "高"}],
+      "summary": "明初中央监察机构，洪武十三年罢除，随后形成都察院体系。",
+      "boundary": "不能与1382年后的都察院合并成名称始终不变的单一节点。",
+      "confidence": "高",
+      "source_ids": ["mingshi_2", "dpm_hongwu_governance"]
+    },
+    {
+      "id": "censorate",
+      "name": "都察院",
+      "system": "supervision_justice",
+      "node_type": "institution",
+      "active_periods": [{"start": 1382, "end": 1644, "confidence": "高"}],
+      "summary": "纠劾百司、辨明冤枉、统辖监察御史，是中央监察核心。",
+      "boundary": "与六科合称科道不等于六科隶属于都察院。",
+      "confidence": "高",
+      "source_ids": ["mingshi_73", "dpm_hongwu_governance"]
+    },
+    {
+      "id": "six_offices",
+      "name": "六科",
+      "system": "supervision_justice",
+      "node_type": "institution",
+      "active_periods": [{"start": 1373, "end": 1644, "state": "organization_evolved", "confidence": "中高"}],
+      "summary": "对应六部，掌规谏、稽察、封驳、抄发章疏等。",
+      "boundary": "制度沿革和员额变化较多；不是都察院下属。",
+      "confidence": "中高",
+      "source_ids": ["mingshi_74"]
+    },
+    {
+      "id": "court_judicial_review",
+      "name": "大理寺",
+      "system": "supervision_justice",
+      "node_type": "institution",
+      "active_periods": [
+        {"start": 1381, "end": 1395, "state": "repeated_reorganization", "confidence": "中高"},
+        {"start": 1399, "end": 1644, "state": "restored_and_later_stabilized", "confidence": "中高"}
+      ],
+      "summary": "审谳、平反、复核刑狱，与刑部、都察院合称三法司。",
+      "boundary": "洪武、建文时期曾设罢反复；不宜直接称为最高法院。",
+      "confidence": "高",
+      "source_ids": ["mingshi_73", "mingshi_94", "dpm_judicial_review"]
+    },
+    {
+      "id": "three_judicial_offices",
+      "name": "三法司",
+      "system": "supervision_justice",
+      "node_type": "group",
+      "active_periods": [
+        {"start": 1381, "end": 1395, "state": "intermittent_with_dali_temple", "confidence": "中高"},
+        {"start": 1399, "end": 1644, "confidence": "高"}
+      ],
+      "summary": "刑部、都察院、大理寺协同处理刑狱的制度组合。",
+      "boundary": "是协同制度概念，不是凌驾三者之上的独立衙门。",
+      "confidence": "高",
+      "source_ids": ["mingshi_73", "mingshi_94", "dpm_judicial_review"]
+    },
+    {
+      "id": "directorate_ceremonial",
+      "name": "司礼监",
+      "system": "inner_court_surveillance",
+      "node_type": "institution",
+      "active_periods": [{"start": 1395, "end": 1644, "state": "functions_evolved", "confidence": "高"}],
+      "summary": "内廷重要宦官机构，掌礼仪与机要文书，中后期掌印、秉笔太监深度介入政务。",
+      "boundary": "1384年礼监司是前身性设置；正统以后批红功能突出，不能反推到洪武初年。",
+      "confidence": "高",
+      "source_ids": ["mingshi_74", "dpm_ceremonial"]
+    },
+    {
+      "id": "embroidered_uniform_guard",
+      "name": "锦衣卫",
+      "system": "inner_court_surveillance",
+      "node_type": "institution",
+      "active_periods": [{"start": 1382, "end": 1644, "state": "powers_varied", "confidence": "高"}],
+      "summary": "皇帝亲军机构，掌侍卫、仪仗，并承担缉捕、刑狱等职能。",
+      "boundary": "不是单纯特务机关；诏狱权力与实际影响随时期变化。",
+      "confidence": "高",
+      "source_ids": ["mingshi_76", "mingshi_95", "dpm_hongwu_governance"]
+    },
+    {
+      "id": "eastern_depot",
+      "name": "东厂",
+      "system": "inner_court_surveillance",
+      "node_type": "institution",
+      "active_periods": [{"start": 1420, "end": 1644, "state": "power_varied", "confidence": "高"}],
+      "summary": "由宦官提督的侦缉机构，与锦衣卫协作并借用卫官校执行事务。",
+      "boundary": "不能写成始终高于锦衣卫；实际权势取决于时期和掌权者。",
+      "confidence": "高",
+      "source_ids": ["mingshi_95"]
+    },
+    {
+      "id": "western_depot",
+      "name": "西厂",
+      "system": "inner_court_surveillance",
+      "node_type": "institution",
+      "active_periods": [
+        {"start": 1477, "end": 1482, "state": "intermittent", "exact_intervals_verified": false, "confidence": "中高"},
+        {"start": 1506, "end": 1510, "state": "reopened", "exact_intervals_verified": false, "confidence": "中"}
+      ],
+      "summary": "成化年间反复开设、正德初年重开的侦缉机构。",
+      "boundary": "不是贯穿中晚明的常设机关；未核实精确月份前不得伪造逐年连续状态。",
+      "confidence": "中高",
+      "source_ids": ["mingshi_95", "dpm_western_depot"]
+    },
+    {
+      "id": "chief_military_commission",
+      "name": "大都督府",
+      "system": "military",
+      "node_type": "institution",
+      "active_periods": [{"start": 1368, "end": 1379, "state": "reorganized_in_1380", "confidence": "高"}],
+      "summary": "明初中央最高军府，洪武十三年改为中、左、右、前、后五军都督府。",
+      "boundary": "不得与1380年后的五军都督府并存显示。",
+      "confidence": "高",
+      "source_ids": ["mingshi_2", "mingshi_76", "dpm_hongwu_governance"]
+    },
+    {
+      "id": "five_commissions",
+      "name": "五军都督府",
+      "system": "military",
+      "node_type": "institution",
+      "active_periods": [{"start": 1380, "end": 1644, "confidence": "高"}],
+      "summary": "由大都督府改置，分领都司、卫所，掌军籍、军政等。",
+      "boundary": "与兵部相互分掌军务，不能画成单向上下级。",
+      "confidence": "高",
+      "source_ids": ["mingshi_2", "mingshi_76", "dpm_hongwu_governance", "dpm_guard_system"]
+    },
+    {
+      "id": "guard_battalion_system",
+      "name": "卫所",
+      "system": "military",
+      "node_type": "institution",
+      "active_periods": [{"start": 1368, "end": 1644, "state": "effectiveness_changed", "confidence": "高"}],
+      "summary": "地方与全国性军事编制体系，上接都司与五军都督府。",
+      "boundary": "实际战时统兵、营兵发展与卫所衰变需要P1展开。",
+      "confidence": "高",
+      "source_ids": ["mingshi_76", "dpm_guard_system"]
+    },
+    {
+      "id": "provincial_admin_commission",
+      "name": "承宣布政使司",
+      "system": "local_governance",
+      "node_type": "institution",
+      "active_periods": [{"start": 1376, "end": 1644, "confidence": "高"}],
+      "summary": "地方三司之一，主要掌民政、财政等。",
+      "boundary": "不是统辖全省军政司法的现代省政府。",
+      "confidence": "高",
+      "source_ids": ["dpm_secretariat", "dpm_hongwu_governance"]
+    },
+    {
+      "id": "provincial_surveillance_commission",
+      "name": "提刑按察使司",
+      "system": "local_governance",
+      "node_type": "institution",
+      "active_periods": [{"start": 1376, "end": 1644, "confidence": "高"}],
+      "summary": "地方三司之一，掌刑名、监察等。",
+      "boundary": "与布政使司、都指挥使司互不统属。",
+      "confidence": "高",
+      "source_ids": ["mingshi_94", "dpm_secretariat", "dpm_hongwu_governance"]
+    },
+    {
+      "id": "regional_military_commission",
+      "name": "都指挥使司",
+      "system": "local_governance",
+      "node_type": "institution",
+      "active_periods": [{"start": 1376, "end": 1644, "confidence": "高"}],
+      "summary": "地方三司之一，掌地方卫所军事。",
+      "boundary": "与地方行政区边界并非始终完全重合。",
+      "confidence": "高",
+      "source_ids": ["mingshi_76", "dpm_secretariat", "dpm_hongwu_governance", "dpm_guard_system"]
+    },
+    {
+      "id": "prefecture_subprefecture_county",
+      "name": "府、州、县",
+      "system": "local_governance",
+      "node_type": "group",
+      "active_periods": [{"start": 1368, "end": 1644, "confidence": "高"}],
+      "summary": "地方民政与基层治理层级的集合节点。",
+      "boundary": "直隶州、属州及特殊地区存在差异，P0不全部展开。",
+      "confidence": "高",
+      "source_ids": ["dpm_hongwu_governance"]
+    },
+    {
+      "id": "grand_coordinator_supreme_commander",
+      "name": "巡抚、总督",
+      "system": "local_governance",
+      "node_type": "group",
+      "active_periods": [{"start": 1421, "end": 1644, "state": "dispatches_gradually_regularized", "confidence": "中高"}],
+      "summary": "以都御史等衔奉命协调地方军政，辖区和权限随任务变化。",
+      "boundary": "明初已有巡抚名义；产品节点从永乐十九年差遣扩展起显示，不代表固定省级上下级。",
+      "confidence": "中高",
+      "source_ids": ["mingshi_73"]
+    }
+  ],
+  "relations": [
+    {"id": "r_eh_01", "from": "emperor", "to": "central_secretariat", "type": "direct_imperial_control", "label": "辅政与行政中枢", "active_periods": [{"start": 1368, "end": 1379, "confidence": "高"}], "confidence": "高", "source_ids": ["dpm_secretariat"]},
+    {"id": "r_eh_02", "from": "chancellor", "to": "central_secretariat", "type": "formal_subordination", "label": "总理省事", "active_periods": [{"start": 1368, "end": 1379, "confidence": "高"}], "confidence": "高", "source_ids": ["dpm_secretariat", "dpm_six_ministries"]},
+    {"id": "r_eh_03", "from": "central_secretariat", "to": "six_ministries", "type": "formal_subordination", "label": "统理六部事务", "active_periods": [{"start": 1368, "end": 1379, "confidence": "高"}], "confidence": "高", "source_ids": ["dpm_secretariat", "dpm_six_ministries"]},
+    {"id": "r_eh_04", "from": "emperor", "to": "chief_military_commission", "type": "direct_imperial_control", "label": "中央军府", "active_periods": [{"start": 1368, "end": 1379, "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_2", "dpm_hongwu_governance"]},
+    {"id": "r_eh_05", "from": "emperor", "to": "censorate_platform", "type": "direct_imperial_control", "label": "中央监察", "active_periods": [{"start": 1368, "end": 1379, "confidence": "中高"}], "confidence": "中高", "source_ids": ["dpm_hongwu_governance"]},
+    {"id": "r_eh_06", "from": "emperor", "to": "transmission_office", "type": "direct_imperial_control", "label": "通达章奏", "active_periods": [{"start": 1377, "end": 1379, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_73", "dpm_transmission"]},
+    {"id": "r_eh_07", "from": "transmission_office", "to": "emperor", "type": "document_flow", "label": "递送内外章奏", "active_periods": [{"start": 1377, "end": 1379, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_73", "dpm_transmission"]},
+
+    {"id": "r_lh_01", "from": "emperor", "to": "six_ministries", "type": "direct_imperial_control", "label": "六部直接奏事", "active_periods": [{"start": 1380, "end": 1402, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_2", "dpm_six_ministries"]},
+    {"id": "r_lh_02", "from": "emperor", "to": "five_commissions", "type": "direct_imperial_control", "label": "分掌军政、集中调兵裁决", "active_periods": [{"start": 1380, "end": 1402, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_2", "dpm_hongwu_governance"]},
+    {"id": "r_lh_03", "from": "five_commissions", "to": "regional_military_commission", "type": "formal_subordination", "label": "分领都司", "active_periods": [{"start": 1380, "end": 1402, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_76", "dpm_guard_system"]},
+    {"id": "r_lh_04", "from": "regional_military_commission", "to": "guard_battalion_system", "type": "formal_subordination", "label": "统辖卫所", "active_periods": [{"start": 1380, "end": 1402, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_76", "dpm_guard_system"]},
+    {"id": "r_lh_05", "from": "emperor", "to": "censorate", "type": "direct_imperial_control", "label": "纠劾百司", "active_periods": [{"start": 1382, "end": 1402, "confidence": "高"}], "confidence": "高", "source_ids": ["dpm_hongwu_governance"]},
+    {"id": "r_lh_06", "from": "censorate", "to": "six_ministries", "type": "supervision_review", "label": "监察纠劾", "active_periods": [{"start": 1382, "end": 1402, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_73"]},
+    {"id": "r_lh_07", "from": "emperor", "to": "embroidered_uniform_guard", "type": "special_imperial_mandate", "label": "侍卫、缉捕与诏狱", "active_periods": [{"start": 1382, "end": 1402, "state": "intensity_varied", "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_76", "mingshi_95", "dpm_hongwu_governance"]},
+    {"id": "r_lh_08", "from": "transmission_office", "to": "emperor", "type": "document_flow", "label": "递送内外章奏", "active_periods": [{"start": 1380, "end": 1402, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_73", "dpm_transmission"]},
+
+    {"id": "r_yx_01", "from": "emperor", "to": "grand_secretariat", "type": "direct_imperial_control", "label": "顾问、参与机务", "active_periods": [{"start": 1403, "end": 1435, "confidence": "高"}], "confidence": "高", "source_ids": ["dpm_cabinet"]},
+    {"id": "r_yx_02", "from": "grand_secretariat", "to": "emperor", "type": "document_flow", "label": "票拟机制逐渐形成", "active_periods": [{"start": 1425, "end": 1435, "precision": "approximate", "confidence": "中高"}], "confidence": "中高", "source_ids": ["dpm_cabinet", "dpm_draft_rescript"]},
+    {"id": "r_yx_03", "from": "emperor", "to": "six_ministries", "type": "direct_imperial_control", "label": "六部直接对皇帝负责", "active_periods": [{"start": 1403, "end": 1435, "confidence": "高"}], "confidence": "高", "source_ids": ["dpm_six_ministries"]},
+    {"id": "r_yx_04", "from": "emperor", "to": "eastern_depot", "type": "special_imperial_mandate", "label": "侦缉信息", "active_periods": [{"start": 1420, "end": 1435, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_95"]},
+    {"id": "r_yx_05", "from": "eastern_depot", "to": "embroidered_uniform_guard", "type": "operational_coordination", "label": "借用卫官校、协同侦缉", "active_periods": [{"start": 1420, "end": 1435, "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_95"]},
+    {"id": "r_yx_06", "from": "emperor", "to": "directorate_ceremonial", "type": "direct_imperial_control", "label": "内廷礼仪与机要事务", "active_periods": [{"start": 1403, "end": 1435, "confidence": "高"}], "confidence": "高", "source_ids": ["dpm_ceremonial"]},
+    {"id": "r_yx_07", "from": "ministry_war", "to": "five_commissions", "type": "military_coordination", "label": "军令与军政协同", "active_periods": [{"start": 1403, "end": 1435, "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_76", "dpm_hongwu_governance"]},
+    {"id": "r_yx_09", "from": "five_commissions", "to": "regional_military_commission", "type": "formal_subordination", "label": "分领都司", "active_periods": [{"start": 1403, "end": 1435, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_76", "dpm_guard_system"]},
+    {"id": "r_yx_10", "from": "regional_military_commission", "to": "guard_battalion_system", "type": "formal_subordination", "label": "统辖卫所", "active_periods": [{"start": 1403, "end": 1435, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_76", "dpm_guard_system"]},
+
+    {"id": "r_ml_01", "from": "transmission_office", "to": "emperor", "type": "document_flow", "label": "递送题奏", "active_periods": [{"start": 1436, "end": 1644, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_73", "dpm_transmission"]},
+    {"id": "r_ml_02", "from": "emperor", "to": "grand_secretariat", "type": "document_flow", "label": "发下拟议", "active_periods": [{"start": 1436, "end": 1644, "state": "typical_flow", "confidence": "中高"}], "confidence": "中高", "source_ids": ["dpm_draft_rescript"]},
+    {"id": "r_ml_03", "from": "grand_secretariat", "to": "emperor", "type": "document_flow", "label": "提出票拟", "active_periods": [{"start": 1436, "end": 1644, "state": "typical_flow", "confidence": "高"}], "confidence": "高", "source_ids": ["dpm_draft_rescript"]},
+    {"id": "r_ml_04", "from": "grand_secretariat", "to": "directorate_ceremonial", "type": "document_flow", "label": "票拟送入内廷处理", "active_periods": [{"start": 1436, "end": 1644, "state": "typical_flow", "confidence": "中高"}], "confidence": "中高", "source_ids": ["dpm_ceremonial", "dpm_draft_rescript"]},
+    {"id": "r_ml_05", "from": "directorate_ceremonial", "to": "six_offices", "type": "document_flow", "label": "奉旨批红后发出", "active_periods": [{"start": 1436, "end": 1644, "state": "typical_flow", "confidence": "中高"}], "confidence": "中高", "source_ids": ["dpm_ceremonial", "dpm_draft_rescript"]},
+    {"id": "r_ml_06", "from": "six_offices", "to": "six_ministries", "type": "document_flow", "label": "抄发承办", "active_periods": [{"start": 1436, "end": 1644, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_74"]},
+    {"id": "r_ml_07", "from": "six_offices", "to": "six_ministries", "type": "supervision_review", "label": "稽察、封驳", "active_periods": [{"start": 1436, "end": 1644, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_74"]},
+    {"id": "r_ml_08", "from": "censorate", "to": "six_ministries", "type": "supervision_review", "label": "纠劾监察", "active_periods": [{"start": 1436, "end": 1644, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_73"]},
+    {"id": "r_ml_09", "from": "ministry_justice", "to": "court_judicial_review", "type": "document_flow", "label": "移案送审", "active_periods": [{"start": 1403, "end": 1644, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_73", "dpm_judicial_review"]},
+    {"id": "r_ml_10", "from": "court_judicial_review", "to": "ministry_justice", "type": "supervision_review", "label": "复核、驳令改拟", "active_periods": [{"start": 1403, "end": 1644, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_73", "dpm_judicial_review"]},
+    {"id": "r_ml_11", "from": "emperor", "to": "embroidered_uniform_guard", "type": "special_imperial_mandate", "label": "侦缉、诏狱", "active_periods": [{"start": 1436, "end": 1644, "state": "intensity_varied", "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_95"]},
+    {"id": "r_ml_12", "from": "emperor", "to": "eastern_depot", "type": "special_imperial_mandate", "label": "侦缉", "active_periods": [{"start": 1436, "end": 1644, "state": "intensity_varied", "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_95"]},
+    {"id": "r_ml_13", "from": "eastern_depot", "to": "embroidered_uniform_guard", "type": "operational_coordination", "label": "协同侦缉、移送审讯", "active_periods": [{"start": 1436, "end": 1644, "state": "power_relationship_varied", "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_95"]},
+    {"id": "r_ml_14", "from": "eastern_depot", "to": "ministry_justice", "type": "document_flow", "label": "移送拟罪或会审", "active_periods": [{"start": 1436, "end": 1644, "state": "not_all_cases", "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_95"]},
+    {"id": "r_ml_15", "from": "embroidered_uniform_guard", "to": "ministry_justice", "type": "document_flow", "label": "移送拟罪或会审", "active_periods": [{"start": 1436, "end": 1644, "state": "not_all_cases", "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_95"]},
+    {"id": "r_ml_16", "from": "ministry_war", "to": "five_commissions", "type": "military_coordination", "label": "军令、军政与调遣协同", "active_periods": [{"start": 1436, "end": 1644, "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_76", "dpm_hongwu_governance"]},
+    {"id": "r_ml_18", "from": "five_commissions", "to": "regional_military_commission", "type": "formal_subordination", "label": "分领都司", "active_periods": [{"start": 1436, "end": 1644, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_76", "dpm_guard_system"]},
+    {"id": "r_ml_19", "from": "regional_military_commission", "to": "guard_battalion_system", "type": "formal_subordination", "label": "统辖卫所", "active_periods": [{"start": 1436, "end": 1644, "confidence": "高"}], "confidence": "高", "source_ids": ["mingshi_76", "dpm_guard_system"]},
+    {"id": "r_ml_20", "from": "grand_coordinator_supreme_commander", "to": "provincial_admin_commission", "type": "operational_coordination", "label": "奉敕协调地方事务", "active_periods": [{"start": 1436, "end": 1644, "state": "task_and_jurisdiction_specific", "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_73"]},
+    {"id": "r_ml_21", "from": "grand_coordinator_supreme_commander", "to": "provincial_surveillance_commission", "type": "operational_coordination", "label": "奉敕协调地方事务", "active_periods": [{"start": 1436, "end": 1644, "state": "task_and_jurisdiction_specific", "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_73"]},
+    {"id": "r_ml_22", "from": "grand_coordinator_supreme_commander", "to": "regional_military_commission", "type": "military_coordination", "label": "奉敕协调军务", "active_periods": [{"start": 1436, "end": 1644, "state": "task_and_jurisdiction_specific", "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_73"]},
+    {"id": "r_ml_23", "from": "provincial_admin_commission", "to": "prefecture_subprefecture_county", "type": "formal_subordination", "label": "地方民政行政", "active_periods": [{"start": 1436, "end": 1644, "confidence": "高"}], "confidence": "高", "source_ids": ["dpm_hongwu_governance"]},
+    {"id": "r_ml_24", "from": "provincial_surveillance_commission", "to": "prefecture_subprefecture_county", "type": "supervision_review", "label": "刑名与监察", "active_periods": [{"start": 1436, "end": 1644, "confidence": "中高"}], "confidence": "中高", "source_ids": ["mingshi_94", "dpm_hongwu_governance"]}
+  ],
+  "views": [
+    {
+      "id": "overview",
+      "type": "overview",
+      "name": "明朝国家机器总览",
+      "question": "明朝国家机器由哪些系统构成？",
+      "institution_ids": ["emperor", "central_secretariat", "chancellor", "grand_secretariat", "six_ministries", "transmission_office", "censorate_platform", "censorate", "six_offices", "three_judicial_offices", "directorate_ceremonial", "embroidered_uniform_guard", "eastern_depot", "western_depot", "chief_military_commission", "five_commissions", "guard_battalion_system", "provincial_admin_commission", "provincial_surveillance_commission", "regional_military_commission", "prefecture_subprefecture_county", "grand_coordinator_supreme_commander"],
+      "relation_ids": ["r_eh_01", "r_eh_03", "r_eh_04", "r_lh_01", "r_lh_02", "r_lh_03", "r_lh_04", "r_yx_01", "r_yx_03", "r_yx_04", "r_yx_09", "r_yx_10", "r_ml_08", "r_ml_11", "r_ml_12", "r_ml_16", "r_ml_18", "r_ml_19", "r_ml_20", "r_ml_21", "r_ml_22", "r_ml_23", "r_ml_24"],
+      "boundary": "默认按选中年份过滤节点和关系；不表示全部节点同时存在。"
+    },
+    {
+      "id": "document_to_decree",
+      "type": "topic",
+      "name": "一道奏章如何变成命令",
+      "question": "谁递送、谁票拟、谁裁决、谁批红、谁承办？",
+      "institution_ids": ["emperor", "transmission_office", "grand_secretariat", "directorate_ceremonial", "six_offices", "six_ministries"],
+      "relation_ids": ["r_ml_01", "r_ml_02", "r_ml_03", "r_ml_04", "r_ml_05", "r_ml_06", "r_ml_07"],
+      "boundary": "正统以后典型流程；保留皇帝亲批、改票和留中的例外说明。"
+    },
+    {
+      "id": "supervision_officials",
+      "type": "topic",
+      "name": "谁来监督官员",
+      "question": "都察院、六科和地方按察体系有什么区别？",
+      "institution_ids": ["emperor", "censorate_platform", "censorate", "six_offices", "six_ministries", "ministry_personnel", "provincial_surveillance_commission", "prefecture_subprefecture_county"],
+      "relation_ids": ["r_lh_05", "r_lh_06", "r_ml_07", "r_ml_08", "r_ml_21", "r_ml_24"],
+      "boundary": "六科与都察院常合称科道，但六科不是都察院下属。"
+    },
+    {
+      "id": "justice_vs_imperial_prison",
+      "type": "topic",
+      "name": "三法司与厂卫诏狱",
+      "question": "普通司法与皇帝特别授权的侦缉、诏狱路径有什么区别？",
+      "institution_ids": ["emperor", "ministry_justice", "censorate", "court_judicial_review", "three_judicial_offices", "directorate_ceremonial", "embroidered_uniform_guard", "eastern_depot", "western_depot"],
+      "relation_ids": ["r_ml_09", "r_ml_10", "r_ml_11", "r_ml_12", "r_ml_13", "r_ml_14", "r_ml_15"],
+      "boundary": "厂卫所获案件并非全部合法绕过三法司，厂与卫的权势排序也随时期变化。"
+    },
+    {
+      "id": "military_command",
+      "type": "topic",
+      "name": "明朝由谁调兵",
+      "question": "兵部、五军都督府、都司和卫所如何分工？",
+      "institution_ids": ["emperor", "ministry_war", "chief_military_commission", "five_commissions", "regional_military_commission", "guard_battalion_system", "grand_coordinator_supreme_commander"],
+      "relation_ids": ["r_eh_04", "r_lh_02", "r_lh_03", "r_lh_04", "r_yx_07", "r_yx_09", "r_yx_10", "r_ml_16", "r_ml_18", "r_ml_19", "r_ml_22"],
+      "boundary": "京营、边镇、总兵在P0只作叙事标签，补证后再升格为节点。"
+    },
+    {
+      "id": "central_local",
+      "type": "topic",
+      "name": "中央如何控制地方",
+      "question": "地方三司、府州县与巡抚总督如何共同运转？",
+      "institution_ids": ["six_ministries", "censorate", "five_commissions", "provincial_admin_commission", "provincial_surveillance_commission", "regional_military_commission", "prefecture_subprefecture_county", "grand_coordinator_supreme_commander", "guard_battalion_system"],
+      "relation_ids": ["r_ml_18", "r_ml_19", "r_ml_20", "r_ml_21", "r_ml_22", "r_ml_23", "r_ml_24"],
+      "boundary": "P0不画地方三司通往中央的待补证箭头，也不展开两京、土司与边疆特殊体制。"
+    }
+  ],
+  "sources": [
+    {"id": "mingshi_2", "title": "《明史·卷二》", "url": "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B72", "level": "原典入口", "supports": "1380年罢中书省、废丞相、改五军都督府"},
+    {"id": "mingshi_73", "title": "《明史·卷七十三》", "url": "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B773", "level": "原典入口", "supports": "通政使司、大理寺、都察院、督抚差遣等"},
+    {"id": "mingshi_74", "title": "《明史·卷七十四》", "url": "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B774", "level": "原典入口", "supports": "六科及内官系统"},
+    {"id": "mingshi_76", "title": "《明史·卷七十六》", "url": "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B776", "level": "原典入口", "supports": "五军都督府、兵部、都司、卫所及锦衣卫有关职掌与关系"},
+    {"id": "mingshi_94", "title": "《明史·卷九十四》", "url": "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B794", "level": "原典入口", "supports": "三法司分工与地方刑名上达"},
+    {"id": "mingshi_95", "title": "《明史·卷九十五》", "url": "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2_%28%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC%29/%E5%8D%B7095", "level": "原典入口", "supports": "东西厂、锦衣卫诏狱、厂卫关系变化"},
+    {"id": "dpm_secretariat", "title": "故宫博物院：中书省", "url": "https://www.dpm.org.cn/court/system/236406.html", "level": "专业机构", "supports": "中书省、丞相、六部与地方三司改革"},
+    {"id": "dpm_six_ministries", "title": "故宫博物院：六部", "url": "https://www.dpm.org.cn/court/system/236422.html", "level": "专业机构", "supports": "六部职掌、1380年前后地位变化、与内阁边界"},
+    {"id": "dpm_cabinet", "title": "故宫博物院：内阁", "url": "https://www.dpm.org.cn/court/system/236394.html", "level": "专业机构", "supports": "内阁形成、制度性质与阶段变化"},
+    {"id": "dpm_draft_rescript", "title": "故宫博物院：票拟", "url": "https://www.dpm.org.cn/court/system/236395.html", "level": "专业机构", "supports": "票拟流程及与批红的关系"},
+    {"id": "dpm_transmission", "title": "故宫博物院：通政使司", "url": "https://www.dpm.org.cn/court/system/236396.html", "level": "专业机构", "supports": "通政使司设置与职掌"},
+    {"id": "dpm_ceremonial", "title": "故宫博物院：司礼监", "url": "https://www.dpm.org.cn/court/system/236401.html", "level": "专业机构", "supports": "司礼监沿革、批红、与内阁关系"},
+    {"id": "dpm_judicial_review", "title": "故宫博物院：大理寺", "url": "https://www.dpm.org.cn/court/system/236398.html", "level": "专业机构", "supports": "大理寺与三法司复核机制"},
+    {"id": "dpm_guard_system", "title": "故宫博物院：卫所制度", "url": "https://www.dpm.org.cn/court/system/236399.html", "level": "专业机构", "supports": "都司、卫所与五军都督府关系"},
+    {"id": "dpm_western_depot", "title": "故宫博物院：西厂", "url": "https://www.dpm.org.cn/lemmas/241381.html", "level": "专业机构", "supports": "西厂反复设置、重开与罢废"},
+    {"id": "dpm_hongwu_governance", "title": "故宫博物院：太祖治国", "url": "https://www.dpm.org.cn/court/event/166625.html", "level": "专业机构", "supports": "地方三司、兵部与五军都督府、都察院、锦衣卫改革"}
+  ]
+}

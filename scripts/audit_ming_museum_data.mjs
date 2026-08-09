@@ -10,7 +10,7 @@ const storytelling = await read('ming_storytelling.json');
 const portraits = await read('ming_portraits.json');
 const lineages = await read('ming_imperial_lineages.json');
 const batches = [];
-for (let index = 2; index <= 8; index += 1) batches.push(await read(`ming_historical_slices_batch${index}.json`));
+for (let index = 2; index <= 9; index += 1) batches.push(await read(`ming_historical_slices_batch${index}.json`));
 
 const outputRoot = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆';
 const validConfidence = new Set(['高', '中', '低', '未知']);
@@ -64,7 +64,7 @@ const coveredCoreNames = new Set([...coveredNames].filter(name => coreNames.has(
 const uncovered = core.map(person => person.name).filter(name => !coveredCoreNames.has(name));
 const expectedDeferred = batches.at(-1).meta?.deferred || [];
 const deferredMismatch = [...new Set([...uncovered.filter(name => !expectedDeferred.includes(name)), ...expectedDeferred.filter(name => !uncovered.includes(name))])];
-if (deferredMismatch.length) errors.push(`第八批待补证名单与实际未覆盖人物不一致：${deferredMismatch.join('、')}`);
+if (deferredMismatch.length) errors.push(`最新批次待补证名单与实际未覆盖人物不一致：${deferredMismatch.join('、')}`);
 
 const eventUnknown = [];
 for (const event of events.events || []) {
