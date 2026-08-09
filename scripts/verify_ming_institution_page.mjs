@@ -209,7 +209,10 @@ try {
     );
     return [...document.querySelectorAll('.mobile-system-group')].map(group => {
       const list = group.querySelector('[aria-label="当前关键关系"]');
-      const summaries = list ? [...list.querySelectorAll('li')].map(item => item.textContent.trim()) : [];
+      const summaries = list ? [...list.querySelectorAll('li')].map(item => ({
+        id: item.dataset.relationId,
+        label: item.textContent.trim()
+      })) : [];
       const name = group.querySelector('.mobile-system-head b')?.textContent.trim();
       const system = graph.systems.find(item => item.name === name);
       const validRelations = activeViewRelations.filter(relation =>
@@ -220,7 +223,9 @@ try {
         hasLabelledList: Boolean(list),
         count: summaries.length,
         expectedCount: Math.min(3, validRelations.length),
-        usesActiveViewRelations: summaries.every(summary => validRelations.some(relation => relation.label === summary))
+        relationIds: summaries.map(summary => summary.id),
+        expectedRelationIds: validRelations.slice(0, 3).map(relation => relation.id),
+        usesActiveViewRelations: summaries.every(summary => validRelations.some(relation => relation.id === summary.id && relation.label === summary.label))
       };
     });
   });
@@ -229,6 +234,7 @@ try {
   expect(mobileRelations.every(group => group.count <= 3), 'mobile system groups must render at most three relation summaries');
   expect(mobileRelations.some(group => group.count > 0), 'mobile system groups must render active in-view relation summaries');
   expect(mobileRelations.every(group => group.count === group.expectedCount), 'each mobile system group must summarize up to three relations that touch that system');
+  expect(mobileRelations.every(group => JSON.stringify(group.relationIds) === JSON.stringify(group.expectedRelationIds)), 'mobile relation summaries must expose the exact ordered first-three active current-view relation IDs for their system');
   expect(mobileRelations.every(group => group.usesActiveViewRelations), 'mobile relation summaries must reuse active, in-view relation labels for their system');
 
   if (mobileDrawerExists) {
@@ -262,6 +268,51 @@ try {
   expect(invalidatedFocus.drawerHidden === true, 'invalidating the selected institution by year must close the drawer');
   expect(invalidatedFocus.id === 'yearRange', `invalidating the selected institution must focus the visible year control, got ${invalidatedFocus.id || 'no id'}`);
   expect(invalidatedFocus.visible, 'focus fallback after year invalidation must be visibly rendered');
+
+  await page.evaluate(() => setInstitutionYear(1370));
+  await page.locator('.view-button[data-view="military_command"]').click();
+  const nonDefaultMobile = await page.evaluate(() => {
+    const graph = JSON.parse(document.querySelector('#institutionGraphData').textContent);
+    const year = Number(document.querySelector('#yearValue').textContent);
+    const viewId = document.querySelector('.view-button[aria-pressed="true"]')?.dataset.view;
+    const view = graph.views.find(item => item.id === viewId);
+    const institutionById = new Map(graph.institutions.map(item => [item.id, item]));
+    const activeAt = item => item.active_periods.some(period => year >= period.start && year <= period.end);
+    const topicIds = new Set(view?.institution_ids ?? []);
+    const relationIds = new Set(view?.relation_ids ?? []);
+    const activeViewRelations = graph.relations.filter(relation =>
+      relationIds.has(relation.id) && activeAt(relation) && activeAt(institutionById.get(relation.from)) && activeAt(institutionById.get(relation.to))
+    );
+    const expectedGroups = graph.systems.map(system => {
+      const nodes = graph.institutions.filter(node => node.system === system.id && activeAt(node));
+      return {
+        name: system.name,
+        nodeIds: nodes.map(node => node.id),
+        contextNodeIds: nodes.filter(node => !topicIds.has(node.id)).map(node => node.id),
+        relationIds: activeViewRelations.filter(relation =>
+          institutionById.get(relation.from).system === system.id || institutionById.get(relation.to).system === system.id
+        ).slice(0, 3).map(relation => relation.id)
+      };
+    }).filter(group => group.nodeIds.length);
+    const renderedGroups = [...document.querySelectorAll('.mobile-system-group')].map(group => ({
+      name: group.querySelector('.mobile-system-head b')?.textContent.trim(),
+      nodeIds: [...group.querySelectorAll('.mobile-node')].map(node => node.dataset.id),
+      contextNodeIds: [...group.querySelectorAll('.mobile-node.is-context')].map(node => node.dataset.id),
+      relationIds: [...group.querySelectorAll('[aria-label="当前关键关系"] li')].map(item => item.dataset.relationId)
+    }));
+    return {
+      year,
+      viewId,
+      renderedNodeIds: renderedGroups.flatMap(group => group.nodeIds),
+      expectedNodeIds: expectedGroups.flatMap(group => group.nodeIds),
+      renderedGroups,
+      expectedGroups
+    };
+  });
+  expect(nonDefaultMobile.year === 1370, `non-default mobile synchronization must use year 1370, got ${nonDefaultMobile.year}`);
+  expect(nonDefaultMobile.viewId === 'military_command', `non-default mobile synchronization must use the military-command view, got ${nonDefaultMobile.viewId}`);
+  expect(JSON.stringify(nonDefaultMobile.renderedNodeIds) === JSON.stringify(nonDefaultMobile.expectedNodeIds), 'non-default mobile nodes must exactly match all graph institutions active in 1370');
+  expect(JSON.stringify(nonDefaultMobile.renderedGroups) === JSON.stringify(nonDefaultMobile.expectedGroups), 'non-default mobile grouping, view emphasis, and ordered relation IDs must exactly match the active graph contract');
   if (!failures.length) {
     await page.screenshot({path: path.join(root, '制度馆_移动端预览.png'), fullPage: false});
   }

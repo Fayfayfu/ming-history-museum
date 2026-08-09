@@ -155,6 +155,7 @@ function renderMobile(){
     const relations=currentRelations().filter(relation=>institutionById.get(relation.from).system===system.id||institutionById.get(relation.to).system===system.id).slice(0,3);
     for(const relation of relations){
       const item=document.createElement('li');
+      item.dataset.relationId=relation.id;
       item.textContent=relation.label;
       relationList.append(item);
     }
