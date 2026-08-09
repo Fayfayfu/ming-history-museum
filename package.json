@@ -11,6 +11,7 @@
     "verify:portraits": "node scripts/verify_ming_portrait_batch19.mjs",
     "verify:institutions": "node scripts/verify_ming_institution_graph.mjs",
     "verify:institution-page": "node scripts/verify_ming_institution_page.mjs",
+    "verify:institution-layout": "node scripts/verify_ming_institution_layout.mjs",
     "verify:deploy": "node scripts/verify_vercel_bundle.mjs",
     "verify": "node scripts/verify_ming_museum.mjs"
   },
