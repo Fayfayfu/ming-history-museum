@@ -1,0 +1,162 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import test from 'node:test';
+
+const repoRoot = fileURLToPath(new URL('../', import.meta.url));
+const verifierPath = path.join(repoRoot, 'scripts/verify_ming_people_timeline.mjs');
+const baseline = {
+  core: JSON.parse(fs.readFileSync(path.join(repoRoot, 'data/ming_core.json'), 'utf8')),
+  children: JSON.parse(
+    fs.readFileSync(path.join(repoRoot, 'data/ming_children_important.json'), 'utf8'),
+  ),
+  timelineData: JSON.parse(
+    fs.readFileSync(path.join(repoRoot, 'data/ming_people_timeline.json'), 'utf8'),
+  ),
+};
+
+function runVerifier(mutate = () => {}) {
+  const fixture = structuredClone(baseline);
+  mutate(fixture);
+  const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'people-timeline-verifier-'));
+  const dataDir = path.join(fixtureRoot, 'data');
+  fs.mkdirSync(dataDir);
+  fs.writeFileSync(path.join(dataDir, 'ming_core.json'), JSON.stringify(fixture.core));
+  fs.writeFileSync(
+    path.join(dataDir, 'ming_children_important.json'),
+    JSON.stringify(fixture.children),
+  );
+  fs.writeFileSync(
+    path.join(dataDir, 'ming_people_timeline.json'),
+    JSON.stringify(fixture.timelineData),
+  );
+
+  try {
+    return spawnSync(process.execPath, [verifierPath], {
+      cwd: fixtureRoot,
+      encoding: 'utf8',
+    });
+  } finally {
+    fs.rmSync(fixtureRoot, { recursive: true, force: true });
+  }
+}
+
+function assertVerifierRejects(mutate, messagePattern) {
+  const result = runVerifier(mutate);
+  const output = `${result.stdout}\n${result.stderr}`;
+  assert.notEqual(result.status, 0, `verifier unexpectedly accepted fixture:\n${output}`);
+  assert.match(output, messagePattern);
+}
+
+test('verifier accepts the curated 163-person timeline', () => {
+  const result = runVerifier();
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+});
+
+test('curated first-activity corrections and authority upgrades stay locked', () => {
+  const expected = {
+    郑和: [1401, '约1399—1402', '中', ['MS304']],
+    王振: [1431, '约1426—1435', '中', ['MS304', 'IHP_WANGZHEN']],
+    何心隐: [1553, '1553', '高', ['IHP_HEXINYIN_1553']],
+    宋应星: [1615, '1615', '高', ['AHNU_SONGYINGXING_1615']],
+    李贽: [1552, '1552', '高', ['CHINAKONGZI_LIZHI_1552']],
+    吴承恩: [1529, '1529', '高', ['SHEYANG_HAIHE_1529']],
+    邓愈: [1353, '约1352—1353', '中', ['MS126']],
+    沈周: [1467, '1467', '高', ['NPM_SHEN_1467']],
+    马守真: [1572, '1572', '中', ['MET_MA_1572']],
+    刘大夏: [1459, '1459', '高', ['YUEYANG_LIUDAXIA_1459']],
+    刘瑾: [1499, '约1492—1505', '中', ['MS016', 'MS304']],
+    魏忠贤: [1589, '1589', '高', ['DPM_WEIZHONGXIAN_1589']],
+    客氏: [1613, '约1605—1620', '中', ['DPM_COURT_WOMEN', 'MS305']],
+    汤显祖: [1571, '1571', '高', ['DPM_TANGXIANZU_1571']],
+    洪承畴: [1616, '1616', '高', ['QSG237']],
+    徐霞客: [1608, '约1608', '中', ['CHNMUSEUM_XUXIAKE']],
+    方孝孺: [1382, '1382', '高', ['MS141']],
+    商辂: [1435, '1435', '高', ['DPM_SHANGLU_1435']],
+    李东阳: [1451, '约1450—1451', '中', ['MS181']],
+    徐光启: [1597, '1597', '高', ['MS251']],
+  };
+
+  for (const [name, [year, label, confidence, refs]] of Object.entries(expected)) {
+    const person = baseline.timelineData.people.find((candidate) => candidate.name === name);
+    assert.ok(person, `missing corrected person ${name}`);
+    assert.deepEqual(
+      [
+        person.timeline_year,
+        person.timeline_year_label,
+        person.timeline_year_confidence,
+        person.timeline_source_refs,
+      ],
+      [year, label, confidence, refs],
+      `${name} first-activity correction drifted`,
+    );
+  }
+});
+
+test('verifier rejects a self-consistent roster that is not exactly 163 people', () => {
+  assertVerifierRejects(({ core, timelineData }) => {
+    const removed = core.shift();
+    timelineData.people = timelineData.people.filter((person) => person.name !== removed.name);
+  }, /exactly 163 people/);
+});
+
+test('verifier rejects a self-consistent roster that is not exactly 16 emperors', () => {
+  assertVerifierRejects(({ core, timelineData }) => {
+    core.find((person) => person.name === '朱元璋').category = '武官';
+    timelineData.people.find((person) => person.name === '朱元璋').timeline_size = 'standard';
+  }, /exactly 16 emperors/);
+});
+
+test('verifier locks featured anchors to name, year, and source', () => {
+  assertVerifierRejects(({ timelineData }) => {
+    const yuQian = timelineData.people.find((person) => person.name === '于谦');
+    yuQian.timeline_year = 1422;
+    yuQian.timeline_year_label = '1422';
+    yuQian.timeline_source_refs = ['MS195'];
+  }, /于谦.*1421.*MS170/);
+});
+
+test('verifier rejects source kinds outside the explicit allowlist', () => {
+  assertVerifierRejects(({ timelineData }) => {
+    timelineData.source_catalog.MS170.kind = '搜索摘要';
+  }, /source kind.*搜索摘要/);
+});
+
+test('verifier requires every person to cite an authoritative or primary source', () => {
+  assertVerifierRejects(({ timelineData }) => {
+    timelineData.source_catalog.MS170.kind = '地方文史';
+  }, /于谦.*authoritative source/);
+});
+
+test('verifier rejects an approximate year without a structured range', () => {
+  assertVerifierRejects(({ timelineData }) => {
+    delete timelineData.people.find((person) => person.name === '吴三桂').timeline_year_range;
+  }, /吴三桂.*timeline_year_range/);
+});
+
+test('verifier rejects an approximate year that is not the rounded range midpoint', () => {
+  assertVerifierRejects(({ timelineData }) => {
+    const wuSangui = timelineData.people.find((person) => person.name === '吴三桂');
+    wuSangui.timeline_year_range = { start: 1628, end: 1632 };
+    wuSangui.timeline_year = 1631;
+  }, /吴三桂.*rounded midpoint/);
+});
+
+test('verifier rejects an approximate label that does not match its structured range', () => {
+  assertVerifierRejects(({ timelineData }) => {
+    const wuSangui = timelineData.people.find((person) => person.name === '吴三桂');
+    wuSangui.timeline_year_range = { start: 1628, end: 1632 };
+    wuSangui.timeline_year_label = '约1628-1632';
+  }, /吴三桂.*range label/);
+});
+
+test('verifier rejects high confidence on an approximate range', () => {
+  assertVerifierRejects(({ timelineData }) => {
+    const wuSangui = timelineData.people.find((person) => person.name === '吴三桂');
+    wuSangui.timeline_year_range = { start: 1628, end: 1632 };
+    wuSangui.timeline_year_confidence = '高';
+  }, /吴三桂.*approximate confidence/);
+});
