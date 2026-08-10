@@ -44,6 +44,162 @@ check(initial.tableSelected === 'false' && initial.tableTabIndex === '-1', 'tabl
 check(initial.timelineControls === 'peopleTimelineView' && initial.tableControls === 'peopleTableView' && initial.controlledPanelsExist, 'tabs must control existing panels', initial);
 check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled === 'peopleTableTab', 'panels must reference their real tabs', initial);
 
+const timelineGeometry = await page.evaluate(() => {
+  const canvas = document.querySelector('.people-timeline-canvas')?.getBoundingClientRect();
+  const nodes = [...document.querySelectorAll('[data-timeline-person]')];
+  const people = Object.fromEntries(nodes.map((node) => {
+    const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    return [node.dataset.timelinePerson, {
+      year: Number(node.dataset.year),
+      x: portrait && canvas ? portrait.left + portrait.width / 2 - canvas.left : null,
+    }];
+  }));
+  const boundaries = [...document.querySelectorAll('.timeline-boundary time')].map((node) => node.getAttribute('datetime'));
+  return {
+    count: nodes.length,
+    uniqueCount: new Set(nodes.map((node) => node.dataset.timelinePerson)).size,
+    people,
+    boundaries,
+  };
+});
+const anchorExpectations = { '于谦': 1421, '王守仁': 1499, '张居正': 1547 };
+check(
+  timelineGeometry.count === 163 && timelineGeometry.uniqueCount === 163,
+  'timeline must render exactly 163 uniquely named people',
+  timelineGeometry,
+);
+check(
+  Object.entries(anchorExpectations).every(([name, year]) => timelineGeometry.people[name]?.year === year),
+  'featured anchors must expose their curated years',
+  timelineGeometry.people,
+);
+const firstAnchorDelta = timelineGeometry.people['王守仁']?.x - timelineGeometry.people['于谦']?.x;
+const secondAnchorDelta = timelineGeometry.people['张居正']?.x - timelineGeometry.people['王守仁']?.x;
+check(
+  Math.abs(firstAnchorDelta - 78 * 22) <= 0.5 && Math.abs(secondAnchorDelta - 48 * 22) <= 0.5,
+  'featured anchor geometry must retain the 22px-per-year scale',
+  { firstAnchorDelta, secondAnchorDelta },
+);
+check(
+  timelineGeometry.boundaries.filter((year) => year === '1368').length === 1
+    && timelineGeometry.boundaries.filter((year) => year === '1644').length === 1
+    && timelineGeometry.boundaries.length === 2,
+  'timeline must render one 1368 boundary and one 1644 boundary',
+  timelineGeometry.boundaries,
+);
+
+const timelineSizingAndLanes = await page.evaluate(() => {
+  const canvas = document.querySelector('.people-timeline-canvas')?.getBoundingClientRect();
+  const axis = document.querySelector('.timeline-axis')?.getBoundingClientRect();
+  const portraitSnapshot = (node) => {
+    const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    return {
+      name: node.dataset.timelinePerson,
+      width: portrait?.width || 0,
+      height: portrait?.height || 0,
+      borderColor: getComputedStyle(node.querySelector('.timeline-portrait')).borderTopColor,
+    };
+  };
+  const laneIdFor = (node) => node.dataset.lane || '';
+  const nodes = [...document.querySelectorAll('[data-timeline-person]')];
+  const laneLabels = Object.fromEntries([...document.querySelectorAll('.timeline-lane-label')].map((node) => {
+    const laneClass = [...node.classList].find((name) => name.startsWith('timeline-lane-label--')) || '';
+    return [laneClass.replace('timeline-lane-label--', ''), node.getBoundingClientRect().top + node.getBoundingClientRect().height / 2 - canvas.top];
+  }));
+  const goldProbe = document.createElement('span');
+  goldProbe.style.color = '#d0a743';
+  document.body.append(goldProbe);
+  const gold = getComputedStyle(goldProbe).color;
+  goldProbe.remove();
+  return {
+    emperors: [...document.querySelectorAll('.timeline-person.size-emperor')].map(portraitSnapshot),
+    featured: [...document.querySelectorAll('.timeline-person.size-featured')].map(portraitSnapshot),
+    standard: [...document.querySelectorAll('.timeline-person.size-standard')].map(portraitSnapshot),
+    gold,
+    axisY: axis && canvas ? axis.top + axis.height / 2 - canvas.top : null,
+    laneLabels,
+    unmappedLanePeople: nodes.filter((node) => !laneIdFor(node)).map((node) => node.dataset.timelinePerson),
+    invalidLayerPeople: nodes.filter((node) => !/^\d+$/.test(node.dataset.layer || '')).map((node) => node.dataset.timelinePerson),
+    representedLanes: [...new Set(nodes.map(laneIdFor))].sort(),
+    containsRecentEmperor: document.body.textContent.includes('最近皇帝'),
+  };
+});
+const exactSize = (portrait, size) => Math.abs(portrait.width - size) <= 0.5 && Math.abs(portrait.height - size) <= 0.5;
+check(
+  timelineSizingAndLanes.emperors.length === 16
+    && timelineSizingAndLanes.emperors.every((portrait) => exactSize(portrait, 88) && portrait.borderColor === timelineSizingAndLanes.gold),
+  'all 16 emperor portraits must be 88px with a gold outline',
+  { emperors: timelineSizingAndLanes.emperors, gold: timelineSizingAndLanes.gold },
+);
+check(
+  timelineSizingAndLanes.featured.length === 3
+    && timelineSizingAndLanes.featured.map((portrait) => portrait.name).sort().join('|') === ['于谦', '王守仁', '张居正'].sort().join('|')
+    && timelineSizingAndLanes.featured.every((portrait) => exactSize(portrait, 72)),
+  'the three featured portraits must be exactly the curated 72px anchors',
+  timelineSizingAndLanes.featured,
+);
+check(
+  timelineSizingAndLanes.standard.length === 144
+    && timelineSizingAndLanes.standard.every((portrait) => portrait.width >= 56 && portrait.height >= 56),
+  'all ordinary portraits must be at least 56px',
+  timelineSizingAndLanes.standard.filter((portrait) => portrait.width < 56 || portrait.height < 56),
+);
+const expectedLaneIds = ['children', 'emperor', 'eunuch', 'external', 'independent', 'officials', 'women'];
+const { laneLabels, axisY } = timelineSizingAndLanes;
+check(
+  timelineSizingAndLanes.unmappedLanePeople.length === 0
+    && timelineSizingAndLanes.invalidLayerPeople.length === 0
+    && timelineSizingAndLanes.representedLanes.join('|') === expectedLaneIds.join('|')
+    && expectedLaneIds.every((lane) => Number.isFinite(laneLabels[lane])),
+  'every timeline person and lane label must map to one of seven semantic swimlanes',
+  timelineSizingAndLanes,
+);
+check(
+  laneLabels.women < laneLabels.children
+    && laneLabels.children < laneLabels.emperor
+    && laneLabels.emperor < axisY
+    && axisY < laneLabels.eunuch
+    && laneLabels.eunuch < laneLabels.officials
+    && laneLabels.officials < laneLabels.independent
+    && laneLabels.independent < laneLabels.external,
+  'swimlanes must retain their top-to-axis and axis-to-bottom order',
+  { axisY, laneLabels },
+);
+check(!timelineSizingAndLanes.containsRecentEmperor, 'people page must not contain the phrase 最近皇帝');
+
+const overlapAudit = await page.evaluate(() => {
+  const groups = new Map();
+  for (const node of document.querySelectorAll('[data-timeline-person][data-lane][data-layer]')) {
+    const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    if (!portrait) continue;
+    const key = `${node.dataset.lane}:${node.dataset.layer}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push({
+      name: node.dataset.timelinePerson,
+      x: portrait.left + portrait.width / 2,
+      width: portrait.width,
+    });
+  }
+  let maximum = { ratio: 0, laneLayer: '', people: [] };
+  for (const [laneLayer, people] of groups) {
+    people.sort((left, right) => left.x - right.x || left.name.localeCompare(right.name, 'zh-Hans-CN'));
+    for (let index = 1; index < people.length; index += 1) {
+      const left = people[index - 1];
+      const right = people[index];
+      const averageDiameter = (left.width + right.width) / 2;
+      const overlap = Math.max(0, averageDiameter - (right.x - left.x));
+      const ratio = averageDiameter ? overlap / averageDiameter : 0;
+      if (ratio > maximum.ratio) maximum = { ratio, laneLayer, people: [left.name, right.name] };
+    }
+  }
+  return { groupCount: groups.size, maximum };
+});
+check(
+  overlapAudit.groupCount > 0 && overlapAudit.maximum.ratio <= 0.2 + Number.EPSILON,
+  'adjacent portraits in the same data-lane and data-layer must overlap by at most 20%',
+  overlapAudit,
+);
+
 const keyboardSnapshot = () => page.evaluate(() => ({
   focus: document.activeElement?.id || '',
   view: document.body.dataset.peopleView,
@@ -263,8 +419,125 @@ check(noScriptCellsByHeader['家乡 / 世系']?.includes('濠州钟离'), 'no-sc
 check(childrenHeader && noScriptCellsByHeader[childrenHeader]?.includes('合计'), 'no-script child counts must follow the real child-count header', noScript);
 await noScriptContext.close();
 
+const responsiveAudits = [];
+for (const viewportSize of [
+  { label: 'desktop', width: 1440, height: 1000 },
+  { label: 'mobile', width: 390, height: 844 },
+]) {
+  await page.setViewportSize({ width: viewportSize.width, height: viewportSize.height });
+  await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+  const beforeScroll = await page.evaluate(() => {
+    const viewport = document.querySelector('#peopleTimelineView');
+    const style = getComputedStyle(viewport);
+    return {
+      clientWidth: viewport.clientWidth,
+      scrollWidth: viewport.scrollWidth,
+      overflowX: style.overflowX,
+      overflowY: style.overflowY,
+      bodyWidth: document.body.scrollWidth,
+      innerWidth,
+    };
+  });
+  check(
+    beforeScroll.scrollWidth > beforeScroll.clientWidth
+      && beforeScroll.overflowX === 'auto'
+      && beforeScroll.overflowY === 'hidden'
+      && beforeScroll.bodyWidth === beforeScroll.innerWidth,
+    `${viewportSize.label} timeline must scroll horizontally without body overflow`,
+    beforeScroll,
+  );
+
+  const middleTarget = await page.evaluate(() => {
+    const viewport = document.querySelector('#peopleTimelineView');
+    viewport.scrollLeft = (viewport.scrollWidth - viewport.clientWidth) / 2;
+    const viewportRect = viewport.getBoundingClientRect();
+    const people = [...document.querySelectorAll('[data-timeline-person]')];
+    const targetIndex = people.findIndex((node) => {
+      const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+      if (!portrait) return false;
+      const x = portrait.left + portrait.width / 2;
+      return x >= viewportRect.left + 8 && x <= viewportRect.right - 8;
+    });
+    return {
+      targetIndex,
+      targetName: targetIndex >= 0 ? people[targetIndex].dataset.timelinePerson : '',
+      scrollLeft: viewport.scrollLeft,
+      expectedMiddle: (viewport.scrollWidth - viewport.clientWidth) / 2,
+    };
+  });
+  check(
+    middleTarget.targetIndex >= 0 && Math.abs(middleTarget.scrollLeft - middleTarget.expectedMiddle) <= 1,
+    `${viewportSize.label} timeline must expose a clickable person after scrolling to the middle`,
+    middleTarget,
+  );
+  if (middleTarget.targetIndex >= 0) {
+    await page.locator('[data-timeline-person]').nth(middleTarget.targetIndex).locator('.timeline-person-select').click();
+  }
+  const middleSelection = await page.evaluate(() => ({
+    selected: [...document.querySelectorAll('.timeline-person.is-selected')].map((node) => node.dataset.timelinePerson),
+    bodyWidth: document.body.scrollWidth,
+    innerWidth,
+  }));
+  check(
+    middleSelection.selected.length === 1
+      && middleSelection.selected[0] === middleTarget.targetName
+      && middleSelection.bodyWidth === middleSelection.innerWidth,
+    `${viewportSize.label} middle timeline person must remain clickable without body overflow`,
+    { middleTarget, middleSelection },
+  );
+  responsiveAudits.push({ viewportSize, beforeScroll, middleTarget, middleSelection });
+}
+
+const screenshotPaths = {
+  desktop: path.join(root, '人物馆_历史长卷_桌面预览.png'),
+  mobile: path.join(root, '人物馆_历史长卷_移动端预览.png'),
+};
+const loadTimelinePortraits = () => page.evaluate(async () => {
+  const images = [...document.querySelectorAll('[data-timeline-image]')];
+  await Promise.all(images.map((image) => new Promise((resolve, reject) => {
+    image.loading = 'eager';
+    if (image.complete) {
+      if (image.naturalWidth > 0) resolve();
+      else reject(new Error(image.currentSrc || image.src));
+      return;
+    }
+    image.addEventListener('load', resolve, { once: true });
+    image.addEventListener('error', () => reject(new Error(image.currentSrc || image.src)), { once: true });
+  })));
+});
+await page.setViewportSize({ width: 1440, height: 1000 });
+await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+await loadTimelinePortraits();
+await page.locator('#peopleTimelineView').screenshot({ path: screenshotPaths.desktop });
+await page.setViewportSize({ width: 390, height: 844 });
+await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+await loadTimelinePortraits();
+await page.locator('#peopleTimelineView').screenshot({ path: screenshotPaths.mobile });
+const screenshotStats = Object.fromEntries(await Promise.all(Object.entries(screenshotPaths).map(async ([label, file]) => {
+  const stat = await fs.stat(file);
+  return [label, { file, bytes: stat.size }];
+})));
+check(Object.values(screenshotStats).every((item) => item.bytes > 0), 'desktop and mobile timeline screenshots must be non-empty', screenshotStats);
+
 check(pageErrors.length === 0, 'page must not emit JavaScript errors', pageErrors);
 await browser.close();
 
 if (failures.length) throw new Error(failures.join('\n'));
-console.log('People timeline page verified: default timeline, table switch, queries, fallback, and hall isolation.');
+console.log(`PEOPLE_TIMELINE_PAGE_SUMMARY ${JSON.stringify({
+  people: timelineGeometry.count,
+  uniquePeople: timelineGeometry.uniqueCount,
+  maximumOverlapRatio: overlapAudit.maximum.ratio,
+  maximumOverlapPair: overlapAudit.maximum,
+  responsive: responsiveAudits.map((audit) => ({
+    label: audit.viewportSize.label,
+    viewportWidth: audit.viewportSize.width,
+    timelineClientWidth: audit.beforeScroll.clientWidth,
+    timelineScrollWidth: audit.beforeScroll.scrollWidth,
+    bodyWidth: audit.beforeScroll.bodyWidth,
+    innerWidth: audit.beforeScroll.innerWidth,
+    selected: audit.middleSelection.selected,
+  })),
+  noScript: { rows: noScript.rows, table: noScript.table, timeline: noScript.timeline },
+  screenshots: screenshotStats,
+})}`);
+console.log(`People timeline page verified: 163 unique people, geometry, lanes, responsive scrolling, no-JS fallback, and screenshots (${responsiveAudits.length} viewports).`);
