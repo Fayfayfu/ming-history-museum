@@ -838,7 +838,7 @@
         "MS128"
       ],
       "timeline_role": "谋臣",
-      "timeline_size": "standard"
+      "timeline_size": "featured"
     },
     {
       "name": "宋濂",
@@ -1183,7 +1183,7 @@
         "MS226"
       ],
       "timeline_role": "清官",
-      "timeline_size": "standard"
+      "timeline_size": "featured"
     },
     {
       "name": "沈一贯",
@@ -1222,7 +1222,7 @@
         "MS251"
       ],
       "timeline_role": "科学家",
-      "timeline_size": "standard"
+      "timeline_size": "featured"
     },
     {
       "name": "申时行",
@@ -1378,7 +1378,7 @@
         "MS001"
       ],
       "timeline_role": "开国大将",
-      "timeline_size": "standard"
+      "timeline_size": "featured"
     },
     {
       "name": "常遇春",
@@ -1569,7 +1569,7 @@
         "MS212"
       ],
       "timeline_role": "抗倭名将",
-      "timeline_size": "standard"
+      "timeline_size": "featured"
     },
     {
       "name": "俞大猷",
@@ -1769,7 +1769,7 @@
         "MS304"
       ],
       "timeline_role": "航海使臣",
-      "timeline_size": "standard",
+      "timeline_size": "featured",
       "timeline_year_range": {
         "start": 1399,
         "end": 1402
@@ -1921,7 +1921,7 @@
         "DPM_WEIZHONGXIAN_1589"
       ],
       "timeline_role": "司礼太监",
-      "timeline_size": "standard"
+      "timeline_size": "featured"
     },
     {
       "name": "王承恩",
@@ -2049,7 +2049,7 @@
         "UNESCO_BENCAO"
       ],
       "timeline_role": "医药学家",
-      "timeline_size": "standard",
+      "timeline_size": "featured",
       "timeline_year_range": {
         "start": 1551,
         "end": 1552

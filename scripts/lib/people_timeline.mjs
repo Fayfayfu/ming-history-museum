@@ -29,10 +29,10 @@ export const TIMELINE_LANES = {
 };
 
 const AXIS_GAP_PX = 8;
-const LANE_GAP_PX = 2;
+const LANE_GAP_PX = 0;
 const HORIZONTAL_SLOT_CLEARANCE_RATIO = 0.8;
-const VERTICAL_SLOT_STEP_RATIO = 0.57;
-const CANVAS_EDGE_PADDING_PX = 52;
+const VERTICAL_SLOT_STEP_RATIO = 0.53;
+const CANVAS_EDGE_PADDING_PX = 48;
 
 function compareTimelineNodes(left, right) {
   return left.timeline_year - right.timeline_year

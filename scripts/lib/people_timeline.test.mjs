@@ -176,6 +176,20 @@ test('layout keeps real timeline data on the strict year scale', async () => {
   }
 });
 
+test('timeline enlarges the complete curated group of eleven influential non-emperors', async () => {
+  const timelineData = JSON.parse(await fs.readFile('data/ming_people_timeline.json', 'utf8'));
+  const people = validatePeopleTimelineData({ core, children, timelineData });
+  const layout = layoutPeopleTimeline(people);
+  const featuredNames = layout.nodes
+    .filter((node) => node.sizePx === 72)
+    .map((node) => node.name)
+    .sort((left, right) => left.localeCompare(right, 'zh-CN'));
+
+  assert.deepEqual(featuredNames, [
+    '于谦', '刘基', '张居正', '徐光启', '徐达', '戚继光', '李时珍', '海瑞', '王守仁', '郑和', '魏忠贤',
+  ].sort((left, right) => left.localeCompare(right, 'zh-CN')));
+});
+
 test('renderer outputs every semantic lane and never writes 最近皇帝', async () => {
   const timelineData = JSON.parse(await fs.readFile('data/ming_people_timeline.json', 'utf8'));
   const people = validatePeopleTimelineData({ core, children, timelineData });

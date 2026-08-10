@@ -88,6 +88,12 @@ const personStory=await page.evaluate(async()=>{
     enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href'),
     legacyStory:document.querySelectorAll('#detail .story-reenactment,#detail .life-line,#detail .work-voice').length,
     factLabels:[...document.querySelectorAll('#detail .facts>.fact>span:first-child')].map(x=>x.textContent.trim()),
+    scoreSummaryLast:document.querySelector('#detail .facts')?.lastElementChild?.classList.contains('score-summary')||false,
+    scoreItems:document.querySelectorAll('#detail .facts>.score-summary .score-summary-item').length,
+    scoreSummaryText:document.querySelector('#detail .facts>.score-summary')?.textContent.trim()||'',
+    totalScoreLabel:document.querySelector('#detail .score-summary-total span')?.textContent.trim()||'',
+    totalScoreValue:document.querySelector('#detail .score-summary-total b')?.textContent.trim()||'',
+    legacyScoreGrid:document.querySelectorAll('#detail>.score-grid').length,
     identityValue:document.querySelector('#detail .facts>.fact:first-child b')?.textContent.trim(),
     bodyWidth:document.body.scrollWidth,
     viewport:innerWidth
@@ -108,6 +114,8 @@ const zhuHoucongLineage=await page.evaluate(()=>({
   text:document.querySelector('#detail .lineage-fact')?.textContent.trim()||'',
   entries:document.querySelectorAll('#detail .lineage-list b').length,
   rich:document.querySelector('#detail .lineage-fact')?.classList.contains('rich')||false,
+  scoreSummaryLast:document.querySelector('#detail .facts')?.lastElementChild?.classList.contains('score-summary')||false,
+  scoreItems:document.querySelectorAll('#detail .facts>.score-summary .score-summary-item').length,
   source:[...document.querySelectorAll('#detail .sources a')].some(a=>a.href.includes('%E6%98%8E%E5%8F%B2/%E5%8D%B717')||a.href.includes('明史/卷17'))
 }));
 await page.locator('#detail .lineage-fact').screenshot({path:path.join(root,'人物档案_朱厚熜_帝系关系_预览.png')});
@@ -148,6 +156,9 @@ for(const name of ['汪直','郭子兴','马皇后','陈友谅','张士诚','朱
     action:document.querySelectorAll('#detail .history-slice-action').length,
     consequence:document.querySelectorAll('#detail .history-slice-consequence').length,
     boundary:document.querySelectorAll('#detail .history-slice-boundary').length,
+    genericStory:document.querySelectorAll('#detail .life-hook-generic').length,
+    lifeChapters:document.querySelectorAll('#detail .life-chapter').length,
+    lifeStoryText:[...document.querySelectorAll('#detail .life-hook,#detail .life-arc,#detail .life-chapter,#detail .interpretation')].map(node=>node.textContent.trim()).join(' '),
     preview:document.querySelectorAll('#detail .profile-preview').length,
     enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href')||''
   }),name));
@@ -171,6 +182,9 @@ for(const name of ['朱元璋','朱棣','朱祁镇','朱由检','胡惟庸','杨
     action:document.querySelectorAll('#detail .history-slice-action').length,
     consequence:document.querySelectorAll('#detail .history-slice-consequence').length,
     boundary:document.querySelectorAll('#detail .history-slice-boundary').length,
+    genericStory:document.querySelectorAll('#detail .life-hook-generic').length,
+    lifeChapters:document.querySelectorAll('#detail .life-chapter').length,
+    lifeStoryText:[...document.querySelectorAll('#detail .life-hook,#detail .life-arc,#detail .life-chapter,#detail .interpretation')].map(node=>node.textContent.trim()).join(' '),
     preview:document.querySelectorAll('#detail .profile-preview').length,
     enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href')||''
   }),name));
@@ -217,6 +231,9 @@ for(const name of ['徐达','李时珍','徐霞客','王守仁','徐光启','郑
     action:document.querySelectorAll('#detail .history-slice-action').length,
     consequence:document.querySelectorAll('#detail .history-slice-consequence').length,
     boundary:document.querySelectorAll('#detail .history-slice-boundary').length,
+    genericStory:document.querySelectorAll('#detail .life-hook-generic').length,
+    lifeChapters:document.querySelectorAll('#detail .life-chapter').length,
+    lifeStoryText:[...document.querySelectorAll('#detail .life-hook,#detail .life-arc,#detail .life-chapter,#detail .interpretation')].map(node=>node.textContent.trim()).join(' '),
     preview:document.querySelectorAll('#detail .profile-preview').length,
     enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href')||''
   }),name));
@@ -224,6 +241,24 @@ for(const name of ['徐达','李时珍','徐霞客','王守仁','徐光启','郑
     await page.locator('#detail .history-slice').scrollIntoViewIfNeeded();
     await page.locator('#detail .history-slice').screenshot({path:path.join(root,'人物档案_徐达_历史切片_第四批预览.png')});
   }
+  await page.locator('#close').click();
+}
+const genericStorySamples=[];
+for(const name of ['黄道周','魏忠贤','宁国公主']){
+  await page.evaluate(personName=>focusPerson(personName),name);
+  genericStorySamples.push(await page.evaluate(personName=>({
+    name:personName,
+    hook:document.querySelector('#detail .life-hook')?.textContent.trim()||'',
+    arc:document.querySelector('#detail .life-arc')?.textContent.trim()||'',
+    genericBoilerplate:document.querySelector('#detail')?.textContent.includes('留下的，不只是一条履历。')||false,
+    sliceTypography:personName==='黄道周'?Object.fromEntries([
+      ['label','#detail .history-slice-ledger b'],
+      ['body','#detail .history-slice-ledger p'],
+      ['knowledge','#detail .knowledge-split p'],
+      ['action','#detail .history-slice-action p'],
+      ['boundary','#detail .history-slice-boundary']
+    ].map(([key,selector])=>[key,parseFloat(getComputedStyle(document.querySelector(selector)).fontSize)])):null
+  }),name));
   await page.locator('#close').click();
 }
 await page.evaluate(()=>focusPerson('王守仁'));
@@ -880,6 +915,23 @@ const institutionSelectExists=await institutionSelect.count()===1;
 const institutionOptions=institutionSelectExists?await institutionSelect.locator('option').evaluateAll(options=>options.map(option=>option.value).filter(Boolean)):[];
 const institutionGroups=institutionSelectExists?await institutionSelect.locator('optgroup').evaluateAll(groups=>groups.map(group=>({label:group.label,options:[...group.querySelectorAll('option')].map(option=>option.value)}))):[];
 const rosterColumnCount=await page.locator('.roster thead th').count();
+const rosterColumnLayout=await page.evaluate(()=>{
+  const headers=[...document.querySelectorAll('.roster thead th')].map(node=>node.textContent.trim());
+  const emperorRow=[...document.querySelectorAll('#rows tr[data-id]')].find(row=>row.querySelector('.name')?.textContent.trim()==='朱元璋');
+  const cells=[...(emperorRow?.children||[])].map(node=>node.textContent.trim());
+  const scoreHeaders=headers.slice(6,12).map(header=>header.replace(/(30|20|10)%|\s|权重|百分制/g,''));
+  const scoreCells=[...(emperorRow?.children||[])].slice(6,12);
+  return {
+    headers,
+    scoreHeaders,
+    scoreCellKinds:scoreCells.map(cell=>cell.querySelector('.score')?'总分':cell.querySelector('.metric')?'细分':'未知'),
+    totalScoreText:scoreCells[0]?.textContent.trim()||'',
+    penultimateHeader:headers.at(-2)||'',
+    lastHeader:headers.at(-1)||'',
+    penultimateCell:cells.at(-2)||'',
+    lastCell:cells.at(-1)||''
+  };
+});
 const institutionFilters=[];
 if(institutionSelectExists){
   for(const institution of ['内阁','都察院','吏部','户部','礼部','兵部','刑部','工部','司礼监','锦衣卫','东厂','西厂']){
@@ -1230,7 +1282,7 @@ const tumuImpactInitial=await impactSnapshot();
 if(tumuImpactInitial.room)await page.locator('[data-impact-stage="beijing"]').click();
 const tumuImpactBeijing=await impactSnapshot();
 
-const audit={home,homeTitleLayouts,people,personStory,zhuGaochiTenure,zhuChangluoTenure,zhuHoucongLineage,emperorLineageSamples,secondProfile,reenactmentSamples,secondSliceDrawerSamples,thirdSliceDrawerSamples,creativeSamples,portraitBatch,portraitBatch2,portraitBatch3,portraitBatch4,portraitBatch5,portraitBatch6,portraitBatch7,portraitBatch8,portraitBatch9,portraitBatch13,portraitBatch14,portraitBatch15,portraitBatch16,yangJisheng,wangYangmingThought,tangYin,immersivePages,sourceDialogAudit,independentFilter,externalChipExists,externalFilter,addedPersonCards,institutionOptions,institutionGroups,rosterColumnCount,institutionFilters,domainFilter,storyCoverage,emperorView,events,queryCount,eventDetail,eventPeopleFilter,personRelatedEvents,directEvent,crossHall,tumuEventImpact,unrelatedImpactCount,mobile,mobileTumuEventImpact,mobileTumuImpact,mobileProfile,mobileSourceDialog,mobileStory,mobileCreative,mobileWangYangmingPage,mobileZhuYuanzhangPage,mobileZhuDiPage,mobileBatch2Pages,exhibitionPortraitChecks,eighthSliceDrawerSamples,tumuImpactInitial,tumuImpactBeijing,errors};
+const audit={home,homeTitleLayouts,people,personStory,zhuGaochiTenure,zhuChangluoTenure,zhuHoucongLineage,emperorLineageSamples,secondProfile,reenactmentSamples,secondSliceDrawerSamples,thirdSliceDrawerSamples,fourthSliceDrawerSamples,genericStorySamples,creativeSamples,portraitBatch,portraitBatch2,portraitBatch3,portraitBatch4,portraitBatch5,portraitBatch6,portraitBatch7,portraitBatch8,portraitBatch9,portraitBatch13,portraitBatch14,portraitBatch15,portraitBatch16,yangJisheng,wangYangmingThought,tangYin,immersivePages,sourceDialogAudit,independentFilter,externalChipExists,externalFilter,addedPersonCards,institutionOptions,institutionGroups,rosterColumnCount,rosterColumnLayout,institutionFilters,domainFilter,storyCoverage,emperorView,events,queryCount,eventDetail,eventPeopleFilter,personRelatedEvents,directEvent,crossHall,tumuEventImpact,unrelatedImpactCount,mobile,mobileTumuEventImpact,mobileTumuImpact,mobileProfile,mobileSourceDialog,mobileStory,mobileCreative,mobileWangYangmingPage,mobileZhuYuanzhangPage,mobileZhuDiPage,mobileBatch2Pages,exhibitionPortraitChecks,eighthSliceDrawerSamples,tumuImpactInitial,tumuImpactBeijing,errors};
 const expectedFigurePortraits=[
   {name:'朱元璋',loaded:true,label:'',fallback:false},
   {name:'朱棣',loaded:true,label:'',fallback:false},
@@ -1283,8 +1335,12 @@ const fourthSliceDrawerPass=fourthSliceDrawerSamples.length===16&&fourthSliceDra
   if(x.name==='王守仁') return x.drawerName===x.name&&x.preview===1&&x.enterHref==='people/wang-shou-ren.html'&&x.historicalSlice===0&&x.genericCamera===0;
   const pageSlug={李时珍:'li-shi-zhen',徐光启:'xu-guang-qi',郑和:'zheng-he'}[x.name];
   if(pageSlug) return x.drawerName===x.name&&x.preview===1&&x.enterHref==='people/'+pageSlug+'.html'&&x.historicalSlice===0&&x.genericCamera===0;
+  if(x.name==='徐达') return x.drawerName===x.name&&x.historicalSlice===1&&x.genericStory===0&&x.lifeChapters>=5&&['渡江','陈友谅','张士诚','大都','定西','1372'].every(text=>x.lifeStoryText.includes(text));
   return x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1;
 });
+const genericStoryPass=genericStorySamples.length===3&&new Set(genericStorySamples.map(item=>item.hook)).size===3&&new Set(genericStorySamples.map(item=>item.arc)).size===3&&genericStorySamples.every(item=>item.hook&&item.arc&&!item.genericBoilerplate);
+const historicalSliceTypography=genericStorySamples.find(item=>item.name==='黄道周')?.sliceTypography;
+const historicalSliceTypographyPass=historicalSliceTypography?.label>=12&&historicalSliceTypography?.body>=15&&historicalSliceTypography?.knowledge>=15&&historicalSliceTypography?.action>=16&&historicalSliceTypography?.boundary>=12;
 const wangYangmingThoughtPass=wangYangmingThought.drawerName==='王守仁'&&wangYangmingThought.sourceLinks>=6&&wangYangmingThought.preview===1&&wangYangmingThought.quickNodes===5&&wangYangmingThought.enterHref==='people/wang-shou-ren.html'&&wangYangmingThought.bodyWidth===wangYangmingThought.viewport;
 const fifthSliceDrawerPass=fifthSliceDrawerSamples.length===15&&fifthSliceDrawerSamples.every(x=>x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1);
 const sixthSliceDrawerPass=sixthSliceDrawerSamples.length===15&&sixthSliceDrawerSamples.every(x=>x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1)&&sixthSliceDrawerSamples.filter(x=>['万贵妃','郑贵妃','客氏'].includes(x.name)).every(x=>x.knownLabel.startsWith('她当时'));
@@ -1296,8 +1352,8 @@ const eighthSliceDrawerPass=eighthSliceDrawerSamples.length===23&&eighthSliceDra
 const knowledgeCardPass=knowledgeCardSamples.length===6&&knowledgeCardSamples.every(x=>x.drawerName===x.name&&x.category==='在野人物'&&x.office&&x.sources>=2&&x.historicalSlice===1);
 const sourceDialogPass=sourceDialogAudit?.triggers===3&&sourceDialogAudit.open&&sourceDialogAudit.title==='1449：从反对南迁到列阵九门'&&sourceDialogAudit.location.includes('卷一百七十')&&sourceDialogAudit.paragraphs===3&&sourceDialogAudit.original.includes('言南迁者，可斩也')&&sourceDialogAudit.original.includes('列阵九门外')&&sourceDialogAudit.reading.includes('连续步骤')&&sourceDialogAudit.boundary.includes('清代')&&sourceDialogAudit.fullTextHref.includes('卷170')&&sourceDialogAudit.closeFocused&&sourceDialogAudit.bodyLocked&&sourceDialogAudit.closedByEscape;
 const homeTitlePass=homeTitleLayouts.length===5&&homeTitleLayouts.every(x=>x.lineRects===1&&x.titleWithinViewport&&x.whiteSpace==='nowrap'&&x.yearBalanced&&x.yearsInset&&x.bodyWidth===x.viewport);
-const factGridPass=personStory.identityValue==='文臣'&&JSON.stringify(personStory.factLabels.slice(0,7))===JSON.stringify(['身份','生卒 / 寿命','籍贯','关键任期 / 历朝','历史领域','关联机构','加权总分']);
-const zhuHoucongLineagePass=zhuHoucongLineage.rich&&zhuHoucongLineage.entries===7&&['兴献王朱祐杬','蒋氏','明宪宗朱见深','明孝宗朱祐樘','堂兄明武宗朱厚照','皇位由孝宗一支转入兴献王一支'].every(text=>zhuHoucongLineage.text.includes(text))&&zhuHoucongLineage.source;
+const factGridPass=personStory.identityValue==='文臣'&&JSON.stringify(personStory.factLabels)===JSON.stringify(['身份','生卒 / 寿命','籍贯','关键任期 / 历朝','历史领域','关联机构'])&&personStory.scoreSummaryLast&&personStory.scoreItems===6&&personStory.totalScoreLabel==='加权总分 · 100%'&&/^\d+\.\d$/.test(personStory.totalScoreValue)&&!personStory.totalScoreValue.includes('/100')&&!personStory.scoreSummaryText.startsWith('评分细项')&&['加权总分','治国制度','军事危机','社会文化','长期遗产','责任代价'].every(label=>personStory.scoreSummaryText.includes(label))&&personStory.legacyScoreGrid===0;
+const zhuHoucongLineagePass=zhuHoucongLineage.rich&&zhuHoucongLineage.entries===7&&zhuHoucongLineage.scoreSummaryLast&&zhuHoucongLineage.scoreItems===6&&['兴献王朱祐杬','蒋氏','明宪宗朱见深','明孝宗朱祐樘','堂兄明武宗朱厚照','皇位由孝宗一支转入兴献王一支'].every(text=>zhuHoucongLineage.text.includes(text))&&zhuHoucongLineage.source;
 const emperorLineageByName=Object.fromEntries(emperorLineageSamples.map(item=>[item.name,item]));
 const emperorLineagePass=emperorLineageSamples.length===16&&emperorLineageSamples.every(item=>item.drawerName===item.name&&item.lineageCards===1&&item.entries>=5&&/高置信度|中置信度/.test(item.confidence)&&item.succession.startsWith('入继：')&&item.boundary.startsWith('证据边界：')&&item.sourceLinks>=2)&&['朱世珍','陈氏','明朝开国皇帝'].every(text=>emperorLineageByName['朱元璋'].text.includes(text))&&['朱标','吕氏','明太祖朱元璋','皇太孙'].every(text=>emperorLineageByName['朱允炆'].text.includes(text))&&emperorLineageByName['朱棣'].text.includes('生母异说')&&emperorLineageByName['朱祁镇'].text.includes('两段统治')&&emperorLineageByName['朱厚熜'].text.includes('兴献王一支')&&emperorLineageByName['朱由检'].text.includes('兄终弟及');
 const exhibitionPortraitPass=exhibitionPortraitChecks.length===exhibitionSource.reduce((sum,exhibit)=>sum+exhibit.people.length,0)&&exhibitionPortraitChecks.every(item=>item.expectedSrc
@@ -1314,6 +1370,8 @@ const institutionFilterPass=institutionSelectExists&&rosterColumnCount===15&&JSO
   {label:'内廷',options:['司礼监']},
   {label:'厂卫',options:['锦衣卫','东厂','西厂']}
 ])&&institutionFilters.every(item=>item.selected===item.institution&&item.count>0)&&institutionByName['内阁'].names.includes('张居正')&&institutionByName['都察院'].names.includes('海瑞')&&institutionByName['吏部'].names.includes('蹇义')&&institutionByName['户部'].names.includes('夏原吉')&&institutionByName['礼部'].names.includes('徐光启')&&institutionByName['兵部'].names.includes('于谦')&&institutionByName['刑部'].names.includes('张璁')&&institutionByName['工部'].names.includes('宋礼')&&institutionByName['司礼监'].names.includes('王振')&&institutionByName['锦衣卫'].names.includes('朱元璋')&&institutionByName['东厂'].names.includes('魏忠贤')&&institutionByName['西厂'].names.includes('汪直');
+const rosterColumnLayoutPass=JSON.stringify(rosterColumnLayout.scoreHeaders)===JSON.stringify(['加权总分','治国与制度','军事与危机','社会文化','长期遗产','责任与代价'])&&JSON.stringify(rosterColumnLayout.scoreCellKinds)===JSON.stringify(['总分','细分','细分','细分','细分','细分'])&&/^\d+\.\d$/.test(rosterColumnLayout.totalScoreText)&&!rosterColumnLayout.totalScoreText.includes('/100')&&rosterColumnLayout.penultimateHeader==='家乡 / 世系'&&rosterColumnLayout.lastHeader==='本人子女数量'&&!rosterColumnLayout.headers.some(header=>/[（(].*子.*女.*[）)]/.test(header))&&rosterColumnLayout.penultimateCell.includes('濠州钟离')&&rosterColumnLayout.lastCell.includes('合计');
+audit.rosterColumnLayoutPass=rosterColumnLayoutPass;
 const addedExhibitionNames=new Set(['宋礼','潘季驯','李舜臣','丰臣秀吉','多尔衮']);
 const addedExhibitionLinksPass=exhibitionPortraitChecks.filter(item=>addedExhibitionNames.has(item.name)).length===5&&exhibitionPortraitChecks.filter(item=>addedExhibitionNames.has(item.name)).every(item=>item.linked);
 audit.creativePass=creativePass;
@@ -1335,6 +1393,7 @@ audit.immersivePass=immersivePass;
 audit.secondSliceDrawerPass=secondSliceDrawerPass;
 audit.thirdSliceDrawerPass=thirdSliceDrawerPass;
 audit.fourthSliceDrawerPass=fourthSliceDrawerPass;
+audit.genericStoryPass=genericStoryPass;
 audit.fifthSliceDrawerPass=fifthSliceDrawerPass;
 audit.sixthSliceDrawerPass=sixthSliceDrawerPass;
 audit.innerCourtCardPass=innerCourtCardPass;
@@ -1385,6 +1444,8 @@ audit.pass=audit.pass&&portraitBatch16Pass;
 audit.pass=audit.pass&&factGridPass;
 audit.pass=audit.pass&&thirdSliceDrawerPass;
 audit.pass=audit.pass&&fourthSliceDrawerPass;
+audit.pass=audit.pass&&genericStoryPass;
+audit.pass=audit.pass&&historicalSliceTypographyPass;
 audit.pass=audit.pass&&wangYangmingThoughtPass;
 audit.pass=audit.pass&&mobileWangYangmingPage.h1==='王守仁'&&mobileWangYangmingPage.chapters===5&&mobileWangYangmingPage.thoughtColumns===1&&mobileWangYangmingPage.afterlifeColumns===1&&mobileWangYangmingPage.sourceTriggers===5&&mobileWangYangmingPage.bodyWidth===mobileWangYangmingPage.viewport;
 audit.pass=audit.pass&&mobileZhuYuanzhangPage.h1==='朱元璋'&&mobileZhuYuanzhangPage.chapters===6&&mobileZhuYuanzhangPage.stateColumns===1&&mobileZhuYuanzhangPage.stateCosts===6&&mobileZhuYuanzhangPage.sourceTriggers===6&&mobileZhuYuanzhangPage.bodyWidth===mobileZhuYuanzhangPage.viewport;
@@ -1408,6 +1469,7 @@ audit.pass=audit.pass&&impactGraphDataPass;
 audit.pass=audit.pass&&tumuImpactPass;
 audit.pass=audit.pass&&tumuEventImpactPass;
 audit.pass=audit.pass&&mobileTumuImpactPass;
+audit.pass=audit.pass&&rosterColumnLayoutPass;
 await fs.writeFile(path.join(root,'自动化验收报告.json'),JSON.stringify(audit,null,2));
 console.log('VERIFY_SUMMARY '+JSON.stringify({baseCheckGroups,tangYin,independentFilter,domainFilter,storyCoverage,externalCategoryPass,addedPersonCardPass,addedPersonPortraitPass,institutionFilterPass,addedExhibitionLinksPass,pass:audit.pass}));
 await browser.close();

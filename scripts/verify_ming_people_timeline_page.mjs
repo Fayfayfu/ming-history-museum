@@ -188,14 +188,14 @@ check(
   { emperors: timelineSizingAndLanes.emperors, gold: timelineSizingAndLanes.gold },
 );
 check(
-  timelineSizingAndLanes.featured.length === 3
-    && timelineSizingAndLanes.featured.map((portrait) => portrait.name).sort().join('|') === ['于谦', '王守仁', '张居正'].sort().join('|')
+  timelineSizingAndLanes.featured.length === 11
+    && timelineSizingAndLanes.featured.map((portrait) => portrait.name).sort().join('|') === ['于谦', '刘基', '张居正', '徐光启', '徐达', '戚继光', '李时珍', '海瑞', '王守仁', '郑和', '魏忠贤'].sort().join('|')
     && timelineSizingAndLanes.featured.every((portrait) => exactSize(portrait, 72)),
-  'the three featured portraits must be exactly the curated 72px anchors',
+  'the eleven featured portraits must be exactly the curated 72px anchors',
   timelineSizingAndLanes.featured,
 );
 check(
-  timelineSizingAndLanes.standard.length === 144
+  timelineSizingAndLanes.standard.length === 136
     && timelineSizingAndLanes.standard.every((portrait) => portrait.width >= 56 && portrait.height >= 56),
   'all ordinary portraits must be at least 56px',
   timelineSizingAndLanes.standard.filter((portrait) => portrait.width < 56 || portrait.height < 56),
