@@ -16,6 +16,7 @@ const baseline = await fs.readFile(`${root}/明史人物谱_1368-1644.html`, 'ut
 const events = JSON.parse(await fs.readFile('data/ming_events.json', 'utf8'));
 const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
 const importantChildren = JSON.parse(await fs.readFile('data/ming_children_important.json', 'utf8'));
+const allChildren = JSON.parse(await fs.readFile('data/ming_children.json', 'utf8'));
 const portraits = JSON.parse(await fs.readFile('data/ming_portraits.json', 'utf8'));
 const storytelling = JSON.parse(await fs.readFile('data/ming_storytelling.json', 'utf8'));
 const timelineData = JSON.parse(await fs.readFile('data/ming_people_timeline.json', 'utf8'));
@@ -30,25 +31,44 @@ const escapeHallHtml = value => String(value ?? '')
   .replace(/>/g,'&gt;')
   .replace(/"/g,'&quot;')
   .replace(/'/g,'&#39;');
+const rosterHeaderHtml = baseline.match(/<table class="roster">[\s\S]*?<thead><tr>([\s\S]*?)<\/tr><\/thead>/)?.[1] || '';
+const rosterHeaders = [...rosterHeaderHtml.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/g)].map(([,header]) => header
+  .replace(/<[^>]+>/g,'')
+  .replace(/&amp;/g,'&')
+  .replace(/&lt;/g,'<')
+  .replace(/&gt;/g,'>')
+  .replace(/&quot;/g,'"')
+  .replace(/&#39;/g,"'")
+  .replace(/\s+/g,' ')
+  .trim());
+if (rosterHeaders.length !== 15) throw new Error(`Expected 15 roster headers, found ${rosterHeaders.length}`);
+const childCountFor = person => {
+  if (person.category !== '皇帝') return '—';
+  const key = canonicalName(person.name);
+  const records = allChildren.filter(child => canonicalName(child.parent).includes(key));
+  const important = importantChildren.filter(child => canonicalName(child.parent).includes(key)).length;
+  return `子 ${records.filter(child=>child.sex==='男').length} · 女 ${records.filter(child=>child.sex==='女').length} · 合计 ${records.length} · 重要 ${important}`;
+};
 const fallbackPeopleRows = timelinePeople.map(person => {
   const life = `${person.birth || '待考'}—${person.death || '待考'}`;
   const tenure = person.office || person.title || '待考';
   const description = [person.summary,person.evaluation].filter(Boolean).join(' ');
   const lineage = person.hometown || person.parent_name || '待考';
-  const childCount = person.children_count ?? person.child_count ?? '—';
-  const cells = [
-    person.timeline_year_label,
-    person.name,
-    person.category,
-    life,
-    tenure,
-    description,
-    '—','—','—','—','—',
-    person.score ?? '—',
-    person.confidence || person.timeline_year_confidence,
-    lineage,
-    childCount,
-  ];
+  const cellForHeader = header => {
+    if (header === '时间锚点') return person.timeline_year_label;
+    if (header === '人物') return person.name;
+    if (header === '身份') return person.category;
+    if (header.startsWith('生卒 / 寿命')) return life;
+    if (header.startsWith('关键任期')) return tenure;
+    if (header === '生平事迹与史学评价') return description;
+    if (/^(治国与制度|军事与危机|社会文化|长期遗产|责任与代价)/.test(header)) return '—';
+    if (header.startsWith('加权总分')) return person.score ?? '—';
+    if (header === '置信度') return person.confidence || person.timeline_year_confidence;
+    if (header === '家乡 / 世系') return lineage;
+    if (header.startsWith('本人子女数量')) return childCountFor(person);
+    throw new Error(`Unsupported roster header: ${header}`);
+  };
+  const cells = rosterHeaders.map(cellForHeader);
   return `<tr data-id="${escapeHallHtml(person.name)}">${cells.map((cell,index)=>`<td${index===1?' class="name"':''}>${escapeHallHtml(cell)}</td>`).join('')}</tr>`;
 }).join('');
 const timelinePortraitFor = name => {

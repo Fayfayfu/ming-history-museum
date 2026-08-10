@@ -42,6 +42,37 @@ check(initial.tableSelected === 'false' && initial.tableTabIndex === '-1', 'tabl
 check(initial.timelineControls === 'peopleTimelineView' && initial.tableControls === 'peopleTableView' && initial.controlledPanelsExist, 'tabs must control existing panels', initial);
 check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled === 'peopleTableTab', 'panels must reference their real tabs', initial);
 
+const keyboardSnapshot = () => page.evaluate(() => ({
+  focus: document.activeElement?.id || '',
+  view: document.body.dataset.peopleView,
+  timelineSelected: document.querySelector('#peopleTimelineTab')?.getAttribute('aria-selected') || '',
+  tableSelected: document.querySelector('#peopleTableTab')?.getAttribute('aria-selected') || '',
+  timelineDisplay: getComputedStyle(document.querySelector('#peopleTimelineView')).display,
+  tableDisplay: getComputedStyle(document.querySelector('#peopleTableView')).display,
+}));
+const checkKeyboardView = (snapshot, expectedView, expectedFocus, key) => {
+  const timeline = expectedView === 'timeline';
+  check(
+    snapshot.focus === expectedFocus
+      && snapshot.view === expectedView
+      && snapshot.timelineSelected === String(timeline)
+      && snapshot.tableSelected === String(!timeline)
+      && (timeline ? snapshot.timelineDisplay !== 'none' && snapshot.tableDisplay === 'none' : snapshot.timelineDisplay === 'none' && snapshot.tableDisplay !== 'none'),
+    `${key} must move focus and activate the matching people view`,
+    snapshot,
+  );
+};
+
+await page.locator('#peopleTimelineTab').focus();
+await page.keyboard.press('ArrowRight');
+checkKeyboardView(await keyboardSnapshot(), 'table', 'peopleTableTab', 'ArrowRight');
+await page.keyboard.press('ArrowLeft');
+checkKeyboardView(await keyboardSnapshot(), 'timeline', 'peopleTimelineTab', 'ArrowLeft');
+await page.keyboard.press('End');
+checkKeyboardView(await keyboardSnapshot(), 'table', 'peopleTableTab', 'End');
+await page.keyboard.press('Home');
+checkKeyboardView(await keyboardSnapshot(), 'timeline', 'peopleTimelineTab', 'Home');
+
 const tableButton = page.locator('button[data-people-view="table"]');
 if (await tableButton.count()) await tableButton.click();
 const tableView = await page.evaluate(() => ({
@@ -98,11 +129,18 @@ const noScript = await noScriptPage.evaluate(() => ({
   table: getComputedStyle(document.querySelector('.tablewrap')).display,
   rows: document.querySelectorAll('#rows tr[data-id]').length,
   hasYuQian: [...document.querySelectorAll('#rows tr[data-id]')].some((row) => row.textContent.includes('于谦')),
+  headers: [...document.querySelectorAll('.roster thead th')].map((header) => header.textContent.trim().replace(/\s+/g, ' ')),
+  zhuYuanzhangCells: [...[...document.querySelectorAll('#rows tr[data-id]')].find((row) => row.querySelector('.name')?.textContent.trim() === '朱元璋')?.children || []].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')),
   legacySections: [...document.querySelectorAll('.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method')].map((section) => getComputedStyle(section).display),
 }));
 check(noScript.tabs === 'none' && noScript.timeline === 'none', 'no-script fallback must hide timeline controls and canvas', noScript);
 check(noScript.table !== 'none' && noScript.legacySections.length === 5 && noScript.legacySections.every((display) => display !== 'none'), 'no-script fallback must expose the complete legacy roster', noScript);
 check(noScript.rows === 163 && noScript.hasYuQian, 'no-script fallback must keep all 163 people readable', noScript);
+const noScriptCellsByHeader = Object.fromEntries(noScript.headers.map((header, index) => [header, noScript.zhuYuanzhangCells[index] || '']));
+const childrenHeader = noScript.headers.find((header) => header.startsWith('本人子女数量')) || '';
+check(noScript.headers.length === 15 && noScript.zhuYuanzhangCells.length === noScript.headers.length, 'no-script rows must match the build-time table column count', noScript);
+check(noScriptCellsByHeader['家乡 / 世系']?.includes('濠州钟离'), 'no-script lineage data must follow the real lineage header', noScript);
+check(childrenHeader && noScriptCellsByHeader[childrenHeader]?.includes('合计'), 'no-script child counts must follow the real child-count header', noScript);
 await noScriptContext.close();
 
 await browser.close();

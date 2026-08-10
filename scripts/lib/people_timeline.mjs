@@ -409,7 +409,21 @@ export function peopleTimelineClientScript() {
         button.tabIndex=selected?0:-1;
       });
     };
-    buttons.forEach(button=>button.addEventListener('click',()=>setPeopleView(button.dataset.peopleView)));
+    buttons.forEach((button,index)=>{
+      button.addEventListener('click',()=>setPeopleView(button.dataset.peopleView));
+      button.addEventListener('keydown',event=>{
+        let target=-1;
+        if(event.key==='ArrowRight')target=(index+1)%buttons.length;
+        else if(event.key==='ArrowLeft')target=(index-1+buttons.length)%buttons.length;
+        else if(event.key==='Home')target=0;
+        else if(event.key==='End')target=buttons.length-1;
+        if(target<0)return;
+        event.preventDefault();
+        const next=buttons[target];
+        setPeopleView(next.dataset.peopleView);
+        next.focus();
+      });
+    });
     setPeopleView(new URLSearchParams(location.search).has('event')?'table':'timeline');
   })();`;
 }
