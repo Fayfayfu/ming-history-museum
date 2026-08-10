@@ -34,7 +34,7 @@ const inspectDesktop=async(width,height)=>{
     const endpointMisses=[...document.querySelectorAll('.relation-line:not([hidden])')].map(line=>{
       const svg=line.ownerSVGElement.getBoundingClientRect();
       const endpoint=(index,id)=>{
-        const node=document.querySelector(`.palace-stage .canonical-institution[data-id="${id}"]:not([hidden])`);
+        const node=document.querySelector(`.palace-stage :is(.canonical-institution,.six-ministries-composition)[data-id="${id}"]:not([hidden])`);
         if(!node)return 0;
         const r=node.getBoundingClientRect();
         const x=Number(line.getAttribute(`x${index}`))+svg.left;
@@ -44,7 +44,7 @@ const inspectDesktop=async(width,height)=>{
         const inside=Math.min(Math.abs(x-r.left),Math.abs(x-r.right),Math.abs(y-r.top),Math.abs(y-r.bottom));
         return outside||inside;
       };
-      const fromNode=document.querySelector(`.palace-stage .canonical-institution[data-id="${line.dataset.from}"]:not([hidden])`);
+      const fromNode=document.querySelector(`.palace-stage :is(.canonical-institution,.six-ministries-composition)[data-id="${line.dataset.from}"]:not([hidden])`);
       return {id:line.dataset.id,distance:Math.max(endpoint(1,line.dataset.from),endpoint(2,line.dataset.to)),x1:Number(line.getAttribute('x1')),y1:Number(line.getAttribute('y1')),svgTop:svg.top,nodeTop:fromNode?.getBoundingClientRect().top};
     });
     const lineWidths=[...document.querySelectorAll('.relation-line:not([hidden])')].map(line=>parseFloat(getComputedStyle(line).strokeWidth));
@@ -61,7 +61,7 @@ const inspectDesktop=async(width,height)=>{
     const ministryGroup=document.querySelector('.six-ministries-composition');
     const ministryMembers=[...document.querySelectorAll('[data-composed-of="six_ministries"]')];
     const transmission=document.querySelector('.canonical-institution[data-id="transmission_office"]');
-    const ministryParent=document.querySelector('.canonical-institution[data-id="six_ministries"]');
+    const civilAdministrationGrid=ministryGroup?.closest('.axis-cluster[data-system="civil_administration"]')?.querySelector('.axis-grid');
     return {
       nodes:embedded.institutions?.length,relations:embedded.relations?.length,
       axis:document.querySelectorAll('.power-axis').length,
@@ -87,10 +87,13 @@ const inspectDesktop=async(width,height)=>{
       sixMinistryGroup:Boolean(ministryGroup),
       sixMinistryMemberCount:ministryMembers.length,
       transmissionOutsideGroup:Boolean(transmission&&ministryGroup&&!ministryGroup.contains(transmission)),
-      sixMinistryLabel:ministryGroup?.querySelector('.composition-label')?.textContent.trim()||'',
+      sixMinistryHeading:ministryGroup?.querySelector(':scope > .composition-title')?.textContent.trim()||'',
+      standaloneSixMinistryCards:ministryGroup?.querySelectorAll('.canonical-institution[data-id="six_ministries"]').length||0,
+      compositionExplanations:ministryGroup?.querySelectorAll('.composition-label').length||0,
+      sameAdministrativeLevel:Boolean(civilAdministrationGrid&&ministryGroup?.parentElement===civilAdministrationGrid&&transmission?.parentElement===civilAdministrationGrid),
       groupStripeWidth:ministryGroup?parseFloat(getComputedStyle(ministryGroup).borderLeftWidth):0,
       memberStripeWidth:ministryMembers[0]?parseFloat(getComputedStyle(ministryMembers[0]).borderLeftWidth):0,
-      parentNodeType:ministryParent?.dataset.nodeType||'',
+      groupNodeType:ministryGroup?.dataset.nodeType||'',
       desktopDisplay:document.querySelector('.palace-stage')?getComputedStyle(document.querySelector('.palace-stage')).display:'missing',
       mobileDisplay:document.querySelector('.mobile-room-chapters')?getComputedStyle(document.querySelector('.mobile-room-chapters')).display:'missing'
     };
@@ -124,9 +127,12 @@ for(const [width,height] of [[1440,1000],[1024,768],[1800,1000]]){
   expect(state.sixMinistryGroup,`${width}: six ministries must render as an explicit composition group`);
   expect(state.sixMinistryMemberCount===6,`${width}: six-ministry composition must contain exactly six parallel ministries`);
   expect(state.transmissionOutsideGroup,`${width}: Transmission Office must remain outside the six-ministry composition`);
-  expect(state.sixMinistryLabel.includes('合称')&&state.sixMinistryLabel.includes('并列'),`${width}: composition must state that 六部 is a collective term for parallel ministries`);
+  expect(state.sixMinistryHeading==='六部',`${width}: the outer composition frame itself must be titled 六部`);
+  expect(state.standaloneSixMinistryCards===0,`${width}: 六部 must not render as a seventh standalone institution card`);
+  expect(state.compositionExplanations===0,`${width}: the composition frame must not repeat a separate 合称 explanation box`);
+  expect(state.sameAdministrativeLevel,`${width}: the 六部 frame and Transmission Office must be sibling units in 外朝行政`);
   expect(state.groupStripeWidth>state.memberStripeWidth,`${width}: composition stripe must be thicker than member stripes`);
-  expect(state.parentNodeType==='group',`${width}: 六部 must retain group semantics rather than become a superior institution`);
+  expect(state.groupNodeType==='group',`${width}: 六部 frame must retain group semantics rather than become a superior institution`);
   expect(state.distorted===0,`${width}: Chinese text must not be horizontally distorted`);
   expect(state.desktopDisplay!=='none'&&state.mobileDisplay==='none',`${width}: desktop must use the palace stage only`);
 }
