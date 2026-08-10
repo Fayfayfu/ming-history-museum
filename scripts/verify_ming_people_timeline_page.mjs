@@ -4,16 +4,19 @@ import { chromium } from 'playwright';
 
 const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const browser = await chromium.launch({ headless: true, executablePath: chrome });
-const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const url = (file) => `file://${path.join(root, file)}`;
 const failures = [];
 const pageErrors = [];
-page.on('pageerror', (error) => pageErrors.push(error.message));
-
 const check = (condition, message, details) => {
   if (!condition) failures.push(`${message}${details ? `: ${JSON.stringify(details)}` : ''}`);
 };
+
+let browser;
+let noScriptContext;
+try {
+browser = await chromium.launch({ headless: true, executablePath: chrome });
+const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+page.on('pageerror', (error) => pageErrors.push(error.message));
 
 await page.goto(url('people.html'), { waitUntil: 'networkidle' });
 const initial = await page.evaluate(() => {
@@ -102,22 +105,31 @@ const timelineSizingAndLanes = await page.evaluate(() => {
   };
   const laneIdFor = (node) => node.dataset.lane || '';
   const nodes = [...document.querySelectorAll('[data-timeline-person]')];
-  const laneLabels = Object.fromEntries([...document.querySelectorAll('.timeline-lane-label')].map((node) => {
-    const laneClass = [...node.classList].find((name) => name.startsWith('timeline-lane-label--')) || '';
-    return [laneClass.replace('timeline-lane-label--', ''), node.getBoundingClientRect().top + node.getBoundingClientRect().height / 2 - canvas.top];
-  }));
+  const laneCenters = {};
+  for (const node of nodes) {
+    const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    const lane = laneIdFor(node);
+    if (!portrait || !lane) continue;
+    if (!laneCenters[lane]) laneCenters[lane] = [];
+    laneCenters[lane].push(portrait.top + portrait.height / 2 - canvas.top);
+  }
+  const laneGeometry = Object.fromEntries(Object.entries(laneCenters).map(([lane, centers]) => [lane, {
+    count: centers.length,
+    minY: Math.min(...centers),
+    maxY: Math.max(...centers),
+  }]));
   const goldProbe = document.createElement('span');
   goldProbe.style.color = '#d0a743';
   document.body.append(goldProbe);
   const gold = getComputedStyle(goldProbe).color;
   goldProbe.remove();
   return {
-    emperors: [...document.querySelectorAll('.timeline-person.size-emperor')].map(portraitSnapshot),
+    emperors: nodes.filter((node) => laneIdFor(node) === 'emperor').map(portraitSnapshot),
     featured: [...document.querySelectorAll('.timeline-person.size-featured')].map(portraitSnapshot),
     standard: [...document.querySelectorAll('.timeline-person.size-standard')].map(portraitSnapshot),
     gold,
     axisY: axis && canvas ? axis.top + axis.height / 2 - canvas.top : null,
-    laneLabels,
+    laneGeometry,
     unmappedLanePeople: nodes.filter((node) => !laneIdFor(node)).map((node) => node.dataset.timelinePerson),
     invalidLayerPeople: nodes.filter((node) => !/^\d+$/.test(node.dataset.layer || '')).map((node) => node.dataset.timelinePerson),
     representedLanes: [...new Set(nodes.map(laneIdFor))].sort(),
@@ -128,7 +140,7 @@ const exactSize = (portrait, size) => Math.abs(portrait.width - size) <= 0.5 && 
 check(
   timelineSizingAndLanes.emperors.length === 16
     && timelineSizingAndLanes.emperors.every((portrait) => exactSize(portrait, 88) && portrait.borderColor === timelineSizingAndLanes.gold),
-  'all 16 emperor portraits must be 88px with a gold outline',
+  'all 16 data-lane emperor portraits must be 88px with a gold outline',
   { emperors: timelineSizingAndLanes.emperors, gold: timelineSizingAndLanes.gold },
 );
 check(
@@ -145,25 +157,25 @@ check(
   timelineSizingAndLanes.standard.filter((portrait) => portrait.width < 56 || portrait.height < 56),
 );
 const expectedLaneIds = ['children', 'emperor', 'eunuch', 'external', 'independent', 'officials', 'women'];
-const { laneLabels, axisY } = timelineSizingAndLanes;
+const { laneGeometry, axisY } = timelineSizingAndLanes;
 check(
   timelineSizingAndLanes.unmappedLanePeople.length === 0
     && timelineSizingAndLanes.invalidLayerPeople.length === 0
     && timelineSizingAndLanes.representedLanes.join('|') === expectedLaneIds.join('|')
-    && expectedLaneIds.every((lane) => Number.isFinite(laneLabels[lane])),
+    && expectedLaneIds.every((lane) => laneGeometry[lane]?.count > 0 && Number.isFinite(laneGeometry[lane].minY) && Number.isFinite(laneGeometry[lane].maxY)),
   'every timeline person and lane label must map to one of seven semantic swimlanes',
   timelineSizingAndLanes,
 );
 check(
-  laneLabels.women < laneLabels.children
-    && laneLabels.children < laneLabels.emperor
-    && laneLabels.emperor < axisY
-    && axisY < laneLabels.eunuch
-    && laneLabels.eunuch < laneLabels.officials
-    && laneLabels.officials < laneLabels.independent
-    && laneLabels.independent < laneLabels.external,
-  'swimlanes must retain their top-to-axis and axis-to-bottom order',
-  { axisY, laneLabels },
+  laneGeometry.women.maxY < laneGeometry.children.minY
+    && laneGeometry.children.maxY < laneGeometry.emperor.minY
+    && laneGeometry.emperor.maxY < axisY
+    && axisY < laneGeometry.eunuch.minY
+    && laneGeometry.eunuch.maxY < laneGeometry.officials.minY
+    && laneGeometry.officials.maxY < laneGeometry.independent.minY
+    && laneGeometry.independent.maxY < laneGeometry.external.minY,
+  'real data-lane portrait centers must retain their top-to-axis and axis-to-bottom order',
+  { axisY, laneGeometry },
 );
 check(!timelineSizingAndLanes.containsRecentEmperor, 'people page must not contain the phrase 最近皇帝');
 
@@ -396,10 +408,12 @@ const eventsHtml = await fs.readFile(path.join(root, 'events.html'), 'utf8');
 check(eventsView.timeline === 0 && eventsView.viewButtons === 0 && !eventsView.peopleView && eventsView.clientApi === 'undefined', 'events.html must not initialize the people timeline', eventsView);
 check(!eventsHtml.includes('.people-timeline{'), 'events.html must not load people timeline styles');
 
-const noScriptContext = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
+let noScript;
+noScriptContext = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
+try {
 const noScriptPage = await noScriptContext.newPage();
 await noScriptPage.goto(url('people.html'), { waitUntil: 'load' });
-const noScript = await noScriptPage.evaluate(() => ({
+noScript = await noScriptPage.evaluate(() => ({
   tabs: document.querySelector('.people-view-tabs') ? getComputedStyle(document.querySelector('.people-view-tabs')).display : 'missing',
   timeline: document.querySelector('#peopleTimelineView') ? getComputedStyle(document.querySelector('#peopleTimelineView')).display : 'missing',
   table: getComputedStyle(document.querySelector('.tablewrap')).display,
@@ -417,7 +431,10 @@ const childrenHeader = noScript.headers.find((header) => header.startsWith('本�
 check(noScript.headers.length === 15 && noScript.zhuYuanzhangCells.length === noScript.headers.length, 'no-script rows must match the build-time table column count', noScript);
 check(noScriptCellsByHeader['家乡 / 世系']?.includes('濠州钟离'), 'no-script lineage data must follow the real lineage header', noScript);
 check(childrenHeader && noScriptCellsByHeader[childrenHeader]?.includes('合计'), 'no-script child counts must follow the real child-count header', noScript);
-await noScriptContext.close();
+} finally {
+  await noScriptContext.close();
+  noScriptContext = undefined;
+}
 
 const responsiveAudits = [];
 for (const viewportSize of [
@@ -449,40 +466,72 @@ for (const viewportSize of [
 
   const middleTarget = await page.evaluate(() => {
     const viewport = document.querySelector('#peopleTimelineView');
-    viewport.scrollLeft = (viewport.scrollWidth - viewport.clientWidth) / 2;
-    const viewportRect = viewport.getBoundingClientRect();
+    const expectedMiddle = (viewport.scrollWidth - viewport.clientWidth) / 2;
+    viewport.scrollLeft = expectedMiddle;
     const people = [...document.querySelectorAll('[data-timeline-person]')];
-    const targetIndex = people.findIndex((node) => {
+    const candidates = people.map((node, targetIndex) => {
       const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
-      if (!portrait) return false;
-      const x = portrait.left + portrait.width / 2;
-      return x >= viewportRect.left + 8 && x <= viewportRect.right - 8;
-    });
+      const viewportRect = viewport.getBoundingClientRect();
+      if (!portrait) return null;
+      const clickX = portrait.left + portrait.width / 2;
+      if (clickX < viewportRect.left + 8 || clickX > viewportRect.right - 8) return null;
+      return { node, targetIndex };
+    }).filter(Boolean);
+    for (const candidate of candidates) {
+      const portrait = candidate.node.querySelector('.timeline-portrait').getBoundingClientRect();
+      const portraitCenterY = portrait.top + portrait.height / 2;
+      window.scrollTo({ top: Math.max(0, window.scrollY + portraitCenterY - innerHeight / 2), behavior: 'instant' });
+      const visiblePortrait = candidate.node.querySelector('.timeline-portrait').getBoundingClientRect();
+      const clickX = visiblePortrait.left + visiblePortrait.width / 2;
+      const clickY = visiblePortrait.top + visiblePortrait.height / 2;
+      const hit = document.elementFromPoint(clickX, clickY);
+      const select = candidate.node.querySelector('.timeline-person-select');
+      if (hit && select?.contains(hit)) {
+        return {
+          targetIndex: candidate.targetIndex,
+          targetName: candidate.node.dataset.timelinePerson,
+          hitName: hit.closest('[data-timeline-person]')?.dataset.timelinePerson || '',
+          clickX,
+          clickY,
+          scrollLeft: viewport.scrollLeft,
+          expectedMiddle,
+        };
+      }
+    }
     return {
-      targetIndex,
-      targetName: targetIndex >= 0 ? people[targetIndex].dataset.timelinePerson : '',
+      targetIndex: -1,
+      targetName: '',
+      hitName: '',
+      clickX: null,
+      clickY: null,
       scrollLeft: viewport.scrollLeft,
-      expectedMiddle: (viewport.scrollWidth - viewport.clientWidth) / 2,
+      expectedMiddle,
     };
   });
   check(
-    middleTarget.targetIndex >= 0 && Math.abs(middleTarget.scrollLeft - middleTarget.expectedMiddle) <= 1,
-    `${viewportSize.label} timeline must expose a clickable person after scrolling to the middle`,
+    middleTarget.targetIndex >= 0
+      && middleTarget.hitName === middleTarget.targetName
+      && Number.isFinite(middleTarget.clickX)
+      && Number.isFinite(middleTarget.clickY)
+      && Math.abs(middleTarget.scrollLeft - middleTarget.expectedMiddle) <= 1,
+    `${viewportSize.label} timeline must expose a coordinate-hit person after scrolling to the middle`,
     middleTarget,
   );
   if (middleTarget.targetIndex >= 0) {
-    await page.locator('[data-timeline-person]').nth(middleTarget.targetIndex).locator('.timeline-person-select').click();
+    await page.mouse.click(middleTarget.clickX, middleTarget.clickY);
   }
   const middleSelection = await page.evaluate(() => ({
     selected: [...document.querySelectorAll('.timeline-person.is-selected')].map((node) => node.dataset.timelinePerson),
+    scrollLeft: document.querySelector('#peopleTimelineView').scrollLeft,
     bodyWidth: document.body.scrollWidth,
     innerWidth,
   }));
   check(
     middleSelection.selected.length === 1
       && middleSelection.selected[0] === middleTarget.targetName
+      && Math.abs(middleSelection.scrollLeft - middleTarget.expectedMiddle) <= 1
       && middleSelection.bodyWidth === middleSelection.innerWidth,
-    `${viewportSize.label} middle timeline person must remain clickable without body overflow`,
+    `${viewportSize.label} middle timeline person must remain coordinate-clickable without horizontal auto-scroll or body overflow`,
     { middleTarget, middleSelection },
   );
   responsiveAudits.push({ viewportSize, beforeScroll, middleTarget, middleSelection });
@@ -494,16 +543,19 @@ const screenshotPaths = {
 };
 const loadTimelinePortraits = () => page.evaluate(async () => {
   const images = [...document.querySelectorAll('[data-timeline-image]')];
-  await Promise.all(images.map((image) => new Promise((resolve, reject) => {
-    image.loading = 'eager';
-    if (image.complete) {
-      if (image.naturalWidth > 0) resolve();
-      else reject(new Error(image.currentSrc || image.src));
-      return;
-    }
-    image.addEventListener('load', resolve, { once: true });
-    image.addEventListener('error', () => reject(new Error(image.currentSrc || image.src)), { once: true });
-  })));
+  await Promise.race([
+    Promise.all(images.map((image) => new Promise((resolve, reject) => {
+      image.loading = 'eager';
+      if (image.complete) {
+        if (image.naturalWidth > 0) resolve();
+        else reject(new Error(image.currentSrc || image.src));
+        return;
+      }
+      image.addEventListener('load', resolve, { once: true });
+      image.addEventListener('error', () => reject(new Error(image.currentSrc || image.src)), { once: true });
+    }))),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('screenshot portrait load timed out')), 15000)),
+  ]);
 });
 await page.setViewportSize({ width: 1440, height: 1000 });
 await page.goto(url('people.html'), { waitUntil: 'networkidle' });
@@ -520,12 +572,14 @@ const screenshotStats = Object.fromEntries(await Promise.all(Object.entries(scre
 check(Object.values(screenshotStats).every((item) => item.bytes > 0), 'desktop and mobile timeline screenshots must be non-empty', screenshotStats);
 
 check(pageErrors.length === 0, 'page must not emit JavaScript errors', pageErrors);
-await browser.close();
 
 if (failures.length) throw new Error(failures.join('\n'));
 console.log(`PEOPLE_TIMELINE_PAGE_SUMMARY ${JSON.stringify({
   people: timelineGeometry.count,
   uniquePeople: timelineGeometry.uniqueCount,
+  emperorLanePeople: timelineSizingAndLanes.emperors.length,
+  axisY: timelineSizingAndLanes.axisY,
+  dataLaneGeometry: timelineSizingAndLanes.laneGeometry,
   maximumOverlapRatio: overlapAudit.maximum.ratio,
   maximumOverlapPair: overlapAudit.maximum,
   responsive: responsiveAudits.map((audit) => ({
@@ -535,9 +589,20 @@ console.log(`PEOPLE_TIMELINE_PAGE_SUMMARY ${JSON.stringify({
     timelineScrollWidth: audit.beforeScroll.scrollWidth,
     bodyWidth: audit.beforeScroll.bodyWidth,
     innerWidth: audit.beforeScroll.innerWidth,
+    hitName: audit.middleTarget.hitName,
+    expectedMiddle: audit.middleTarget.expectedMiddle,
+    scrollLeftBeforeClick: audit.middleTarget.scrollLeft,
+    scrollLeftAfterClick: audit.middleSelection.scrollLeft,
     selected: audit.middleSelection.selected,
   })),
   noScript: { rows: noScript.rows, table: noScript.table, timeline: noScript.timeline },
   screenshots: screenshotStats,
 })}`);
 console.log(`People timeline page verified: 163 unique people, geometry, lanes, responsive scrolling, no-JS fallback, and screenshots (${responsiveAudits.length} viewports).`);
+} finally {
+  try {
+    if (noScriptContext) await noScriptContext.close();
+  } finally {
+    if (browser) await browser.close();
+  }
+}
