@@ -111,27 +111,54 @@ const personView = await page.evaluate(() => ({
 check(personView.view === 'timeline' && personView.timeline !== 'none' && personView.table === 'none', 'person query must retain timeline view', personView);
 check(personView.drawerOpen && personView.drawerName === '于谦', 'person query must keep the requested profile open', personView);
 
+await page.locator('#close').click();
+const drawerClosed = await page.evaluate(() => ({
+  open: document.querySelector('#drawer')?.classList.contains('open') || false,
+  person: new URL(location.href).searchParams.get('person'),
+}));
+check(!drawerClosed.open, 'drawer must close before testing the timeline archive action', drawerClosed);
 const yuqian = page.locator('[data-timeline-person="于谦"]');
-const yuqianBefore = await yuqian.evaluate((node) => ({ left: node.style.left, top: node.style.top }));
+const yuqianBefore = await yuqian.evaluate((node) => {
+  const canvas = document.querySelector('.people-timeline-canvas')?.getBoundingClientRect();
+  const avatar = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+  return {
+    avatarLeft: avatar.left - canvas.left,
+    avatarTop: avatar.top - canvas.top,
+    transform: getComputedStyle(node).transform,
+  };
+});
 await yuqian.locator('.timeline-person-select').click();
 const yuqianSelected = await yuqian.evaluate((node) => ({
   selected: node.classList.contains('is-selected'),
   selectedCount: document.querySelectorAll('.timeline-person.is-selected').length,
   pressed: node.querySelector('.timeline-person-select')?.getAttribute('aria-pressed'),
   zIndex: Number(getComputedStyle(node).zIndex),
-  left: node.style.left,
-  top: node.style.top,
+  avatarLeft: node.querySelector('.timeline-portrait').getBoundingClientRect().left - document.querySelector('.people-timeline-canvas').getBoundingClientRect().left,
+  avatarTop: node.querySelector('.timeline-portrait').getBoundingClientRect().top - document.querySelector('.people-timeline-canvas').getBoundingClientRect().top,
+  transform: getComputedStyle(node).transform,
   openHidden: node.querySelector('.timeline-person-open')?.hidden,
 }));
 check(
   yuqianSelected.selected && yuqianSelected.selectedCount === 1 && yuqianSelected.pressed === 'true'
     && yuqianSelected.zIndex >= 1000 && !yuqianSelected.openHidden
-    && yuqianSelected.left === yuqianBefore.left && yuqianSelected.top === yuqianBefore.top,
+    && yuqianSelected.avatarLeft === yuqianBefore.avatarLeft && yuqianSelected.avatarTop === yuqianBefore.avatarTop
+    && yuqianSelected.transform === yuqianBefore.transform,
   'selecting 于谦 must elevate one stable node and reveal its archive action',
-  yuqianSelected,
+  { before: yuqianBefore, after: yuqianSelected },
 );
+await page.evaluate(() => {
+  const next = new URL(location.href);
+  next.searchParams.delete('person');
+  history.replaceState(null, '', next.href);
+});
+check(await page.evaluate(() => new URL(location.href).searchParams.get('person') === null), 'archive test must start without a person query');
 await yuqian.locator('.timeline-person-open').click();
-check((await page.locator('#detail h2').textContent())?.trim() === '于谦', 'timeline archive action must open 于谦 drawer');
+const archiveOpen = await page.evaluate(() => ({
+  open: document.querySelector('#drawer')?.classList.contains('open') || false,
+  title: document.querySelector('#detail h2')?.textContent.trim() || '',
+  person: new URL(location.href).searchParams.get('person'),
+}));
+check(archiveOpen.open && archiveOpen.title === '于谦' && archiveOpen.person === '于谦', 'timeline archive action must reopen 于谦 drawer and restore its person query', archiveOpen);
 
 const portraitLoad = await page.evaluate(async () => {
   const images = [...document.querySelectorAll('[data-timeline-image]')];
