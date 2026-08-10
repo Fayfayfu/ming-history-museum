@@ -87,6 +87,23 @@ test('layout uses one strict x scale and keeps the axis centered', () => {
   assert.ok(layout.boundaries.some((boundary) => boundary.year === 1644));
 });
 
+test('top lanes run women children emperor toward the axis while eunuchs stay nearest below', () => {
+  const people = [
+    { name: '甲后妃', category: '后妃与内廷女性', timeline_year: 1450, timeline_size: 'standard' },
+    { name: '甲皇子', category: '皇室子女', timeline_year: 1450, timeline_size: 'standard' },
+    { name: '甲皇帝', category: '皇帝', timeline_year: 1450, timeline_size: 'emperor' },
+    { name: '甲宦官', category: '宦官', timeline_year: 1450, timeline_size: 'standard' },
+    { name: '甲文臣', category: '文臣', timeline_year: 1450, timeline_size: 'standard' },
+  ];
+  const layout = layoutPeopleTimeline(people);
+  const byName = Object.fromEntries(layout.nodes.map((node) => [node.name, node]));
+  const distance = (node) => Math.abs(node.y - layout.axisY);
+
+  assert.ok(distance(byName.甲后妃) > distance(byName.甲皇子));
+  assert.ok(distance(byName.甲皇子) > distance(byName.甲皇帝));
+  assert.ok(distance(byName.甲宦官) < distance(byName.甲文臣));
+});
+
 test('dense people stay on their year and never overlap more than 20 percent in one slot', () => {
   const people = Array.from({ length: 10 }, (_, index) => ({
     name: `同年人物${index}`, category: '文臣', timeline_year: 1449,

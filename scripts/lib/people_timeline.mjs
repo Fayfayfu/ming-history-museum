@@ -17,9 +17,9 @@ const SIZES = new Set(['emperor', 'featured', 'standard']);
 export const TIMELINE_YEAR_PX = 22;
 export const TIMELINE_SIZE_PX = { emperor: 88, featured: 72, standard: 56 };
 export const TIMELINE_LANES = {
-  '后妃与内廷女性': { id: 'women', side: 'top', order: 0, label: '后妃与内廷女性' },
+  '后妃与内廷女性': { id: 'women', side: 'top', order: 2, label: '后妃与内廷女性' },
   '皇室子女': { id: 'children', side: 'top', order: 1, label: '皇子女' },
-  '皇帝': { id: 'emperor', side: 'top', order: 2, label: '皇帝' },
+  '皇帝': { id: 'emperor', side: 'top', order: 0, label: '皇帝' },
   '宦官': { id: 'eunuch', side: 'bottom', order: 0, label: '宦官' },
   '文臣': { id: 'officials', side: 'bottom', order: 1, label: '文臣／武官' },
   '武官': { id: 'officials', side: 'bottom', order: 1, label: '文臣／武官' },
