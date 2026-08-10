@@ -32,6 +32,9 @@ try {
       hasRuler: Boolean(document.querySelector('.dynasty-ruler')),
       hasAxis: Boolean(document.querySelector('.imperial-axis')),
       hasTopicRail: Boolean(document.querySelector('.topic-rail')),
+      modeSwitches: document.querySelectorAll('.institution-view-switch a').length,
+      activeMode: document.querySelector('.institution-view-switch a[aria-current="page"]')?.dataset.mode,
+      palaceModeHref: document.querySelector('.institution-view-switch a[data-mode="palace"]')?.getAttribute('href') || '',
       legacyControlDeck: document.querySelectorAll('.control-deck').length,
       drawerHidden: document.querySelector('.institution-drawer')?.hidden,
       heroHeight: document.querySelector('.hall-hero')?.getBoundingClientRect().height,
@@ -56,11 +59,22 @@ try {
   expect(initial.hasRuler, 'high-fidelity page must expose the dynasty ruler');
   expect(initial.hasAxis, 'high-fidelity page must expose the imperial axis');
   expect(initial.hasTopicRail, 'topic views must move into a narrow rail');
+  expect(initial.modeSwitches === 2, 'institution hall must expose two persistent viewing modes');
+  expect(initial.activeMode === 'graph', 'relationship graph must identify itself as the current viewing mode');
+  expect(initial.palaceModeHref.startsWith('institutions-palace.html'), 'relationship graph must link to the palace-space mode');
   expect(initial.legacyControlDeck === 0, 'legacy dashboard control deck must be removed');
   expect(initial.drawerHidden === true, 'institution dossier drawer must start closed');
   expect(initial.heroHeight >= 500 && initial.heroHeight <= 780, 'desktop hero must occupy the intended editorial range');
   expect(initial.emperorBox && initial.cabinetBox && Math.abs((initial.emperorBox.x + initial.emperorBox.width / 2) - (initial.cabinetBox.x + initial.cabinetBox.width / 2)) < 8, 'emperor and cabinet must share the central axis');
   expect(initial.bodyWidth <= initial.viewport, 'desktop page must not overflow horizontally');
+  const graphSwitchState = await page.evaluate(() => {
+    window.setInstitutionYear(1425);
+    const href = document.querySelector('.institution-view-switch a[data-mode="palace"]')?.getAttribute('href') || '';
+    window.setInstitutionYear(1600);
+    return href;
+  });
+  expect(new URL(graphSwitchState || 'institutions-palace.html', url('institutions.html')).searchParams.get('year') === '1425', 'graph-to-palace switch must preserve the selected year');
+  await page.screenshot({path: path.join(root, '制度馆_双视角切换_关系图谱.png'), fullPage: false});
   const visualAccessibility = await page.evaluate(() => {
     const canvas = document.createElement('canvas');
     canvas.width = canvas.height = 1;

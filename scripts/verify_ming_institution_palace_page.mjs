@@ -68,6 +68,9 @@ const inspectDesktop=async(width,height)=>{
       rooms:document.querySelectorAll('.institution-room').length,
       openRooms:document.querySelectorAll('.institution-room[aria-expanded="true"]').length,
       returnLink:document.querySelector('.return-archive')?.getAttribute('href'),
+      modeSwitches:document.querySelectorAll('.institution-view-switch a').length,
+      activeMode:document.querySelector('.institution-view-switch a[aria-current="page"]')?.dataset.mode,
+      graphModeHref:document.querySelector('.institution-view-switch a[data-mode="graph"]')?.getAttribute('href')||'',
       navPalaceLinks:document.querySelectorAll('.museum-links a[href="institutions-palace.html"]').length,
       titleOverlap:Boolean(hero&&stage&&hero.bottom>stage.top+1),
       bodyOverflow:document.body.scrollWidth>innerWidth,
@@ -95,6 +98,9 @@ for(const [width,height] of [[1440,1000],[1024,768],[1800,1000]]){
   expect(state.rooms===5,`${width}: page must expose five institution rooms`);
   expect(state.openRooms<=1,`${width}: only one room may be open`);
   expect(state.returnLink==='institutions.html',`${width}: C version must link back to B version`);
+  expect(state.modeSwitches===2,`${width}: institution hall must expose two persistent viewing modes`);
+  expect(state.activeMode==='palace',`${width}: palace space must identify itself as the current viewing mode`);
+  expect(state.graphModeHref.startsWith('institutions.html'),`${width}: palace space must link to the relationship-graph mode`);
   expect(state.navPalaceLinks===0,`${width}: C version must remain absent from official navigation`);
   expect(!state.titleOverlap,`${width}: title must not overlap the palace stage`);
   expect(!state.bodyOverflow,`${width}: page must not overflow horizontally`);
@@ -116,6 +122,7 @@ for(const [width,height] of [[1440,1000],[1024,768],[1800,1000]]){
 
 await page.setViewportSize({width:1440,height:1000});
 await page.goto(url,{waitUntil:'domcontentloaded'});
+await page.screenshot({path:path.join(root,'制度馆_双视角切换_权力空间.png'),fullPage:false});
 const interaction=await page.evaluate(async()=>{
   const roomTrigger=document.querySelector('[data-room-trigger="royal_east_palace_room"]');
   roomTrigger.focus();roomTrigger.click();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
@@ -145,6 +152,9 @@ expect(interaction.historicalTrace,'inactive selected institution must become a 
 expect(interaction.roomFocusReturned,'closing a room must return focus to its trigger');
 expect(interaction.focusedLineWidth>=3,'focused relations must be at least 3px');
 expect(interaction.year===1600,'global year state must return to 1600');
+
+const palaceSwitchState=await page.evaluate(()=>{window.setPalaceYear(1425);const href=document.querySelector('.institution-view-switch a[data-mode="graph"]')?.getAttribute('href')||'';window.setPalaceYear(1600);return href});
+expect(new URL(palaceSwitchState||'institutions.html',url).searchParams.get('year')==='1425','palace-to-graph switch must preserve the selected year');
 
 await page.goto(url,{waitUntil:'domcontentloaded'});
 await page.locator('.room-approach').scrollIntoViewIfNeeded();
