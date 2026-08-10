@@ -391,3 +391,25 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{color:#171815;font-family:u
 .timeline-person.is-selected .timeline-portrait,.timeline-person:focus-within .timeline-portrait{box-shadow:0 0 0 4px #171815,0 0 0 7px #f0e1b6}
 .timeline-person.is-selected time,.timeline-person:focus-within time,.timeline-person.is-selected .timeline-person-open,.timeline-person:focus-within .timeline-person-open{display:block}
 `;
+
+export function peopleTimelineClientScript() {
+  return `(()=>{
+    const body=document.body;
+    const timeline=document.getElementById('peopleTimelineView');
+    const tableSections=[...document.querySelectorAll('.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method')];
+    const buttons=[...document.querySelectorAll('button[data-people-view]')];
+    window.setPeopleView=view=>{
+      const showTimeline=view==='timeline';
+      body.dataset.peopleView=showTimeline?'timeline':'table';
+      timeline.hidden=!showTimeline;
+      tableSections.forEach(section=>section.hidden=showTimeline);
+      buttons.forEach(button=>{
+        const selected=button.dataset.peopleView===body.dataset.peopleView;
+        button.setAttribute('aria-selected',String(selected));
+        button.tabIndex=selected?0:-1;
+      });
+    };
+    buttons.forEach(button=>button.addEventListener('click',()=>setPeopleView(button.dataset.peopleView)));
+    setPeopleView(new URLSearchParams(location.search).has('event')?'table':'timeline');
+  })();`;
+}

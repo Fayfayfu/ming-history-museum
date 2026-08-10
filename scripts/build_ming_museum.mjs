@@ -1,4 +1,11 @@
 import fs from 'node:fs/promises';
+import {
+  validatePeopleTimelineData,
+  layoutPeopleTimeline,
+  renderPeopleTimeline,
+  PEOPLE_TIMELINE_CSS,
+  peopleTimelineClientScript,
+} from './lib/people_timeline.mjs';
 
 // Rebuild the research baseline first, then derive two focused exhibition halls.
 await import('./build_ming_html.mjs');
@@ -11,9 +18,52 @@ const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
 const importantChildren = JSON.parse(await fs.readFile('data/ming_children_important.json', 'utf8'));
 const portraits = JSON.parse(await fs.readFile('data/ming_portraits.json', 'utf8'));
 const storytelling = JSON.parse(await fs.readFile('data/ming_storytelling.json', 'utf8'));
+const timelineData = JSON.parse(await fs.readFile('data/ming_people_timeline.json', 'utf8'));
 const canonicalName = value => String(value||'').replaceAll('熾','炽').replaceAll('鎮','镇').replaceAll('鈺','钰').replaceAll('見','见').replaceAll('載','载').replaceAll('鈞','钧').replaceAll('檢','检').replace(/\s+/g,'');
 const emperorNames = new Set(core.filter(person=>person.category==='皇帝').map(person=>canonicalName(person.name)));
 const peopleTotal = core.length + importantChildren.filter(person=>!emperorNames.has(canonicalName(person.name))).length;
+const timelinePeople = validatePeopleTimelineData({core,children:importantChildren,timelineData});
+const timelineLayout = layoutPeopleTimeline(timelinePeople);
+const escapeHallHtml = value => String(value ?? '')
+  .replace(/&/g,'&amp;')
+  .replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;')
+  .replace(/'/g,'&#39;');
+const fallbackPeopleRows = timelinePeople.map(person => {
+  const life = `${person.birth || '待考'}—${person.death || '待考'}`;
+  const tenure = person.office || person.title || '待考';
+  const description = [person.summary,person.evaluation].filter(Boolean).join(' ');
+  const lineage = person.hometown || person.parent_name || '待考';
+  const childCount = person.children_count ?? person.child_count ?? '—';
+  const cells = [
+    person.timeline_year_label,
+    person.name,
+    person.category,
+    life,
+    tenure,
+    description,
+    '—','—','—','—','—',
+    person.score ?? '—',
+    person.confidence || person.timeline_year_confidence,
+    lineage,
+    childCount,
+  ];
+  return `<tr data-id="${escapeHallHtml(person.name)}">${cells.map((cell,index)=>`<td${index===1?' class="name"':''}>${escapeHallHtml(cell)}</td>`).join('')}</tr>`;
+}).join('');
+const timelinePortraitFor = name => {
+  const registered = portraits.people?.[name];
+  if (['image','imagined'].includes(registered?.status) && registered?.file) {
+    return {
+      file: registered.file,
+      kind: registered.status === 'imagined' ? 'imagined' : 'sourced',
+      label: registered.status === 'imagined' ? 'AI想象像' : '',
+    };
+  }
+  const imagined = storytelling.people?.[name]?.portrait || '';
+  return imagined ? {file:imagined,kind:'imagined',label:'AI想象像'} : null;
+};
+const peopleTimelineHtml = renderPeopleTimeline({people:timelinePeople,layout:timelineLayout,portraitFor:timelinePortraitFor});
 
 await fs.mkdir(museum, {recursive:true});
 // Keep the generated museum asset tree as an exact mirror. This prevents
@@ -35,19 +85,28 @@ const hallCSS = `
 
 function baseHall(kind) {
   let html = baseline
-    .replace('<body>', `<body class="${kind}-page">${nav(kind)}`)
-    .replace('</style>', `${hallCSS}</style>`)
+    .replace('<body>', kind === 'people'
+      ? `<body class="people-page" data-people-view="timeline">${nav(kind)}`
+      : `<body class="events-page">${nav(kind)}`)
     .replace('<main class="shell">', '<main class="shell" id="main">');
   if (kind === 'people') {
     html = html
+      .replace('</style>', `${hallCSS}${PEOPLE_TIMELINE_CSS}</style>`)
+      .replace('</head>', `<noscript><style>.people-view-tabs,#peopleTimelineView{display:none!important}.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method{display:revert!important}</style></noscript></head>`)
+      .replace('<section class="timeline">', `${peopleTimelineHtml}<section class="timeline">`)
+      .replace('<button id="peopleTableTab" type="button" role="tab" aria-selected="false" data-people-view="table">', '<button id="peopleTableTab" type="button" role="tab" aria-selected="false" aria-controls="peopleTableView" data-people-view="table">')
+      .replace('<section class="tablewrap">', '<section class="tablewrap" id="peopleTableView" role="tabpanel" aria-labelledby="peopleTableTab">')
+      .replace('<tbody id="rows"></tbody>', `<tbody id="rows">${fallbackPeopleRows}</tbody>`)
       .replace('<title>明史人物谱与大事年表｜1368—1662</title>', '<title>人物馆｜步入大明数字历史博物馆</title>')
       .replace('Ming Biographical Register · Research Baseline 04', 'PEOPLE GALLERY · RESEARCH COLLECTION')
       .replace('<h1>明史人物谱<small>1368—1662</small></h1>', '<h1>人物馆<small>1368—1644</small></h1>')
       .replace('人物不只存在于官职表：这里同时收录帝王宗室、后妃、文武官员、内廷人物、改变明朝命运的同时代政权人物、与明朝发生关键互动的域外人物，以及通过艺术、医学、出版与实地考察留下影响的在野人物。可按制度身份与历史领域交叉检索；评价分数是透明研究量表，不是“历史人物战力榜”。', '先看人，再看人与权力、制度和时代的关系。沿帝系进入一朝，或按身份与领域寻找皇帝、宗室、后妃、官员、内廷人物、同时代政权人物、域外人物和在野人物。每一条记录都把事实、评价、评分与证据入口分开呈现。')
       .replace('<b>双重范围</b><br>人物表以北京明朝 1368—1644 为主体；事件年表延伸至南明终局 1662。', '<b>本馆范围</b><br>北京明朝人物以 1368—1644 为主体；生涯跨越 1644 者保留。')
-      .replace('renderEvents();render();', "renderEvents();render();const peopleParams=new URLSearchParams(location.search);const requestedEvent=peopleParams.get('event');const requestedPerson=peopleParams.get('person');if(requestedEvent&&eventRecord(requestedEvent)){state.event=requestedEvent;state.parent='';document.getElementById('personEvent').value=requestedEvent;document.getElementById('parent').value='';render()}else if(requestedPerson)focusPerson(requestedPerson);");
+      .replace('renderEvents();render();', "renderEvents();render();const peopleParams=new URLSearchParams(location.search);const requestedEvent=peopleParams.get('event');const requestedPerson=peopleParams.get('person');if(requestedEvent&&eventRecord(requestedEvent)){state.event=requestedEvent;state.parent='';document.getElementById('personEvent').value=requestedEvent;document.getElementById('parent').value='';render()}else if(requestedPerson)focusPerson(requestedPerson);")
+      .replace('</body>', `<script>${peopleTimelineClientScript()}</script></body>`);
   } else {
     html = html
+      .replace('</style>', `${hallCSS}</style>`)
       .replace('<title>明史人物谱与大事年表｜1368—1662</title>', '<title>事件馆｜步入大明数字历史博物馆</title>')
       .replace('Ming Biographical Register · Research Baseline 04', 'EVENT GALLERY · SIX HISTORICAL CHAPTERS')
       .replace('<h1>明史人物谱<small>1368—1662</small></h1>', '<h1>事件馆<small>1368—1662</small></h1>')

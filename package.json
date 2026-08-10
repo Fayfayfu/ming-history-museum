@@ -10,6 +10,7 @@
     "audit:portraits": "node scripts/audit_ming_portrait_coverage.mjs",
     "verify:portraits": "node scripts/verify_ming_portrait_batch19.mjs",
     "verify:people-timeline": "node scripts/verify_ming_people_timeline.mjs",
+    "verify:people-timeline-page": "node scripts/verify_ming_people_timeline_page.mjs",
     "verify:institutions": "node scripts/verify_ming_institution_graph.mjs",
     "verify:institution-page": "node scripts/verify_ming_institution_page.mjs",
     "verify:deploy": "node scripts/verify_vercel_bundle.mjs",
