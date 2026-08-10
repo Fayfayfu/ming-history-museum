@@ -17,7 +17,7 @@ function nav(){
 }
 
 function displaySwitch(){
-  return `<section class="institution-display-switch" aria-labelledby="displaySwitchTitle"><header><small>TWO WAYS TO READ POWER</small><h2 id="displaySwitchTitle">选择观看路径</h2><p>同一套制度材料，可以沿空间层次行走，也可以展开为机构关系网络。</p></header><div class="display-tabs" role="tablist" aria-label="制度馆观看路径"><button type="button" role="tab" data-display="palace" aria-selected="true" aria-controls="palaceDisplay"><span>01</span><b>权力空间</b><small>沿主轴进入五个制度房间</small></button><button type="button" role="tab" data-display="graph" aria-selected="false" aria-controls="graphDisplay"><span>02</span><b>关系图谱</b><small>查看29节点、关系与年份变化</small></button></div></section>`;
+  return `<section class="institution-display-switch" aria-labelledby="displaySwitchTitle"><header><small>TWO WAYS TO READ POWER</small><h2 id="displaySwitchTitle">选择观看路径</h2><p>同一套制度材料，可以从制度全景分区阅读，也可以展开为机构关系网络。</p></header><div class="display-tabs" role="tablist" aria-label="制度馆观看路径"><button type="button" role="tab" data-display="palace" aria-selected="true" aria-controls="palaceDisplay"><span>01</span><b>权力空间</b><small>从制度全景展开五个板块</small></button><button type="button" role="tab" data-display="graph" aria-selected="false" aria-controls="graphDisplay"><span>02</span><b>关系图谱</b><small>查看29节点、关系与年份变化</small></button></div></section>`;
 }
 
 function viewSwitch(){return ''}
@@ -32,7 +32,7 @@ function card(item,{room=false}={}){
 }
 
 function portal(item){
-  return `<button class="room-portal" type="button" data-portal-id="${esc(item.id)}"><span>${esc(item.name)}</span><small>主轴机构 · 打开档案</small></button>`;
+  return `<button class="room-portal" type="button" data-portal-id="${esc(item.id)}"><span>${esc(item.name)}</span><small>基础节点 · 打开档案</small></button>`;
 }
 
 function groupMarkup(group,model){
@@ -44,7 +44,7 @@ function groupMarkup(group,model){
 function roomMarkup(room,model){
   const expansion=room.institutions.filter(item=>!model.baseIds.has(item.id));
   const portals=room.institutions.filter(item=>model.baseIds.has(item.id));
-  return `<section class="institution-room room-${esc(room.id)}" data-room="${esc(room.id)}" aria-expanded="false" hidden><header class="room-heading" tabindex="-1"><div><small>ROOM ${esc(ROOM_INDEX[room.id])} · ${esc(ROOM_KICKER[room.id])}</small><h2>${esc(room.name)}</h2></div><button class="room-close" type="button" data-room-close aria-label="关闭${esc(room.name)}">关闭房间</button></header><p class="room-question">${esc(room.question)}</p>${expansion.length?`<div class="room-institution-grid">${expansion.map(item=>card(item,{room:true})).join('')}</div>`:''}${portals.length?`<div class="portal-strip"><b>与权力主轴相接</b><div>${portals.map(portal).join('')}</div></div>`:''}${room.structuralGroups.map(group=>groupMarkup(group,model)).join('')}${room.id==='royal_east_palace_room'?'<aside class="role-plaque"><b>太子三师、三少</b><span>职位／荣衔，不构成常设行政层级</span></aside>':''}${room.id==='capital_military'?'<aside class="role-plaque"><b>总兵、临战统帅</b><span>军事职务或临时差遣，不另造机关节点</span></aside>':''}</section>`;
+  return `<section class="institution-room room-${esc(room.id)}" data-room="${esc(room.id)}" aria-expanded="false" hidden><header class="room-heading" tabindex="-1"><div><small>SECTION ${esc(ROOM_INDEX[room.id])} · ${esc(ROOM_KICKER[room.id])}</small><h2>${esc(room.name)}</h2></div><button class="room-close" type="button" data-room-close aria-label="收起${esc(room.name)}板块">收起板块</button></header><p class="room-question">${esc(room.question)}</p>${expansion.length?`<div class="room-institution-grid">${expansion.map(item=>card(item,{room:true})).join('')}</div>`:''}${portals.length?`<div class="portal-strip"><b>与基础结构相接</b><div>${portals.map(portal).join('')}</div></div>`:''}${room.structuralGroups.map(group=>groupMarkup(group,model)).join('')}${room.id==='royal_east_palace_room'?'<aside class="role-plaque"><b>太子三师、三少</b><span>职位／荣衔，不构成常设行政层级</span></aside>':''}${room.id==='capital_military'?'<aside class="role-plaque"><b>总兵、临战统帅</b><span>军事职务或临时差遣，不另造机关节点</span></aside>':''}</section>`;
 }
 
 function mobileRoom(room,model){
@@ -153,7 +153,7 @@ document.querySelectorAll('.room-portal').forEach(button=>button.addEventListene
 document.querySelector('.dossier-close').addEventListener('click',()=>window.closeInstitutionDossier());
 document.querySelectorAll('[data-mobile-room-trigger]').forEach(button=>button.addEventListener('click',()=>{const body=button.nextElementSibling,open=button.getAttribute('aria-expanded')==='true';document.querySelectorAll('[data-mobile-room-trigger]').forEach(other=>{if(other!==button){other.setAttribute('aria-expanded','false');other.nextElementSibling.hidden=true}});button.setAttribute('aria-expanded',String(!open));body.hidden=open}));
 document.querySelectorAll('.institution-display-switch [data-display]').forEach(button=>button.addEventListener('click',()=>window.setInstitutionDisplay(button.dataset.display)));
-document.addEventListener('click',event=>{const jump=event.target.closest('[data-jump-year]');if(jump)window.setPalaceYear(jump.dataset.jumpYear)});
+document.addEventListener('click',event=>{const target=event.target instanceof Element?event.target:null;if(!target)return;const jump=target.closest('[data-jump-year]');if(jump)window.setPalaceYear(jump.dataset.jumpYear);const opensDossier=target.closest('.canonical-institution,.mobile-institution,.room-portal');if(dossier.getAttribute('aria-hidden')==='false'&&!target.closest('.institution-dossier')&&!opensDossier)window.closeInstitutionDossier()});
 document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(dossier.getAttribute('aria-hidden')==='false')window.closeInstitutionDossier();else if(state.openRoomId)window.closeInstitutionRoom()});
 range.addEventListener('input',()=>window.setPalaceYear(range.value));document.querySelectorAll('.phase-presets button').forEach(button=>button.addEventListener('click',()=>window.setPalaceYear(button.dataset.year)));
 addEventListener('message',event=>{if(event.data?.type==='institution-graph-height'){const height=Math.max(760,Math.min(2600,Number(event.data.height)||1180));graphFrame.style.height=height+'px'}if(event.data?.type==='institution-graph-year'&&Number(event.data.year)!==state.year)window.setPalaceYear(event.data.year)});
@@ -172,11 +172,16 @@ export function renderInstitutionPalace(model){
     .replace('<title>宫廷权力空间｜明朝制度馆｜步入大明</title>','<title>明朝制度馆｜步入大明</title>')
     .replace('PALACE OF POWER · 制度馆 C 版','INSTITUTIONAL ATLAS · 明朝制度馆')
     .replace('<h1>宫门之内，权力如何分流<span>轴线驻留 · 制度房间渐次展开</span></h1>','<h1>大明如何运转<span>明朝机构制度舆图</span></h1>')
-    .replace('这里不是宫殿建筑复原，而是一座可以行走的权力模型。29 个机构构成始终可见的制度主轴；靠近内廷、东宫、礼仪文教、外朝与京师军政时，再推开相应房间，查看机构如何接入权力与文书流程。','这是一幅可交互的明朝机构制度舆图。29 个主干节点与 16 个展开机构共同呈现中央决策、外朝行政、监察司法、内廷服务、礼仪文教、地方治理与京师军政之间的连接；拖动年份、展开章节，可以查看机构如何参与权力运行与文书流转。')
+    .replace('这里不是宫殿建筑复原，而是一座可以行走的权力模型。29 个机构构成始终可见的制度主轴；靠近内廷、东宫、礼仪文教、外朝与京师军政时，再推开相应房间，查看机构如何接入权力与文书流程。','这是一幅可交互的明朝机构制度舆图。29 个基础节点与 16 个展开机构共同呈现中央决策、外朝行政、监察司法、内廷服务、礼仪文教、地方治理与京师军政之间的连接；拖动年份、展开章节，可以查看机构如何参与权力运行与文书流转。')
+    .replace('<small>FIVE INSTITUTION ROOMS</small><h2>从主轴推开五个制度房间</h2></div><p>房间是阅读入口，不是地理位置。每次只打开一个；主轴不会离场，避免把局部机构误读成新的总层级。</p>','<small>FIVE INSTITUTION SECTIONS</small><h2>从制度全景展开五个板块</h2></div><p>五个板块是阅读入口，不代表地理位置或正式隶属层级。每次展开一个板块，基础结构始终保留，便于对照局部机构与整体制度结构。</p>')
+    .replaceAll('展开制度房间 →','展开制度板块 →')
+    .replace('<h2>29 节点权力主干</h2>','<h2>29 个基础机构节点</h2>')
     .replace('<div class="intro-actions"><a class="jump-axis" href="#palaceMap">进入权力轴线</a><a class="return-archive" href="institutions.html">返回明代官制档案</a></div></header><section class="time-desk"','<div class="intro-actions"><a class="jump-axis" href="#palaceMap">进入制度舆图</a></div></header>'+displaySwitch()+'<section class="time-desk"')
     .replace('<footer class="palace-footer"><b>步入大明 · 宫廷权力空间</b>','<footer class="palace-footer"><b>步入大明 · 明朝机构制度舆图</b>')
+    .replace('45 个规范机构 · 5 个制度房间 · 不作建筑平面复原','45 个规范机构 · 5 个制度板块 · 不作建筑平面复原')
     .replace('</div></section><section class="palace-shell">','</div></section><section class="institution-display-panel" data-display-panel="palace" id="palaceDisplay" role="tabpanel" tabindex="-1"><section class="palace-shell">')
     .replace('</article></section></section></main><aside class="institution-dossier"','</article></section></section></section><section class="institution-display-panel institution-graph-panel" data-display-panel="graph" id="graphDisplay" role="tabpanel" tabindex="-1" hidden><iframe class="institution-graph-frame" title="明朝机构关系图谱" src="institutions-graph.html?embedded=1"></iframe></section></main><aside class="institution-dossier"')
     .replace('<div class="dossier-sources" data-dossier-sources></div>','<section class="dossier-people" aria-labelledby="dossierPeopleTitle"><header><b id="dossierPeopleTitle">相关人物</b><span data-dossier-people-phase></span></header><div class="dossier-person-list" data-dossier-people></div><p class="dossier-people-empty" data-dossier-people-empty></p></section><div class="dossier-sources" data-dossier-sources></div>')
-    .replace('<p>本页需要 JavaScript 才能切换年份和展开关系。你仍可返回 <a href="institutions.html">明代官制档案</a> 阅读 29 节点静态主干。</p>','<p>本页需要 JavaScript 才能切换年份、展开制度房间和查看机构关系。</p>');
+    .replace('<h2>制度房间目录</h2>','<h2>制度板块目录</h2>')
+    .replace('<p>本页需要 JavaScript 才能切换年份和展开关系。你仍可返回 <a href="institutions.html">明代官制档案</a> 阅读 29 节点静态主干。</p>','<p>本页需要 JavaScript 才能切换年份、展开制度板块和查看机构关系。</p>');
 }

@@ -171,6 +171,17 @@ expect(interaction.roomFocusReturned,'closing a room must return focus to its tr
 expect(interaction.focusedLineWidth>=3,'focused relations must be at least 3px');
 expect(interaction.year===1600,'global year state must return to 1600');
 
+const outsideCloseTrigger=page.locator('.canonical-institution[data-id="emperor"]');
+await outsideCloseTrigger.click();
+const dossier=page.locator('.institution-dossier');
+expect(await dossier.getAttribute('aria-hidden')==='false','clicking an institution card must open its dossier');
+await dossier.locator('[data-dossier-summary]').click();
+expect(await dossier.getAttribute('aria-hidden')==='false','clicking inside the institution dossier must keep it open');
+await page.locator('.palace-intro h1').click();
+await page.waitForTimeout(40);
+expect(await dossier.getAttribute('aria-hidden')==='true','clicking outside the institution dossier must close it');
+expect(await outsideCloseTrigger.evaluate(node=>document.activeElement===node),'outside-click close must return focus to the institution card');
+
 const relatedPeople=await page.evaluate(async()=>{
   const inspect=()=>({
     phase:document.querySelector('[data-dossier-people-phase]')?.textContent.trim()||'',
