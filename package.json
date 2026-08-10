@@ -15,6 +15,7 @@
     "verify:institution-palace": "node scripts/verify_ming_institution_palace_page.mjs",
     "verify:institution-page": "node scripts/verify_ming_institution_page.mjs",
     "verify:institution-layout": "node scripts/verify_ming_institution_layout.mjs",
+    "verify:navigation": "node scripts/verify_ming_museum_navigation.mjs",
     "verify:deploy": "node scripts/verify_vercel_bundle.mjs",
     "verify": "node scripts/verify_ming_museum.mjs"
   },

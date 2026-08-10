@@ -1,3 +1,5 @@
+import {INSTITUTION_ID_MAP} from './institution_atlas_layout.mjs';
+
 const VALID_RELATION_TYPES=new Set([
   'direct_imperial_control','document_flow','formal_subordination','military_coordination',
   'operational_coordination','special_imperial_mandate','supervision_review'
@@ -65,6 +67,7 @@ export function composeInstitutionPalace(base,expansion){
   return {
     metadata:{...base.metadata,expansion_version:expansion.metadata?.version||'P1'},
     systems:[...base.systems,...expansion.systems],
+    phases:base.phases,
     periods:base.periods,
     institutions,
     relations:[...base.relations,...expansion.relations],
@@ -77,6 +80,39 @@ export function composeInstitutionPalace(base,expansion){
     activeAt,
     baseIds
   };
+}
+
+export function buildInstitutionPeople(personInstitutions,core,portraits,storytelling,phases){
+  const coreByName=new Map(core.map(person=>[person.name,person]));
+  const portraitByName=portraits?.people||{};
+  const storyByName=storytelling?.people||{};
+  const result={};
+  for(const institution of personInstitutions?.institutions||[]){
+    const graphId=INSTITUTION_ID_MAP[institution.id];
+    if(!graphId)continue;
+    result[graphId]=(institution.people||[]).map(link=>{
+      const person=coreByName.get(link.name)||{};
+      const officeStart=Number(person.office_start);
+      const officeEnd=Number(person.office_end);
+      const phaseIds=(phases||[]).filter(phase=>Number.isFinite(officeStart)&&Number.isFinite(officeEnd)&&officeStart<=phase.end&&officeEnd>=phase.start).map(phase=>phase.id);
+      const portrait=portraitByName[link.name]?.file||storyByName[link.name]?.portrait||'';
+      const portraitLabel=portraitByName[link.name]?.status==='imagined'||storyByName[link.name]?.portraitKind==='AI想象像'?'AI想象像':'人物图像';
+      return {
+        name:link.name,
+        relation:link.relation,
+        note:link.note,
+        category:person.category||'',
+        office:person.office||'',
+        office_start:officeStart,
+        office_end:officeEnd,
+        confidence:person.confidence||'',
+        portrait,
+        portrait_label:portraitLabel,
+        phase_ids:phaseIds
+      };
+    });
+  }
+  return result;
 }
 
 export {activeAt};

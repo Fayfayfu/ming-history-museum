@@ -366,7 +366,20 @@ try {
   await clickedNode.dispatchEvent('click');
   await page.locator('.imperial-axis').dispatchEvent('click');
   expect(await drawer.getAttribute('aria-hidden') === 'false', 'clicking a graph child must not close the institution drawer');
-  await page.locator('.graph-stage').dispatchEvent('click');
+  const graphStage = page.locator('.graph-stage');
+  await graphStage.scrollIntoViewIfNeeded();
+  const blankPoint = await page.evaluate(() => {
+    const stage = document.querySelector('.graph-stage');
+    const box = stage.getBoundingClientRect();
+    for (let y = Math.max(0, box.top) + 8; y < Math.min(innerHeight, box.bottom) - 8; y += 16) {
+      for (let x = Math.max(0, box.left) + 8; x < Math.min(innerWidth, box.right) - 8; x += 16) {
+        if (document.elementFromPoint(x, y) === stage) return {x, y};
+      }
+    }
+    return null;
+  });
+  expect(Boolean(blankPoint), 'graph stage must expose true clickable whitespace');
+  if (blankPoint) await page.mouse.click(blankPoint.x, blankPoint.y);
   const blankCloseState = await page.evaluate(() => ({
     drawerHidden: document.querySelector('.institution-drawer')?.hidden,
     drawerOpenClass: document.body.classList.contains('drawer-open'),

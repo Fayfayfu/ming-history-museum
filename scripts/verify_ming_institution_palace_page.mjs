@@ -75,6 +75,9 @@ const inspectDesktop=async(width,height)=>{
       palacePanelHidden:document.querySelector('[data-display-panel="palace"]')?.hidden,
       graphPanelHidden:document.querySelector('[data-display-panel="graph"]')?.hidden,
       graphFrameSrc:document.querySelector('.institution-graph-frame')?.getAttribute('src')||'',
+      globalTimeDesks:document.querySelectorAll('.time-desk').length,
+      timeDeskInsideDisplayPanel:Boolean(document.querySelector('.time-desk')?.closest('[data-display-panel]')),
+      timeDeskStickyTop:parseFloat(getComputedStyle(document.querySelector('.time-desk')).top),
       developmentCopy:/B\s*版|C\s*版|返回明代官制档案|版本号/.test(document.body.textContent),
       titleOverlap:Boolean(hero&&stage&&hero.bottom>stage.top+1),
       bodyOverflow:document.body.scrollWidth>innerWidth,
@@ -101,12 +104,14 @@ for(const [width,height] of [[1440,1000],[1024,768],[1800,1000]]){
   expect(state.axis===1,`${width}: page must expose one persistent power axis`);
   expect(state.rooms===5,`${width}: page must expose five institution rooms`);
   expect(state.openRooms<=1,`${width}: only one room may be open`);
-  expect(state.navBackground.includes('40, 34, 25'),`${width}: the unified hall must use the black museum navigation`);
+  expect(state.navBackground.includes('24, 23, 19'),`${width}: the unified hall must use the shared black museum navigation`);
   expect(state.activeInstitutionNav==='institutions.html',`${width}: the shared navigation must keep 制度馆 active`);
   expect(state.displaySwitches===2,`${width}: the unified hall must offer exactly two lower exhibition paths`);
   expect(state.activeDisplay==='palace',`${width}: palace space must be the default exhibition path`);
   expect(state.displayPanels===2&&!state.palacePanelHidden&&state.graphPanelHidden,`${width}: only the palace panel may be visible initially`);
   expect(state.graphFrameSrc.startsWith('institutions-graph.html?embedded=1'),`${width}: relationship graph must be embedded inside the same hall`);
+  expect(state.globalTimeDesks===1&&!state.timeDeskInsideDisplayPanel,`${width}: both exhibition paths must share one global time filter outside their panels`);
+  expect(state.timeDeskStickyTop===72,`${width}: shared time filter must remain below the sticky 72px museum navigation`);
   expect(!state.developmentCopy,`${width}: visitor copy must not expose B/C version or return-to-version language`);
   expect(!state.titleOverlap,`${width}: title must not overlap the palace stage`);
   expect(!state.bodyOverflow,`${width}: page must not overflow horizontally`);
@@ -160,18 +165,48 @@ expect(interaction.roomFocusReturned,'closing a room must return focus to its tr
 expect(interaction.focusedLineWidth>=3,'focused relations must be at least 3px');
 expect(interaction.year===1600,'global year state must return to 1600');
 
+const relatedPeople=await page.evaluate(async()=>{
+  const inspect=()=>({
+    phase:document.querySelector('[data-dossier-people-phase]')?.textContent.trim()||'',
+    names:[...document.querySelectorAll('[data-dossier-people] .dossier-person-card b')].map(node=>node.textContent.trim()),
+    portraits:[...document.querySelectorAll('[data-dossier-people] .dossier-person-card img')].map(image=>image.getAttribute('src')),
+    links:[...document.querySelectorAll('[data-dossier-people] .dossier-person-card')].map(link=>link.getAttribute('href'))
+  });
+  const trigger=document.querySelector('.canonical-institution[data-id="embroidered_uniform_guard"]');
+  window.setPalaceYear(1425);window.openInstitutionDossier('embroidered_uniform_guard',trigger);await new Promise(resolve=>requestAnimationFrame(resolve));
+  const yongle=inspect();
+  window.setPalaceYear(1600);await new Promise(resolve=>requestAnimationFrame(resolve));
+  const midLate=inspect();
+  window.closeInstitutionDossier(false);window.setPalaceYear(1600);
+  return {yongle,midLate};
+});
+expect(relatedPeople.yongle.phase.includes('永乐至宣德'),'institution dossier must label the current four-phase period');
+expect(relatedPeople.yongle.names.includes('朱棣')&&relatedPeople.yongle.names.includes('纪纲')&&!relatedPeople.yongle.names.includes('陆炳'),'Yongle–Xuande drawer must show only institution-linked people whose key tenure overlaps that phase');
+expect(relatedPeople.midLate.names.includes('钱宁')&&relatedPeople.midLate.names.includes('陆炳')&&relatedPeople.midLate.names.includes('田尔耕')&&!relatedPeople.midLate.names.includes('纪纲'),'mid/late-Ming drawer must replace earlier cards with people whose key tenure overlaps that phase');
+expect(relatedPeople.midLate.names.length>0&&relatedPeople.midLate.portraits.length===relatedPeople.midLate.names.length&&relatedPeople.midLate.portraits.every(src=>src?.startsWith('assets/portraits/')),'every related person card must use the existing人物馆 portrait asset');
+expect(relatedPeople.midLate.links.length===relatedPeople.midLate.names.length&&relatedPeople.midLate.links.every(href=>href?.startsWith('people.html?person=')),'related person cards must link to their人物馆 records');
+
+await page.evaluate(()=>{window.setPalaceYear(1425);window.openInstitutionDossier('embroidered_uniform_guard',document.querySelector('.canonical-institution[data-id="embroidered_uniform_guard"]'))});
+await page.waitForTimeout(320);
+await page.screenshot({path:path.join(root,'制度馆_机构档案_锦衣卫_永乐宣德.png'),fullPage:false});
+await page.evaluate(()=>window.setPalaceYear(1600));
+await page.waitForTimeout(80);
+await page.screenshot({path:path.join(root,'制度馆_机构档案_锦衣卫_明中后期.png'),fullPage:false});
+await page.evaluate(()=>window.closeInstitutionDossier(false));
+
 const displaySwitchState=await page.evaluate(async()=>{
-  const nav=document.querySelector('.museum-nav'),intro=document.querySelector('.palace-intro');
+  const nav=document.querySelector('.museum-nav'),intro=document.querySelector('.palace-intro'),timeDesk=document.querySelector('.time-desk');
   const graphButton=document.querySelector('.institution-display-switch [data-display="graph"]');
   if(!graphButton)return {missing:true,pathname:location.pathname};
   graphButton.click();await new Promise(resolve=>requestAnimationFrame(resolve));
   const graphPanel=document.querySelector('[data-display-panel="graph"]');
-  const graphState={pathname:location.pathname,navSame:nav===document.querySelector('.museum-nav'),introSame:intro===document.querySelector('.palace-intro'),graphVisible:!graphPanel.hidden,palaceHidden:document.querySelector('[data-display-panel="palace"]').hidden,selected:graphButton.getAttribute('aria-selected')};
+  const graphState={pathname:location.pathname,navSame:nav===document.querySelector('.museum-nav'),introSame:intro===document.querySelector('.palace-intro'),timeDeskSame:timeDesk===document.querySelector('.time-desk'),timeDeskVisible:timeDesk.getClientRects().length>0,graphVisible:!graphPanel.hidden,palaceHidden:document.querySelector('[data-display-panel="palace"]').hidden,selected:graphButton.getAttribute('aria-selected')};
   document.querySelector('.institution-display-switch [data-display="palace"]').click();await new Promise(resolve=>requestAnimationFrame(resolve));
   return {...graphState,palaceRestored:!document.querySelector('[data-display-panel="palace"]').hidden};
 });
 expect(displaySwitchState.pathname.endsWith('/institutions.html'),'display switch must stay on the same institution page');
 expect(displaySwitchState.navSame&&displaySwitchState.introSame,'shared navigation and curatorial introduction must remain mounted while switching');
+expect(displaySwitchState.timeDeskSame&&displaySwitchState.timeDeskVisible,'the same global time filter must remain visible while switching paths');
 expect(displaySwitchState.graphVisible&&displaySwitchState.palaceHidden&&displaySwitchState.selected==='true','relationship graph must replace only the lower exhibition panel');
 expect(displaySwitchState.palaceRestored,'palace panel must be restorable without page navigation');
 
@@ -181,7 +216,12 @@ await page.locator('.institution-display-switch').scrollIntoViewIfNeeded();
 const graphFrame=page.frames().find(frame=>frame.url().includes('institutions-graph.html'));
 const embeddedGraph=graphFrame?await graphFrame.evaluate(()=>({navDisplay:getComputedStyle(document.querySelector('.museum-nav')).display,titleDisplay:getComputedStyle(document.querySelector('.hero-title')).display,rulerDisplay:getComputedStyle(document.querySelector('.dynasty-ruler')).display,overflow:document.body.scrollWidth>innerWidth})):null;
 expect(embeddedGraph?.navDisplay==='none'&&embeddedGraph?.titleDisplay==='none','embedded relationship graph must not repeat the shared navigation or curatorial hero');
-expect(embeddedGraph?.rulerDisplay!=='none'&&!embeddedGraph?.overflow,'embedded relationship graph must retain its year ruler without horizontal overflow');
+expect(embeddedGraph?.rulerDisplay==='none'&&!embeddedGraph?.overflow,'embedded relationship graph must use the hall-level time filter instead of rendering a second ruler');
+await page.evaluate(()=>document.querySelector('.phase-presets [data-year="1425"]')?.click());
+await page.waitForTimeout(80);
+const sharedYear=graphFrame?await graphFrame.evaluate(()=>Number(document.querySelector('#yearValue')?.textContent)):null;
+expect(await page.locator('#palaceYearValue').textContent()==='1425'&&sharedYear===1425,'the global time filter must update both palace and relationship-graph state');
+await page.evaluate(()=>document.querySelector('.phase-presets [data-year="1600"]')?.click());
 await page.screenshot({path:path.join(root,'制度馆_统一页面_关系图谱.png'),fullPage:false});
 await page.locator('.institution-display-switch [data-display="palace"]').click();
 
@@ -221,6 +261,7 @@ const mobileDisplaySwitch=await page.evaluate(()=>({
   graphVisible:!document.querySelector('[data-display-panel="graph"]')?.hidden,
   palaceHidden:document.querySelector('[data-display-panel="palace"]')?.hidden,
   selected:document.querySelector('.institution-display-switch [data-display="graph"]')?.getAttribute('aria-selected'),
+  timeDeskVisible:document.querySelector('.time-desk')?.getClientRects().length>0,
   overflow:document.body.scrollWidth>innerWidth
 }));
 const mobileGraphFrame=page.frames().find(frame=>frame.url().includes('institutions-graph.html'));
@@ -232,9 +273,10 @@ const mobileEmbeddedGraph=mobileGraphFrame?await mobileGraphFrame.evaluate(()=>(
 })):null;
 expect(mobileDisplaySwitch.pathname.endsWith('/institutions.html'),'mobile display switch must stay on the same institution page');
 expect(mobileDisplaySwitch.graphVisible&&mobileDisplaySwitch.palaceHidden&&mobileDisplaySwitch.selected==='true','mobile relationship graph must replace only the lower exhibition panel');
+expect(mobileDisplaySwitch.timeDeskVisible,'mobile paths must share the same visible global time filter');
 expect(!mobileDisplaySwitch.overflow,'mobile unified hall must remain free of horizontal overflow after switching');
 expect(mobileEmbeddedGraph?.navDisplay==='none'&&mobileEmbeddedGraph?.titleDisplay==='none','mobile embedded graph must not repeat the shared navigation or curatorial hero');
-expect(mobileEmbeddedGraph?.rulerDisplay!=='none'&&!mobileEmbeddedGraph?.overflow,'mobile embedded graph must retain its year ruler without horizontal overflow');
+expect(mobileEmbeddedGraph?.rulerDisplay==='none'&&!mobileEmbeddedGraph?.overflow,'mobile embedded graph must use the hall-level time filter without a duplicate ruler');
 await page.locator('.institution-display-switch').scrollIntoViewIfNeeded();
 await page.screenshot({path:path.join(root,'制度馆_统一页面_移动关系图谱.png'),fullPage:false});
 

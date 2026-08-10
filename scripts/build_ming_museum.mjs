@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import {MUSEUM_NAV_CSS,renderMuseumNavigation} from './lib/museum_navigation.mjs';
 
 // Rebuild the research baseline first, then derive two focused exhibition halls.
 await import('./build_ming_html.mjs');
@@ -21,7 +22,7 @@ await fs.mkdir(museum, {recursive:true});
 await fs.rm(`${museum}/assets`, {recursive:true, force:true});
 await fs.cp(`${root}/assets`, `${museum}/assets`, {recursive:true,force:true});
 
-const nav = active => `<a class="skip" href="#main">跳到主要内容</a><nav class="museum-nav" aria-label="博物馆主导航"><a class="museum-brand" href="index.html"><span class="brand-seal">明</span><span><b>步入大明</b><small>数字历史博物馆</small></span></a><div class="museum-links"><a ${active==='home'?'class="active"':''} href="index.html">序厅</a><a ${active==='people'?'class="active"':''} href="people.html">人物馆</a><a ${active==='events'?'class="active"':''} href="events.html">事件馆</a><a href="institutions.html">制度馆</a><a href="exhibitions.html">专题展</a><a href="index.html#research">研究台</a></div></nav>`;
+const nav = active => renderMuseumNavigation(active);
 
 const hallCSS = `
 .skip{position:fixed;left:12px;top:-70px;z-index:100;background:#fff;color:#181713;padding:10px 14px}.skip:focus{top:12px}
@@ -31,6 +32,8 @@ const hallCSS = `
 .people-page .eventlab{display:none}.events-page .stats,.events-page .timeline,.events-page .toolbar,.events-page .statusline,.events-page .tablewrap,.events-page .method{display:none}.events-page .eventlab{margin-top:22px}.events-page .shell{padding-bottom:58px}
 .hall-note{margin:18px 0 0;padding:12px 16px;border-left:3px solid var(--gold);background:rgba(169,121,43,.08);color:var(--muted);font-size:13px;line-height:1.7}
 @media(max-width:720px){.museum-nav{height:auto;min-height:66px;padding:8px 14px;align-items:flex-start}.museum-brand small{display:none}.museum-links{align-self:stretch}.museum-links a{padding:0 9px;font-size:12px}.museum-links a:last-child{display:none}}
+${MUSEUM_NAV_CSS}
+.drawer{z-index:120}
 `;
 
 function baseHall(kind) {
@@ -98,6 +101,7 @@ const index = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><me
 @media(max-width:960px){.hero{grid-template-columns:1fr}.year-pillar{display:none}.section-head{grid-template-columns:1fr}.doors{grid-template-columns:1fr}.door{border-right:0;border-bottom:1px solid var(--line)}.door:last-child{border-bottom:0}.eras{grid-template-columns:1fr 1fr}.figures,.routes{grid-template-columns:1fr 1fr}.desks{grid-template-columns:1fr}.desk{border-right:0;border-bottom:1px solid #b9ae95}.museum-nav{padding:0 16px}.museum-links a{padding:0 9px}}
 @media(max-width:620px){.museum-nav{height:68px}.museum-brand small{display:none}.museum-links a{padding:0 8px;font-size:12px}.museum-links a:last-child{display:none}.hero{padding-inline:20px}.hero h1{font-size:clamp(64px,20vw,78px)}.section{padding:75px 20px}.doors,.eras,.figures,.routes{grid-template-columns:1fr}.door{min-height:420px;padding:30px}.figures{gap:8px}.figure{height:430px}.footer{display:block}.footer span{display:block;margin-top:8px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.door:before,.door:after,.era,.figure img{transition:none}}
+${MUSEUM_NAV_CSS}
 </style></head><body>${nav('home')}<main id="main"><section class="hero"><div class="year-pillar">1368</div><div class="hero-center"><div class="hero-kicker">MING · A WALKABLE HISTORY</div><h1>步入大明<span>数字历史博物馆</span></h1><p>这里不是一条从头背到尾的年表。你可以跟随一个人、一场战争、一项制度或一个问题，穿过近三百年的明代历史。</p><a class="enter" href="#halls">从序厅入馆</a></div><div class="year-pillar right">1662</div><div class="hero-index">人物 ${peopleTotal} · 事件 ${events.events.length} · 历史阶段 ${events.stages.length}</div></section>
 <section class="section" id="halls"><header class="section-head"><div><div class="eyebrow">CHOOSE A GALLERY</div><h2>选择你的入口</h2></div><p>从人物认识行动者，从事件建立时间骨架，从制度理解权力与政令如何运转。三个展厅彼此连接，不要求按唯一顺序参观。</p></header><div class="doors"><a class="door" href="people.html"><span class="door-no">GALLERY 01 · ${peopleTotal} PEOPLE</span><h3>人物馆</h3><p>沿帝系认识皇帝与重要子嗣，也可以按身份与领域寻找文武官员、内廷人物、在野人物及与明朝发生关键互动的域外人物。</p><em>进入人物馆 →</em></a><a class="door events" href="events.html"><span class="door-no">GALLERY 02 · ${events.events.length} EVENTS</span><h3>事件馆</h3><p>从建国到南明终局，把战争、制度、财政、政治、社会和文化放回时间轴，追问事件为什么发生、又留下了什么。</p><em>进入事件馆 →</em></a><a class="door institutions" href="institutions.html"><span class="door-no">GALLERY 03 · 29 INSTITUTIONS</span><h3>制度馆</h3><p>按年份切换中书省、内阁、六部、三法司、厂卫、军事和地方治理，追踪国家机器如何连接与变化。</p><em>进入制度馆 →</em></a></div></section>
 <section class="section"><header class="section-head"><div><div class="eyebrow">SIX HISTORICAL CHAPTERS</div><h2>六个时代展区</h2></div><p>时代划分不是给历史切整齐的格子，而是帮助识别结构变化。点击任一展区，直接进入对应事件。</p></header><div class="eras">${stageCards}</div></section>
