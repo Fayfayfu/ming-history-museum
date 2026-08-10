@@ -430,7 +430,7 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .category-external{--category-color:#61778b}
 .timeline-person.is-selected,.timeline-person:focus-within{z-index:1000}
 .timeline-person.is-selected .timeline-person-guide,.timeline-person:focus-within .timeline-person-guide{width:3px;background:#8e3022}
-.timeline-person.is-selected .timeline-portrait,.timeline-person:focus-within .timeline-portrait{box-shadow:0 0 0 4px #171815,0 0 0 7px #f0e1b6}
+.timeline-person.is-selected .timeline-portrait,.timeline-person:focus-within .timeline-portrait{box-shadow:0 0 0 2px #f0c96a,0 0 12px 3px rgba(208,167,67,.48)}
 .timeline-person.is-selected .timeline-person-context,.timeline-person:focus-within .timeline-person-context{display:block}
 .timeline-person.is-selected .timeline-person-open{display:block}
 `;

@@ -433,6 +433,7 @@ const yuqianBefore = await yuqian.evaluate((node) => {
     transform: getComputedStyle(node).transform,
     guideWidth: guide?.getBoundingClientRect().width || 0,
     guideColor: guideStyle?.backgroundColor || '',
+    portraitShadow: getComputedStyle(node.querySelector('.timeline-portrait')).boxShadow,
   };
 });
 await yuqian.locator('.timeline-person-select').click();
@@ -457,6 +458,7 @@ const yuqianSelected = await yuqian.evaluate((node) => ({
   guidePointerEvents: node.querySelector('[data-timeline-guide]')
     ? getComputedStyle(node.querySelector('[data-timeline-guide]')).pointerEvents
     : '',
+  portraitShadow: getComputedStyle(node.querySelector('.timeline-portrait')).boxShadow,
 }));
 check(
   yuqianSelected.selected && yuqianSelected.selectedCount === 1 && yuqianSelected.pressed === 'true'
@@ -466,7 +468,10 @@ check(
     && yuqianSelected.yearVisible && yuqianSelected.basisVisible && yuqianSelected.basis.includes('进士')
     && yuqianSelected.guideWidth > yuqianBefore.guideWidth
     && yuqianSelected.guideColor !== yuqianBefore.guideColor
-    && yuqianSelected.guidePointerEvents === 'none',
+    && yuqianSelected.guidePointerEvents === 'none'
+    && yuqianSelected.portraitShadow !== yuqianBefore.portraitShadow
+    && !yuqianSelected.portraitShadow.includes('rgb(23, 24, 21)')
+    && yuqianSelected.portraitShadow.includes('rgb(240, 201, 106)'),
   'selecting 于谦 must elevate one stable node and reveal its archive action',
   { before: yuqianBefore, after: yuqianSelected },
 );
