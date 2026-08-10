@@ -63,14 +63,14 @@ test('curated first-activity corrections and authority upgrades stay locked', ()
     何心隐: [1553, '1553', '高', ['IHP_HEXINYIN_1553']],
     宋应星: [1615, '1615', '高', ['AHNU_SONGYINGXING_1615']],
     李贽: [1552, '1552', '高', ['CHINAKONGZI_LIZHI_1552']],
-    吴承恩: [1529, '1529', '高', ['SHEYANG_HAIHE_1529']],
+    吴承恩: [1529, '1529', '高', ['SHEYANG_HAIHE_1529', 'NPM_SHEYANG_EDITION']],
     邓愈: [1353, '约1352—1353', '中', ['MS126']],
     沈周: [1467, '1467', '高', ['NPM_SHEN_1467']],
     马守真: [1572, '1572', '中', ['MET_MA_1572']],
     刘大夏: [1459, '1459', '高', ['YUEYANG_LIUDAXIA_1459']],
     刘瑾: [1499, '约1492—1505', '中', ['MS016', 'MS304']],
     魏忠贤: [1589, '1589', '高', ['DPM_WEIZHONGXIAN_1589']],
-    客氏: [1613, '约1605—1620', '中', ['DPM_COURT_WOMEN', 'MS305']],
+    客氏: [1613, '约1605—1620', '中', ['DPM_KE_NURSE', 'MS305']],
     汤显祖: [1571, '1571', '高', ['DPM_TANGXIANZU_1571']],
     洪承畴: [1616, '1616', '高', ['QSG237']],
     徐霞客: [1608, '约1608', '中', ['CHNMUSEUM_XUXIAKE']],
@@ -93,6 +93,73 @@ test('curated first-activity corrections and authority upgrades stay locked', ()
       [year, label, confidence, refs],
       `${name} first-activity correction drifted`,
     );
+  }
+});
+
+test('curated round-2 evidence mappings stay locked', () => {
+  const expected = {
+    吴承恩: {
+      person: {
+        timeline_year_basis:
+          '淮安政协文史网具体整理页逐字引录《海鹤蟠桃篇》小序“嘉靖己丑”，干支换算为1529年；国立故宫数位目录确认《射阳先生存稿》明万历十八年刊本',
+        timeline_year_range: undefined,
+        timeline_source_refs: ['SHEYANG_HAIHE_1529', 'NPM_SHEYANG_EDITION'],
+      },
+      sources: {
+        SHEYANG_HAIHE_1529: {
+          label: '淮安政协文史网·《海鹤蟠桃篇》小序（嘉靖己丑）',
+          url: 'https://zx.huaian.gov.cn/col/14066_664815/art/m/17592480/1760690382465qIv3YFTw.html',
+          kind: '地方文史机构',
+        },
+        NPM_SHEYANG_EDITION: {
+          label: '国立故宫博物院善本古籍数位目录·《射阳先生存稿》',
+          url: 'https://catalog.digitalarchives.tw/item/00/12/61/2d.html',
+          kind: '博物馆',
+        },
+      },
+    },
+    客氏: {
+      person: {
+        timeline_year_basis:
+          '故宫博物院《魏忠贤乱政和客氏》正文载客氏“十八岁由奶子府选入宫，为朱由校之乳母”；具体入宫年未载，只能界定在朱由校出生（1605）至即位（1620）的约束区间，取中点',
+        timeline_year_range: { start: 1605, end: 1620 },
+        timeline_source_refs: ['DPM_KE_NURSE', 'MS305'],
+      },
+      sources: {
+        DPM_KE_NURSE: {
+          label: '故宫博物院·傅同钦《魏忠贤乱政和客氏》',
+          url: 'https://www.dpm.org.cn/Uploads/pdf/1609/T00055_00.pdf',
+          kind: '博物馆研究',
+        },
+        MS305: {
+          label: '《明史》卷305',
+          url: 'https://zh.wikisource.org/wiki/明史/卷305',
+          kind: '正史',
+        },
+      },
+    },
+  };
+
+  for (const [name, evidence] of Object.entries(expected)) {
+    const person = baseline.timelineData.people.find((candidate) => candidate.name === name);
+    assert.ok(person, `missing round-2 person ${name}`);
+    assert.deepEqual(
+      {
+        timeline_year_basis: person.timeline_year_basis,
+        timeline_year_range: person.timeline_year_range,
+        timeline_source_refs: person.timeline_source_refs,
+      },
+      evidence.person,
+      `${name} round-2 basis/range/source mapping drifted`,
+    );
+
+    const sources = Object.fromEntries(
+      Object.keys(evidence.sources).map((sourceId) => [
+        sourceId,
+        baseline.timelineData.source_catalog[sourceId],
+      ]),
+    );
+    assert.deepEqual(sources, evidence.sources, `${name} round-2 source metadata drifted`);
   }
 });
 

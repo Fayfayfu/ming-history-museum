@@ -396,9 +396,9 @@
       "url": "https://zh.wikisource.org/wiki/明史/卷114",
       "kind": "正史"
     },
-    "DPM_COURT_WOMEN": {
-      "label": "故宫博物院研究·明代宫人的生活与生命历程",
-      "url": "https://www.dpm.org.cn/Uploads/File/2020/04/08/u5e8d75b4bb50d.pdf",
+    "DPM_KE_NURSE": {
+      "label": "故宫博物院·傅同钦《魏忠贤乱政和客氏》",
+      "url": "https://www.dpm.org.cn/Uploads/pdf/1609/T00055_00.pdf",
       "kind": "博物馆研究"
     },
     "NPM_SHEN_1467": {
@@ -482,9 +482,14 @@
       "kind": "专业机构"
     },
     "SHEYANG_HAIHE_1529": {
-      "label": "吴承恩《射阳先生存稿·海鹤蟠桃篇》",
-      "url": "https://zh.wikisource.org/zh-hans/射陽先生存稿",
-      "kind": "人物著作"
+      "label": "淮安政协文史网·《海鹤蟠桃篇》小序（嘉靖己丑）",
+      "url": "https://zx.huaian.gov.cn/col/14066_664815/art/m/17592480/1760690382465qIv3YFTw.html",
+      "kind": "地方文史机构"
+    },
+    "NPM_SHEYANG_EDITION": {
+      "label": "国立故宫博物院善本古籍数位目录·《射阳先生存稿》",
+      "url": "https://catalog.digitalarchives.tw/item/00/12/61/2d.html",
+      "kind": "博物馆"
     },
     "DPM_TANGXIANZU_1571": {
       "label": "故宫博物院·汤显祖",
@@ -1981,10 +1986,10 @@
       "source": "core",
       "timeline_year": 1613,
       "timeline_year_label": "约1605—1620",
-      "timeline_year_basis": "故宫博物院研究载其由皇长孙府选入宫、为朱由校乳母；只能界定在朱由校出生至即位前，取区间中点",
+      "timeline_year_basis": "故宫博物院《魏忠贤乱政和客氏》正文载客氏“十八岁由奶子府选入宫，为朱由校之乳母”；具体入宫年未载，只能界定在朱由校出生（1605）至即位（1620）的约束区间，取中点",
       "timeline_year_confidence": "中",
       "timeline_source_refs": [
-        "DPM_COURT_WOMEN",
+        "DPM_KE_NURSE",
         "MS305"
       ],
       "timeline_role": "奉圣夫人",
@@ -2268,10 +2273,11 @@
       "source": "core",
       "timeline_year": 1529,
       "timeline_year_label": "1529",
-      "timeline_year_basis": "《射阳先生存稿·海鹤蟠桃篇》小序署“嘉靖己丑”，即1529年，以原作纪年为准",
+      "timeline_year_basis": "淮安政协文史网具体整理页逐字引录《海鹤蟠桃篇》小序“嘉靖己丑”，干支换算为1529年；国立故宫数位目录确认《射阳先生存稿》明万历十八年刊本",
       "timeline_year_confidence": "高",
       "timeline_source_refs": [
-        "SHEYANG_HAIHE_1529"
+        "SHEYANG_HAIHE_1529",
+        "NPM_SHEYANG_EDITION"
       ],
       "timeline_role": "文学家",
       "timeline_size": "standard"
