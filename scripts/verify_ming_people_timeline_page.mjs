@@ -149,6 +149,18 @@ const timelineSizingAndLanes = await page.evaluate(() => {
   };
   const laneIdFor = (node) => node.dataset.lane || '';
   const nodes = [...document.querySelectorAll('[data-timeline-person]')];
+  const emperorContentBounds = nodes.filter((node) => laneIdFor(node) === 'emperor').map((node) => {
+    const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    const name = node.querySelector('.timeline-person-select > strong')?.getBoundingClientRect();
+    const role = node.querySelector('.timeline-person-select > small')?.getBoundingClientRect();
+    return {
+      name: node.dataset.timelinePerson,
+      portraitBottom: portrait?.bottom ?? Infinity,
+      nameBottom: name?.bottom ?? Infinity,
+      roleBottom: role?.bottom ?? Infinity,
+      axisTop: axis?.top ?? -Infinity,
+    };
+  });
   const laneCenters = {};
   for (const node of nodes) {
     const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
@@ -169,6 +181,7 @@ const timelineSizingAndLanes = await page.evaluate(() => {
   goldProbe.remove();
   return {
     emperors: nodes.filter((node) => laneIdFor(node) === 'emperor').map(portraitSnapshot),
+    emperorContentBounds,
     featured: [...document.querySelectorAll('.timeline-person.size-featured')].map(portraitSnapshot),
     standard: [...document.querySelectorAll('.timeline-person.size-standard')].map(portraitSnapshot),
     gold,
@@ -186,6 +199,12 @@ check(
     && timelineSizingAndLanes.emperors.every((portrait) => exactSize(portrait, 88) && portrait.borderColor === timelineSizingAndLanes.gold),
   'all 16 data-lane emperor portraits must be 88px with a gold outline',
   { emperors: timelineSizingAndLanes.emperors, gold: timelineSizingAndLanes.gold },
+);
+check(
+  timelineSizingAndLanes.emperorContentBounds.length === 16
+    && timelineSizingAndLanes.emperorContentBounds.every((item) => Math.max(item.portraitBottom, item.nameBottom, item.roleBottom) < item.axisTop),
+  'all emperor portraits, names, and roles must remain fully above the timeline axis',
+  timelineSizingAndLanes.emperorContentBounds.filter((item) => Math.max(item.portraitBottom, item.nameBottom, item.roleBottom) >= item.axisTop),
 );
 check(
   timelineSizingAndLanes.featured.length === 11

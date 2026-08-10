@@ -29,6 +29,8 @@ export const TIMELINE_LANES = {
 };
 
 const AXIS_GAP_PX = 8;
+const TOP_LANES_SHIFT_PX = 32;
+const SPARSE_WOMEN_LANE_OVERLAP_PX = 12;
 const LANE_GAP_PX = 0;
 const HORIZONTAL_SLOT_CLEARANCE_RATIO = 0.8;
 const VERTICAL_SLOT_STEP_RATIO = 0.53;
@@ -102,9 +104,12 @@ function measureSide(lanes) {
 
 function positionSide(lanes, axisY, direction) {
   for (const lane of lanes) {
+    const verticalShift = direction < 0
+      ? TOP_LANES_SHIFT_PX - (lane.id === 'women' ? SPARSE_WOMEN_LANE_OVERLAP_PX : 0)
+      : 0;
     for (let slot = 0; slot < lane.slotSizes.length; slot += 1) {
       for (const node of lane.nodes) {
-        if (node.slot === slot) node.y = axisY + direction * lane.slotCenters[slot];
+        if (node.slot === slot) node.y = axisY + direction * (lane.slotCenters[slot] + verticalShift);
       }
     }
   }

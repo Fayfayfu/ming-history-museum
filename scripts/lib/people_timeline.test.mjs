@@ -137,8 +137,8 @@ test('layout keeps real timeline data on the strict year scale', async () => {
   const topNodes = layout.nodes.filter((node) => node.lane.side === 'top');
   const topContentEdge = Math.min(...topNodes.map((node) => node.y - node.sizePx / 2));
   assert.ok(
-    topContentEdge >= 48 && topContentEdge <= 64,
-    `top whitespace must stay compact without clipping portraits, got ${topContentEdge}px`
+    topContentEdge >= 16 && topContentEdge <= 32,
+    `top swimlanes must use the sparse women lane whitespace without clipping portraits, got ${topContentEdge}px`
   );
   const laneBounds = (laneId) => {
     const laneNodes = layout.nodes.filter((node) => node.lane.id === laneId);
@@ -147,8 +147,12 @@ test('layout keeps real timeline data on the strict year scale', async () => {
       max: Math.max(...laneNodes.map((node) => node.y + node.sizePx / 2)),
     };
   };
+  const womenChildrenGap = laneBounds('children').min - laneBounds('women').max;
+  assert.ok(
+    womenChildrenGap >= -14 && womenChildrenGap <= -10,
+    `women/children portrait bands should overlap slightly in the sparse upper lanes, got ${womenChildrenGap}px`
+  );
   for (const [outerLane, innerLane] of [
-    ['women', 'children'],
     ['children', 'emperor'],
     ['eunuch', 'officials'],
     ['officials', 'independent'],
