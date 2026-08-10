@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises';
-import {composeInstitutionPalace,validateInstitutionExpansion} from './lib/institution_palace_model.mjs';
+import {buildInstitutionPeople,composeInstitutionPalace,validateInstitutionExpansion} from './lib/institution_palace_model.mjs';
 
 const basePath='data/ming_institution_graph.json';
 const expansionPath='data/ming_institution_expansion.json';
@@ -17,6 +17,10 @@ const validConfidence=new Set(['高','中高']);
 
 let base;
 let expansion;
+let personInstitutions;
+let core;
+let portraits;
+let storytelling;
 try{
   base=JSON.parse(await fs.readFile(basePath,'utf8'));
 }catch(error){
@@ -26,6 +30,17 @@ try{
   expansion=JSON.parse(await fs.readFile(expansionPath,'utf8'));
 }catch(error){
   failures.push(`cannot read ${expansionPath}: ${error.message}`);
+}
+for(const [key,file] of Object.entries({personInstitutions:'data/ming_person_institutions.json',core:'data/ming_core.json',portraits:'data/ming_portraits.json',storytelling:'data/ming_storytelling.json'})){
+  try{
+    const value=JSON.parse(await fs.readFile(file,'utf8'));
+    if(key==='personInstitutions')personInstitutions=value;
+    if(key==='core')core=value;
+    if(key==='portraits')portraits=value;
+    if(key==='storytelling')storytelling=value;
+  }catch(error){
+    failures.push(`cannot read ${file}: ${error.message}`);
+  }
 }
 
 if(base&&expansion){
@@ -104,6 +119,19 @@ if(base&&expansion){
     if(extensionIds.includes(relation.to))relatedExpansionIds.add(relation.to);
   }
   for(const id of canonicalIds)expect(relatedExpansionIds.has(id),`${id}: expansion institution requires at least one reviewed relation`);
+
+  if(personInstitutions&&core&&portraits&&storytelling){
+    const people=buildInstitutionPeople(personInstitutions,core,portraits,storytelling,base.phases);
+    const emperorNamesByPhase=Object.fromEntries(base.phases.map(phase=>[
+      phase.id,
+      (people.emperor||[]).filter(person=>person.phase_ids.includes(phase.id)).map(person=>person.name)
+    ]));
+    expect(JSON.stringify(emperorNamesByPhase.early_hongwu)===JSON.stringify(['朱元璋']),'early Hongwu emperor drawer must show Zhu Yuanzhang');
+    expect(JSON.stringify(emperorNamesByPhase.late_hongwu_jianwen)===JSON.stringify(['朱元璋','朱允炆','朱棣']),'late Hongwu-Jianwen emperor drawer must show all reigns overlapping that phase');
+    expect(JSON.stringify(emperorNamesByPhase.yongle_xuande)===JSON.stringify(['朱棣','朱高炽','朱瞻基','朱祁镇']),'Yongle-Xuande emperor drawer must include Zhu Qizhen because his first reign begins in 1435');
+    expect(JSON.stringify(emperorNamesByPhase.mid_late_ming)===JSON.stringify(['朱祁镇','朱祁钰','朱见深','朱祐樘','朱厚照','朱厚熜','朱载坖','朱翊钧','朱常洛','朱由校','朱由检']),'mid-late Ming emperor drawer must include both Zhengtong and Tianshun reigns of Zhu Qizhen');
+    expect((people.emperor||[]).length===16&&(people.emperor||[]).every(person=>person.portrait),'all sixteen emperor cards must reuse a registered portrait');
+  }
 
   const roomIds=new Set((expansion.rooms||[]).map(room=>room.id));
   expect(roomIds.size===5,'room IDs must be unique');

@@ -117,7 +117,7 @@ function renderDossierPeople(){
     const name=document.createElement('b');name.textContent=person.name;
     const relation=document.createElement('em');relation.textContent=person.relation;
     const note=document.createElement('p');note.textContent=person.note;
-    const office=document.createElement('small');office.textContent=person.office_start+'—'+person.office_end+' · '+person.office;
+    const office=document.createElement('small');office.textContent=(person.office_period||person.office_start+'—'+person.office_end)+' · '+person.office;
     copy.append(name,relation,note,office);link.append(image,copy);return link;
   }));
   empty.hidden=people.length>0;

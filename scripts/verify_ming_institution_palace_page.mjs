@@ -177,14 +177,26 @@ const relatedPeople=await page.evaluate(async()=>{
   const yongle=inspect();
   window.setPalaceYear(1600);await new Promise(resolve=>requestAnimationFrame(resolve));
   const midLate=inspect();
+  window.closeInstitutionDossier(false);
+  const emperorTrigger=document.querySelector('.canonical-institution[data-id="emperor"]');
+  window.setPalaceYear(1370);window.openInstitutionDossier('emperor',emperorTrigger);await new Promise(resolve=>requestAnimationFrame(resolve));
+  const emperor={early:inspect()};
+  for(const [key,year] of [['lateHongwu',1385],['yongle',1425],['midLate',1600]]){
+    window.setPalaceYear(year);await new Promise(resolve=>requestAnimationFrame(resolve));emperor[key]=inspect();
+  }
   window.closeInstitutionDossier(false);window.setPalaceYear(1600);
-  return {yongle,midLate};
+  return {yongle,midLate,emperor};
 });
 expect(relatedPeople.yongle.phase.includes('永乐至宣德'),'institution dossier must label the current four-phase period');
 expect(relatedPeople.yongle.names.includes('朱棣')&&relatedPeople.yongle.names.includes('纪纲')&&!relatedPeople.yongle.names.includes('陆炳'),'Yongle–Xuande drawer must show only institution-linked people whose key tenure overlaps that phase');
 expect(relatedPeople.midLate.names.includes('钱宁')&&relatedPeople.midLate.names.includes('陆炳')&&relatedPeople.midLate.names.includes('田尔耕')&&!relatedPeople.midLate.names.includes('纪纲'),'mid/late-Ming drawer must replace earlier cards with people whose key tenure overlaps that phase');
 expect(relatedPeople.midLate.names.length>0&&relatedPeople.midLate.portraits.length===relatedPeople.midLate.names.length&&relatedPeople.midLate.portraits.every(src=>src?.startsWith('assets/portraits/')),'every related person card must use the existing人物馆 portrait asset');
 expect(relatedPeople.midLate.links.length===relatedPeople.midLate.names.length&&relatedPeople.midLate.links.every(href=>href?.startsWith('people.html?person=')),'related person cards must link to their人物馆 records');
+expect(JSON.stringify(relatedPeople.emperor.early.names)===JSON.stringify(['朱元璋']),'early Hongwu emperor dossier must show Zhu Yuanzhang');
+expect(JSON.stringify(relatedPeople.emperor.lateHongwu.names)===JSON.stringify(['朱元璋','朱允炆','朱棣']),'late Hongwu-Jianwen emperor dossier must replace cards with the three overlapping reigns');
+expect(JSON.stringify(relatedPeople.emperor.yongle.names)===JSON.stringify(['朱棣','朱高炽','朱瞻基','朱祁镇']),'Yongle-Xuande emperor dossier must include Zhu Qizhen because his first reign begins in 1435');
+expect(JSON.stringify(relatedPeople.emperor.midLate.names)===JSON.stringify(['朱祁镇','朱祁钰','朱见深','朱祐樘','朱厚照','朱厚熜','朱载坖','朱翊钧','朱常洛','朱由校','朱由检']),'mid-late Ming emperor dossier must include Zhu Qizhen and all later rulers');
+expect(Object.values(relatedPeople.emperor).every(period=>period.portraits.length===period.names.length&&period.portraits.every(src=>src?.startsWith('assets/portraits/'))),'all emperor dossier cards must reuse registered 人物馆 portraits');
 
 await page.evaluate(()=>{window.setPalaceYear(1425);window.openInstitutionDossier('embroidered_uniform_guard',document.querySelector('.canonical-institution[data-id="embroidered_uniform_guard"]'))});
 await page.waitForTimeout(320);
