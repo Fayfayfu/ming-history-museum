@@ -1,0 +1,2702 @@
+{
+  "version": "1.0",
+  "source_catalog": {
+    "MS002": {
+      "label": "《明史》卷2",
+      "url": "https://zh.wikisource.org/wiki/明史/卷2",
+      "kind": "正史"
+    },
+    "MS004": {
+      "label": "《明史》卷4",
+      "url": "https://zh.wikisource.org/wiki/明史/卷4",
+      "kind": "正史"
+    },
+    "MS005": {
+      "label": "《明史》卷5",
+      "url": "https://zh.wikisource.org/wiki/明史/卷5",
+      "kind": "正史"
+    },
+    "MS008": {
+      "label": "《明史》卷8",
+      "url": "https://zh.wikisource.org/wiki/明史/卷8",
+      "kind": "正史"
+    },
+    "MS009": {
+      "label": "《明史》卷9",
+      "url": "https://zh.wikisource.org/wiki/明史/卷9",
+      "kind": "正史"
+    },
+    "MS010": {
+      "label": "《明史》卷10",
+      "url": "https://zh.wikisource.org/wiki/明史/卷10",
+      "kind": "正史"
+    },
+    "MS011": {
+      "label": "《明史》卷11",
+      "url": "https://zh.wikisource.org/wiki/明史/卷11",
+      "kind": "正史"
+    },
+    "MS013": {
+      "label": "《明史》卷13",
+      "url": "https://zh.wikisource.org/wiki/明史/卷13",
+      "kind": "正史"
+    },
+    "MS015": {
+      "label": "《明史》卷15",
+      "url": "https://zh.wikisource.org/wiki/明史/卷15",
+      "kind": "正史"
+    },
+    "MS016": {
+      "label": "《明史》卷16",
+      "url": "https://zh.wikisource.org/wiki/明史/卷16",
+      "kind": "正史"
+    },
+    "MS017": {
+      "label": "《明史》卷17",
+      "url": "https://zh.wikisource.org/wiki/明史/卷17",
+      "kind": "正史"
+    },
+    "MS019": {
+      "label": "《明史》卷19",
+      "url": "https://zh.wikisource.org/wiki/明史/卷19",
+      "kind": "正史"
+    },
+    "MS020": {
+      "label": "《明史》卷20",
+      "url": "https://zh.wikisource.org/wiki/明史/卷20",
+      "kind": "正史"
+    },
+    "MS021": {
+      "label": "《明史》卷21",
+      "url": "https://zh.wikisource.org/wiki/明史/卷21",
+      "kind": "正史"
+    },
+    "MS022": {
+      "label": "《明史》卷22",
+      "url": "https://zh.wikisource.org/wiki/明史/卷22",
+      "kind": "正史"
+    },
+    "MS023": {
+      "label": "《明史》卷23",
+      "url": "https://zh.wikisource.org/wiki/明史/卷23",
+      "kind": "正史"
+    },
+    "MS127": {
+      "label": "《明史》卷127",
+      "url": "https://zh.wikisource.org/wiki/明史/卷127",
+      "kind": "正史"
+    },
+    "MS308": {
+      "label": "《明史》卷308",
+      "url": "https://zh.wikisource.org/wiki/明史/卷308",
+      "kind": "正史"
+    },
+    "MS128": {
+      "label": "《明史》卷128",
+      "url": "https://zh.wikisource.org/wiki/明史/卷128",
+      "kind": "正史"
+    },
+    "MS141": {
+      "label": "《明史》卷141",
+      "url": "https://zh.wikisource.org/wiki/明史/卷141",
+      "kind": "正史"
+    },
+    "MS145": {
+      "label": "《明史》卷145",
+      "url": "https://zh.wikisource.org/wiki/明史/卷145",
+      "kind": "正史"
+    },
+    "MS147": {
+      "label": "《明史》卷147",
+      "url": "https://zh.wikisource.org/wiki/明史/卷147",
+      "kind": "正史"
+    },
+    "YUEYANG_XIAYUANJI": {
+      "label": "岳阳市档案馆·夏原吉的为政坚守",
+      "url": "https://daj.yueyang.gov.cn/6630/6648/71780/content_2387670.html",
+      "kind": "档案机构"
+    },
+    "MS149": {
+      "label": "《明史》卷149",
+      "url": "https://zh.wikisource.org/wiki/明史/卷149",
+      "kind": "正史"
+    },
+    "MS148": {
+      "label": "《明史》卷148",
+      "url": "https://zh.wikisource.org/wiki/明史/卷148",
+      "kind": "正史"
+    },
+    "MS170": {
+      "label": "《明史》卷170",
+      "url": "https://zh.wikisource.org/wiki/明史/卷170",
+      "kind": "正史"
+    },
+    "MS176": {
+      "label": "《明史》卷176",
+      "url": "https://zh.wikisource.org/wiki/明史/卷176",
+      "kind": "正史"
+    },
+    "MS181": {
+      "label": "《明史》卷181",
+      "url": "https://zh.wikisource.org/wiki/明史/卷181",
+      "kind": "正史"
+    },
+    "MS182": {
+      "label": "《明史》卷182",
+      "url": "https://zh.wikisource.org/wiki/明史/卷182",
+      "kind": "正史"
+    },
+    "MS190": {
+      "label": "《明史》卷190",
+      "url": "https://zh.wikisource.org/wiki/明史/卷190",
+      "kind": "正史"
+    },
+    "MS195": {
+      "label": "《明史》卷195",
+      "url": "https://zh.wikisource.org/wiki/明史/卷195",
+      "kind": "正史"
+    },
+    "MS196": {
+      "label": "《明史》卷196",
+      "url": "https://zh.wikisource.org/wiki/明史/卷196",
+      "kind": "正史"
+    },
+    "IHP_YANSHIFAN": {
+      "label": "中研院史语所人名权威资料库·严世蕃",
+      "url": "https://newarchive.ihp.sinica.edu.tw/sncaccgi/sncacFtp?ACTION=TQ%2CsncacFtpqf%2CSN%3D015659%2C2nd%2Csearch_simple",
+      "kind": "专业数据库"
+    },
+    "MS209": {
+      "label": "《明史》卷209",
+      "url": "https://zh.wikisource.org/wiki/明史/卷209",
+      "kind": "正史"
+    },
+    "MS213": {
+      "label": "《明史》卷213",
+      "url": "https://zh.wikisource.org/wiki/明史/卷213",
+      "kind": "正史"
+    },
+    "HAIKOU_HAIRUI_1549": {
+      "label": "清廉海口·海瑞与顾可久史料辨析",
+      "url": "https://www.ycqfw.gov.cn/html/2023/tt_0627/29956.html",
+      "kind": "地方纪检文史"
+    },
+    "MS226": {
+      "label": "《明史》卷226",
+      "url": "https://zh.wikisource.org/wiki/明史/卷226",
+      "kind": "正史"
+    },
+    "MS218": {
+      "label": "《明史》卷218",
+      "url": "https://zh.wikisource.org/wiki/明史/卷218",
+      "kind": "正史"
+    },
+    "MS217": {
+      "label": "《明史》卷217",
+      "url": "https://zh.wikisource.org/wiki/明史/卷217",
+      "kind": "正史"
+    },
+    "MS251": {
+      "label": "《明史》卷251",
+      "url": "https://zh.wikisource.org/wiki/明史/卷251",
+      "kind": "正史"
+    },
+    "MS231": {
+      "label": "《明史》卷231",
+      "url": "https://zh.wikisource.org/wiki/明史/卷231",
+      "kind": "正史"
+    },
+    "MS243": {
+      "label": "《明史》卷243",
+      "url": "https://zh.wikisource.org/wiki/明史/卷243",
+      "kind": "正史"
+    },
+    "MS240": {
+      "label": "《明史》卷240",
+      "url": "https://zh.wikisource.org/wiki/明史/卷240",
+      "kind": "正史"
+    },
+    "MS244": {
+      "label": "《明史》卷244",
+      "url": "https://zh.wikisource.org/wiki/明史/卷244",
+      "kind": "正史"
+    },
+    "MS250": {
+      "label": "《明史》卷250",
+      "url": "https://zh.wikisource.org/wiki/明史/卷250",
+      "kind": "正史"
+    },
+    "MS252": {
+      "label": "《明史》卷252",
+      "url": "https://zh.wikisource.org/wiki/明史/卷252",
+      "kind": "正史"
+    },
+    "MS265": {
+      "label": "《明史》卷265",
+      "url": "https://zh.wikisource.org/wiki/明史/卷265",
+      "kind": "正史"
+    },
+    "MS255": {
+      "label": "《明史》卷255",
+      "url": "https://zh.wikisource.org/wiki/明史/卷255",
+      "kind": "正史"
+    },
+    "MS274": {
+      "label": "《明史》卷274",
+      "url": "https://zh.wikisource.org/wiki/明史/卷274",
+      "kind": "正史"
+    },
+    "MS001": {
+      "label": "《明史》卷1",
+      "url": "https://zh.wikisource.org/wiki/明史/卷1",
+      "kind": "正史"
+    },
+    "MS125": {
+      "label": "《明史》卷125",
+      "url": "https://zh.wikisource.org/wiki/明史/卷125",
+      "kind": "正史"
+    },
+    "MS126": {
+      "label": "《明史》卷126",
+      "url": "https://zh.wikisource.org/wiki/明史/卷126",
+      "kind": "正史"
+    },
+    "MS132": {
+      "label": "《明史》卷132",
+      "url": "https://zh.wikisource.org/wiki/明史/卷132",
+      "kind": "正史"
+    },
+    "MS173": {
+      "label": "《明史》卷173",
+      "url": "https://zh.wikisource.org/wiki/明史/卷173",
+      "kind": "正史"
+    },
+    "MS198": {
+      "label": "《明史》卷198",
+      "url": "https://zh.wikisource.org/wiki/明史/卷198",
+      "kind": "正史"
+    },
+    "MS205": {
+      "label": "《明史》卷205",
+      "url": "https://zh.wikisource.org/wiki/明史/卷205",
+      "kind": "正史"
+    },
+    "DPM_QIJIGUANG": {
+      "label": "故宫博物院·戚继光",
+      "url": "https://www.dpm.org.cn/court/figure/104028.html",
+      "kind": "博物馆"
+    },
+    "MS212": {
+      "label": "《明史》卷212",
+      "url": "https://zh.wikisource.org/wiki/明史/卷212",
+      "kind": "正史"
+    },
+    "MS222": {
+      "label": "《明史》卷222",
+      "url": "https://zh.wikisource.org/wiki/明史/卷222",
+      "kind": "正史"
+    },
+    "MS211": {
+      "label": "《明史》卷211",
+      "url": "https://zh.wikisource.org/wiki/明史/卷211",
+      "kind": "正史"
+    },
+    "MS238": {
+      "label": "《明史》卷238",
+      "url": "https://zh.wikisource.org/wiki/明史/卷238",
+      "kind": "正史"
+    },
+    "JIAJING44_JINSHI": {
+      "label": "《嘉靖四十四年进士登科录》",
+      "url": "https://commons.wikimedia.org/wiki/File:NLC892-412000001387-19733_嘉靖四十四年進士登科錄.pdf",
+      "kind": "科举原始文献"
+    },
+    "MS247": {
+      "label": "《明史》卷247",
+      "url": "https://zh.wikisource.org/wiki/明史/卷247",
+      "kind": "正史"
+    },
+    "DPM_LIUXIAN": {
+      "label": "故宫博物院·刘显",
+      "url": "https://www.dpm.org.cn/lemmas/241763.html",
+      "kind": "博物馆"
+    },
+    "MS270": {
+      "label": "《明史》卷270",
+      "url": "https://zh.wikisource.org/wiki/明史/卷270",
+      "kind": "正史"
+    },
+    "MS259": {
+      "label": "《明史》卷259",
+      "url": "https://zh.wikisource.org/wiki/明史/卷259",
+      "kind": "正史"
+    },
+    "MNWH_HONG": {
+      "label": "闽南文化生态保护区·洪承畴生平及其故居",
+      "url": "https://www.mnwhstq.com/szzy/qzwszlqwk/201608/t20160816_105679.htm",
+      "kind": "地方文史机构"
+    },
+    "MS261": {
+      "label": "《明史》卷261",
+      "url": "https://zh.wikisource.org/wiki/明史/卷261",
+      "kind": "正史"
+    },
+    "MS262": {
+      "label": "《明史》卷262",
+      "url": "https://zh.wikisource.org/wiki/明史/卷262",
+      "kind": "正史"
+    },
+    "QSLZ080": {
+      "label": "《清史列传》卷八十·吴三桂传",
+      "url": "https://zh.wikisource.org/zh-hans/清史列傳/卷八十",
+      "kind": "史传"
+    },
+    "MS304": {
+      "label": "《明史》卷304",
+      "url": "https://zh.wikisource.org/wiki/明史/卷304",
+      "kind": "正史"
+    },
+    "MS305": {
+      "label": "《明史》卷305",
+      "url": "https://zh.wikisource.org/wiki/明史/卷305",
+      "kind": "正史"
+    },
+    "MS113": {
+      "label": "《明史》卷113",
+      "url": "https://zh.wikisource.org/wiki/明史/卷113",
+      "kind": "正史"
+    },
+    "DPM_HONGZHI_CHRON": {
+      "label": "故宫博物院·弘治皇帝大事年表",
+      "url": "https://www.dpm.org.cn/court/lineage/226266.html",
+      "kind": "博物馆"
+    },
+    "MINGSHILU_ZHENG_1582": {
+      "label": "《明神宗显皇帝实录》卷一百二十二",
+      "url": "https://ctext.org/wiki.pl?chapter=93531&if=gb&remap=gb",
+      "kind": "实录"
+    },
+    "MS114": {
+      "label": "《明史》卷114",
+      "url": "https://zh.wikisource.org/wiki/明史/卷114",
+      "kind": "正史"
+    },
+    "MET_SHEN_1477": {
+      "label": "大都会艺术博物馆·沈周《赠别图》",
+      "url": "https://www.metmuseum.org/art/collection/search/49549",
+      "kind": "博物馆"
+    },
+    "DPM_TANGYIN": {
+      "label": "故宫博物院·唐寅",
+      "url": "https://www.dpm.org.cn/lemmas/242652.html",
+      "kind": "博物馆"
+    },
+    "DPM_QIUYING_1532": {
+      "label": "故宫博物院院刊·仇英早期作品考",
+      "url": "https://www.dpm.org.cn/Uploads/pdf/1962/T00011_00.pdf",
+      "kind": "博物馆研究"
+    },
+    "UNESCO_BENCAO": {
+      "label": "联合国教科文组织·《本草纲目》",
+      "url": "https://www.unesco.org/en/memory-world/ben-cao-gang-mu-bencaogangmu-compendium-materia-medica?hub=1081",
+      "kind": "专业机构"
+    },
+    "SHM_XUWEI": {
+      "label": "上海博物馆·徐渭与《南词叙录》",
+      "url": "https://www.shanghaimuseum.net/mu/frontend/pg/article/id/CI00000158",
+      "kind": "博物馆"
+    },
+    "MET_MA_1572": {
+      "label": "大都会艺术博物馆·马守真《兰竹石图》",
+      "url": "https://www.metmuseum.org/art/collection/search/48932",
+      "kind": "博物馆"
+    },
+    "SHM_CHENJIRU": {
+      "label": "上海博物馆·陈继儒",
+      "url": "https://www.shanghaimuseum.net/mu/frontend/pg/m/article/id/CI00005434",
+      "kind": "博物馆"
+    },
+    "JIANGYIN_XUXIAKE": {
+      "label": "江阴市人民政府·徐霞客生平",
+      "url": "https://www.jiangyin.gov.cn/doc/2018/08/29/146.shtml",
+      "kind": "地方政府"
+    },
+    "MS122": {
+      "label": "《明史》卷122",
+      "url": "https://zh.wikisource.org/wiki/明史/卷122",
+      "kind": "正史"
+    },
+    "MS123": {
+      "label": "《明史》卷123",
+      "url": "https://zh.wikisource.org/wiki/明史/卷123",
+      "kind": "正史"
+    },
+    "MS328": {
+      "label": "《明史》卷328",
+      "url": "https://zh.wikisource.org/wiki/明史/卷328",
+      "kind": "正史"
+    },
+    "DPM_JIAJING_CHRON": {
+      "label": "故宫博物院·嘉靖皇帝大事年表",
+      "url": "https://www.dpm.org.cn/court/lineage/226241.html",
+      "kind": "博物馆"
+    },
+    "QSG001": {
+      "label": "《清史稿》卷一·太祖本纪",
+      "url": "https://zh.wikisource.org/wiki/清史稿/卷1",
+      "kind": "正史"
+    },
+    "MS309": {
+      "label": "《明史》卷309",
+      "url": "https://zh.wikisource.org/wiki/明史/卷309",
+      "kind": "正史"
+    },
+    "DPM_WENZHENGMING": {
+      "label": "故宫博物院·文徵明",
+      "url": "https://www.dpm.org.cn/lemmas/242658.html",
+      "kind": "博物馆"
+    },
+    "BJWMB_LIZHI": {
+      "label": "北京文明网·李贽晚年寓居通州",
+      "url": "https://www.bjwmb.gov.cn/zxfw/wmwx/wskt/t20200619_987300.htm",
+      "kind": "地方文史"
+    },
+    "HUAIAN_WUCHENGEN": {
+      "label": "淮安政协文史·吴承恩生平与作品",
+      "url": "https://zx.huaian.gov.cn/col/14066_664815/art/m/17592480/1760690382465qIv3YFTw.html",
+      "kind": "地方文史机构"
+    },
+    "MS230": {
+      "label": "《明史》卷230",
+      "url": "https://zh.wikisource.org/wiki/明史/卷230",
+      "kind": "正史"
+    },
+    "NMTCM_ZHANGJINGYUE": {
+      "label": "国家中医药博物馆·张景岳",
+      "url": "https://www.nmtcm.cn/stars_detail/262.html",
+      "kind": "博物馆"
+    },
+    "CHNMUSEUM_TIANGONG": {
+      "label": "中国国家博物馆·《天工开物》",
+      "url": "https://www.chnmuseum.cn/zp/zpml/gjwxbt/202203/t20220301_254061.shtml",
+      "kind": "博物馆"
+    },
+    "IHP_SONGLI": {
+      "label": "中研院史语所人名权威资料库·宋礼",
+      "url": "https://newarchive.ihp.sinica.edu.tw/sncaccgi/sncacFtp?ACTION=TQ%2CsncacFtpqf%2CSN%3D010357%2C2nd%2Csearch_simple",
+      "kind": "专业数据库"
+    },
+    "MS153": {
+      "label": "《明史》卷153",
+      "url": "https://zh.wikisource.org/wiki/明史/卷153",
+      "kind": "正史"
+    },
+    "MS223": {
+      "label": "《明史》卷223",
+      "url": "https://zh.wikisource.org/wiki/明史/卷223",
+      "kind": "正史"
+    },
+    "UNESCO_YISUNSIN": {
+      "label": "联合国教科文组织·李舜臣《乱中日记》",
+      "url": "https://www.unesco.org/en/memory-world/nanjung-ilgi-war-diary-admiral-yi-sun-sin?hub=1081",
+      "kind": "专业机构"
+    },
+    "MS320": {
+      "label": "《明史》卷320",
+      "url": "https://zh.wikisource.org/wiki/明史/卷320",
+      "kind": "正史"
+    },
+    "JINJU_IMJIN": {
+      "label": "韩国国立晋州博物馆·壬辰倭乱",
+      "url": "https://jinju.museum.go.kr/jpn/html/sub02/020101.html",
+      "kind": "博物馆"
+    },
+    "DPM_DORGON": {
+      "label": "故宫博物院·多尔衮",
+      "url": "https://www.dpm.org.cn/lemmas/241639.html",
+      "kind": "博物馆"
+    },
+    "CAMBRIDGE_HEXINYIN": {
+      "label": "Cambridge Core·何心隐的友谊与政治",
+      "url": "https://www.cambridge.org/core/journals/diogenes/article/friendship-and-sovereignty-in-he-xinyin-15171579-a-16th-century-politics-of-friendship/DA6D0DD9A1772355F1B2E98E1F723D7E",
+      "kind": "学术论文"
+    },
+    "MS307": {
+      "label": "《明史》卷307",
+      "url": "https://zh.wikisource.org/wiki/明史/卷307",
+      "kind": "正史"
+    },
+    "MS306": {
+      "label": "《明史》卷306",
+      "url": "https://zh.wikisource.org/wiki/明史/卷306",
+      "kind": "正史"
+    },
+    "MS115": {
+      "label": "《明史》卷115",
+      "url": "https://zh.wikisource.org/wiki/明史/卷115",
+      "kind": "正史"
+    },
+    "MS116": {
+      "label": "《明史》卷116",
+      "url": "https://zh.wikisource.org/wiki/明史/卷116",
+      "kind": "正史"
+    },
+    "MS117": {
+      "label": "《明史》卷117",
+      "url": "https://zh.wikisource.org/wiki/明史/卷117",
+      "kind": "正史"
+    },
+    "MS121": {
+      "label": "《明史》卷121",
+      "url": "https://zh.wikisource.org/wiki/明史/卷121",
+      "kind": "正史"
+    },
+    "MS118": {
+      "label": "《明史》卷118",
+      "url": "https://zh.wikisource.org/wiki/明史/卷118",
+      "kind": "正史"
+    },
+    "MS119": {
+      "label": "《明史》卷119",
+      "url": "https://zh.wikisource.org/wiki/明史/卷119",
+      "kind": "正史"
+    },
+    "MS120": {
+      "label": "《明史》卷120",
+      "url": "https://zh.wikisource.org/wiki/明史/卷120",
+      "kind": "正史"
+    }
+  },
+  "people": [
+    {
+      "name": "朱元璋",
+      "source": "core",
+      "timeline_year": 1368,
+      "timeline_year_label": "1368",
+      "timeline_year_basis": "洪武元年正月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS002"
+      ],
+      "timeline_role": "明太祖",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱允炆",
+      "source": "core",
+      "timeline_year": 1398,
+      "timeline_year_label": "1398",
+      "timeline_year_basis": "洪武三十一年闰五月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS004"
+      ],
+      "timeline_role": "建文帝",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱棣",
+      "source": "core",
+      "timeline_year": 1402,
+      "timeline_year_label": "1402",
+      "timeline_year_basis": "建文四年六月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS005"
+      ],
+      "timeline_role": "明成祖",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱高炽",
+      "source": "core",
+      "timeline_year": 1424,
+      "timeline_year_label": "1424",
+      "timeline_year_basis": "永乐二十二年八月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS008"
+      ],
+      "timeline_role": "明仁宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱瞻基",
+      "source": "core",
+      "timeline_year": 1425,
+      "timeline_year_label": "1425",
+      "timeline_year_basis": "洪熙元年六月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS009"
+      ],
+      "timeline_role": "明宣宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱祁镇",
+      "source": "core",
+      "timeline_year": 1435,
+      "timeline_year_label": "1435",
+      "timeline_year_basis": "宣德十年正月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS010"
+      ],
+      "timeline_role": "明英宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱祁钰",
+      "source": "core",
+      "timeline_year": 1449,
+      "timeline_year_label": "1449",
+      "timeline_year_basis": "正统十四年九月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS011"
+      ],
+      "timeline_role": "明代宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱见深",
+      "source": "core",
+      "timeline_year": 1464,
+      "timeline_year_label": "1464",
+      "timeline_year_basis": "天顺八年正月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS013"
+      ],
+      "timeline_role": "明宪宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱祐樘",
+      "source": "core",
+      "timeline_year": 1487,
+      "timeline_year_label": "1487",
+      "timeline_year_basis": "成化二十三年九月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS015"
+      ],
+      "timeline_role": "明孝宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱厚照",
+      "source": "core",
+      "timeline_year": 1505,
+      "timeline_year_label": "1505",
+      "timeline_year_basis": "弘治十八年五月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS016"
+      ],
+      "timeline_role": "明武宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱厚熜",
+      "source": "core",
+      "timeline_year": 1521,
+      "timeline_year_label": "1521",
+      "timeline_year_basis": "正德十六年四月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS017"
+      ],
+      "timeline_role": "明世宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱载坖",
+      "source": "core",
+      "timeline_year": 1567,
+      "timeline_year_label": "1567",
+      "timeline_year_basis": "嘉靖四十五年十二月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS019"
+      ],
+      "timeline_role": "明穆宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱翊钧",
+      "source": "core",
+      "timeline_year": 1572,
+      "timeline_year_label": "1572",
+      "timeline_year_basis": "隆庆六年六月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS020"
+      ],
+      "timeline_role": "明神宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱常洛",
+      "source": "core",
+      "timeline_year": 1620,
+      "timeline_year_label": "1620",
+      "timeline_year_basis": "万历四十八年八月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS021"
+      ],
+      "timeline_role": "明光宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱由校",
+      "source": "core",
+      "timeline_year": 1620,
+      "timeline_year_label": "1620",
+      "timeline_year_basis": "泰昌元年九月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS022"
+      ],
+      "timeline_role": "明熹宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "朱由检",
+      "source": "core",
+      "timeline_year": 1627,
+      "timeline_year_label": "1627",
+      "timeline_year_basis": "天启七年八月即皇帝位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS023"
+      ],
+      "timeline_role": "明思宗",
+      "timeline_size": "emperor"
+    },
+    {
+      "name": "李善长",
+      "source": "core",
+      "timeline_year": 1354,
+      "timeline_year_label": "1354",
+      "timeline_year_basis": "至正十四年在滁州谒见朱元璋，留掌书记",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS127"
+      ],
+      "timeline_role": "开国丞相",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "胡惟庸",
+      "source": "core",
+      "timeline_year": 1355,
+      "timeline_year_label": "1355",
+      "timeline_year_basis": "至正十五年在和州归附朱元璋",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS308"
+      ],
+      "timeline_role": "宰相",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "刘基",
+      "source": "core",
+      "timeline_year": 1360,
+      "timeline_year_label": "1360",
+      "timeline_year_basis": "至正二十年受征至应天，进入朱元璋幕府",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS128"
+      ],
+      "timeline_role": "谋臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "宋濂",
+      "source": "core",
+      "timeline_year": 1360,
+      "timeline_year_label": "1360",
+      "timeline_year_basis": "至正二十年受征至应天，开始为朱元璋讲学",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS128"
+      ],
+      "timeline_role": "文臣学者",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "方孝孺",
+      "source": "core",
+      "timeline_year": 1392,
+      "timeline_year_label": "1392",
+      "timeline_year_basis": "洪武二十五年受荐，授汉中府教授",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS141"
+      ],
+      "timeline_role": "建文重臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "姚广孝",
+      "source": "core",
+      "timeline_year": 1382,
+      "timeline_year_label": "1382",
+      "timeline_year_basis": "洪武十五年随侍燕王朱棣，进入燕府政治活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS145"
+      ],
+      "timeline_role": "靖难谋臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "解缙",
+      "source": "core",
+      "timeline_year": 1388,
+      "timeline_year_label": "1388",
+      "timeline_year_basis": "洪武二十一年中进士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS147"
+      ],
+      "timeline_role": "翰林学士",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "夏原吉",
+      "source": "core",
+      "timeline_year": 1390,
+      "timeline_year_label": "1390",
+      "timeline_year_basis": "洪武二十三年由乡荐入太学，获太祖赏识并踏入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "YUEYANG_XIAYUANJI",
+        "MS149"
+      ],
+      "timeline_role": "户部尚书",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "蹇义",
+      "source": "core",
+      "timeline_year": 1385,
+      "timeline_year_label": "1385",
+      "timeline_year_basis": "洪武十八年中进士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS148"
+      ],
+      "timeline_role": "吏部尚书",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "杨士奇",
+      "source": "core",
+      "timeline_year": 1399,
+      "timeline_year_label": "1399",
+      "timeline_year_basis": "建文初受荐参与编修《太祖实录》",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS148"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "杨荣",
+      "source": "core",
+      "timeline_year": 1400,
+      "timeline_year_label": "1400",
+      "timeline_year_basis": "建文二年中进士，授编修",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS148"
+      ],
+      "timeline_role": "内阁大学士",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "杨溥",
+      "source": "core",
+      "timeline_year": 1400,
+      "timeline_year_label": "1400",
+      "timeline_year_basis": "建文二年中进士，授编修",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS148"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "于谦",
+      "source": "core",
+      "timeline_year": 1421,
+      "timeline_year_label": "1421",
+      "timeline_year_basis": "永乐十九年中进士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS170"
+      ],
+      "timeline_role": "兵部尚书",
+      "timeline_size": "featured"
+    },
+    {
+      "name": "李贤",
+      "source": "core",
+      "timeline_year": 1433,
+      "timeline_year_label": "1433",
+      "timeline_year_basis": "宣德八年中进士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS176"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "商辂",
+      "source": "core",
+      "timeline_year": 1445,
+      "timeline_year_label": "1445",
+      "timeline_year_basis": "正统十年殿试第一，授修撰",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS176"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "刘健",
+      "source": "core",
+      "timeline_year": 1460,
+      "timeline_year_label": "1460",
+      "timeline_year_basis": "天顺四年中进士，授编修",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS181"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "谢迁",
+      "source": "core",
+      "timeline_year": 1475,
+      "timeline_year_label": "1475",
+      "timeline_year_basis": "成化十一年殿试第一，授修撰",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS181"
+      ],
+      "timeline_role": "内阁大学士",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "李东阳",
+      "source": "core",
+      "timeline_year": 1464,
+      "timeline_year_label": "1464",
+      "timeline_year_basis": "天顺八年中进士，选庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS181"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "刘大夏",
+      "source": "core",
+      "timeline_year": 1464,
+      "timeline_year_label": "1464",
+      "timeline_year_basis": "天顺八年中进士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS182"
+      ],
+      "timeline_role": "兵部尚书",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "杨廷和",
+      "source": "core",
+      "timeline_year": 1478,
+      "timeline_year_label": "1478",
+      "timeline_year_basis": "成化十四年中进士，选庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS190"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "王守仁",
+      "source": "core",
+      "timeline_year": 1499,
+      "timeline_year_label": "1499",
+      "timeline_year_basis": "弘治十二年中进士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS195"
+      ],
+      "timeline_role": "思想家",
+      "timeline_size": "featured"
+    },
+    {
+      "name": "夏言",
+      "source": "core",
+      "timeline_year": 1517,
+      "timeline_year_label": "1517",
+      "timeline_year_basis": "正德十二年中进士，授行人",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS196"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "严嵩",
+      "source": "core",
+      "timeline_year": 1505,
+      "timeline_year_label": "1505",
+      "timeline_year_basis": "弘治十八年中进士，选庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS308"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "严世蕃",
+      "source": "core",
+      "timeline_year": 1543,
+      "timeline_year_label": "1543",
+      "timeline_year_basis": "权威人物履历据《明世宗实录》列嘉靖二十二年任尚宝司少卿，为最早可确年的官职",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "IHP_YANSHIFAN",
+        "MS308"
+      ],
+      "timeline_role": "权臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "杨继盛",
+      "source": "core",
+      "timeline_year": 1547,
+      "timeline_year_label": "1547",
+      "timeline_year_basis": "嘉靖二十六年中进士，授南京吏部主事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS209"
+      ],
+      "timeline_role": "谏臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "徐阶",
+      "source": "core",
+      "timeline_year": 1523,
+      "timeline_year_label": "1523",
+      "timeline_year_basis": "嘉靖二年殿试第三，授编修",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS213"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "高拱",
+      "source": "core",
+      "timeline_year": 1541,
+      "timeline_year_label": "1541",
+      "timeline_year_basis": "嘉靖二十年中进士，选庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS213"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "张居正",
+      "source": "core",
+      "timeline_year": 1547,
+      "timeline_year_label": "1547",
+      "timeline_year_basis": "嘉靖二十六年中进士，改庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS213"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "featured"
+    },
+    {
+      "name": "海瑞",
+      "source": "core",
+      "timeline_year": 1549,
+      "timeline_year_label": "1549",
+      "timeline_year_basis": "嘉靖二十八年乡试中举，首次明确进入公共仕途活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "HAIKOU_HAIRUI_1549",
+        "MS226"
+      ],
+      "timeline_role": "清官",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "沈一贯",
+      "source": "core",
+      "timeline_year": 1556,
+      "timeline_year_label": "1556",
+      "timeline_year_basis": "嘉靖三十五年中进士，选庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS218"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "沈鲤",
+      "source": "core",
+      "timeline_year": 1565,
+      "timeline_year_label": "1565",
+      "timeline_year_basis": "嘉靖四十四年中进士，选庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS217"
+      ],
+      "timeline_role": "内阁大学士",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "徐光启",
+      "source": "core",
+      "timeline_year": 1604,
+      "timeline_year_label": "1604",
+      "timeline_year_basis": "万历三十二年中进士，入翰林院",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS251"
+      ],
+      "timeline_role": "科学家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "申时行",
+      "source": "core",
+      "timeline_year": 1562,
+      "timeline_year_label": "1562",
+      "timeline_year_basis": "嘉靖四十一年殿试第一，授修撰",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS218"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "顾宪成",
+      "source": "core",
+      "timeline_year": 1576,
+      "timeline_year_label": "1576",
+      "timeline_year_basis": "万历四年中进士，授户部主事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS231"
+      ],
+      "timeline_role": "东林领袖",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "高攀龙",
+      "source": "core",
+      "timeline_year": 1589,
+      "timeline_year_label": "1589",
+      "timeline_year_basis": "万历十七年中进士，授行人",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS243"
+      ],
+      "timeline_role": "东林领袖",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "叶向高",
+      "source": "core",
+      "timeline_year": 1583,
+      "timeline_year_label": "1583",
+      "timeline_year_basis": "万历十一年中进士，选庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS240"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "杨涟",
+      "source": "core",
+      "timeline_year": 1607,
+      "timeline_year_label": "1607",
+      "timeline_year_basis": "万历三十五年中进士，授常熟知县",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS244"
+      ],
+      "timeline_role": "东林谏臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "左光斗",
+      "source": "core",
+      "timeline_year": 1607,
+      "timeline_year_label": "1607",
+      "timeline_year_basis": "万历三十五年中进士，授中书舍人",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS244"
+      ],
+      "timeline_role": "东林谏臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "孙承宗",
+      "source": "core",
+      "timeline_year": 1604,
+      "timeline_year_label": "1604",
+      "timeline_year_basis": "万历三十二年殿试第二，授编修",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS250"
+      ],
+      "timeline_role": "辽东经略",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "杨嗣昌",
+      "source": "core",
+      "timeline_year": 1610,
+      "timeline_year_label": "1610",
+      "timeline_year_basis": "万历三十八年中进士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS252"
+      ],
+      "timeline_role": "兵部尚书",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "倪元璐",
+      "source": "core",
+      "timeline_year": 1616,
+      "timeline_year_label": "1616",
+      "timeline_year_basis": "万历四十四年中进士，改庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS265"
+      ],
+      "timeline_role": "文臣书家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "黄道周",
+      "source": "core",
+      "timeline_year": 1622,
+      "timeline_year_label": "1622",
+      "timeline_year_basis": "天启二年中进士，选庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS255"
+      ],
+      "timeline_role": "学者文臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "史可法",
+      "source": "core",
+      "timeline_year": 1628,
+      "timeline_year_label": "1628",
+      "timeline_year_basis": "崇祯元年中进士，授西安府推官",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS274"
+      ],
+      "timeline_role": "南明督师",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "徐达",
+      "source": "core",
+      "timeline_year": 1353,
+      "timeline_year_label": "1353",
+      "timeline_year_basis": "至正十三年随朱元璋南略定远，首次见于明确纪年的军事行动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS001"
+      ],
+      "timeline_role": "开国大将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "常遇春",
+      "source": "core",
+      "timeline_year": 1355,
+      "timeline_year_label": "1355",
+      "timeline_year_basis": "至正十五年四月归附朱元璋，随即参加渡江作战",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS125"
+      ],
+      "timeline_role": "开国大将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "汤和",
+      "source": "core",
+      "timeline_year": 1352,
+      "timeline_year_label": "1352",
+      "timeline_year_basis": "至正十二年郭子兴起兵后率壮士归附，进入军旅",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS126"
+      ],
+      "timeline_role": "开国大将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "李文忠",
+      "source": "core",
+      "timeline_year": 1357,
+      "timeline_year_label": "1357",
+      "timeline_year_basis": "十九岁领亲军援池州；按本传生年与年龄可定在至正十七年",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "MS126"
+      ],
+      "timeline_role": "开国将领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "邓愈",
+      "source": "core",
+      "timeline_year": 1355,
+      "timeline_year_label": "1355",
+      "timeline_year_basis": "至正十五年前后自盱眙来归朱元璋，授管军总管",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "MS126"
+      ],
+      "timeline_role": "开国将领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "沐英",
+      "source": "core",
+      "timeline_year": 1362,
+      "timeline_year_label": "约1362",
+      "timeline_year_basis": "本传载十八岁授帐前都尉；据1344年生年约推至1362年",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "MS126"
+      ],
+      "timeline_role": "开国将领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "傅友德",
+      "source": "core",
+      "timeline_year": 1361,
+      "timeline_year_label": "1361",
+      "timeline_year_basis": "至正二十一年朱元璋攻江州时率部归降，开始为其效力",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS001"
+      ],
+      "timeline_role": "开国将领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "蓝玉",
+      "source": "core",
+      "timeline_year": 1371,
+      "timeline_year_label": "1371",
+      "timeline_year_basis": "洪武四年随傅友德伐蜀，为最早明确纪年的明军行动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS132"
+      ],
+      "timeline_role": "开国将领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "张玉",
+      "source": "core",
+      "timeline_year": 1385,
+      "timeline_year_label": "1385",
+      "timeline_year_basis": "洪武十八年自漠北归明，随后从军",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS145"
+      ],
+      "timeline_role": "靖难主将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱能",
+      "source": "core",
+      "timeline_year": 1399,
+      "timeline_year_label": "1399",
+      "timeline_year_basis": "建文元年参与靖难起兵，夺北平九门",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS145"
+      ],
+      "timeline_role": "靖难主将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "丘福",
+      "source": "core",
+      "timeline_year": 1399,
+      "timeline_year_label": "1399",
+      "timeline_year_basis": "建文元年参与靖难起兵，首夺北平九门",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS145"
+      ],
+      "timeline_role": "靖难主将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "石亨",
+      "source": "core",
+      "timeline_year": 1438,
+      "timeline_year_label": "1438",
+      "timeline_year_basis": "正统三年正月追击入境敌骑至官山并获战功，是最早可确年的军事行动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS173"
+      ],
+      "timeline_role": "边将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "翁万达",
+      "source": "core",
+      "timeline_year": 1526,
+      "timeline_year_label": "1526",
+      "timeline_year_basis": "嘉靖五年中进士，授户部主事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS198"
+      ],
+      "timeline_role": "边臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "胡宗宪",
+      "source": "core",
+      "timeline_year": 1538,
+      "timeline_year_label": "1538",
+      "timeline_year_basis": "嘉靖十七年中进士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS205"
+      ],
+      "timeline_role": "抗倭督臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "戚继光",
+      "source": "core",
+      "timeline_year": 1544,
+      "timeline_year_label": "1544",
+      "timeline_year_basis": "嘉靖二十三年十七岁承袭登州卫指挥佥事，开始任军职",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "DPM_QIJIGUANG",
+        "MS212"
+      ],
+      "timeline_role": "抗倭名将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "俞大猷",
+      "source": "core",
+      "timeline_year": 1535,
+      "timeline_year_label": "1535",
+      "timeline_year_basis": "嘉靖十四年参加武会试，随后授千户守金门",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS212"
+      ],
+      "timeline_role": "抗倭名将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "谭纶",
+      "source": "core",
+      "timeline_year": 1544,
+      "timeline_year_label": "1544",
+      "timeline_year_basis": "嘉靖二十三年中进士，授南京礼部主事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS222"
+      ],
+      "timeline_role": "兵部尚书",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "马芳",
+      "source": "core",
+      "timeline_year": 1550,
+      "timeline_year_label": "1550",
+      "timeline_year_basis": "嘉靖二十九年抗击入寇，以战功授阳和卫总旗",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS211"
+      ],
+      "timeline_role": "边将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "李成梁",
+      "source": "core",
+      "timeline_year": 1567,
+      "timeline_year_label": "1567",
+      "timeline_year_basis": "隆庆元年援永平有功，进副总兵，为最早明确纪年的军功",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS238"
+      ],
+      "timeline_role": "辽东总兵",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "李如松",
+      "source": "core",
+      "timeline_year": 1583,
+      "timeline_year_label": "1583",
+      "timeline_year_basis": "万历十一年出任山西总兵官，为最早明确纪年的军职",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS238"
+      ],
+      "timeline_role": "援朝主将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "宋应昌",
+      "source": "core",
+      "timeline_year": 1565,
+      "timeline_year_label": "1565",
+      "timeline_year_basis": "嘉靖四十四年登进士第，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "JIAJING44_JINSHI"
+      ],
+      "timeline_role": "援朝经略",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "刘綎",
+      "source": "core",
+      "timeline_year": 1573,
+      "timeline_year_label": "1573",
+      "timeline_year_basis": "万历元年随父刘显征九丝蛮，先登擒酋，为最早可确年的军事行动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS247",
+        "DPM_LIUXIAN"
+      ],
+      "timeline_role": "援朝将领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "秦良玉",
+      "source": "core",
+      "timeline_year": 1599,
+      "timeline_year_label": "1599",
+      "timeline_year_basis": "万历二十七年另领精兵随征播州，首次见于明确纪年的军事行动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS270"
+      ],
+      "timeline_role": "女将",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "毛文龙",
+      "source": "core",
+      "timeline_year": 1621,
+      "timeline_year_label": "1621",
+      "timeline_year_basis": "天启元年受命袭取镇江并奏捷，首次明确进入辽东战事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS259"
+      ],
+      "timeline_role": "东江总兵",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "袁崇焕",
+      "source": "core",
+      "timeline_year": 1619,
+      "timeline_year_label": "1619",
+      "timeline_year_basis": "万历四十七年中进士，授邵武知县",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS259"
+      ],
+      "timeline_role": "蓟辽督师",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "洪承畴",
+      "source": "core",
+      "timeline_year": 1616,
+      "timeline_year_label": "1616",
+      "timeline_year_basis": "万历四十四年登进士第，授刑部主事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MNWH_HONG"
+      ],
+      "timeline_role": "蓟辽总督",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "卢象升",
+      "source": "core",
+      "timeline_year": 1622,
+      "timeline_year_label": "1622",
+      "timeline_year_basis": "天启二年中进士，授户部主事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS261"
+      ],
+      "timeline_role": "督师",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "孙传庭",
+      "source": "core",
+      "timeline_year": 1619,
+      "timeline_year_label": "1619",
+      "timeline_year_basis": "万历四十七年中进士，授永城知县",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS262"
+      ],
+      "timeline_role": "督师",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "吴三桂",
+      "source": "core",
+      "timeline_year": 1630,
+      "timeline_year_label": "约1628—1632",
+      "timeline_year_basis": "《清史列传》称崇祯初由武举随征阵；取崇祯初期区间中点",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "QSLZ080"
+      ],
+      "timeline_role": "辽东总兵",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "郑和",
+      "source": "core",
+      "timeline_year": 1405,
+      "timeline_year_label": "1405",
+      "timeline_year_basis": "永乐三年六月奉命率舟师通使西洋",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS304"
+      ],
+      "timeline_role": "航海使臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "王景弘",
+      "source": "core",
+      "timeline_year": 1405,
+      "timeline_year_label": "1405",
+      "timeline_year_basis": "永乐三年与郑和同奉命通使西洋",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS304"
+      ],
+      "timeline_role": "航海使臣",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "王振",
+      "source": "core",
+      "timeline_year": 1435,
+      "timeline_year_label": "1435",
+      "timeline_year_basis": "英宗即位后掌司礼监，开始明确干预朝政",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS304"
+      ],
+      "timeline_role": "司礼太监",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "金英",
+      "source": "core",
+      "timeline_year": 1432,
+      "timeline_year_label": "1432",
+      "timeline_year_basis": "宣德七年获赐免死诏，为最早明确纪年的受信任政治活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS304"
+      ],
+      "timeline_role": "司礼太监",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "曹吉祥",
+      "source": "core",
+      "timeline_year": 1438,
+      "timeline_year_label": "约1436—1440",
+      "timeline_year_basis": "本传称正统初监军征麓川；取正统初期区间中点",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "MS304"
+      ],
+      "timeline_role": "司礼太监",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "汪直",
+      "source": "core",
+      "timeline_year": 1476,
+      "timeline_year_label": "1476",
+      "timeline_year_basis": "成化十二年奉命微服刺探外事，翌年领西厂",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS304"
+      ],
+      "timeline_role": "西厂提督",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "刘瑾",
+      "source": "core",
+      "timeline_year": 1505,
+      "timeline_year_label": "1505",
+      "timeline_year_basis": "武宗即位后掌钟鼓司，以“八虎”身份进入政治中心",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS304"
+      ],
+      "timeline_role": "司礼太监",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "张永",
+      "source": "core",
+      "timeline_year": 1507,
+      "timeline_year_label": "约1506—1508",
+      "timeline_year_basis": "《明史》仅记正德初总神机营；以正德初三年区间取中点",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "MS304"
+      ],
+      "timeline_role": "御马监太监",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "冯保",
+      "source": "core",
+      "timeline_year": 1567,
+      "timeline_year_label": "1567",
+      "timeline_year_basis": "隆庆元年提督东厂兼掌御马监",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS305"
+      ],
+      "timeline_role": "司礼太监",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "陈矩",
+      "source": "core",
+      "timeline_year": 1598,
+      "timeline_year_label": "1598",
+      "timeline_year_basis": "万历二十六年提督东厂，为最早明确纪年的任职",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS305"
+      ],
+      "timeline_role": "司礼太监",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "魏忠贤",
+      "source": "core",
+      "timeline_year": 1620,
+      "timeline_year_label": "1620",
+      "timeline_year_basis": "熹宗即位后获宠，旋升司礼秉笔太监",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS305"
+      ],
+      "timeline_role": "司礼太监",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "王承恩",
+      "source": "core",
+      "timeline_year": 1644,
+      "timeline_year_label": "1644",
+      "timeline_year_basis": "崇祯十七年奉命提督京营守城，为最早明确纪年的公共行动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS305"
+      ],
+      "timeline_role": "司礼太监",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "纪氏",
+      "source": "core",
+      "timeline_year": 1470,
+      "timeline_year_label": "1470",
+      "timeline_year_basis": "成化六年七月生下后来的明孝宗，为其最早可确年的宫廷活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS113",
+        "DPM_HONGZHI_CHRON"
+      ],
+      "timeline_role": "孝穆太后",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "万贵妃",
+      "source": "core",
+      "timeline_year": 1433,
+      "timeline_year_label": "约1432—1434",
+      "timeline_year_basis": "本传称四岁选入掖廷，又载1464年时年三十五；按传统计龄推得约1433年，保留前后一年范围",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "MS113"
+      ],
+      "timeline_role": "宪宗贵妃",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "郑贵妃",
+      "source": "core",
+      "timeline_year": 1582,
+      "timeline_year_label": "1582",
+      "timeline_year_basis": "万历十年三月《明神宗实录》明确册郑氏为淑嫔，是最早点名可确年的宫廷记录",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MINGSHILU_ZHENG_1582",
+        "MS114"
+      ],
+      "timeline_role": "神宗贵妃",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "客氏",
+      "source": "core",
+      "timeline_year": 1620,
+      "timeline_year_label": "1620",
+      "timeline_year_basis": "熹宗即位后未逾月封奉圣夫人，进入宫廷政治",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS305"
+      ],
+      "timeline_role": "奉圣夫人",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "沈周",
+      "source": "core",
+      "timeline_year": 1477,
+      "timeline_year_label": "1477",
+      "timeline_year_basis": "现存《赠别图》署成化十三年，是可确年的早期书画活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MET_SHEN_1477"
+      ],
+      "timeline_role": "吴门画家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "唐寅",
+      "source": "core",
+      "timeline_year": 1498,
+      "timeline_year_label": "1498",
+      "timeline_year_basis": "弘治十一年中应天乡试第一，首次明确进入公共文化活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "DPM_TANGYIN"
+      ],
+      "timeline_role": "吴门画家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "仇英",
+      "source": "core",
+      "timeline_year": 1532,
+      "timeline_year_label": "1532",
+      "timeline_year_basis": "现存《园居图》有嘉靖十一年题记，是可确年的早期作品节点",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "DPM_QIUYING_1532"
+      ],
+      "timeline_role": "职业画家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "李时珍",
+      "source": "core",
+      "timeline_year": 1552,
+      "timeline_year_label": "约1551—1552",
+      "timeline_year_basis": "《本草纲目》初稿成于1578年且前后耗时27年，倒推约1551至1552年开始编纂",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "UNESCO_BENCAO"
+      ],
+      "timeline_role": "医药学家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "徐渭",
+      "source": "core",
+      "timeline_year": 1559,
+      "timeline_year_label": "1559",
+      "timeline_year_basis": "嘉靖三十八年完成《南词叙录》，是可确年的戏曲理论著述",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "SHM_XUWEI"
+      ],
+      "timeline_role": "书画戏曲家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "马守真",
+      "source": "core",
+      "timeline_year": 1572,
+      "timeline_year_label": "1572",
+      "timeline_year_basis": "大都会艺术博物馆藏《兰竹石图》纪年1572年，为可确年的作品节点",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MET_MA_1572"
+      ],
+      "timeline_role": "金陵画家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "陈继儒",
+      "source": "core",
+      "timeline_year": 1585,
+      "timeline_year_label": "1585",
+      "timeline_year_basis": "万历十三年科举失利后绝意仕进并转入著述，是可确年的生涯转折",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "SHM_CHENJIRU"
+      ],
+      "timeline_role": "文人出版家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "徐霞客",
+      "source": "core",
+      "timeline_year": 1608,
+      "timeline_year_label": "约1608",
+      "timeline_year_basis": "江阴市政府资料称其二十二岁开始出游；按1587年生年约合1608年",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "JIANGYIN_XUXIAKE"
+      ],
+      "timeline_role": "旅行地理家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "郭子兴",
+      "source": "core",
+      "timeline_year": 1352,
+      "timeline_year_label": "1352",
+      "timeline_year_basis": "至正十二年春集众起兵并据濠州，进入元末政治军事活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS122"
+      ],
+      "timeline_role": "濠州军首领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "马皇后",
+      "source": "core",
+      "timeline_year": 1352,
+      "timeline_year_label": "1352",
+      "timeline_year_basis": "至正十二年朱元璋投郭子兴后，郭将养女马氏嫁与朱元璋",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS001"
+      ],
+      "timeline_role": "明太祖皇后",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "陈友谅",
+      "source": "core",
+      "timeline_year": 1357,
+      "timeline_year_label": "1357",
+      "timeline_year_basis": "至正十七年杀倪文俊、并其军，自称宣慰使",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS123"
+      ],
+      "timeline_role": "陈汉首领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "张士诚",
+      "source": "core",
+      "timeline_year": 1353,
+      "timeline_year_label": "1353",
+      "timeline_year_basis": "至正十三年起兵、陷泰州并自称诚王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS123"
+      ],
+      "timeline_role": "吴政权首领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "也先",
+      "source": "core",
+      "timeline_year": 1439,
+      "timeline_year_label": "1439",
+      "timeline_year_basis": "正统四年继父脱欢称太师淮王，并与明廷维持入贡往来",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS328"
+      ],
+      "timeline_role": "瓦剌太师",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "张璁",
+      "source": "core",
+      "timeline_year": 1521,
+      "timeline_year_label": "1521",
+      "timeline_year_basis": "正德十六年中进士，同年七月上大礼议疏",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS196"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "李太后",
+      "source": "core",
+      "timeline_year": 1563,
+      "timeline_year_label": "1563",
+      "timeline_year_basis": "嘉靖四十二年八月生朱翊钧，为最早可确年的宫廷活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS114",
+        "DPM_JIAJING_CHRON"
+      ],
+      "timeline_role": "慈圣皇太后",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "努尔哈赤",
+      "source": "core",
+      "timeline_year": 1583,
+      "timeline_year_label": "1583",
+      "timeline_year_basis": "万历十一年父祖在明军行动中遇害，努尔哈赤赴明边申诉并由此起兵",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "QSG001"
+      ],
+      "timeline_role": "后金大汗",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "皇太极",
+      "source": "core",
+      "timeline_year": 1619,
+      "timeline_year_label": "1619",
+      "timeline_year_basis": "万历四十七年萨尔浒之战中议军事并率军与明军作战，首次明确关联明朝战事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "QSG001"
+      ],
+      "timeline_role": "后金大汗",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "李自成",
+      "source": "core",
+      "timeline_year": 1631,
+      "timeline_year_label": "1631",
+      "timeline_year_basis": "崇祯四年投高迎祥部，与兄子李过号闯将",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS309"
+      ],
+      "timeline_role": "大顺政权首领",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "文徵明",
+      "source": "core",
+      "timeline_year": 1495,
+      "timeline_year_label": "1495",
+      "timeline_year_basis": "弘治八年参加应天乡试，为最早可确年的公共文化活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "DPM_WENZHENGMING"
+      ],
+      "timeline_role": "吴门书画家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "李贽",
+      "source": "core",
+      "timeline_year": 1556,
+      "timeline_year_label": "1556",
+      "timeline_year_basis": "嘉靖三十五年出任河南共城教谕，首次任官",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "BJWMB_LIZHI"
+      ],
+      "timeline_role": "思想家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "吴承恩",
+      "source": "core",
+      "timeline_year": 1528,
+      "timeline_year_label": "1528",
+      "timeline_year_basis": "《射阳先生存稿》中最早可见的《海鹤蟠桃篇》作于嘉靖七年",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "HUAIAN_WUCHENGEN"
+      ],
+      "timeline_role": "文学家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "汤显祖",
+      "source": "core",
+      "timeline_year": 1583,
+      "timeline_year_label": "1583",
+      "timeline_year_basis": "万历十一年中进士，进入仕途与公共文坛",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS230"
+      ],
+      "timeline_role": "戏曲家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "张景岳",
+      "source": "core",
+      "timeline_year": 1577,
+      "timeline_year_label": "约1577",
+      "timeline_year_basis": "国家中医药博物馆记其十四岁随父入京、拜名医金梦石为师；按1563年生年约合1577年",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "NMTCM_ZHANGJINGYUE"
+      ],
+      "timeline_role": "医学家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "宋应星",
+      "source": "core",
+      "timeline_year": 1637,
+      "timeline_year_label": "1637",
+      "timeline_year_basis": "崇祯十年初刊《天工开物》，是可确年的技术著述节点",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "CHNMUSEUM_TIANGONG"
+      ],
+      "timeline_role": "实学著述家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "宋礼",
+      "source": "core",
+      "timeline_year": 1390,
+      "timeline_year_label": "1390",
+      "timeline_year_basis": "权威人物履历据《明太祖实录》列洪武二十三年任山西按察司佥事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "IHP_SONGLI",
+        "MS153"
+      ],
+      "timeline_role": "工部尚书",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "潘季驯",
+      "source": "core",
+      "timeline_year": 1550,
+      "timeline_year_label": "1550",
+      "timeline_year_basis": "嘉靖二十九年中进士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS223"
+      ],
+      "timeline_role": "河道总理",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "李舜臣",
+      "source": "core",
+      "timeline_year": 1592,
+      "timeline_year_label": "1592",
+      "timeline_year_basis": "壬辰战争于1592年爆发，其《乱中日记》自该年记战；同年明军援朝，进入同一战争体系",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "UNESCO_YISUNSIN",
+        "MS320"
+      ],
+      "timeline_role": "朝鲜水军统帅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "丰臣秀吉",
+      "source": "core",
+      "timeline_year": 1592,
+      "timeline_year_label": "1592",
+      "timeline_year_basis": "1592年发动侵朝战争，明朝随即援朝，首次与明发生明确战争关系",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "JINJU_IMJIN",
+        "MS320"
+      ],
+      "timeline_role": "日本关白",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "多尔衮",
+      "source": "core",
+      "timeline_year": 1629,
+      "timeline_year_label": "1629",
+      "timeline_year_basis": "天聪三年从皇太极入龙井关、下汉儿庄，首次明确进入对明战事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "DPM_DORGON"
+      ],
+      "timeline_role": "清摄政王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "何心隐",
+      "source": "core",
+      "timeline_year": 1556,
+      "timeline_year_label": "约1556",
+      "timeline_year_basis": "学术研究称聚和堂很可能在1556年被地方官员解散，这是最早可确年的社会实践节点",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "CAMBRIDGE_HEXINYIN"
+      ],
+      "timeline_role": "泰州学派学者",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "陆炳",
+      "source": "core",
+      "timeline_year": 1529,
+      "timeline_year_label": "1529",
+      "timeline_year_basis": "嘉靖八年中武会试，授锦衣副千户",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS307"
+      ],
+      "timeline_role": "锦衣卫掌卫",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "纪纲",
+      "source": "core",
+      "timeline_year": 1399,
+      "timeline_year_label": "1399",
+      "timeline_year_basis": "建文元年燕王起兵经过临邑，纪纲叩马请效并获授千户",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS307"
+      ],
+      "timeline_role": "锦衣卫指挥使",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "蒋瓛",
+      "source": "core",
+      "timeline_year": 1393,
+      "timeline_year_label": "1393",
+      "timeline_year_basis": "洪武二十六年以锦衣卫指挥身份告发蓝玉谋反",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS132"
+      ],
+      "timeline_role": "锦衣卫指挥",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "田尔耕",
+      "source": "core",
+      "timeline_year": 1624,
+      "timeline_year_label": "1624",
+      "timeline_year_basis": "天启四年十月接掌锦衣卫事",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS306"
+      ],
+      "timeline_role": "锦衣卫掌卫",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "钱宁",
+      "source": "core",
+      "timeline_year": 1507,
+      "timeline_year_label": "约1506—1508",
+      "timeline_year_basis": "《明史》仅记正德初依附刘瑾并得幸；取正德初三年中点",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "MS307"
+      ],
+      "timeline_role": "锦衣卫掌卫",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱标",
+      "source": "important_child",
+      "timeline_year": 1367,
+      "timeline_year_label": "1367",
+      "timeline_year_basis": "吴元年奉命巡视临濠祖墓并沿途察访民情，为首次明确公共活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS115"
+      ],
+      "timeline_role": "懿文太子",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱橚",
+      "source": "important_child",
+      "timeline_year": 1370,
+      "timeline_year_label": "1370",
+      "timeline_year_basis": "洪武三年封吴王，首次有明确纪年的公开身份",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS116"
+      ],
+      "timeline_role": "周王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱柏",
+      "source": "important_child",
+      "timeline_year": 1378,
+      "timeline_year_label": "1378",
+      "timeline_year_basis": "洪武十一年封湘王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS117"
+      ],
+      "timeline_role": "湘王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱权",
+      "source": "important_child",
+      "timeline_year": 1391,
+      "timeline_year_label": "1391",
+      "timeline_year_basis": "洪武二十四年封宁王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS117"
+      ],
+      "timeline_role": "宁王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "宁国公主",
+      "source": "important_child",
+      "timeline_year": 1378,
+      "timeline_year_label": "1378",
+      "timeline_year_basis": "洪武十一年下嫁梅殷",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS121"
+      ],
+      "timeline_role": "宁国公主",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱文奎",
+      "source": "important_child",
+      "timeline_year": 1399,
+      "timeline_year_label": "1399",
+      "timeline_year_basis": "建文元年立为皇太子",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS118"
+      ],
+      "timeline_role": "皇太子",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱文圭",
+      "source": "important_child",
+      "timeline_year": 1402,
+      "timeline_year_label": "1402",
+      "timeline_year_basis": "建文四年南京失守时年二岁，旋被幽禁于中都广安宫",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS118"
+      ],
+      "timeline_role": "建庶人",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱高煦",
+      "source": "important_child",
+      "timeline_year": 1398,
+      "timeline_year_label": "1398",
+      "timeline_year_basis": "洪武三十一年太祖崩后奉命入京临丧，为首次可确年的公共活动",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS118"
+      ],
+      "timeline_role": "汉王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱高燧",
+      "source": "important_child",
+      "timeline_year": 1404,
+      "timeline_year_label": "1404",
+      "timeline_year_basis": "永乐二年封赵王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS118"
+      ],
+      "timeline_role": "赵王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱瞻墡",
+      "source": "important_child",
+      "timeline_year": 1424,
+      "timeline_year_label": "1424",
+      "timeline_year_basis": "永乐二十二年封襄王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS119"
+      ],
+      "timeline_role": "襄王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱见济",
+      "source": "important_child",
+      "timeline_year": 1452,
+      "timeline_year_label": "1452",
+      "timeline_year_basis": "景泰三年五月被立为皇太子",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS119"
+      ],
+      "timeline_role": "怀献太子",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱祐杬",
+      "source": "important_child",
+      "timeline_year": 1487,
+      "timeline_year_label": "1487",
+      "timeline_year_basis": "成化二十三年封兴王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS115"
+      ],
+      "timeline_role": "兴王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱载壡",
+      "source": "important_child",
+      "timeline_year": 1539,
+      "timeline_year_label": "1539",
+      "timeline_year_basis": "嘉靖十八年立为皇太子",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "庄敬太子",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱载圳",
+      "source": "important_child",
+      "timeline_year": 1539,
+      "timeline_year_label": "1539",
+      "timeline_year_basis": "嘉靖十八年与裕王同日封景王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "景王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱翊镠",
+      "source": "important_child",
+      "timeline_year": 1571,
+      "timeline_year_label": "约1571",
+      "timeline_year_basis": "《明史》记隆庆二年生、四岁受封；按传统计龄约合隆庆五年",
+      "timeline_year_confidence": "中",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "潞王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱常洵",
+      "source": "important_child",
+      "timeline_year": 1601,
+      "timeline_year_label": "1601",
+      "timeline_year_basis": "万历二十九年与太子册立同日封福王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "福王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱常浩",
+      "source": "important_child",
+      "timeline_year": 1601,
+      "timeline_year_label": "1601",
+      "timeline_year_basis": "万历二十九年与福、惠、桂三王同日受封",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "瑞王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱常润",
+      "source": "important_child",
+      "timeline_year": 1601,
+      "timeline_year_label": "1601",
+      "timeline_year_basis": "万历二十九年与福、瑞、桂三王同日受封",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "惠王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱常瀛",
+      "source": "important_child",
+      "timeline_year": 1601,
+      "timeline_year_label": "1601",
+      "timeline_year_basis": "万历二十九年与福、瑞、惠三王同日受封",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "桂王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱慈烺",
+      "source": "important_child",
+      "timeline_year": 1630,
+      "timeline_year_label": "1630",
+      "timeline_year_basis": "崇祯三年二月立为皇太子",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "献愍太子",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱慈炯",
+      "source": "important_child",
+      "timeline_year": 1641,
+      "timeline_year_label": "1641",
+      "timeline_year_basis": "崇祯十四年九月册封定王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "定王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱慈炤",
+      "source": "important_child",
+      "timeline_year": 1642,
+      "timeline_year_label": "1642",
+      "timeline_year_basis": "崇祯十五年三月封永王",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "永王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱慈煥",
+      "source": "important_child",
+      "timeline_year": 1643,
+      "timeline_year_label": "1643",
+      "timeline_year_basis": "崇祯十六年十二月改封宣显慈应悼灵王，是唯一可确年的公开记录",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS120"
+      ],
+      "timeline_role": "悼灵王",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "长平公主",
+      "source": "important_child",
+      "timeline_year": 1644,
+      "timeline_year_label": "1644",
+      "timeline_year_basis": "崇祯十七年婚期因战警暂停，北京城陷时卷入宫廷变故",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS121"
+      ],
+      "timeline_role": "长平公主",
+      "timeline_size": "standard"
+    }
+  ]
+}
