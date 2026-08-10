@@ -174,8 +174,24 @@ test('renderer escapes person metadata and keeps portrait fallbacks available', 
   assert.match(withPortrait, /兵部&lt;尚书/);
   assert.match(withPortrait, /<time datetime="1421">宣德六年<\/time>/);
   assert.match(withPortrait, /<button class="timeline-person-select"/);
-  assert.match(withPortrait, /<button class="timeline-person-open"[^>]* hidden>/);
+  assert.match(withPortrait, /<button class="timeline-person-open"[^>]*>/);
+  assert.doesNotMatch(withPortrait, /<button class="timeline-person-open"[^>]* hidden>/);
   assert.match(withPortrait, /timeline-portrait-fallback/);
   assert.match(withoutPortrait, /timeline-portrait--fallback/);
   assert.doesNotMatch(withoutPortrait, /<img /);
+});
+
+test('renderer only connects ARIA tabs to panels it renders and uses CSS selection for archive buttons', () => {
+  const people = [{
+    name: '甲', category: '文臣', timeline_year: 1421, timeline_year_label: '1421年',
+    timeline_role: '尚书', timeline_year_confidence: '高', timeline_size: 'standard',
+  }];
+  const html = renderPeopleTimeline({ people, layout: layoutPeopleTimeline(people), portraitFor: () => null });
+
+  assert.match(html, /id="peopleTimelineTab"[^>]*role="tab"[^>]*aria-controls="peopleTimelineView"/);
+  assert.match(html, /id="peopleTimelineView"[^>]*role="tabpanel"[^>]*aria-labelledby="peopleTimelineTab"/);
+  assert.doesNotMatch(html, /aria-controls="peopleTableView"/);
+  assert.doesNotMatch(html, /peopleTableView/);
+  assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person-open\{display:none/);
+  assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person\.is-selected [^{]*\.timeline-person-open[^}]*\{display:block/);
 });

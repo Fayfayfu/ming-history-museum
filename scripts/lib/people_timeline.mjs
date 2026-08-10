@@ -316,7 +316,7 @@ function personMarkup(node, portraitFor) {
       ${portraitMarkup(node.name, portrait)}
       <strong>${name}</strong><small>${role}</small><time datetime="${node.timeline_year}">${yearLabel}</time>
     </button>
-    <button class="timeline-person-open" type="button" data-open-person="${name}" hidden>查看人物档案</button>
+    <button class="timeline-person-open" type="button" data-open-person="${name}">查看人物档案</button>
   </article>`;
 }
 
@@ -338,10 +338,10 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
 
   return `<section class="people-timeline" aria-label="明朝人物时间长卷">
   <div class="people-view-tabs" role="tablist" aria-label="人物浏览方式">
-    <button type="button" role="tab" aria-selected="true" aria-controls="peopleTimelineView" data-people-view="timeline">时间长卷</button>
-    <button type="button" role="tab" aria-selected="false" aria-controls="peopleTableView" data-people-view="table">人物表格</button>
+    <button id="peopleTimelineTab" type="button" role="tab" aria-selected="true" aria-controls="peopleTimelineView" data-people-view="timeline">时间长卷</button>
+    <button id="peopleTableTab" type="button" role="tab" aria-selected="false" data-people-view="table">人物表格</button>
   </div>
-  <section id="peopleTimelineView" class="people-timeline-viewport" role="tabpanel" aria-label="人物时间长卷">
+  <section id="peopleTimelineView" class="people-timeline-viewport" role="tabpanel" aria-labelledby="peopleTimelineTab">
     <div class="people-timeline-canvas" style="--timeline-width:${layout.width}px;--timeline-height:${layout.height}px">
       <div class="timeline-axis" aria-hidden="true"></div>
       <div class="timeline-ticks" aria-hidden="true">${ticks}</div>
