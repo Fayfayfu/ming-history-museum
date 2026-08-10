@@ -52,15 +52,29 @@ check(initial.timelineText === '历史长卷' && initial.tableText === '人物�
 
 const timelineLabelPainting = await page.evaluate(() => {
   const selects = [...document.querySelectorAll('.timeline-person-select')];
+  const portraits = [...document.querySelectorAll('.timeline-portrait')];
+  const borderWidths = portraits.map((portrait) => Number.parseFloat(getComputedStyle(portrait).borderTopWidth));
   return {
     total: selects.length,
     clipped: selects.filter((select) => getComputedStyle(select).clipPath !== 'none').length,
+    portraitBorders: {
+      total: portraits.length,
+      minimum: Math.min(...borderWidths),
+      maximum: Math.max(...borderWidths),
+    },
   };
 });
 check(
   timelineLabelPainting.total === 163 && timelineLabelPainting.clipped === 0,
   'all 163 timeline names and roles must paint outside their avatar buttons without button-level clipping',
   timelineLabelPainting,
+);
+check(
+  timelineLabelPainting.portraitBorders.total === 163
+    && timelineLabelPainting.portraitBorders.minimum >= 1
+    && timelineLabelPainting.portraitBorders.maximum <= 2,
+  'all 163 portrait outlines must stay crisp but visually lighter than the previous 3px rings',
+  timelineLabelPainting.portraitBorders,
 );
 
 const timelineGeometry = await page.evaluate(() => {

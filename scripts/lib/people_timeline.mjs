@@ -400,7 +400,7 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .timeline-person[data-side="top"] .timeline-person-guide{top:50%;height:var(--axis-distance)}
 .timeline-person[data-side="bottom"] .timeline-person-guide{bottom:50%;height:var(--axis-distance)}
 .timeline-person-select{position:absolute;z-index:1;inset:0;display:block;width:100%;height:100%;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;font:inherit;cursor:pointer;pointer-events:auto}
-.timeline-portrait{position:relative;display:grid;place-items:center;width:100%;height:100%;box-sizing:border-box;border:3px solid var(--category-color);border-radius:50%;overflow:hidden;background:#dfd6c4;color:#171815;font-weight:700;line-height:1}
+.timeline-portrait{position:relative;display:grid;place-items:center;width:100%;height:100%;box-sizing:border-box;border:2px solid var(--category-color);border-radius:50%;overflow:hidden;background:#dfd6c4;color:#171815;font-weight:700;line-height:1}
 .timeline-portrait-image{display:block;width:100%;height:100%;object-fit:cover}
 .timeline-portrait-source{position:absolute;right:0;bottom:0;max-width:100%;padding:1px 3px;overflow:hidden;background:rgba(23,24,21,.78);color:#f5f0e3;font:8px/1.15 ui-sans-serif,sans-serif;text-overflow:ellipsis;white-space:nowrap}
 .timeline-portrait .timeline-portrait-fallback{display:none}
