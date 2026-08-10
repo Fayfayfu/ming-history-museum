@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build:museum": "node scripts/build_ming_exhibitions.mjs",
+    "build:institution-palace": "node scripts/build_ming_institution_palace.mjs",
     "build:deploy": "node scripts/build_vercel_bundle.mjs",
     "audit:museum": "node scripts/audit_ming_museum_data.mjs",
     "audit:portraits": "node scripts/audit_ming_portrait_coverage.mjs",
@@ -13,7 +14,12 @@
     "verify:people-timeline-unit": "node --test scripts/lib/people_timeline.test.mjs scripts/verify_ming_people_timeline.test.mjs",
     "verify:people-timeline-page": "node scripts/verify_ming_people_timeline_page.mjs",
     "verify:institutions": "node scripts/verify_ming_institution_graph.mjs",
+    "verify:institution-expansion": "node scripts/verify_ming_institution_expansion.mjs",
+    "verify:institution-palace": "node scripts/verify_ming_institution_palace_page.mjs",
     "verify:institution-page": "node scripts/verify_ming_institution_page.mjs",
+    "verify:institution-layout": "node scripts/verify_ming_institution_layout.mjs",
+    "verify:navigation": "node scripts/verify_ming_museum_navigation.mjs",
+    "verify:navigation-type": "node scripts/verify_museum_nav_typography.mjs",
     "verify:deploy": "node scripts/verify_vercel_bundle.mjs",
     "verify": "npm run verify:people-timeline && npm run verify:people-timeline-unit && node scripts/verify_ming_museum.mjs && npm run verify:people-timeline-page"
   },

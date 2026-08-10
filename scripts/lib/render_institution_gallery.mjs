@@ -1,0 +1,426 @@
+import {MUSEUM_NAV_CSS,renderMuseumNavigation} from './museum_navigation.mjs';
+
+const esc=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+
+const topicLabels={
+  overview:'国家机器',
+  document_to_decree:'奏章成令',
+  supervision_officials:'谁监督官员',
+  justice_vs_imperial_prison:'三法司与诏狱',
+  military_command:'谁来调兵',
+  central_local:'中央与地方'
+};
+
+function renderHead(){
+  return `<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>制度馆｜步入大明数字历史博物馆</title><style>
+:root{--ink:oklch(.29 .025 72);--ink2:oklch(.37 .035 68);--paper:oklch(.93 .026 84);--bone:oklch(.97 .018 86);--canvas:oklch(.91 .028 84);--red:oklch(.44 .13 32);--red2:oklch(.56 .16 32);--gold:oklch(.49 .09 76);--muted:oklch(.39 .025 75);--line:oklch(.48 .035 74 / .38);--darkline:oklch(.45 .04 72);--civil:oklch(.42 .08 245);--justice:oklch(.44 .12 30);--inner:oklch(.42 .08 325);--military:oklch(.41 .065 225);--local:oklch(.41 .075 150)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Songti SC","STSong","Noto Serif CJK SC",serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.055;z-index:100;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E")}button,a{font:inherit}.skip{position:fixed;left:12px;top:-70px;z-index:200;background:var(--bone);color:var(--ink);padding:10px 14px;border:2px solid var(--red)}.skip:focus{top:12px}.museum-nav{height:72px;position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,70px);background:oklch(.955 .02 84 / .97);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}.museum-brand{display:flex;gap:11px;align-items:center;color:inherit;text-decoration:none}.museum-brand b{display:block;font-size:18px;letter-spacing:.08em}.museum-brand small{display:block;margin-top:4px;font:9px/1 ui-monospace,monospace;letter-spacing:.16em;color:var(--muted)}.brand-seal{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--red2);color:var(--red2);font:700 25px/1 "STKaiti","KaiTi",serif;transform:rotate(-3deg)}.museum-links{height:100%;display:flex}.museum-links a{display:grid;place-items:center;padding:0 17px;color:var(--ink2);text-decoration:none;font-size:13px;border-left:1px solid var(--line);position:relative}.museum-links a:hover,.museum-links a.active{background:oklch(.89 .035 80);color:var(--ink)}.museum-links a.active:after{content:"";position:absolute;left:16px;right:16px;bottom:0;height:3px;background:var(--red2)}
+.hall-hero{min-height:clamp(500px,72vh,760px);display:grid;grid-template-columns:1.25fr .75fr;grid-template-rows:1fr auto;padding:clamp(70px,9vh,120px) clamp(24px,6vw,96px) 34px;background:radial-gradient(circle at 73% 35%,oklch(.68 .09 76 / .2),transparent 24rem),linear-gradient(118deg,var(--bone),oklch(.9 .035 79));position:relative;overflow:hidden;border-bottom:1px solid var(--line)}.hall-hero:after{content:"制";position:absolute;right:2vw;top:-5rem;font-size:34rem;line-height:1;color:oklch(.44 .13 32 / .055);font-weight:900}.hero-title{align-self:center;position:relative;z-index:2}.hero-title>span{font:700 10px/1 ui-monospace,monospace;letter-spacing:.24em;color:var(--red)}.hero-title h1{font-size:clamp(68px,9vw,128px);line-height:.8;letter-spacing:-.09em;margin:27px 0 34px;text-wrap:balance}.hero-title p{max-width:700px;margin:0;font-size:16px;line-height:1.95;color:var(--ink2);text-wrap:pretty}.hero-year{align-self:center;justify-self:end;width:min(100%,320px);padding:28px 0 28px 34px;border-left:2px solid var(--gold);position:relative;z-index:2}.hero-year output{display:block;font:700 clamp(72px,9vw,132px)/.75 Georgia,serif;color:var(--ink);letter-spacing:-.07em;font-variant-numeric:tabular-nums}.hero-year b{display:block;margin-top:28px;font-size:20px}.hero-year p{margin:12px 0 0;color:var(--muted);font-size:12px;line-height:1.7}.dynasty-ruler{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);position:relative;z-index:2}.phase-button,.view-button{border:0;color:var(--ink);background:transparent;cursor:pointer}.phase-button{min-height:62px;padding:17px 14px;text-align:left;border-right:1px solid var(--line);font-size:12px}.phase-button:hover,.phase-button[aria-pressed="true"]{background:oklch(.86 .05 78);box-shadow:inset 0 -4px var(--red2);color:var(--ink)}.dynasty-ruler input{grid-column:1/-1;width:100%;height:20px;margin:8px 0 0;accent-color:var(--red2)}
+.institution-view-switch{position:absolute;z-index:5;top:24px;right:clamp(24px,6vw,96px);display:grid;grid-template-columns:auto repeat(2,minmax(138px,1fr));border:1px solid var(--darkline);background:oklch(.955 .02 84 / .94);box-shadow:7px 7px 0 oklch(.49 .09 76 / .2)}.view-switch-label{display:grid;place-items:center;padding:10px 13px;background:var(--ink);color:var(--bone);font:700 10px/1.2 ui-monospace,monospace;letter-spacing:.12em;writing-mode:vertical-rl}.institution-view-switch a{min-height:58px;padding:10px 14px;color:var(--ink2);text-decoration:none;border-left:1px solid var(--line);position:relative}.institution-view-switch a b,.institution-view-switch a small{display:block}.institution-view-switch a b{font-size:15px}.institution-view-switch a small{margin-top:6px;color:var(--muted);font:10px/1.2 ui-monospace,monospace}.institution-view-switch a:hover{background:oklch(.89 .035 80)}.institution-view-switch a[aria-current="page"]{background:oklch(.84 .055 78);color:var(--ink);box-shadow:inset 0 -4px var(--red2)}
+.atlas-shell{display:grid;grid-template-columns:176px minmax(0,1fr);min-height:980px;border-top:1px solid var(--line);background:var(--paper)}.topic-rail{position:sticky;top:72px;align-self:start;display:grid;background:oklch(.885 .035 80);border-right:1px solid var(--line)}.view-button{min-height:86px;padding:18px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:12px;line-height:1.45}.view-button:before{content:attr(data-index);display:block;margin-bottom:9px;color:var(--red);font:700 9px/1 ui-monospace,monospace}.view-button:hover,.view-button[aria-pressed="true"]{background:oklch(.82 .055 76);color:var(--ink);box-shadow:inset 5px 0 var(--red2)}.atlas-field{min-width:0}.view-band{min-height:132px;display:grid;grid-template-columns:1fr minmax(280px,.7fr);gap:32px;align-items:end;padding:28px clamp(24px,4vw,62px);border-bottom:1px solid var(--line);background:oklch(.945 .022 84)}.view-band h2{margin:0;font-size:clamp(35px,4vw,59px);line-height:1;text-wrap:balance}.view-band p{margin:0;color:var(--muted);font-size:14px;line-height:1.75;text-wrap:pretty}.graph-stage{height:900px;position:relative;overflow:hidden;background-color:var(--canvas);background-image:linear-gradient(oklch(.42 .035 75 / .075) 1px,transparent 1px),linear-gradient(90deg,oklch(.42 .035 75 / .075) 1px,transparent 1px),radial-gradient(ellipse at 50% 0,oklch(.72 .08 76 / .2),transparent 48%);background-size:72px 72px,72px 72px,auto}.imperial-axis{position:absolute;left:50%;top:3%;bottom:4%;width:2px;background:linear-gradient(transparent,var(--gold) 12%,oklch(.49 .09 76 / .32) 85%,transparent)}.imperial-axis:before{content:"皇权中轴";position:absolute;top:6%;left:12px;white-space:nowrap;color:var(--gold);font:700 10px/1 ui-monospace,monospace;letter-spacing:.12em}.relation-layer{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}.relation-layer path{fill:none;stroke-width:1.6;opacity:.82;vector-effect:non-scaling-stroke}.relation-layer path.document_flow{stroke:oklch(.37 .095 74);stroke-dasharray:7 4}.relation-layer path.direct_imperial_control{stroke:oklch(.4 .14 30)}.relation-layer path.formal_subordination{stroke:oklch(.35 .055 245)}.relation-layer path.supervision_review{stroke:oklch(.4 .13 28);stroke-dasharray:5 4}.relation-layer path.special_imperial_mandate{stroke:oklch(.37 .09 325);stroke-width:1.9}.relation-layer path.military_coordination{stroke:oklch(.35 .075 225);stroke-dasharray:8 4}.relation-layer path.operational_coordination{stroke:oklch(.35 .085 150)}.institution-node{position:absolute;left:calc(var(--x)*1% + var(--nudge-x,0px));top:calc(var(--y)*1%);transform:translate(-50%,-50%);transition:opacity .22s ease,transform .22s ease,border-color .22s ease,filter .22s ease;z-index:4;width:clamp(94px,9vw,132px);min-height:58px;padding:10px 11px;border:2px solid var(--gold);background:oklch(.82 .065 82);color:var(--ink);text-align:left;cursor:pointer;box-shadow:0 9px 18px oklch(.32 .04 70 / .14),inset 0 1px var(--bone)}.institution-node[data-id^="ministry_"]{width:clamp(46px,4.6vw,66px);padding-inline:6px}.institution-node[data-id="court_judicial_review"],.institution-node[data-id="three_judicial_offices"]{width:100px;padding-inline:8px}.institution-node[data-id="court_judicial_review"]{--nudge-x:-36px}.institution-node[data-id="three_judicial_offices"]{--nudge-x:-2px}.institution-node span{display:block;font-size:14px;font-weight:700;line-height:1.25}.institution-node small{display:block;margin-top:6px;color:var(--muted);font:700 10px/1.15 ui-monospace,monospace}.institution-node[data-region="axis"]{background:oklch(.82 .065 82);border-color:oklch(.43 .095 72)}.institution-node[data-region="civil"]{background:oklch(.82 .045 245);border-color:var(--civil)}.institution-node[data-region="supervision"]{background:oklch(.82 .06 30);border-color:var(--justice)}.institution-node[data-region="inner"]{background:oklch(.82 .05 325);border-color:var(--inner)}.institution-node[data-region="military"]{background:oklch(.82 .045 225);border-color:var(--military)}.institution-node[data-region="local"]{background:oklch(.82 .05 150);border-color:var(--local)}.institution-node:hover,.institution-node:focus-visible{outline:3px solid var(--red2);outline-offset:2px;filter:brightness(.96) saturate(1.08);box-shadow:0 12px 25px oklch(.32 .04 70 / .2)}.institution-node.is-dimmed{opacity:.4}.institution-node.is-focused{z-index:8;transform:translate(-50%,-50%) scale(1.045);border-color:var(--red);box-shadow:0 0 0 3px oklch(.56 .16 32 / .28),0 14px 28px oklch(.32 .04 70 / .2)}.relation-legend{display:grid;grid-template-columns:repeat(7,1fr);list-style:none;padding:0;margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bone)}.relation-legend li{padding:14px 10px;border-right:1px solid var(--line);font-size:11px;color:var(--muted)}.relation-legend li:last-child{border-right:0}.relation-legend i{display:block;width:38px;height:3px;margin-bottom:9px;background:var(--gold)}.relation-legend li:nth-child(2) i{background:var(--red2)}.relation-legend li:nth-child(3) i{background:var(--civil)}.relation-legend li:nth-child(4) i{background:var(--justice)}.relation-legend li:nth-child(5) i{background:var(--inner)}.relation-legend li:nth-child(6) i{background:var(--military)}.relation-legend li:nth-child(7) i{background:var(--local)}.mobile-structure{display:none}.method-band{display:grid;grid-template-columns:.65fr 1.35fr;gap:42px;padding:50px clamp(24px,4vw,62px);border-bottom:1px solid var(--line);background:var(--paper)}.method-band h2{margin:0;font-size:28px}.method-band p{margin:0;color:var(--muted);font-size:14px;line-height:1.85}.method-band p+p{grid-column:2}.footer{padding:35px clamp(24px,6vw,100px);display:flex;justify-content:space-between;color:var(--muted);font:11px/1.5 ui-monospace,monospace;border-top:1px solid var(--line);background:var(--bone)}
+.six-ministries-frame{position:absolute;left:29%;top:38%;width:42%;height:18%;box-sizing:border-box;border:2px dashed var(--civil);background:oklch(.95 .018 84 / .78);pointer-events:none;z-index:0;transition:opacity .22s ease}.six-ministries-frame header{position:absolute;left:10px;top:8px;display:grid;gap:2px;color:var(--ink)}.six-ministries-frame header b{font-size:14px;line-height:1.2}.six-ministries-frame header span{font-size:12px;line-height:1.45;color:var(--muted)}.six-ministries-frame.is-context{opacity:.58}.collective-relation-anchor{position:absolute;left:50%;top:-2px;width:2px;height:2px;transform:translateX(-50%);pointer-events:none}.mobile-collective-label{grid-column:1/-1;display:grid;gap:3px;padding:10px 12px;border:2px dashed var(--civil);background:var(--paper);color:var(--ink)}.mobile-collective-label b{font-size:14px;line-height:1.3}.mobile-collective-label span{font-size:12px;line-height:1.5;color:var(--muted)}
+.institution-drawer{position:fixed;z-index:90;right:0;top:72px;bottom:0;width:min(430px,92vw);padding:34px;background:var(--bone);color:var(--ink);border-left:2px solid var(--red);box-shadow:-24px 0 60px oklch(.3 .04 70 / .24);overflow:auto;transition:transform .25s ease}.drawer-close{float:right;padding:8px 10px;border:2px solid var(--red);background:var(--paper);color:var(--ink);cursor:pointer}.institution-drawer h2{clear:both;margin:55px 0 17px;font-size:44px}.institution-drawer>p{font-size:14px;line-height:1.8;color:var(--ink2)}.institution-drawer #detailState{display:inline-block;padding:6px 8px;border:1px solid var(--darkline);font:700 10px/1.4 ui-monospace,monospace}.institution-drawer #detailBoundary{padding:13px;border-left:4px solid var(--red);background:oklch(.86 .055 32)}.institution-drawer #detailConfidence{color:var(--red);font:700 11px/1.6 ui-monospace,monospace}.institution-drawer #detailPeople{display:flex;gap:6px;flex-wrap:wrap;margin:24px 0}.institution-drawer #detailPeople a{padding:7px 9px;border:1px solid var(--red);color:var(--red);text-decoration:none;font-size:12px}.institution-drawer #detailSources{list-style:none;padding:0;margin:0}.institution-drawer #detailSources a{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);color:var(--ink2);text-decoration:none;font-size:12px}[hidden]{display:none!important}
+@media(max-width:1080px){.museum-links a{padding:0 10px}.institution-node{width:100px}.institution-node[data-id="central_secretariat"],.institution-node[data-id="chancellor"]{width:90px}.institution-node[data-id="embroidered_uniform_guard"],.institution-node[data-id="eastern_depot"]{width:94px}.institution-node[data-id="embroidered_uniform_guard"]{--nudge-x:6px}.institution-node[data-id="eastern_depot"]{--nudge-x:-2px}.view-band{grid-template-columns:1fr}.view-band p{max-width:650px}}
+@media(max-width:800px){.museum-nav{height:auto;min-height:68px;padding:8px 14px;align-items:flex-start}.museum-brand small{display:none}.museum-links{align-self:stretch}.museum-links a{padding:0 8px;font-size:11px}.museum-links a:last-child{display:none}.hall-hero{grid-template-columns:1fr;grid-template-rows:auto auto auto auto;gap:35px;padding:24px 20px 25px}.institution-view-switch{position:relative;inset:auto;grid-column:1;width:100%;grid-template-columns:auto repeat(2,1fr)}.view-switch-label{writing-mode:horizontal-tb;padding:8px}.institution-view-switch a{min-width:0;padding-inline:10px}.hero-title h1{font-size:67px}.hero-year{justify-self:start;border-left:0;border-top:2px solid var(--gold);padding:20px 0;width:100%}.hero-year output{font-size:72px}.dynasty-ruler{grid-template-columns:1fr 1fr}.atlas-shell{display:block}.topic-rail{position:static;display:flex;overflow:auto}.view-button{min-width:142px}.view-band{padding:28px 20px}.graph-stage{display:none}.mobile-structure{display:block;padding:18px 16px 48px;background:var(--canvas)}.mobile-system-group{border:2px solid var(--darkline);margin-bottom:12px;background:var(--bone)}.mobile-system-head{display:flex;align-items:center;justify-content:space-between;padding:14px;background:oklch(.84 .05 80)}.mobile-system-head b{font-size:16px}.mobile-system-head span{font:700 10px/1 ui-monospace,monospace;color:var(--muted)}.mobile-node-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}.mobile-node{border:0;background:var(--bone);color:var(--ink);min-height:62px;padding:12px;text-align:left;font-size:14px}.mobile-node small{display:block;margin-top:6px;color:var(--muted);font:700 10px/1.2 ui-monospace,monospace}.mobile-relation-list{list-style:none;margin:0;padding:12px 14px;border-top:1px solid var(--line);color:var(--ink2);font-size:12px;line-height:1.55}.mobile-relation-list li+li{margin-top:7px}.relation-legend{grid-template-columns:1fr 1fr}.relation-legend li{border-bottom:1px solid var(--line)}.method-band{grid-template-columns:1fr;padding:38px 20px}.method-band p+p{grid-column:auto}.institution-drawer{top:auto;width:100%;height:min(88svh,760px)}.footer{display:block}.footer span{display:block;margin-top:8px}}
+@media(max-width:470px){.museum-links a{padding:0 5px;font-size:10px}.museum-links a[href="exhibitions.html"]{display:none}.hero-title h1{font-size:58px}.phase-button{padding:12px 8px;font-size:11px}.mobile-node-list{grid-template-columns:1fr}.relation-legend{grid-template-columns:1fr}.relation-legend li{border-right:0}}
+.relation-layer path.is-focused{opacity:1;stroke-width:2.8}.relation-label{fill:var(--ink);stroke:var(--canvas);stroke-width:.34;stroke-linejoin:round;paint-order:stroke;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:1.4px;font-weight:650;font-synthesis:none;text-anchor:middle}.institution-node.is-context{opacity:.68}.institution-node.is-dimmed{opacity:.4}
+.embedded-mode .museum-nav,.embedded-mode .hero-title,.embedded-mode .hero-year,.embedded-mode .dynasty-ruler,.embedded-mode .footer,.embedded-mode .institution-view-switch{display:none!important}.embedded-mode .hall-hero{min-height:0;display:none!important;padding:0;background:var(--bone)}.embedded-mode .hall-hero:after{display:none}.embedded-mode .atlas-shell{border-top:0}.embedded-mode .institution-drawer{top:0}body.embedded-mode:before{display:none}
+@media(prefers-reduced-motion:reduce){.institution-node,.institution-drawer{transition-duration:0s!important;animation:none!important}html{scroll-behavior:auto}}
+${MUSEUM_NAV_CSS}
+</style>`;
+}
+
+function renderMuseumNav(){
+  return renderMuseumNavigation('institutions');
+}
+
+function renderHero(graph){
+  const buttons=graph.phases.map(phase=>`<button class="phase-button" type="button" data-phase="${esc(phase.id)}" aria-pressed="${phase.id==='mid_late_ming'}">${esc(phase.name.split('：')[0])}</button>`).join('');
+  return `<header class="hall-hero"><div class="hero-title"><span>INSTITUTION GALLERY · 1368—1644</span><h1>大明如何运转</h1><p>沿皇权中轴观察中枢、外廷、监察、内廷、军事与地方治理。</p></div><div class="hero-year"><output id="yearValue">1600</output><b id="phaseName">正统至崇祯</b><p id="phaseSummary">票拟、批红、督抚和厂卫关系随年份变化。</p></div><div class="dynasty-ruler">${buttons}<input id="yearRange" aria-label="选择年份" type="range" min="1368" max="1644" value="1600" step="1"></div></header>`;
+}
+
+function renderAtlas(graph,layout){
+  const viewButtons=graph.views.map((view,index)=>`<button class="view-button" type="button" data-index="0${index+1}" data-view="${esc(view.id)}" aria-pressed="${view.id==='overview'}">${esc(topicLabels[view.id]||view.name)}</button>`).join('');
+  const nodes=graph.institutions.filter(node=>node.id!=='six_ministries').map(node=>{const point=layout[node.id];return `<button class="institution-node system-${esc(node.system)}" type="button" data-id="${esc(node.id)}" data-system="${esc(node.system)}" data-region="${esc(point.region)}" data-tier="${esc(point.tier)}" style="--x:${esc(point.x)};--y:${esc(point.y)}" hidden><span>${esc(node.name)}</span><small>${esc(node.confidence)}置信度</small></button>`}).join('');
+  const sixMinistriesFrame='<section class="six-ministries-frame" data-group-id="six_ministries" hidden aria-label="六部是吏户礼兵刑工六个并列机构的合称"><i class="collective-relation-anchor" data-id="six_ministries" aria-hidden="true"></i><header><b>六部（合称）</b><span>吏、户、礼、兵、刑、工六个并列机构</span></header></section>';
+  return `<section class="atlas-shell"><nav class="topic-rail" aria-label="制度阅读问题">${viewButtons}</nav><div class="atlas-field"><header class="view-band"><h2 id="viewTitle">${esc(graph.views[0].name)}</h2><p id="viewQuestion">${esc(graph.views[0].question)}</p></header><div class="graph-stage" tabindex="-1" aria-label="可交互明朝机构关系图"><div class="imperial-axis" aria-hidden="true"></div>${sixMinistriesFrame}<svg class="relation-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g id="relationPaths"></g></svg><div id="institutionNodes">${nodes}</div></div><div class="mobile-structure" id="mobileStructure" aria-label="移动端机构分组"></div><ul class="relation-legend" aria-label="关系类型图例"><li><i></i>文书流转</li><li><i></i>皇帝直辖</li><li><i></i>法定统属</li><li><i></i>监察复核</li><li><i></i>特别授权</li><li><i></i>军事协同</li><li><i></i>业务协同</li></ul><section class="method-band"><h2>如何读这张图</h2><p id="viewBoundary">${esc(graph.views[0].boundary)}</p><p>箭头按关系类型解释，不等于现代组织架构中的单一上下级汇报线。西厂等间歇设置机构只在有证据的年份范围显示。</p></section></div></section>`;
+}
+
+function renderDrawer(){
+  return `<aside class="institution-drawer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="detailTitle" hidden><button class="drawer-close" type="button" aria-label="关闭机构档案">关闭</button><h2 id="detailTitle">机构档案</h2><p id="detailState"></p><p id="detailSummary"></p><p id="detailBoundary"></p><p id="detailConfidence"></p><div id="detailPeople"></div><ul id="detailSources"></ul></aside>`;
+}
+
+function clientRuntime(){
+  return `const graph=JSON.parse(document.getElementById('institutionGraphData').textContent);
+const initialParams=new URLSearchParams(location.search);
+const embeddedMode=initialParams.get('embedded')==='1';
+if(embeddedMode)document.body.classList.add('embedded-mode');
+const requestedYear=Number(initialParams.get('year'));
+const requestedView=initialParams.get('view');
+const requestedInstitution=initialParams.get('institution');
+const state={year:Number.isFinite(requestedYear)&&requestedYear>=1368&&requestedYear<=1644?requestedYear:1600,view:graph.views.some(item=>item.id===requestedView)?requestedView:'overview',hoveredNode:null,selectedNode:null,lastTriggerId:null};
+const institutionById=new Map(graph.institutions.map(item=>[item.id,item]));
+const relationById=new Map(graph.relations.map(item=>[item.id,item]));
+const sourceById=new Map(graph.sources.map(item=>[item.id,item]));
+const systemById=new Map(graph.systems.map(item=>[item.id,item]));
+const phaseById=new Map(graph.phases.map(item=>[item.id,item]));
+const drawer=document.querySelector('.institution-drawer');
+const stateLabels={active_until_reform_in_1380:'1380年改革前存续',evolving_advisory_center:'辅政机制持续演变',abolished_in_1380:'1380年罢除',organization_evolved:'组织形态演变',repeated_reorganization:'反复改组',restored_and_later_stabilized:'恢复后渐趋稳定',intermittent_with_dali_temple:'随大理寺状态变化',functions_evolved:'职能持续演变',powers_varied:'权力随时期变化',power_varied:'权势随时期变化',intermittent:'阶段内反复设置',reopened:'正德重开',reorganized_in_1380:'1380年改组',effectiveness_changed:'效能随时期变化',dispatches_gradually_regularized:'差遣逐渐常态化'};
+
+function activePeriod(item,year){
+  return item.active_periods.find(period=>year>=period.start&&year<=period.end);
+}
+
+function activeAt(item,year){
+  return item.active_periods.some(period=>year>=period.start&&year<=period.end);
+}
+
+function phaseForYear(year){
+  return graph.phases.find(phase=>year>=phase.start&&year<=phase.end)||graph.phases.at(-1);
+}
+
+function viewRecord(){
+  return graph.views.find(view=>view.id===state.view);
+}
+
+function currentRelations(){
+  const relationIds=new Set(viewRecord().relation_ids);
+  return graph.relations.filter(relation=>relationIds.has(relation.id)&&activeAt(relation,state.year)&&activeAt(institutionById.get(relation.from),state.year)&&activeAt(institutionById.get(relation.to),state.year));
+}
+
+function displayPoint(id){
+  const fallback=graph.atlas_layout[id];
+  const stage=document.querySelector('.graph-stage');
+  const node=document.querySelector('.institution-node[data-id="'+id+'"],.collective-relation-anchor[data-id="'+id+'"]');
+  if(!stage||!node||node.hidden)return fallback;
+  const stageBox=stage.getBoundingClientRect(),nodeBox=node.getBoundingClientRect();
+  if(!stageBox.width||!stageBox.height||!nodeBox.width||!nodeBox.height)return fallback;
+  return {
+    x:(nodeBox.left+nodeBox.width/2-stageBox.left)/stageBox.width*100,
+    y:(nodeBox.top+nodeBox.height/2-stageBox.top)/stageBox.height*100
+  };
+}
+
+function pathFor(from,to){
+  const a=displayPoint(from),b=displayPoint(to);
+  const bend=Math.max(4,Math.abs(b.x-a.x)*.28);
+  return 'M '+a.x+' '+a.y+' C '+(a.x+(b.x>a.x?bend:-bend))+' '+a.y+', '+(b.x-(b.x>a.x?bend:-bend))+' '+b.y+', '+b.x+' '+b.y;
+}
+
+function placeRelationLabel(label,path,index,placedLabels){
+  const length=path.getTotalLength();
+  const direction=index%2?-1:1;
+  const candidates=[
+    [.5,direction*5],[.5,-direction*5],[.38,direction*5],[.62,-direction*5],
+    [.38,-direction*5],[.62,direction*5],[.5,direction*8],[.5,-direction*8],
+    [.25,direction*8],[.75,-direction*8],[.25,-direction*8],[.75,direction*8],
+    [.5,direction*11],[.5,-direction*11]
+  ];
+  const nodeBoxes=[...document.querySelectorAll('.institution-node:not([hidden]),.six-ministries-frame:not([hidden]) header')].map(node=>node.getBoundingClientRect());
+  const overlaps=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
+  const setPosition=(x,y)=>{
+    label.setAttribute('x',x);
+    label.setAttribute('y',y);
+    const stageBox=document.querySelector('.graph-stage').getBoundingClientRect();
+    const horizontalCorrection=stageBox.width&&stageBox.height?stageBox.height/stageBox.width:1;
+    label.setAttribute('transform','translate('+x+' '+y+') scale('+horizontalCorrection+' 1) translate('+(-x)+' '+(-y)+')');
+  };
+  let best=null;
+  for(const [fraction,offsetY] of candidates){
+    const point=path.getPointAtLength(length*fraction);
+    setPosition(point.x,point.y+offsetY);
+    const box=label.getBoundingClientRect();
+    const score=nodeBoxes.filter(nodeBox=>overlaps(box,nodeBox)).length+placedLabels.filter(other=>overlaps(box,other.getBoundingClientRect())).length;
+    if(!best||score<best.score)best={x:point.x,y:point.y+offsetY,score};
+    if(score===0)break;
+  }
+  setPosition(best.x,best.y);
+  placedLabels.push(label);
+}
+
+function renderNodes(){
+  const topicIds=new Set(viewRecord().institution_ids);
+  for(const button of document.querySelectorAll('.institution-node')){
+    const node=institutionById.get(button.dataset.id);
+    button.hidden=!activeAt(node,state.year);
+    button.classList.toggle('is-context',!topicIds.has(node.id));
+    button.classList.toggle('is-focused',node.id===(state.selectedNode||state.hoveredNode));
+  }
+  const frame=document.querySelector('.six-ministries-frame');
+  const group=institutionById.get('six_ministries');
+  if(frame&&group){
+    frame.hidden=!activeAt(group,state.year);
+    frame.classList.toggle('is-context',!topicIds.has(group.id));
+  }
+}
+
+function renderRelations(){
+  const group=document.getElementById('relationPaths');
+  group.replaceChildren();
+  const rendered=[];
+  for(const relation of currentRelations()){
+    const a=displayPoint(relation.from),b=displayPoint(relation.to);
+    if(!a||!b)continue;
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',pathFor(relation.from,relation.to));
+    path.setAttribute('class','relation-path '+relation.type);
+    path.dataset.id=relation.id;
+    path.dataset.from=relation.from;
+    path.dataset.to=relation.to;
+    const title=document.createElementNS('http://www.w3.org/2000/svg','title');
+    title.textContent=relation.label;
+    path.append(title);
+    const label=document.createElementNS('http://www.w3.org/2000/svg','text');
+    label.setAttribute('class','relation-label');
+    label.setAttribute('x',(a.x+b.x)/2);
+    label.setAttribute('y',(a.y+b.y)/2-.8);
+    label.dataset.id=relation.id;
+    label.dataset.from=relation.from;
+    label.dataset.to=relation.to;
+    label.textContent=relation.label;
+    label.removeAttribute('hidden');
+    group.append(path,label);
+    rendered.push({path,label});
+  }
+  const placedLabels=[];
+  rendered.forEach(({path,label},index)=>placeRelationLabel(label,path,index,placedLabels));
+  rendered.forEach(({label})=>label.toggleAttribute('hidden',state.view==='overview'));
+}
+
+function renderMobile(){
+  const root=document.getElementById('mobileStructure');
+  const topicIds=new Set(viewRecord().institution_ids);
+  root.replaceChildren();
+  for(const system of graph.systems){
+    const nodes=graph.institutions.filter(node=>node.system===system.id&&activeAt(node,state.year));
+    if(!nodes.length)continue;
+    const section=document.createElement('section');
+    section.className='mobile-system-group';
+    const head=document.createElement('header');
+    head.className='mobile-system-head';
+    const title=document.createElement('b');
+    title.textContent=system.name;
+    const count=document.createElement('span');
+    count.textContent=nodes.filter(node=>node.node_type!=='group').length+'个当前机构';
+    head.append(title,count);
+    const list=document.createElement('div');
+    list.className='mobile-node-list';
+    for(const node of nodes){
+      if(node.id==='six_ministries'){
+        const label=document.createElement('div');
+        label.className='mobile-collective-label';
+        label.dataset.groupId='six_ministries';
+        const labelTitle=document.createElement('b');
+        labelTitle.textContent='六部（合称）';
+        const labelNote=document.createElement('span');
+        labelNote.textContent='吏、户、礼、兵、刑、工六个并列机构';
+        label.append(labelTitle,labelNote);
+        list.append(label);
+        continue;
+      }
+      const button=document.createElement('button');
+      button.type='button';
+      button.className='mobile-node';
+      button.classList.toggle('is-context',!topicIds.has(node.id));
+      button.dataset.id=node.id;
+      button.append(document.createTextNode(node.name));
+      const small=document.createElement('small');
+      small.textContent=node.confidence+'置信度 · 查看档案';
+      button.append(small);
+      button.addEventListener('click',()=>openDrawer(node.id));
+      list.append(button);
+    }
+    const relationList=document.createElement('ul');
+    relationList.className='mobile-relation-list';
+    relationList.setAttribute('aria-label','当前关键关系');
+    const relations=currentRelations().filter(relation=>institutionById.get(relation.from).system===system.id||institutionById.get(relation.to).system===system.id).slice(0,3);
+    for(const relation of relations){
+      const item=document.createElement('li');
+      item.dataset.relationId=relation.id;
+      item.textContent=relation.label;
+      relationList.append(item);
+    }
+    section.append(head,list,relationList);
+    root.append(section);
+  }
+}
+
+function focusIds(id){
+  const ids=new Set([id]);
+  for(const relation of currentRelations())if(relation.from===id||relation.to===id){ids.add(relation.from);ids.add(relation.to);}
+  return ids;
+}
+
+function setFocus(id){
+  const focus=id?focusIds(id):null;
+  document.querySelectorAll('.institution-node').forEach(node=>{
+    node.classList.toggle('is-dimmed',Boolean(focus&&!focus.has(node.dataset.id)));
+    node.classList.toggle('is-focused',node.dataset.id===id);
+  });
+  document.querySelectorAll('.relation-path').forEach(path=>path.classList.toggle('is-focused',Boolean(id&&(path.dataset.from===id||path.dataset.to===id))));
+  document.querySelectorAll('.relation-label').forEach(label=>{
+    const focused=Boolean(id&&(label.dataset.from===id||label.dataset.to===id));
+    label.classList.toggle('is-focused',focused);
+    label.toggleAttribute('hidden',state.view==='overview'&&!focused);
+  });
+}
+
+function stateFor(node){
+  const period=activePeriod(node,state.year);
+  if(!period)return '当前年份未设置';
+  const label=stateLabels[period.state]||'当前年份存续';
+  return label+' · '+period.start+'—'+period.end;
+}
+
+function populateDrawer(node){
+  document.getElementById('detailTitle').textContent=node.name;
+  document.getElementById('detailState').textContent=systemById.get(node.system).name+' · '+stateFor(node);
+  document.getElementById('detailSummary').textContent=node.summary;
+  document.getElementById('detailBoundary').textContent=node.id==='western_depot'?'成化年间只能标记为阶段内反复设置；逐年开闭尚未补齐，不得伪造连续常设状态。':node.boundary;
+  document.getElementById('detailConfidence').textContent='置信度：'+node.confidence;
+  const people=document.getElementById('detailPeople');
+  people.replaceChildren();
+  const linked=graph.people_by_institution[node.id]||[];
+  if(linked.length){
+    for(const person of linked){
+      const a=document.createElement('a');
+      a.href='people.html?person='+encodeURIComponent(person.name);
+      a.textContent=person.name;
+      a.title=person.relation+'：'+person.note;
+      people.append(a);
+    }
+  }else people.textContent='人物馆暂未建立正式任职关联';
+  const sources=document.getElementById('detailSources');
+  sources.replaceChildren();
+  for(const sourceId of node.source_ids){
+    const source=sourceById.get(sourceId);
+    if(!source)continue;
+    const li=document.createElement('li'),a=document.createElement('a'),label=document.createElement('b'),mark=document.createElement('span');
+    a.href=source.url;
+    a.target='_blank';
+    a.rel='noreferrer';
+    label.textContent=source.title;
+    mark.textContent='打开 ↗';
+    a.append(label,mark);
+    li.append(a);
+    sources.append(li);
+  }
+}
+
+function visibleInstitutionTrigger(id){
+  return [...document.querySelectorAll('.institution-node[data-id="'+id+'"],.mobile-node[data-id="'+id+'"]')].find(target=>{
+    const box=target.getBoundingClientRect(),style=getComputedStyle(target);
+    return target.isConnected&&box.width>0&&box.height>0&&style.display!=='none'&&style.visibility!=='hidden';
+  });
+}
+
+function openDrawer(id){
+  const node=institutionById.get(id);
+  if(!node)return;
+  state.selectedNode=id;
+  state.lastTriggerId=id;
+  populateDrawer(node);
+  drawer.hidden=false;
+  drawer.setAttribute('aria-hidden','false');
+  document.body.classList.add('drawer-open');
+  drawer.querySelector('.drawer-close').focus();
+  setFocus(id);
+}
+
+function closeDrawer(focusTarget=visibleInstitutionTrigger(state.lastTriggerId)||document.getElementById('yearRange')){
+  drawer.setAttribute('aria-hidden','true');
+  drawer.hidden=true;
+  document.body.classList.remove('drawer-open');
+  state.selectedNode=null;
+  state.lastTriggerId=null;
+  setFocus(state.hoveredNode);
+  focusTarget?.focus?.({preventScroll:true});
+}
+
+function reportEmbeddedHeight(){
+  if(!embeddedMode)return;
+  requestAnimationFrame(()=>parent.postMessage({type:'institution-graph-height',height:document.documentElement.scrollHeight},'*'));
+}
+
+function renderAtlas(){
+  const phase=phaseForYear(state.year);
+  document.getElementById('yearRange').value=state.year;
+  document.getElementById('yearValue').textContent=state.year;
+  document.getElementById('phaseName').textContent=phase.name.split('：')[0];
+  document.getElementById('phaseSummary').textContent=phase.summary;
+  document.querySelectorAll('.phase-button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.phase===phase.id)));
+  const view=viewRecord();
+  document.getElementById('viewTitle').textContent=view.name;
+  document.getElementById('viewQuestion').textContent=view.question;
+  document.getElementById('viewBoundary').textContent=view.boundary;
+  document.querySelectorAll('.view-button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===state.view)));
+  if(state.selectedNode&&!activeAt(institutionById.get(state.selectedNode),state.year)){
+    state.hoveredNode=null;
+    closeDrawer(document.getElementById('yearRange'));
+  }
+  renderNodes();
+  renderRelations();
+  renderMobile();
+  if(state.selectedNode&&!drawer.hidden)populateDrawer(institutionById.get(state.selectedNode));
+  setFocus(state.selectedNode||state.hoveredNode);
+  reportEmbeddedHeight();
+}
+
+window.setInstitutionYear=function(year,notifyParent=true){
+  const nextYear=Math.max(1368,Math.min(1644,Number(year)));
+  if(!Number.isFinite(nextYear))return;
+  state.year=nextYear;
+  renderAtlas();
+  if(embeddedMode&&notifyParent)parent.postMessage({type:'institution-graph-year',year:state.year},'*');
+};
+document.getElementById('yearRange').addEventListener('input',event=>setInstitutionYear(event.target.value));
+document.querySelectorAll('.phase-button').forEach(button=>button.addEventListener('click',()=>setInstitutionYear(phaseById.get(button.dataset.phase).default_year)));
+document.querySelectorAll('.view-button').forEach(button=>button.addEventListener('click',()=>{
+  state.view=button.dataset.view;
+  renderAtlas();
+}));
+document.querySelectorAll('.institution-node').forEach(button=>{
+  button.addEventListener('pointerenter',()=>{
+    state.hoveredNode=button.dataset.id;
+    setFocus(state.hoveredNode);
+  });
+  button.addEventListener('pointerleave',()=>{
+    state.hoveredNode=null;
+    setFocus(state.selectedNode);
+  });
+  button.addEventListener('click',()=>openDrawer(button.dataset.id));
+});
+document.querySelector('.graph-stage').addEventListener('click',event=>{
+  if(event.target!==event.currentTarget)return;
+  state.hoveredNode=null;
+  if(!drawer.hidden)closeDrawer(event.currentTarget);
+  else{
+    state.selectedNode=null;
+    state.lastTriggerId=null;
+    setFocus(null);
+    event.currentTarget.focus();
+  }
+});
+drawer.querySelector('.drawer-close').addEventListener('click',()=>closeDrawer());
+drawer.addEventListener('keydown',event=>{
+  if(event.key!=='Tab')return;
+  const focusable=[...drawer.querySelectorAll('button:not([disabled]),a[href]')];
+  const first=focusable[0],last=focusable.at(-1);
+  if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+  else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+});
+addEventListener('keydown',event=>{if(event.key==='Escape'&&!drawer.hidden)closeDrawer();});
+addEventListener('resize',()=>{
+  renderRelations();
+  setFocus(state.selectedNode||state.hoveredNode);
+  reportEmbeddedHeight();
+});
+addEventListener('message',event=>{if(!embeddedMode||event.data?.type!=='institution-palace-year')return;const next=Number(event.data.year);if(Number.isFinite(next)&&next!==state.year)setInstitutionYear(next,false)});
+if(embeddedMode)new ResizeObserver(reportEmbeddedHeight).observe(document.documentElement);
+renderAtlas();
+if(requestedInstitution&&institutionById.has(requestedInstitution)&&activeAt(institutionById.get(requestedInstitution),state.year))openDrawer(requestedInstitution);`;
+}
+
+export function renderInstitutionGallery({graph,peopleByInstitution,layout}){
+  const payload=JSON.stringify({...graph,people_by_institution:peopleByInstitution,atlas_layout:layout}).replaceAll('</script>','<\\/script>');
+  return `<!doctype html><html lang="zh-CN"><head>${renderHead()}</head><body>${renderMuseumNav()}<main id="main">${renderHero(graph)}${renderAtlas(graph,layout)}${renderDrawer()}</main><footer class="footer"><b>步入大明 · 制度馆</b><span>${graph.institutions.length}个规范节点 · ${graph.relations.length}条关系 · ${graph.views.length}种阅读视图</span></footer><script id="institutionGraphData" type="application/json">${payload}</script><script>${clientRuntime()}</script></body></html>`;
+}

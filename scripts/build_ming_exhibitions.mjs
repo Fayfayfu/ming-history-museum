@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import {graphForExhibition,renderFullImpactGraph,validateImpactGraphData} from './lib/render_people_impact_graph.mjs';
+import {MUSEUM_NAV_CSS,renderMuseumNavigation} from './lib/museum_navigation.mjs';
 
 await import('./build_ming_museum.mjs');
 
@@ -17,15 +18,13 @@ const portraitOf=name=>['image','imagined'].includes(portraits.people?.[name]?.s
 const portraitKind=name=>portraits.people?.[name]?.status==='image'?'sourced':(portraits.people?.[name]?.status==='imagined'||storytelling.people?.[name]?.portrait?'imagined':'none');
 const impactPortraitFor=name=>({file:portraitOf(name),kind:portraitKind(name),label:portraitKind(name)==='imagined'?'AI想象像':''});
 
-function nav(active='exhibitions'){
-  const links=[['index.html','序厅','home'],['people.html','人物馆','people'],['events.html','事件馆','events'],['institutions.html','制度馆','institutions'],['exhibitions.html','专题展','exhibitions'],['index.html#research','研究台','research']];
-  return `<a class="skip" href="#main">跳到主要内容</a><nav class="museum-nav" aria-label="博物馆主导航"><a class="museum-brand" href="index.html"><span class="brand-seal">明</span><span><b>步入大明</b><small>数字历史博物馆</small></span></a><div class="museum-links">${links.map(([url,label,key])=>`<a ${active===key?'class="active"':''} href="${url}">${label}</a>`).join('')}</div></nav>`;
-}
+const nav=(active='exhibitions')=>renderMuseumNavigation(active);
 
 const sharedCSS=`
 :root{--ink:#171611;--ink2:#211f19;--paper:#e9e0ca;--bone:#f4ecd9;--red:#a73528;--red2:#d55442;--gold:#ad8438;--muted:#a99f8d;--line:rgba(233,224,202,.21);--darkline:#39342a}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--ink);color:var(--paper);font-family:"Songti SC","STSong","Noto Serif CJK SC",serif}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;z-index:20;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E")}a{color:inherit}.skip{position:fixed;left:12px;top:-70px;z-index:100;background:#fff;color:#181713;padding:10px 14px}.skip:focus{top:12px}.museum-nav{height:72px;position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,70px);background:rgba(23,22,17,.96);border-bottom:1px solid var(--darkline);backdrop-filter:blur(18px)}.museum-brand{display:flex;gap:11px;align-items:center;text-decoration:none}.museum-brand b{display:block;font-size:18px;letter-spacing:.08em}.museum-brand small{display:block;margin-top:4px;font:9px/1 ui-monospace,monospace;letter-spacing:.16em;color:var(--muted)}.brand-seal{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--red2);color:var(--red2);font:700 25px/1 "STKaiti","KaiTi",serif;transform:rotate(-3deg)}.museum-links{height:100%;display:flex}.museum-links a{display:grid;place-items:center;padding:0 19px;text-decoration:none;font-size:13px;border-left:1px solid rgba(255,255,255,.08);position:relative}.museum-links a:hover,.museum-links a.active{background:rgba(255,255,255,.05);color:#fff}.museum-links a.active:after{content:"";position:absolute;height:3px;left:16px;right:16px;bottom:0;background:var(--red2)}.eyebrow{font:700 10px/1 ui-monospace,monospace;letter-spacing:.24em;color:var(--red2)}.footer{padding:34px clamp(20px,5vw,80px);display:flex;justify-content:space-between;border-top:1px solid var(--line);font:10px/1.5 ui-monospace,monospace;color:#777064}
 @media(max-width:720px){.museum-nav{height:68px;padding:7px 12px}.museum-brand small{display:none}.museum-links a{padding:0 8px;font-size:12px}.museum-links a:last-child{display:none}.footer{display:block}.footer span{display:block;margin-top:8px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+${MUSEUM_NAV_CSS}
 `;
 
 const indexCSS=`
@@ -114,3 +113,4 @@ for(const file of ['index.html','people.html','events.html']){
 
 console.log(`wrote ${exhibitions.length} exhibitions and exhibitions.html`);
 await import('./build_ming_institutions.mjs');
+await import('./build_ming_institution_palace.mjs');

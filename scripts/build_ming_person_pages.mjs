@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import {MUSEUM_NAV_CSS,renderMuseumNavigation} from './lib/museum_navigation.mjs';
 
 const root = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆';
 const primaryPages = JSON.parse(await fs.readFile('data/ming_person_pages.json', 'utf8'));
@@ -75,9 +76,10 @@ body[data-theme="ocean"] .hero-visual img,body[data-theme="materia"] .hero-visua
 @media(max-width:900px){.history-slice-grid{grid-template-columns:1fr}.history-slice-ledger{border-right:0;border-bottom:1px solid #665746}}
 @media(max-width:620px){.history-slice{padding:68px 21px}.history-slice-head{flex-direction:column;padding:23px 21px}.history-slice-head h2{font-size:31px}.history-slice-ledger,.history-slice-view{padding:23px 21px}.knowledge-split{grid-template-columns:1fr}.history-slice-boundary{grid-template-columns:1fr;gap:5px;padding:16px 21px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.art-frame img{transition:none}}
+${MUSEUM_NAV_CSS}
 `;
 
-const nav = `<a class="skip" href="#story">跳到人物故事</a><nav class="museum-nav" aria-label="博物馆主导航"><a class="museum-brand" href="../index.html"><span class="brand-seal">明</span><span><b>步入大明</b><small>数字历史博物馆</small></span></a><div class="museum-links"><a href="../index.html">序厅</a><a class="active" href="../people.html">人物馆</a><a href="../events.html">事件馆</a><a href="../exhibitions.html">专题展</a></div></nav>`;
+const nav = renderMuseumNavigation('people',{prefix:'../',skipTarget:'story'});
 
 function renderHistoricalSlice(name) {
   const h = historicalSlices.people?.[name] || storytelling.people?.[name]?.historicalSlice;
