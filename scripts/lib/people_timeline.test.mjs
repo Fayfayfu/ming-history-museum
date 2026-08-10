@@ -133,13 +133,30 @@ test('layout keeps real timeline data on the strict year scale', async () => {
   assert.equal(layout.nodes.length, 163);
   assert.equal(names.size, 163);
   assert.ok(layout.width >= 6500 && layout.width <= 7500);
-  assert.ok(layout.height >= 960 && layout.height <= 1400);
+  assert.ok(layout.height >= 960 && layout.height <= 1000, `timeline height must stay within one 1000px canvas, got ${layout.height}px`);
   const topNodes = layout.nodes.filter((node) => node.lane.side === 'top');
   const topContentEdge = Math.min(...topNodes.map((node) => node.y - node.sizePx / 2));
   assert.ok(
-    topContentEdge >= 80 && topContentEdge <= 96,
-    `top whitespace must clear the sticky navigation while staying compact, got ${topContentEdge}px`
+    topContentEdge >= 48 && topContentEdge <= 64,
+    `top whitespace must stay compact without clipping portraits, got ${topContentEdge}px`
   );
+  const laneBounds = (laneId) => {
+    const laneNodes = layout.nodes.filter((node) => node.lane.id === laneId);
+    return {
+      min: Math.min(...laneNodes.map((node) => node.y - node.sizePx / 2)),
+      max: Math.max(...laneNodes.map((node) => node.y + node.sizePx / 2)),
+    };
+  };
+  for (const [outerLane, innerLane] of [
+    ['women', 'children'],
+    ['children', 'emperor'],
+    ['eunuch', 'officials'],
+    ['officials', 'independent'],
+    ['independent', 'external'],
+  ]) {
+    const gap = laneBounds(innerLane).min - laneBounds(outerLane).max;
+    assert.ok(gap >= 0 && gap <= 4, `${outerLane}/${innerLane} category gap must stay compact, got ${gap}px`);
+  }
   assert.ok(layout.minYear < 1368);
   assert.ok(layout.maxYear >= 1644);
   assert.deepEqual(

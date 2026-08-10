@@ -29,8 +29,10 @@ export const TIMELINE_LANES = {
 };
 
 const AXIS_GAP_PX = 8;
-const LANE_GAP_PX = 8;
-const CANVAS_EDGE_PADDING_PX = 88;
+const LANE_GAP_PX = 2;
+const HORIZONTAL_SLOT_CLEARANCE_RATIO = 0.8;
+const VERTICAL_SLOT_STEP_RATIO = 0.57;
+const CANVAS_EDGE_PADDING_PX = 52;
 
 function compareTimelineNodes(left, right) {
   return left.timeline_year - right.timeline_year
@@ -43,7 +45,7 @@ function assignSlots(nodes) {
   for (const node of nodes) {
     let slot = slots.findIndex((previous) => {
       if (!previous) return true;
-      const minimum = 0.8 * (previous.sizePx + node.sizePx) / 2;
+      const minimum = HORIZONTAL_SLOT_CLEARANCE_RATIO * (previous.sizePx + node.sizePx) / 2;
       return node.x - previous.x >= minimum;
     });
     if (slot < 0) {
@@ -86,7 +88,7 @@ function measureSide(lanes) {
         lane.slotCenters.push(depth + sizePx / 2);
       } else {
         lane.slotCenters.push(
-          lane.slotCenters.at(-1) + 0.8 * (previousSize + sizePx) / 2
+          lane.slotCenters.at(-1) + VERTICAL_SLOT_STEP_RATIO * (previousSize + sizePx) / 2
         );
       }
     }
@@ -114,7 +116,7 @@ export function layoutPeopleTimeline(people, options = {}) {
   const paddingX = options.paddingX ?? 140;
   const paddingY = options.paddingY ?? CANVAS_EDGE_PADDING_PX;
   const minHeight = options.minHeight ?? 960;
-  const maxHeight = options.maxHeight ?? 1400;
+  const maxHeight = options.maxHeight ?? 1000;
   const years = people.map((person) => person.timeline_year);
   if (!years.every(Number.isInteger)) throw new Error('Timeline people require integer timeline_year values');
 
@@ -393,11 +395,11 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .timeline-boundary{position:absolute;left:var(--boundary-x);top:0;height:100%;border-left:2px solid #b64a35;color:#8e3022;font:12px/1 ui-monospace,monospace}
 .timeline-boundary time{position:absolute;top:calc(var(--timeline-axis-y) + 18px);left:4px;font-weight:700;white-space:nowrap}
 .timeline-lane-label{position:absolute;z-index:1;left:18px;top:var(--lane-y);margin:0;transform:translateY(-50%);width:108px;color:#625d50;font-size:12px;line-height:1.25;text-align:center}
-.timeline-person{position:absolute;left:var(--person-x);top:var(--person-y);z-index:2;width:var(--avatar-size);height:var(--avatar-size);transform:translate(-50%,-50%);text-align:center}
+.timeline-person{position:absolute;left:var(--person-x);top:var(--person-y);z-index:2;width:var(--avatar-size);height:var(--avatar-size);transform:translate(-50%,-50%);text-align:center;pointer-events:none}
 .timeline-person-guide{position:absolute;z-index:0;left:50%;width:1px;pointer-events:none;transform:translateX(-50%);background:rgba(98,93,80,.36)}
 .timeline-person[data-side="top"] .timeline-person-guide{top:50%;height:var(--axis-distance)}
 .timeline-person[data-side="bottom"] .timeline-person-guide{bottom:50%;height:var(--axis-distance)}
-.timeline-person-select{position:absolute;z-index:1;inset:0;display:block;width:100%;height:100%;padding:0;border:0;background:transparent;color:inherit;font:inherit;cursor:pointer}
+.timeline-person-select{position:absolute;z-index:1;inset:0;display:block;width:100%;height:100%;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;font:inherit;cursor:pointer;pointer-events:auto}
 .timeline-portrait{position:relative;display:grid;place-items:center;width:100%;height:100%;box-sizing:border-box;border:3px solid var(--category-color);border-radius:50%;overflow:hidden;background:#dfd6c4;color:#171815;font-weight:700;line-height:1}
 .timeline-portrait-image{display:block;width:100%;height:100%;object-fit:cover}
 .timeline-portrait-source{position:absolute;right:0;bottom:0;max-width:100%;padding:1px 3px;overflow:hidden;background:rgba(23,24,21,.78);color:#f5f0e3;font:8px/1.15 ui-sans-serif,sans-serif;text-overflow:ellipsis;white-space:nowrap}
@@ -412,7 +414,7 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .timeline-person-basis{display:-webkit-box;margin-top:3px;overflow:hidden;font-size:10px;line-height:1.35;-webkit-box-orient:vertical;-webkit-line-clamp:2}
 .timeline-person[data-side="top"] .timeline-person-context{top:calc(100% + 38px)}
 .timeline-person[data-side="bottom"] .timeline-person-context{bottom:calc(100% + 8px)}
-.timeline-person-open{display:none;position:absolute;z-index:2;left:50%;transform:translateX(-50%);margin:0;border:1px solid #171815;background:#f5f0e3;color:#171815;padding:4px 7px;font:12px/1.2 inherit;white-space:nowrap;cursor:pointer}
+.timeline-person-open{display:none;position:absolute;z-index:2;left:50%;transform:translateX(-50%);margin:0;border:1px solid #171815;background:#f5f0e3;color:#171815;padding:4px 7px;font:12px/1.2 inherit;white-space:nowrap;cursor:pointer;pointer-events:auto}
 .timeline-person[data-side="top"] .timeline-person-open{top:calc(100% + 101px)}
 .timeline-person[data-side="bottom"] .timeline-person-open{bottom:calc(100% + 72px)}
 .size-emperor{--avatar-size:88px;--category-color:#d0a743}

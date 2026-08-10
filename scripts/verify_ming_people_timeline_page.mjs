@@ -50,6 +50,19 @@ check(initial.timelineControls === 'peopleTimelineView' && initial.tableControls
 check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled === 'peopleTableTab', 'panels must reference their real tabs', initial);
 check(initial.timelineText === '历史长卷' && initial.tableText === '人物总表', 'people view tabs must use the approved visitor wording', initial);
 
+const timelineLabelPainting = await page.evaluate(() => {
+  const selects = [...document.querySelectorAll('.timeline-person-select')];
+  return {
+    total: selects.length,
+    clipped: selects.filter((select) => getComputedStyle(select).clipPath !== 'none').length,
+  };
+});
+check(
+  timelineLabelPainting.total === 163 && timelineLabelPainting.clipped === 0,
+  'all 163 timeline names and roles must paint outside their avatar buttons without button-level clipping',
+  timelineLabelPainting,
+);
+
 const timelineGeometry = await page.evaluate(() => {
   const canvas = document.querySelector('.people-timeline-canvas')?.getBoundingClientRect();
   const nodes = [...document.querySelectorAll('[data-timeline-person]')];
