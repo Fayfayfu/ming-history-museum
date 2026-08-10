@@ -66,7 +66,7 @@ test('validatePeopleTimelineData aggregates null and undefined source entry fail
   );
 });
 
-test('layout uses one strict x scale and keeps the axis centered', () => {
+test('layout uses one strict x scale and keeps people on the correct side of the axis', () => {
   const people = [
     { name: '前朝人物', category: '政权人物', timeline_year: 1352, timeline_size: 'standard' },
     { name: '于谦', category: '文臣', timeline_year: 1421, timeline_size: 'featured' },
@@ -80,7 +80,6 @@ test('layout uses one strict x scale and keeps the axis centered', () => {
   const byName = Object.fromEntries(layout.nodes.map((node) => [node.name, node]));
   assert.equal(byName.王守仁.x - byName.于谦.x, (1499 - 1421) * 22);
   assert.equal(byName.张居正.x - byName.王守仁.x, (1547 - 1499) * 22);
-  assert.equal(layout.axisY, layout.height / 2);
   assert.ok(byName.甲帝.y < layout.axisY);
   assert.ok(byName.甲宦官.y > layout.axisY);
   assert.ok(layout.boundaries.some((boundary) => boundary.year === 1368));
@@ -135,6 +134,12 @@ test('layout keeps real timeline data on the strict year scale', async () => {
   assert.equal(names.size, 163);
   assert.ok(layout.width >= 6500 && layout.width <= 7500);
   assert.ok(layout.height >= 960 && layout.height <= 1400);
+  const topNodes = layout.nodes.filter((node) => node.lane.side === 'top');
+  const topContentEdge = Math.min(...topNodes.map((node) => node.y - node.sizePx / 2));
+  assert.ok(
+    topContentEdge >= 80 && topContentEdge <= 96,
+    `top whitespace must clear the sticky navigation while staying compact, got ${topContentEdge}px`
+  );
   assert.ok(layout.minYear < 1368);
   assert.ok(layout.maxYear >= 1644);
   assert.deepEqual(

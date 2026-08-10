@@ -30,6 +30,7 @@ export const TIMELINE_LANES = {
 
 const AXIS_GAP_PX = 8;
 const LANE_GAP_PX = 8;
+const CANVAS_EDGE_PADDING_PX = 88;
 
 function compareTimelineNodes(left, right) {
   return left.timeline_year - right.timeline_year
@@ -111,6 +112,7 @@ export function layoutPeopleTimeline(people, options = {}) {
   if (!Array.isArray(people) || !people.length) throw new Error('Timeline requires at least one person');
   const yearPx = options.yearPx ?? TIMELINE_YEAR_PX;
   const paddingX = options.paddingX ?? 140;
+  const paddingY = options.paddingY ?? CANVAS_EDGE_PADDING_PX;
   const minHeight = options.minHeight ?? 960;
   const maxHeight = options.maxHeight ?? 1400;
   const years = people.map((person) => person.timeline_year);
@@ -135,7 +137,7 @@ export function layoutPeopleTimeline(people, options = {}) {
   const bottomLanes = laneGroups(nodes, 'bottom');
   const top = measureSide(topLanes);
   const bottom = measureSide(bottomLanes);
-  const requiredHeight = 2 * Math.max(top.depth, bottom.depth);
+  const requiredHeight = paddingY + top.depth + bottom.depth + paddingY;
   if (requiredHeight > maxHeight) {
     const overflowing = top.depth >= bottom.depth ? top : bottom;
     const lane = (top.depth >= bottom.depth ? topLanes : bottomLanes).find((item) => item.endDepth === overflowing.depth)
@@ -143,7 +145,7 @@ export function layoutPeopleTimeline(people, options = {}) {
     throw new Error(`Timeline height exceeds ${maxHeight}px in lane ${lane.label}: ${overflowing.conflict.name}`);
   }
   const height = Math.max(minHeight, requiredHeight);
-  const axisY = height / 2;
+  const axisY = paddingY + top.depth;
   positionSide(topLanes, axisY, -1);
   positionSide(bottomLanes, axisY, 1);
 
@@ -368,7 +370,7 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
     <button id="peopleTableTab" type="button" role="tab" aria-selected="false" data-people-view="table">人物总表</button>
   </div>
   <section id="peopleTimelineView" class="people-timeline-viewport" role="tabpanel" aria-labelledby="peopleTimelineTab">
-    <div class="people-timeline-canvas" style="--timeline-width:${layout.width}px;--timeline-height:${layout.height}px">
+    <div class="people-timeline-canvas" style="--timeline-width:${layout.width}px;--timeline-height:${layout.height}px;--timeline-axis-y:${layout.axisY}px">
       <div class="timeline-axis" aria-hidden="true"></div>
       <div class="timeline-ticks" aria-hidden="true">${ticks}</div>
       <div class="timeline-boundaries" aria-hidden="true">${boundaries}</div>
@@ -385,11 +387,11 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .people-view-tabs button[aria-selected="true"]{background:#171815;color:#f5f0e3}
 .people-timeline-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-gutter:stable;border:1px solid #c7bea9;background:#f5f0e3}
 .people-timeline-canvas{position:relative;width:var(--timeline-width);height:var(--timeline-height);min-width:6500px}
-.timeline-axis{position:absolute;left:0;right:0;top:50%;height:1px;background:#8f8876}
-.timeline-tick{position:absolute;left:var(--tick-x);top:calc(50% - 8px);height:16px;border-left:1px solid #8f8876;color:#625d50;font:12px/1 ui-monospace,monospace}
+.timeline-axis{position:absolute;left:0;right:0;top:var(--timeline-axis-y);height:1px;background:#8f8876}
+.timeline-tick{position:absolute;left:var(--tick-x);top:calc(var(--timeline-axis-y) - 8px);height:16px;border-left:1px solid #8f8876;color:#625d50;font:12px/1 ui-monospace,monospace}
 .timeline-tick time{position:absolute;top:18px;left:4px;white-space:nowrap}
 .timeline-boundary{position:absolute;left:var(--boundary-x);top:0;height:100%;border-left:2px solid #b64a35;color:#8e3022;font:12px/1 ui-monospace,monospace}
-.timeline-boundary time{position:absolute;top:calc(50% + 18px);left:4px;font-weight:700;white-space:nowrap}
+.timeline-boundary time{position:absolute;top:calc(var(--timeline-axis-y) + 18px);left:4px;font-weight:700;white-space:nowrap}
 .timeline-lane-label{position:absolute;z-index:1;left:18px;top:var(--lane-y);margin:0;transform:translateY(-50%);width:108px;color:#625d50;font-size:12px;line-height:1.25;text-align:center}
 .timeline-person{position:absolute;left:var(--person-x);top:var(--person-y);z-index:2;width:var(--avatar-size);height:var(--avatar-size);transform:translate(-50%,-50%);text-align:center}
 .timeline-person-guide{position:absolute;z-index:0;left:50%;width:1px;pointer-events:none;transform:translateX(-50%);background:rgba(98,93,80,.36)}
