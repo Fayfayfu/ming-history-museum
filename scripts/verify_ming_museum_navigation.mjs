@@ -28,7 +28,7 @@ for(const [file,activeLabel] of pages){
     const seal=document.querySelector('.brand-seal');
     const link=document.querySelector('.museum-links a');
     const active=document.querySelector('.museum-links a.active');
-    const rootStyle=getComputedStyle(root),sealStyle=getComputedStyle(seal),linkStyle=getComputedStyle(link),activeAfter=active?getComputedStyle(active,'::after'):null;
+    const rootStyle=getComputedStyle(root),sealStyle=getComputedStyle(seal),linkStyle=getComputedStyle(link),activeStyle=active?getComputedStyle(active):null,activeAfter=active?getComputedStyle(active,'::after'):null;
     return {
       labels:[...document.querySelectorAll('.museum-links a')].map(item=>item.textContent.trim()),
       active:active?.textContent.trim()||'',
@@ -47,6 +47,7 @@ for(const [file,activeLabel] of pages){
       linkFontSize:parseFloat(linkStyle.fontSize),
       linkFontFamily:linkStyle.fontFamily,
       linkFontWeight:linkStyle.fontWeight,
+      activeBoxShadow:activeStyle?.boxShadow||'',
       activeRuleHeight:activeAfter?parseFloat(activeAfter.height):0,
       overflow:document.body.scrollWidth>innerWidth
     };
@@ -57,7 +58,7 @@ for(const [file,activeLabel] of pages){
   expect(nav.paddingLeft===24&&nav.brandLeft===24,`${file}: navigation must use the shared desktop edge alignment`);
   expect(nav.backgroundColor==='rgba(24, 23, 19, 0.96)'&&nav.borderBottomWidth===1,`${file}: navigation must use the shared ink background and one-pixel divider`);
   expect(nav.sealWidth===38&&nav.sealHeight===38&&nav.sealBorderWidth===1&&nav.sealTransform!=='none',`${file}: museum seal must use the shared size, stroke and rotation`);
-  expect(nav.linkPaddingLeft===20&&nav.linkFontSize===14&&nav.linkFontFamily.includes('Songti SC')&&nav.linkFontWeight==='700'&&nav.activeRuleHeight===3,`${file}: hall links and active rule must share one explicit typographic rhythm`);
+  expect(nav.linkPaddingLeft===20&&nav.linkFontSize===14&&nav.linkFontFamily.includes('Songti SC')&&nav.linkFontWeight==='700'&&nav.activeBoxShadow==='none'&&nav.activeRuleHeight===3,`${file}: hall links and active rule must share one explicit typographic rhythm`);
   expect(!nav.overflow,`${file}: unified navigation must not cause horizontal overflow`);
 }
 
