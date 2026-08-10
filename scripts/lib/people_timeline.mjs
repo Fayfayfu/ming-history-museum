@@ -57,7 +57,7 @@ export function validatePeopleTimelineData({ core, children, timelineData }) {
     failures.push('missing source_catalog');
   }
   for (const [sourceId, source] of Object.entries(timelineData?.source_catalog || {})) {
-    if (!source.label || !source.url || !source.kind) {
+    if (!source || typeof source !== 'object' || !source.label || !source.url || !source.kind) {
       failures.push(`Incomplete timeline source ${sourceId}`);
     }
   }

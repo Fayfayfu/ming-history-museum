@@ -39,3 +39,26 @@ test('validatePeopleTimelineData rejects missing people and unregistered sources
     /Unknown timeline source UNKNOWN/
   );
 });
+
+test('validatePeopleTimelineData aggregates null and undefined source entry failures', () => {
+  const fixtureCore = [{ name: '甲', category: '文臣', office: '尚书' }];
+  const fixture = {
+    version: '1.0',
+    source_catalog: { SRC_NULL: null, SRC_UNDEFINED: undefined },
+    people: [{
+      name: '甲', source: 'core', timeline_year: '1400', timeline_year_label: '1400',
+      timeline_year_basis: '进入仕途', timeline_year_confidence: '高',
+      timeline_source_refs: ['SRC_NULL'], timeline_role: '尚书', timeline_size: 'standard',
+    }],
+  };
+
+  assert.throws(
+    () => validatePeopleTimelineData({ core: fixtureCore, children: [], timelineData: fixture }),
+    (error) => {
+      assert.match(error.message, /Incomplete timeline source SRC_NULL/);
+      assert.match(error.message, /Incomplete timeline source SRC_UNDEFINED/);
+      assert.match(error.message, /甲: invalid timeline_year/);
+      return true;
+    }
+  );
+});
