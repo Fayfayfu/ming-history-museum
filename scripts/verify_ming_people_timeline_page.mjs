@@ -37,6 +37,8 @@ const initial = await page.evaluate(() => {
     controlledPanelsExist: [timelineTab, tableTab].every((tab) => document.getElementById(tab?.getAttribute('aria-controls') || '')),
     timelineLabelled: timeline?.getAttribute('aria-labelledby') || '',
     tableLabelled: table?.getAttribute('aria-labelledby') || '',
+    timelineText: timelineTab?.textContent.trim() || '',
+    tableText: tableTab?.textContent.trim() || '',
   };
 });
 check(initial.view === 'timeline', 'people.html must default to timeline view', initial);
@@ -46,6 +48,7 @@ check(initial.timelineSelected === 'true' && initial.timelineTabIndex === '0', '
 check(initial.tableSelected === 'false' && initial.tableTabIndex === '-1', 'table tab must be unselected', initial);
 check(initial.timelineControls === 'peopleTimelineView' && initial.tableControls === 'peopleTableView' && initial.controlledPanelsExist, 'tabs must control existing panels', initial);
 check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled === 'peopleTableTab', 'panels must reference their real tabs', initial);
+check(initial.timelineText === '历史长卷' && initial.tableText === '人物总表', 'people view tabs must use the approved visitor wording', initial);
 
 const timelineGeometry = await page.evaluate(() => {
   const canvas = document.querySelector('.people-timeline-canvas')?.getBoundingClientRect();
@@ -57,7 +60,16 @@ const timelineGeometry = await page.evaluate(() => {
       x: portrait && canvas ? portrait.left + portrait.width / 2 - canvas.left : null,
     }];
   }));
-  const boundaries = [...document.querySelectorAll('.timeline-boundary time')].map((node) => node.getAttribute('datetime'));
+  const boundaries = [...document.querySelectorAll('.timeline-boundary time')].map((node) => {
+    const rect = node.getBoundingClientRect();
+    return {
+      year: node.getAttribute('datetime'),
+      intersectsCanvas: Boolean(canvas)
+        && rect.right > canvas.left && rect.left < canvas.right
+        && rect.bottom > canvas.top && rect.top < canvas.bottom,
+      rect: { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom },
+    };
+  });
   return {
     count: nodes.length,
     uniqueCount: new Set(nodes.map((node) => node.dataset.timelinePerson)).size,
@@ -84,10 +96,15 @@ check(
   { firstAnchorDelta, secondAnchorDelta },
 );
 check(
-  timelineGeometry.boundaries.filter((year) => year === '1368').length === 1
-    && timelineGeometry.boundaries.filter((year) => year === '1644').length === 1
+  timelineGeometry.boundaries.filter((boundary) => boundary.year === '1368').length === 1
+    && timelineGeometry.boundaries.filter((boundary) => boundary.year === '1644').length === 1
     && timelineGeometry.boundaries.length === 2,
   'timeline must render one 1368 boundary and one 1644 boundary',
+  timelineGeometry.boundaries,
+);
+check(
+  timelineGeometry.boundaries.every((boundary) => boundary.intersectsCanvas),
+  '1368 and 1644 boundary labels must intersect the timeline canvas',
   timelineGeometry.boundaries,
 );
 
@@ -178,6 +195,98 @@ check(
   { axisY, laneGeometry },
 );
 check(!timelineSizingAndLanes.containsRecentEmperor, 'people page must not contain the phrase 最近皇帝');
+
+const timelineContracts = await page.evaluate(() => {
+  const canvas = document.querySelector('.people-timeline-canvas')?.getBoundingClientRect();
+  const axis = document.querySelector('.timeline-axis')?.getBoundingClientRect();
+  const axisEdges = axis ? [axis.top, axis.bottom] : [];
+  const nodes = [...document.querySelectorAll('[data-timeline-person]')];
+  const guides = nodes.map((node) => {
+    const avatar = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    const guide = node.querySelector('[data-timeline-guide]')?.getBoundingClientRect();
+    return {
+      name: node.dataset.timelinePerson,
+      present: Boolean(guide),
+      pointerEvents: guide ? getComputedStyle(node.querySelector('[data-timeline-guide]')).pointerEvents : '',
+      xDelta: avatar && guide ? Math.abs((avatar.left + avatar.width / 2) - (guide.left + guide.width / 2)) : null,
+      avatarEndpointDelta: avatar && guide
+        ? Math.min(
+          Math.abs(guide.top - (avatar.top + avatar.height / 2)),
+          Math.abs(guide.bottom - (avatar.top + avatar.height / 2)),
+        )
+        : null,
+      axisEndpointDelta: guide && axisEdges.length
+        ? Math.min(...axisEdges.flatMap((edge) => [Math.abs(guide.top - edge), Math.abs(guide.bottom - edge)]))
+        : null,
+    };
+  });
+  const accessibility = nodes.map((node) => ({
+    name: node.dataset.timelinePerson,
+    category: node.dataset.categoryLabel || '',
+    ariaLabel: node.querySelector('.timeline-person-select')?.getAttribute('aria-label') || '',
+  }));
+  const portraits = nodes.map((node) => {
+    const image = node.querySelector('[data-timeline-image]');
+    const source = node.querySelector('[data-timeline-image-source]');
+    return {
+      name: node.dataset.timelinePerson,
+      label: node.querySelector('.timeline-portrait')?.dataset.portraitLabel || '',
+      sourceText: source?.textContent.trim() || '',
+      objectPosition: image?.style.objectPosition || '',
+      transform: image?.style.transform || '',
+      transformOrigin: image?.style.transformOrigin || '',
+    };
+  });
+  return {
+    canvas: canvas ? { width: canvas.width, height: canvas.height } : null,
+    guides,
+    accessibility,
+    portraits,
+    zhengHe: portraits.find((portrait) => portrait.name === '郑和') || null,
+  };
+});
+check(
+  timelineContracts.guides.length === 163
+    && timelineContracts.guides.every((guide) => guide.present && guide.pointerEvents === 'none'
+      && guide.xDelta <= 0.5 && guide.avatarEndpointDelta <= 0.5 && guide.axisEndpointDelta <= 0.5),
+  'all 163 people must have a pointer-transparent guide anchored from avatar center to axis',
+  timelineContracts.guides.filter((guide) => !guide.present || guide.pointerEvents !== 'none'
+    || guide.xDelta > 0.5 || guide.avatarEndpointDelta > 0.5 || guide.axisEndpointDelta > 0.5),
+);
+check(
+  timelineContracts.accessibility.length === 163
+    && timelineContracts.accessibility.every((person) => person.category
+      && person.ariaLabel.includes(`，${person.category}，`)),
+  'all 163 accessible names must include the normalized visitor-facing category',
+  timelineContracts.accessibility.filter((person) => !person.category
+    || !person.ariaLabel.includes(`，${person.category}，`)),
+);
+const portraitLabels = timelineContracts.portraits.map((portrait) => portrait.sourceText);
+check(
+  timelineContracts.portraits.length === 163
+    && timelineContracts.portraits.filter((portrait) => portrait.objectPosition).length === 127
+    && timelineContracts.portraits.filter((portrait) => portrait.transform).length === 1
+    && timelineContracts.portraits.filter((portrait) => portrait.transformOrigin).length === 1
+    && portraitLabels.filter((label) => label === '历史图像').length === 19
+    && portraitLabels.filter((label) => label !== '历史图像').length === 144
+    && portraitLabels.every((label) => /[\u3400-\u9fff]/u.test(label) && !/^(sourced|imagined)$/i.test(label)),
+  'timeline portraits must preserve crop metadata and expose only Chinese visitor labels',
+  {
+    objectPositions: timelineContracts.portraits.filter((portrait) => portrait.objectPosition).length,
+    transforms: timelineContracts.portraits.filter((portrait) => portrait.transform).length,
+    transformOrigins: timelineContracts.portraits.filter((portrait) => portrait.transformOrigin).length,
+    labels: Object.groupBy(portraitLabels, (label) => label),
+  },
+);
+check(
+  timelineContracts.zhengHe?.label === '明末小说插图'
+    && timelineContracts.zhengHe.sourceText === '明末小说插图'
+    && timelineContracts.zhengHe.objectPosition === '50% 24%'
+    && timelineContracts.zhengHe.transform === 'scale(2.15)'
+    && timelineContracts.zhengHe.transformOrigin === '100% 7%',
+  '郑和 timeline portrait must retain its curated kind and crop transform',
+  timelineContracts.zhengHe,
+);
 
 const overlapAudit = await page.evaluate(() => {
   const groups = new Map();
@@ -289,10 +398,14 @@ const yuqian = page.locator('[data-timeline-person="于谦"]');
 const yuqianBefore = await yuqian.evaluate((node) => {
   const canvas = document.querySelector('.people-timeline-canvas')?.getBoundingClientRect();
   const avatar = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+  const guide = node.querySelector('[data-timeline-guide]');
+  const guideStyle = guide ? getComputedStyle(guide) : null;
   return {
     avatarLeft: avatar.left - canvas.left,
     avatarTop: avatar.top - canvas.top,
     transform: getComputedStyle(node).transform,
+    guideWidth: guide?.getBoundingClientRect().width || 0,
+    guideColor: guideStyle?.backgroundColor || '',
   };
 });
 await yuqian.locator('.timeline-person-select').click();
@@ -305,12 +418,28 @@ const yuqianSelected = await yuqian.evaluate((node) => ({
   avatarTop: node.querySelector('.timeline-portrait').getBoundingClientRect().top - document.querySelector('.people-timeline-canvas').getBoundingClientRect().top,
   transform: getComputedStyle(node).transform,
   openHidden: node.querySelector('.timeline-person-open')?.hidden,
+  yearVisible: getComputedStyle(node.querySelector('time')).display !== 'none',
+  basisVisible: node.querySelector('.timeline-person-basis')
+    ? getComputedStyle(node.querySelector('.timeline-person-basis')).display !== 'none'
+    : false,
+  basis: node.querySelector('.timeline-person-basis')?.textContent.trim() || '',
+  guideWidth: node.querySelector('[data-timeline-guide]')?.getBoundingClientRect().width || 0,
+  guideColor: node.querySelector('[data-timeline-guide]')
+    ? getComputedStyle(node.querySelector('[data-timeline-guide]')).backgroundColor
+    : '',
+  guidePointerEvents: node.querySelector('[data-timeline-guide]')
+    ? getComputedStyle(node.querySelector('[data-timeline-guide]')).pointerEvents
+    : '',
 }));
 check(
   yuqianSelected.selected && yuqianSelected.selectedCount === 1 && yuqianSelected.pressed === 'true'
     && yuqianSelected.zIndex >= 1000 && !yuqianSelected.openHidden
     && yuqianSelected.avatarLeft === yuqianBefore.avatarLeft && yuqianSelected.avatarTop === yuqianBefore.avatarTop
-    && yuqianSelected.transform === yuqianBefore.transform,
+    && yuqianSelected.transform === yuqianBefore.transform
+    && yuqianSelected.yearVisible && yuqianSelected.basisVisible && yuqianSelected.basis.includes('进士')
+    && yuqianSelected.guideWidth > yuqianBefore.guideWidth
+    && yuqianSelected.guideColor !== yuqianBefore.guideColor
+    && yuqianSelected.guidePointerEvents === 'none',
   'selecting 于谦 must elevate one stable node and reveal its archive action',
   { before: yuqianBefore, after: yuqianSelected },
 );
@@ -327,6 +456,137 @@ const archiveOpen = await page.evaluate(() => ({
   person: new URL(location.href).searchParams.get('person'),
 }));
 check(archiveOpen.open && archiveOpen.title === '于谦' && archiveOpen.person === '于谦', 'timeline archive action must reopen 于谦 drawer and restore its person query', archiveOpen);
+await page.locator('#close').click();
+
+const interactionAudit = await page.evaluate(async () => {
+  const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  const clipContains = (outer, inner) => inner.left >= outer.left - 1 && inner.right <= outer.right + 1
+    && inner.top >= outer.top - 1 && inner.bottom <= outer.bottom + 1;
+  const viewport = document.querySelector('#peopleTimelineView');
+  const canvasNode = document.querySelector('.people-timeline-canvas');
+  const people = [...document.querySelectorAll('[data-timeline-person]')];
+  const failures = [];
+  const laneCounts = {};
+  const sideCounts = {};
+  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  await nextFrame();
+
+  for (const person of people) {
+    const name = person.dataset.timelinePerson;
+    const lane = person.dataset.lane || '';
+    const side = person.dataset.side || '';
+    laneCounts[lane] = (laneCounts[lane] || 0) + 1;
+    sideCounts[side] = (sideCounts[side] || 0) + 1;
+    const select = person.querySelector('.timeline-person-select');
+    const avatar = person.querySelector('.timeline-portrait');
+    const guide = person.querySelector('[data-timeline-guide]');
+    if (!select || !avatar) {
+      failures.push({ name, reason: 'missing select or avatar' });
+      continue;
+    }
+
+    const initialCanvas = canvasNode.getBoundingClientRect();
+    const initialAvatar = avatar.getBoundingClientRect();
+    const avatarCanvasX = initialAvatar.left + initialAvatar.width / 2 - initialCanvas.left;
+    viewport.scrollLeft = Math.max(0, Math.min(
+      viewport.scrollWidth - viewport.clientWidth,
+      avatarCanvasX - viewport.clientWidth / 2,
+    ));
+    await nextFrame();
+    const verticalAvatar = avatar.getBoundingClientRect();
+    const desiredScrollY = window.scrollY + verticalAvatar.top + verticalAvatar.height / 2 - innerHeight / 2;
+    window.scrollTo({ top: Math.max(0, Math.min(document.documentElement.scrollHeight - innerHeight, desiredScrollY)), behavior: 'instant' });
+    await nextFrame();
+
+    const canvasBefore = canvasNode.getBoundingClientRect();
+    const avatarBefore = avatar.getBoundingClientRect();
+    const before = {
+      left: avatarBefore.left - canvasBefore.left,
+      top: avatarBefore.top - canvasBefore.top,
+      transform: getComputedStyle(person).transform,
+      guideWidth: guide?.getBoundingClientRect().width || 0,
+      guideColor: guide ? getComputedStyle(guide).backgroundColor : '',
+    };
+    const selectPoint = {
+      x: avatarBefore.left + avatarBefore.width / 2,
+      y: avatarBefore.top + avatarBefore.height / 2,
+    };
+    const selectHit = select.contains(document.elementFromPoint(selectPoint.x, selectPoint.y));
+    select.click();
+    await nextFrame();
+
+    const open = person.querySelector('.timeline-person-open');
+    if (open) {
+      const actionRect = open.getBoundingClientRect();
+      const actionScrollY = window.scrollY + actionRect.top + actionRect.height / 2 - innerHeight / 2;
+      window.scrollTo({ top: Math.max(0, Math.min(document.documentElement.scrollHeight - innerHeight, actionScrollY)), behavior: 'instant' });
+      await nextFrame();
+    }
+
+    const canvas = canvasNode.getBoundingClientRect();
+    const clip = viewport.getBoundingClientRect();
+    const avatarAfter = avatar.getBoundingClientRect();
+    const time = person.querySelector('time');
+    const basis = person.querySelector('.timeline-person-basis');
+    const info = [time, basis, open].filter(Boolean);
+    const infoRects = info.map((node) => node.getBoundingClientRect());
+    const visible = info.length === 3 && info.every((node) => {
+      const rect = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      return !node.hidden && style.display !== 'none' && style.visibility !== 'hidden'
+        && rect.width > 0 && rect.height > 0;
+    });
+    const contained = infoRects.length === 3
+      && infoRects.every((rect) => clipContains(canvas, rect) && clipContains(clip, rect));
+    const axisward = side === 'top'
+      ? infoRects.length === 3 && Math.min(...infoRects.map((rect) => rect.top)) >= avatarAfter.bottom - 1
+      : side === 'bottom'
+        && infoRects.length === 3 && Math.max(...infoRects.map((rect) => rect.bottom)) <= avatarAfter.top + 1;
+    const openRect = open?.getBoundingClientRect();
+    const openHit = Boolean(openRect)
+      && open.contains(document.elementFromPoint(openRect.left + openRect.width / 2, openRect.top + openRect.height / 2));
+    const stable = Math.abs((avatarAfter.left - canvas.left) - before.left) <= 0.01
+      && Math.abs((avatarAfter.top - canvas.top) - before.top) <= 0.01
+      && getComputedStyle(person).transform === before.transform;
+    const guideStyle = guide ? getComputedStyle(guide) : null;
+    const guideStrengthened = Boolean(guide)
+      && guideStyle.pointerEvents === 'none'
+      && guide.getBoundingClientRect().width > before.guideWidth
+      && guideStyle.backgroundColor !== before.guideColor;
+    const selected = person.classList.contains('is-selected')
+      && select.getAttribute('aria-pressed') === 'true'
+      && document.querySelectorAll('.timeline-person.is-selected').length === 1;
+
+    if (!(selectHit && selected && visible && contained && axisward && openHit && stable && guideStrengthened
+      && basis?.textContent.trim())) {
+      failures.push({
+        name, lane, side, selectHit, selected, visible, contained, axisward, openHit, stable,
+        guideStrengthened, basis: basis?.textContent.trim() || '',
+        avatar: { top: avatarAfter.top, bottom: avatarAfter.bottom },
+        info: infoRects.map((rect) => ({ left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom })),
+        canvas: { left: canvas.left, right: canvas.right, top: canvas.top, bottom: canvas.bottom },
+        clip: { left: clip.left, right: clip.right, top: clip.top, bottom: clip.bottom },
+      });
+    }
+  }
+
+  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  return {
+    audited: people.length,
+    unique: new Set(people.map((person) => person.dataset.timelinePerson)).size,
+    laneCounts,
+    sideCounts,
+    failures,
+  };
+});
+check(
+  interactionAudit.audited === 163 && interactionAudit.unique === 163
+    && interactionAudit.laneCounts.external > 0
+    && interactionAudit.sideCounts.top > 0 && interactionAudit.sideCounts.bottom > 0
+    && interactionAudit.failures.length === 0,
+  'all 163 people, including outer external and upper nodes, must expose stable axisward and hittable selected details',
+  { ...interactionAudit, failures: interactionAudit.failures.slice(0, 20) },
+);
 
 const portraitLoad = await page.evaluate(async () => {
   const images = [...document.querySelectorAll('[data-timeline-image]')];
@@ -354,22 +614,35 @@ const portraitFallback = await page.evaluate(async () => {
   const person = document.querySelector('[data-timeline-person="于谦"]');
   const image = person?.querySelector('[data-timeline-image]');
   if (!person || !image) return { missing: true };
+  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  const selectedBefore = person.classList.contains('is-selected');
   const errored = new Promise((resolve) => image.addEventListener('error', resolve, { once: true }));
   image.src = 'assets/does-not-exist-timeline-test.png';
   await errored;
   return {
+    selectedBefore,
     imageHidden: image.hidden,
     sourceHidden: person.querySelector('[data-timeline-image-source]')?.hidden,
     fallbackVisible: getComputedStyle(person.querySelector('[data-timeline-fallback]')).display !== 'none',
   };
 });
 check(
-  !portraitFallback.missing && portraitFallback.imageHidden && portraitFallback.sourceHidden && portraitFallback.fallbackVisible,
+  !portraitFallback.missing && portraitFallback.selectedBefore === false
+    && portraitFallback.imageHidden && portraitFallback.sourceHidden && portraitFallback.fallbackVisible,
   'a failed timeline portrait must hide image and source while exposing the initial fallback',
   portraitFallback,
 );
 await yuqian.locator('.timeline-person-select').click();
-check(await yuqian.evaluate((node) => node.classList.contains('is-selected')), 'portrait fallback node must remain selectable');
+const failedPortraitSelection = await yuqian.evaluate((node) => ({
+  after: node.classList.contains('is-selected'),
+  pressed: node.querySelector('.timeline-person-select')?.getAttribute('aria-pressed') || '',
+}));
+check(
+  portraitFallback.selectedBefore === false && failedPortraitSelection.after
+    && failedPortraitSelection.pressed === 'true',
+  'clicking a failed-image fallback must change selection from false to true',
+  { before: portraitFallback.selectedBefore, ...failedPortraitSelection },
+);
 
 await page.locator('#peopleTableTab').focus();
 await page.keyboard.press('Tab');
@@ -439,6 +712,7 @@ check(childrenHeader && noScriptCellsByHeader[childrenHeader]?.includes('合计'
 const responsiveAudits = [];
 for (const viewportSize of [
   { label: 'desktop', width: 1440, height: 1000 },
+  { label: 'tablet', width: 768, height: 900 },
   { label: 'mobile', width: 390, height: 844 },
 ]) {
   await page.setViewportSize({ width: viewportSize.width, height: viewportSize.height });
@@ -537,6 +811,93 @@ for (const viewportSize of [
   responsiveAudits.push({ viewportSize, beforeScroll, middleTarget, middleSelection });
 }
 
+await page.setViewportSize({ width: 768, height: 900 });
+await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+await page.locator('[data-timeline-person="于谦"] .timeline-person-select').click();
+await page.locator('[data-timeline-person="于谦"] .timeline-person-open').click();
+const tabletArchive = await page.evaluate(() => ({
+  pathname: location.pathname,
+  drawerOpen: document.querySelector('#drawer')?.classList.contains('open') || false,
+  title: document.querySelector('#detail h2')?.textContent.trim() || '',
+}));
+check(
+  tabletArchive.pathname.endsWith('/people.html') && tabletArchive.drawerOpen && tabletArchive.title === '于谦',
+  '768px archive action must stay on people.html and use the existing drawer',
+  tabletArchive,
+);
+
+await page.setViewportSize({ width: 390, height: 844 });
+await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+const mobileErrorStart = pageErrors.length;
+await page.locator('[data-timeline-person="于谦"] .timeline-person-select').click();
+await Promise.all([
+  page.waitForURL((target) => target.pathname.endsWith('/people/yu-qian.html')),
+  page.locator('[data-timeline-person="于谦"] .timeline-person-open').click(),
+]);
+const mobileArchiveRoute = await page.evaluate(() => ({
+  pathname: location.pathname,
+  title: document.querySelector('h1')?.textContent.trim() || '',
+  drawer: document.querySelector('#drawer')?.classList.contains('open') || false,
+}));
+const mobileArchiveErrors = pageErrors.slice(mobileErrorStart);
+check(
+  mobileArchiveRoute.pathname.endsWith('/people/yu-qian.html')
+    && mobileArchiveRoute.title.startsWith('于谦') && !mobileArchiveRoute.drawer
+    && mobileArchiveErrors.length === 0,
+  '390px 于谦 archive action must route to the independent person page without page errors',
+  { mobileArchiveRoute, mobileArchiveErrors },
+);
+
+await page.setViewportSize({ width: 1440, height: 500 });
+await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+const navLayering = await page.evaluate(async () => {
+  const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  const nav = document.querySelector('.museum-nav');
+  const navTarget = nav?.querySelector('a.active');
+  const viewport = document.querySelector('#peopleTimelineView');
+  const canvas = document.querySelector('.people-timeline-canvas');
+  if (!nav || !navTarget || !viewport || !canvas) return { missing: true };
+  const targetRect = navTarget.getBoundingClientRect();
+  const target = { x: targetRect.left + targetRect.width / 2, y: targetRect.top + targetRect.height / 2 };
+  const viewportRect = viewport.getBoundingClientRect();
+  const canvasRect = canvas.getBoundingClientRect();
+  const maxScrollY = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+  const maxScrollX = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+  const candidates = [...document.querySelectorAll('[data-timeline-person]')].map((node) => {
+    const avatar = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    if (!avatar) return null;
+    const avatarCanvasX = avatar.left + avatar.width / 2 - canvasRect.left;
+    const desiredX = avatarCanvasX - (target.x - viewportRect.left);
+    const desiredY = avatar.top + avatar.height / 2 - target.y;
+    return { node, desiredX, desiredY };
+  }).filter((candidate) => candidate
+    && candidate.desiredX >= 0 && candidate.desiredX <= maxScrollX
+    && candidate.desiredY >= 0 && candidate.desiredY <= maxScrollY);
+  const candidate = candidates[Math.floor(candidates.length / 2)];
+  if (!candidate) return { missingCandidate: true, maxScrollX, maxScrollY };
+  viewport.scrollLeft = candidate.desiredX;
+  window.scrollTo({ top: candidate.desiredY, behavior: 'instant' });
+  await nextFrame();
+  candidate.node.querySelector('.timeline-person-select').click();
+  await nextFrame();
+  const avatar = candidate.node.querySelector('.timeline-portrait').getBoundingClientRect();
+  const hit = document.elementFromPoint(target.x, target.y);
+  return {
+    selected: candidate.node.dataset.timelinePerson,
+    selectedCoversTarget: target.x >= avatar.left && target.x <= avatar.right
+      && target.y >= avatar.top && target.y <= avatar.bottom,
+    hitInsideNav: Boolean(hit?.closest('.museum-nav')),
+    hitText: hit?.closest('a')?.textContent.trim() || hit?.textContent.trim() || '',
+    timelineIsolation: getComputedStyle(document.querySelector('.people-timeline')).isolation,
+  };
+});
+check(
+  navLayering.selected && navLayering.selectedCoversTarget
+    && navLayering.hitInsideNav && navLayering.timelineIsolation === 'isolate',
+  'sticky museum navigation must remain the top hit target above a selected timeline portrait',
+  navLayering,
+);
+
 const screenshotPaths = {
   desktop: path.join(root, '人物馆_历史长卷_桌面预览.png'),
   mobile: path.join(root, '人物馆_历史长卷_移动端预览.png'),
@@ -557,13 +918,19 @@ const loadTimelinePortraits = () => page.evaluate(async () => {
     new Promise((_, reject) => setTimeout(() => reject(new Error('screenshot portrait load timed out')), 15000)),
   ]);
 });
+const prepareTimelineScreenshot = async () => {
+  await loadTimelinePortraits();
+  // Chrome's stitched element screenshots can paint an off-screen fixed skip
+  // link inside the clip even though it is not focused or visible to visitors.
+  await page.addStyleTag({ content: '.skip { visibility: hidden !important; }' });
+};
 await page.setViewportSize({ width: 1440, height: 1000 });
 await page.goto(url('people.html'), { waitUntil: 'networkidle' });
-await loadTimelinePortraits();
+await prepareTimelineScreenshot();
 await page.locator('#peopleTimelineView').screenshot({ path: screenshotPaths.desktop });
 await page.setViewportSize({ width: 390, height: 844 });
 await page.goto(url('people.html'), { waitUntil: 'networkidle' });
-await loadTimelinePortraits();
+await prepareTimelineScreenshot();
 await page.locator('#peopleTimelineView').screenshot({ path: screenshotPaths.mobile });
 const screenshotStats = Object.fromEntries(await Promise.all(Object.entries(screenshotPaths).map(async ([label, file]) => {
   const stat = await fs.stat(file);
@@ -582,6 +949,21 @@ console.log(`PEOPLE_TIMELINE_PAGE_SUMMARY ${JSON.stringify({
   dataLaneGeometry: timelineSizingAndLanes.laneGeometry,
   maximumOverlapRatio: overlapAudit.maximum.ratio,
   maximumOverlapPair: overlapAudit.maximum,
+  interactionAudit: {
+    audited: interactionAudit.audited,
+    unique: interactionAudit.unique,
+    laneCounts: interactionAudit.laneCounts,
+    sideCounts: interactionAudit.sideCounts,
+    failures: interactionAudit.failures.length,
+  },
+  portraitMetadata: {
+    objectPositions: timelineContracts.portraits.filter((portrait) => portrait.objectPosition).length,
+    transforms: timelineContracts.portraits.filter((portrait) => portrait.transform).length,
+    transformOrigins: timelineContracts.portraits.filter((portrait) => portrait.transformOrigin).length,
+  },
+  tabletArchive,
+  mobileArchiveRoute,
+  navLayering,
   responsive: responsiveAudits.map((audit) => ({
     label: audit.viewportSize.label,
     viewportWidth: audit.viewportSize.width,

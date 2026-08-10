@@ -258,6 +258,18 @@ const CATEGORY_STYLES = {
   '域外人物': 'external',
 };
 
+const CATEGORY_LABELS = {
+  '后妃与内廷女性': '后妃与内廷女性',
+  '皇室子女': '皇子女',
+  '皇帝': '皇帝',
+  '宦官': '宦官',
+  '文臣': '文臣',
+  '武官': '武官',
+  '在野人物': '在野人物',
+  '政权人物': '政权人物',
+  '域外人物': '域外人物',
+};
+
 function escapeHtml(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -278,10 +290,18 @@ function portraitMarkup(name, portrait) {
   }
 
   const file = escapeHtml(portrait.file);
-  const kind = escapeHtml(portrait.kind || '历史图像');
-  const label = escapeHtml(portrait.label || portrait.kind || '人物画像');
-  const alt = escapeHtml(`${name}：${portrait.label || portrait.kind || '人物画像'}`);
-  return `<span class="timeline-portrait" data-portrait-kind="${kind}" data-portrait-label="${label}"><img class="timeline-portrait-image" data-timeline-image src="${file}" alt="${alt}" loading="lazy" decoding="async"><span class="timeline-portrait-source" data-timeline-image-source aria-hidden="true">${kind}</span><span class="timeline-portrait-fallback" data-timeline-fallback aria-hidden="true">${initial}</span></span>`;
+  const kindValue = portrait.kind || 'sourced';
+  const visitorLabelValue = portrait.label || (kindValue === 'imagined' ? 'AI想象像' : '历史图像');
+  const kind = escapeHtml(kindValue);
+  const visitorLabel = escapeHtml(visitorLabelValue);
+  const alt = escapeHtml(`${name}：${visitorLabelValue}`);
+  const imageStyles = [
+    portrait.objectPosition ? `object-position:${escapeHtml(portrait.objectPosition)}` : '',
+    portrait.portraitTransform ? `transform:${escapeHtml(portrait.portraitTransform)}` : '',
+    portrait.transformOrigin ? `transform-origin:${escapeHtml(portrait.transformOrigin)}` : '',
+  ].filter(Boolean).join(';');
+  const styleAttribute = imageStyles ? ` style="${imageStyles}"` : '';
+  return `<span class="timeline-portrait" data-portrait-kind="${kind}" data-portrait-label="${visitorLabel}"><img class="timeline-portrait-image" data-timeline-image src="${file}" alt="${alt}" loading="lazy" decoding="async"${styleAttribute}><span class="timeline-portrait-source" data-timeline-image-source aria-hidden="true">${visitorLabel}</span><span class="timeline-portrait-fallback" data-timeline-fallback aria-hidden="true">${initial}</span></span>`;
 }
 
 function laneMarkup(layout) {
@@ -299,22 +319,28 @@ function laneMarkup(layout) {
     .join('');
 }
 
-function personMarkup(node, portraitFor) {
+function personMarkup(node, portraitFor, axisY) {
   const name = escapeHtml(node.name);
   const role = escapeHtml(node.timeline_role || node.office || '人物');
   const yearLabel = escapeHtml(node.timeline_year_label || String(node.timeline_year));
+  const basis = escapeHtml(node.timeline_year_basis || '登场依据待补');
+  const categoryLabelValue = CATEGORY_LABELS[node.category] || node.lane.label || '人物';
+  const categoryLabel = escapeHtml(categoryLabelValue);
   const categoryStyle = CATEGORY_STYLES[node.category] || 'external';
   const size = escapeHtml(node.timeline_size);
   const x = Number(node.x);
   const y = Number(node.y);
   const avatarSize = Number(node.sizePx);
+  const axisDistance = Math.abs(Number(axisY) - y);
   const portrait = portraitFor(node.name);
-  const ariaLabel = escapeHtml(`${node.name}，${node.timeline_role || node.office || '人物'}，${node.timeline_year_label || node.timeline_year}进入历史叙事，${node.timeline_year_confidence || '未知'}置信度`);
+  const ariaLabel = escapeHtml(`${node.name}，${categoryLabelValue}，${node.timeline_role || node.office || '人物'}，${node.timeline_year_label || node.timeline_year}进入历史叙事，${node.timeline_year_confidence || '未知'}置信度`);
 
-  return `<article class="timeline-person category-${categoryStyle} size-${size}" data-timeline-person="${name}" data-year="${node.timeline_year}" data-lane="${escapeHtml(node.lane.id)}" data-layer="${Number(node.slot)}" style="--person-x:${x}px;--person-y:${y}px;--avatar-size:${avatarSize}px">
+  return `<article class="timeline-person category-${categoryStyle} size-${size}" data-timeline-person="${name}" data-year="${node.timeline_year}" data-lane="${escapeHtml(node.lane.id)}" data-layer="${Number(node.slot)}" data-side="${escapeHtml(node.lane.side)}" data-category-label="${categoryLabel}" style="--person-x:${x}px;--person-y:${y}px;--avatar-size:${avatarSize}px;--axis-distance:${axisDistance}px">
+    <span class="timeline-person-guide" data-timeline-guide="${name}" aria-hidden="true"></span>
     <button class="timeline-person-select" type="button" aria-pressed="false" aria-label="${ariaLabel}">
       ${portraitMarkup(node.name, portrait)}
-      <strong>${name}</strong><small>${role}</small><time datetime="${node.timeline_year}">${yearLabel}</time>
+      <strong>${name}</strong><small>${role}</small>
+      <span class="timeline-person-context"><time datetime="${node.timeline_year}">${yearLabel}</time><span class="timeline-person-basis">${basis}</span></span>
     </button>
     <button class="timeline-person-open" type="button" data-open-person="${name}">查看人物档案</button>
   </article>`;
@@ -334,12 +360,12 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
 
   const ticks = layout.ticks.map((tick) => `<span class="timeline-tick" style="--tick-x:${tick.x}px"><time datetime="${tick.year}">${tick.year}</time></span>`).join('');
   const boundaries = layout.boundaries.map((boundary) => `<span class="timeline-boundary" style="--boundary-x:${boundary.x}px"><time datetime="${boundary.year}">${boundary.year}</time></span>`).join('');
-  const peopleMarkup = layout.nodes.map((node) => personMarkup(node, portraitFor)).join('');
+  const peopleMarkup = layout.nodes.map((node) => personMarkup(node, portraitFor, layout.axisY)).join('');
 
   return `<section class="people-timeline" aria-label="明朝人物时间长卷">
   <div class="people-view-tabs" role="tablist" aria-label="人物浏览方式">
-    <button id="peopleTimelineTab" type="button" role="tab" aria-selected="true" aria-controls="peopleTimelineView" data-people-view="timeline">时间长卷</button>
-    <button id="peopleTableTab" type="button" role="tab" aria-selected="false" data-people-view="table">人物表格</button>
+    <button id="peopleTimelineTab" type="button" role="tab" aria-selected="true" aria-controls="peopleTimelineView" data-people-view="timeline">历史长卷</button>
+    <button id="peopleTableTab" type="button" role="tab" aria-selected="false" data-people-view="table">人物总表</button>
   </div>
   <section id="peopleTimelineView" class="people-timeline-viewport" role="tabpanel" aria-labelledby="peopleTimelineTab">
     <div class="people-timeline-canvas" style="--timeline-width:${layout.width}px;--timeline-height:${layout.height}px">
@@ -353,30 +379,40 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
 </section>`;
 }
 
-export const PEOPLE_TIMELINE_CSS = `.people-timeline{color:#171815;font-family:ui-serif,"Noto Serif SC",serif}
+export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0;isolation:isolate;color:#171815;font-family:ui-serif,"Noto Serif SC",serif}
 .people-view-tabs{display:flex;gap:8px;margin-bottom:12px}
 .people-view-tabs button{border:1px solid #8f8876;background:#f5f0e3;color:#171815;padding:7px 12px;cursor:pointer}
 .people-view-tabs button[aria-selected="true"]{background:#171815;color:#f5f0e3}
 .people-timeline-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-gutter:stable;border:1px solid #c7bea9;background:#f5f0e3}
 .people-timeline-canvas{position:relative;width:var(--timeline-width);height:var(--timeline-height);min-width:6500px}
 .timeline-axis{position:absolute;left:0;right:0;top:50%;height:1px;background:#8f8876}
-.timeline-tick,.timeline-boundary{position:absolute;left:var(--tick-x, var(--boundary-x));top:calc(50% - 8px);height:16px;border-left:1px solid #8f8876;color:#625d50;font:12px/1 ui-monospace,monospace}
-.timeline-tick time,.timeline-boundary time{position:absolute;top:18px;left:4px;white-space:nowrap}
-.timeline-boundary{border-left:2px solid #b64a35;color:#8e3022;height:100%}
-.timeline-boundary time{top:calc(50% + 18px);font-weight:700}
+.timeline-tick{position:absolute;left:var(--tick-x);top:calc(50% - 8px);height:16px;border-left:1px solid #8f8876;color:#625d50;font:12px/1 ui-monospace,monospace}
+.timeline-tick time{position:absolute;top:18px;left:4px;white-space:nowrap}
+.timeline-boundary{position:absolute;left:var(--boundary-x);top:0;height:100%;border-left:2px solid #b64a35;color:#8e3022;font:12px/1 ui-monospace,monospace}
+.timeline-boundary time{position:absolute;top:calc(50% + 18px);left:4px;font-weight:700;white-space:nowrap}
 .timeline-lane-label{position:absolute;z-index:1;left:18px;top:var(--lane-y);margin:0;transform:translateY(-50%);width:108px;color:#625d50;font-size:12px;line-height:1.25;text-align:center}
-.timeline-person{position:absolute;left:var(--person-x);top:var(--person-y);z-index:2;transform:translate(-50%,-50%);width:max-content;text-align:center}
-.timeline-person-select{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;max-width:110px;padding:0;border:0;background:transparent;color:inherit;font:inherit;cursor:pointer}
-.timeline-portrait{position:relative;display:grid;place-items:center;width:var(--avatar-size);height:var(--avatar-size);box-sizing:border-box;border:3px solid var(--category-color);border-radius:50%;overflow:hidden;background:#dfd6c4;color:#171815;font-weight:700;line-height:1}
+.timeline-person{position:absolute;left:var(--person-x);top:var(--person-y);z-index:2;width:var(--avatar-size);height:var(--avatar-size);transform:translate(-50%,-50%);text-align:center}
+.timeline-person-guide{position:absolute;z-index:0;left:50%;width:1px;pointer-events:none;transform:translateX(-50%);background:rgba(98,93,80,.36)}
+.timeline-person[data-side="top"] .timeline-person-guide{top:50%;height:var(--axis-distance)}
+.timeline-person[data-side="bottom"] .timeline-person-guide{bottom:50%;height:var(--axis-distance)}
+.timeline-person-select{position:absolute;z-index:1;inset:0;display:block;width:100%;height:100%;padding:0;border:0;background:transparent;color:inherit;font:inherit;cursor:pointer}
+.timeline-portrait{position:relative;display:grid;place-items:center;width:100%;height:100%;box-sizing:border-box;border:3px solid var(--category-color);border-radius:50%;overflow:hidden;background:#dfd6c4;color:#171815;font-weight:700;line-height:1}
 .timeline-portrait-image{display:block;width:100%;height:100%;object-fit:cover}
 .timeline-portrait-source{position:absolute;right:0;bottom:0;max-width:100%;padding:1px 3px;overflow:hidden;background:rgba(23,24,21,.78);color:#f5f0e3;font:8px/1.15 ui-sans-serif,sans-serif;text-overflow:ellipsis;white-space:nowrap}
 .timeline-portrait .timeline-portrait-fallback{display:none}
 .timeline-portrait--fallback .timeline-portrait-fallback,.timeline-portrait.is-failed .timeline-portrait-fallback{display:grid;place-items:center;width:100%;height:100%}
 .timeline-portrait.is-failed .timeline-portrait-image{display:none}
-.timeline-person strong{display:block;max-width:110px;overflow:hidden;font-size:13px;line-height:1.2;text-overflow:ellipsis;white-space:nowrap}
-.timeline-person small{display:block;max-width:110px;overflow:hidden;color:#625d50;font-size:11px;line-height:1.2;text-overflow:ellipsis;white-space:nowrap}
-.timeline-person time{position:absolute;top:calc(100% + 2px);left:50%;display:none;transform:translateX(-50%);color:#625d50;font-size:11px;line-height:1.2;white-space:nowrap}
-.timeline-person-open{display:none;position:absolute;top:calc(100% + 20px);left:50%;transform:translateX(-50%);margin:0;border:1px solid #171815;background:#f5f0e3;color:#171815;padding:3px 5px;font:12px/1.2 inherit;white-space:nowrap;cursor:pointer}
+.timeline-person strong,.timeline-person small{position:absolute;left:50%;display:block;width:110px;overflow:hidden;transform:translateX(-50%);pointer-events:none;text-overflow:ellipsis;white-space:nowrap}
+.timeline-person strong{top:calc(100% + 3px);font-size:13px;line-height:1.2}
+.timeline-person small{top:calc(100% + 20px);color:#625d50;font-size:11px;line-height:1.2}
+.timeline-person-context{position:absolute;left:50%;display:none;width:220px;transform:translateX(-50%);pointer-events:none;padding:5px 7px;border:1px solid #8f8876;background:rgba(245,240,227,.97);box-shadow:0 5px 15px rgba(23,24,21,.12);color:#625d50}
+.timeline-person-context time{display:block;color:#8e3022;font-size:11px;font-weight:700;line-height:1.2;white-space:nowrap}
+.timeline-person-basis{display:-webkit-box;margin-top:3px;overflow:hidden;font-size:10px;line-height:1.35;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.timeline-person[data-side="top"] .timeline-person-context{top:calc(100% + 38px)}
+.timeline-person[data-side="bottom"] .timeline-person-context{bottom:calc(100% + 8px)}
+.timeline-person-open{display:none;position:absolute;z-index:2;left:50%;transform:translateX(-50%);margin:0;border:1px solid #171815;background:#f5f0e3;color:#171815;padding:4px 7px;font:12px/1.2 inherit;white-space:nowrap;cursor:pointer}
+.timeline-person[data-side="top"] .timeline-person-open{top:calc(100% + 101px)}
+.timeline-person[data-side="bottom"] .timeline-person-open{bottom:calc(100% + 72px)}
 .size-emperor{--avatar-size:88px;--category-color:#d0a743}
 .size-featured{--avatar-size:72px}
 .size-standard{--avatar-size:56px}
@@ -389,8 +425,10 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{color:#171815;font-family:u
 .category-independent{--category-color:#9d6b38}
 .category-external{--category-color:#61778b}
 .timeline-person.is-selected,.timeline-person:focus-within{z-index:1000}
+.timeline-person.is-selected .timeline-person-guide,.timeline-person:focus-within .timeline-person-guide{width:3px;background:#8e3022}
 .timeline-person.is-selected .timeline-portrait,.timeline-person:focus-within .timeline-portrait{box-shadow:0 0 0 4px #171815,0 0 0 7px #f0e1b6}
-.timeline-person.is-selected time,.timeline-person:focus-within time,.timeline-person.is-selected .timeline-person-open{display:block}
+.timeline-person.is-selected .timeline-person-context,.timeline-person:focus-within .timeline-person-context{display:block}
+.timeline-person.is-selected .timeline-person-open{display:block}
 `;
 
 export function peopleTimelineClientScript() {

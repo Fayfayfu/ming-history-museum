@@ -77,11 +77,21 @@ const timelinePortraitFor = name => {
     return {
       file: registered.file,
       kind: registered.status === 'imagined' ? 'imagined' : 'sourced',
-      label: registered.status === 'imagined' ? 'AI想象像' : '',
+      label: registered.portraitKind || (registered.status === 'imagined' ? 'AI想象像' : '历史图像'),
+      objectPosition: registered.objectPosition || '',
+      portraitTransform: registered.portraitTransform || '',
+      transformOrigin: registered.transformOrigin || '',
     };
   }
-  const imagined = storytelling.people?.[name]?.portrait || '';
-  return imagined ? {file:imagined,kind:'imagined',label:'AI想象像'} : null;
+  const story = storytelling.people?.[name];
+  return story?.portrait ? {
+    file: story.portrait,
+    kind: 'imagined',
+    label: story.portraitKind || 'AI想象像',
+    objectPosition: story.objectPosition || '',
+    portraitTransform: story.portraitTransform || '',
+    transformOrigin: story.transformOrigin || '',
+  } : null;
 };
 const peopleTimelineHtml = renderPeopleTimeline({people:timelinePeople,layout:timelineLayout,portraitFor:timelinePortraitFor});
 
@@ -122,6 +132,10 @@ function baseHall(kind) {
       .replace('<h1>明史人物谱<small>1368—1662</small></h1>', '<h1>人物馆<small>1368—1644</small></h1>')
       .replace('人物不只存在于官职表：这里同时收录帝王宗室、后妃、文武官员、内廷人物、改变明朝命运的同时代政权人物、与明朝发生关键互动的域外人物，以及通过艺术、医学、出版与实地考察留下影响的在野人物。可按制度身份与历史领域交叉检索；评价分数是透明研究量表，不是“历史人物战力榜”。', '先看人，再看人与权力、制度和时代的关系。沿帝系进入一朝，或按身份与领域寻找皇帝、宗室、后妃、官员、内廷人物、同时代政权人物、域外人物和在野人物。每一条记录都把事实、评价、评分与证据入口分开呈现。')
       .replace('<b>双重范围</b><br>人物表以北京明朝 1368—1644 为主体；事件年表延伸至南明终局 1662。', '<b>本馆范围</b><br>北京明朝人物以 1368—1644 为主体；生涯跨越 1644 者保留。')
+      .replace(
+        /function focusPerson\(name\)\{([^\n]*?)openDetail\(person\)\}/,
+        (_, beforeOpenDetail) => `async function focusPerson(name){${beforeOpenDetail}openDetail(person);const portrait=document.querySelector('#detail .portrait img');if(portrait&&!portrait.complete)await new Promise(resolve=>{portrait.addEventListener('load',resolve,{once:true});portrait.addEventListener('error',resolve,{once:true});if(portrait.complete)resolve()})}`,
+      )
       .replace('renderEvents();render();', "renderEvents();render();const peopleParams=new URLSearchParams(location.search);const requestedEvent=peopleParams.get('event');const requestedPerson=peopleParams.get('person');if(requestedEvent&&eventRecord(requestedEvent)){state.event=requestedEvent;state.parent='';document.getElementById('personEvent').value=requestedEvent;document.getElementById('parent').value='';render()}else if(requestedPerson)focusPerson(requestedPerson);")
       .replace('</body>', `<script>${peopleTimelineClientScript()}</script></body>`);
   } else {

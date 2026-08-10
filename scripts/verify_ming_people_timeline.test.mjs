@@ -8,6 +8,7 @@ import test from 'node:test';
 
 const repoRoot = fileURLToPath(new URL('../', import.meta.url));
 const verifierPath = path.join(repoRoot, 'scripts/verify_ming_people_timeline.mjs');
+const packageJson = JSON.parse(fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8'));
 const baseline = {
   core: JSON.parse(fs.readFileSync(path.join(repoRoot, 'data/ming_core.json'), 'utf8')),
   children: JSON.parse(
@@ -54,6 +55,19 @@ function assertVerifierRejects(mutate, messagePattern) {
 test('verifier accepts the curated 163-person timeline', () => {
   const result = runVerifier();
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+});
+
+test('default verify gate runs data, both timeline test suites, legacy regression, then page E2E', () => {
+  assert.equal(
+    packageJson.scripts['verify:people-timeline-unit'],
+    'node --test scripts/lib/people_timeline.test.mjs scripts/verify_ming_people_timeline.test.mjs',
+  );
+  assert.deepEqual(packageJson.scripts.verify.split(' && '), [
+    'npm run verify:people-timeline',
+    'npm run verify:people-timeline-unit',
+    'node scripts/verify_ming_museum.mjs',
+    'npm run verify:people-timeline-page',
+  ]);
 });
 
 test('curated first-activity corrections and authority upgrades stay locked', () => {

@@ -10,11 +10,12 @@
     "audit:portraits": "node scripts/audit_ming_portrait_coverage.mjs",
     "verify:portraits": "node scripts/verify_ming_portrait_batch19.mjs",
     "verify:people-timeline": "node scripts/verify_ming_people_timeline.mjs",
+    "verify:people-timeline-unit": "node --test scripts/lib/people_timeline.test.mjs scripts/verify_ming_people_timeline.test.mjs",
     "verify:people-timeline-page": "node scripts/verify_ming_people_timeline_page.mjs",
     "verify:institutions": "node scripts/verify_ming_institution_graph.mjs",
     "verify:institution-page": "node scripts/verify_ming_institution_page.mjs",
     "verify:deploy": "node scripts/verify_vercel_bundle.mjs",
-    "verify": "node scripts/verify_ming_people_timeline.mjs && node scripts/verify_ming_museum.mjs && node scripts/verify_ming_people_timeline_page.mjs"
+    "verify": "npm run verify:people-timeline && npm run verify:people-timeline-unit && node scripts/verify_ming_museum.mjs && npm run verify:people-timeline-page"
   },
   "dependencies": {
     "sharp": "^0.34.5"

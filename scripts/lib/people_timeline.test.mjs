@@ -180,6 +180,90 @@ test('renderer outputs every semantic lane and never writes 最近皇帝', async
   assert.match(PEOPLE_TIMELINE_CSS, /\.people-timeline-viewport\{overflow-x:auto/);
 });
 
+test('renderer gives all 163 people escaped basis text and one non-blocking axis guide', async () => {
+  const timelineData = JSON.parse(await fs.readFile('data/ming_people_timeline.json', 'utf8'));
+  const people = validatePeopleTimelineData({ core, children, timelineData });
+  const layout = layoutPeopleTimeline(people);
+  const html = renderPeopleTimeline({ people, layout, portraitFor: () => null });
+
+  assert.equal((html.match(/data-timeline-guide=/g) || []).length, 163);
+  assert.equal((html.match(/class="timeline-person-basis"/g) || []).length, 163);
+  assert.equal((html.match(/data-side="(?:top|bottom)"/g) || []).length, 163);
+  assert.match(html, /永乐十九年中进士，进入仕途/);
+  assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person-guide\{[^}]*pointer-events:none/);
+  assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person\.is-selected \.timeline-person-guide/);
+});
+
+test('selected details expand toward the axis inside an isolated timeline stack', () => {
+  const people = [
+    {
+      name: '甲后妃', category: '后妃与内廷女性', timeline_year: 1421,
+      timeline_year_label: '1421', timeline_year_basis: '进入宫廷',
+      timeline_role: '皇后', timeline_year_confidence: '高', timeline_size: 'standard',
+    },
+    {
+      name: '乙外臣', category: '域外人物', timeline_year: 1422,
+      timeline_year_label: '1422', timeline_year_basis: '首次遣使<入明',
+      timeline_role: '使臣', timeline_year_confidence: '中', timeline_size: 'standard',
+    },
+  ];
+  const html = renderPeopleTimeline({ people, layout: layoutPeopleTimeline(people) });
+
+  assert.match(html, /首次遣使&lt;入明/);
+  assert.match(PEOPLE_TIMELINE_CSS, /\.people-timeline\{[^}]*isolation:isolate/);
+  assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person\[data-side="top"\][^{]*\.timeline-person-context/);
+  assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person\[data-side="bottom"\][^{]*\.timeline-person-context/);
+  assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-boundary\{[^}]*top:0[^}]*height:100%/);
+});
+
+test('renderer uses final view wording and includes normalized category in every accessible name', () => {
+  const people = [
+    {
+      name: '甲皇子', category: '皇室子女', timeline_year: 1421,
+      timeline_year_label: '1421', timeline_year_basis: '受封',
+      timeline_role: '亲王', timeline_year_confidence: '高', timeline_size: 'standard',
+    },
+    {
+      name: '乙文臣', category: '文臣', timeline_year: 1422,
+      timeline_year_label: '1422', timeline_year_basis: '中进士',
+      timeline_role: '尚书', timeline_year_confidence: '高', timeline_size: 'standard',
+    },
+  ];
+  const html = renderPeopleTimeline({ people, layout: layoutPeopleTimeline(people) });
+
+  assert.match(html, />历史长卷<\/button>/);
+  assert.match(html, />人物总表<\/button>/);
+  assert.doesNotMatch(html, />时间长卷<\/button>|>人物表格<\/button>/);
+  assert.match(html, /data-category-label="皇子女"/);
+  assert.match(html, /aria-label="甲皇子，皇子女，亲王，1421进入历史叙事，高置信度"/);
+  assert.match(html, /aria-label="乙文臣，文臣，尚书，1422进入历史叙事，高置信度"/);
+});
+
+test('renderer applies portrait crop metadata while showing a Chinese visitor label', () => {
+  const people = [{
+    name: '郑和', category: '宦官', timeline_year: 1401, timeline_year_label: '约1399—1402',
+    timeline_year_basis: '首次进入宫廷差遣', timeline_role: '航海使臣',
+    timeline_year_confidence: '中', timeline_size: 'featured',
+  }];
+  const html = renderPeopleTimeline({
+    people,
+    layout: layoutPeopleTimeline(people),
+    portraitFor: () => ({
+      file: 'assets/zheng-he.jpg',
+      kind: 'sourced',
+      label: '明末小说插图',
+      objectPosition: '50% 24%',
+      portraitTransform: 'scale(2.15)',
+      transformOrigin: '100% 7%',
+    }),
+  });
+
+  assert.match(html, /data-portrait-label="明末小说插图"/);
+  assert.match(html, /style="[^"]*object-position:50% 24%[^"]*transform:scale\(2\.15\)[^"]*transform-origin:100% 7%/);
+  assert.match(html, /data-timeline-image-source[^>]*>明末小说插图<\/span>/);
+  assert.doesNotMatch(html, /data-timeline-image-source[^>]*>sourced<\/span>/);
+});
+
 test('renderer escapes person metadata and keeps portrait fallbacks available', () => {
   const people = [{
     name: '甲<乙', category: '文臣', timeline_year: 1421, timeline_year_label: '宣德六年',
