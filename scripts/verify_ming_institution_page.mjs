@@ -61,6 +61,57 @@ try {
   expect(initial.heroHeight >= 500 && initial.heroHeight <= 780, 'desktop hero must occupy the intended editorial range');
   expect(initial.emperorBox && initial.cabinetBox && Math.abs((initial.emperorBox.x + initial.emperorBox.width / 2) - (initial.cabinetBox.x + initial.cabinetBox.width / 2)) < 8, 'emperor and cabinet must share the central axis');
   expect(initial.bodyWidth <= initial.viewport, 'desktop page must not overflow horizontally');
+  const ministryCollective = await page.evaluate(() => {
+    const frame = document.querySelector('.six-ministries-frame[data-group-id="six_ministries"]');
+    const members = ['ministry_personnel', 'ministry_revenue', 'ministry_rites', 'ministry_war', 'ministry_justice', 'ministry_works']
+      .map(id => document.querySelector(`.institution-node[data-id="${id}"]`));
+    return {
+      legacyCard: document.querySelectorAll('.institution-node[data-id="six_ministries"]').length,
+      frames: document.querySelectorAll('.six-ministries-frame[data-group-id="six_ministries"]').length,
+      label: frame?.querySelector('b')?.textContent.trim() ?? '',
+      note: frame?.querySelector('span')?.textContent.trim() ?? '',
+      focusable: Boolean(frame?.matches('button,a,[tabindex]')),
+      memberIds: members.filter(Boolean).map(node => node.dataset.id)
+    };
+  });
+  expect(ministryCollective.legacyCard === 0, 'six ministries collective must not render as a clickable institution card');
+  expect(ministryCollective.frames === 1, 'desktop graph must render one six-ministries collective frame');
+  expect(ministryCollective.label === '六部（合称）' && ministryCollective.note.includes('六个并列机构'), 'collective frame must state its non-institution semantics');
+  expect(!ministryCollective.focusable && ministryCollective.memberIds.length === 6, 'only the six real ministry cards may remain interactive');
+
+  const collectiveGeometryFailures = [];
+  for (const viewport of [{width: 1440, height: 1000}, {width: 1024, height: 768}]) {
+    await page.setViewportSize(viewport);
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
+    const geometry = await page.evaluate(() => {
+      const frameBox = document.querySelector('.six-ministries-frame:not([hidden])')?.getBoundingClientRect();
+      const members = ['ministry_personnel', 'ministry_revenue', 'ministry_rites', 'ministry_war', 'ministry_justice', 'ministry_works']
+        .map(id => document.querySelector(`.institution-node[data-id="${id}"]:not([hidden])`))
+        .filter(Boolean)
+        .map(node => ({id: node.dataset.id, box: node.getBoundingClientRect()}));
+      const anchorBox = document.querySelector('.collective-relation-anchor[data-id="six_ministries"]')?.getBoundingClientRect();
+      const endpointMisses = [...document.querySelectorAll('.relation-path')]
+        .filter(path => path.dataset.from === 'six_ministries' || path.dataset.to === 'six_ministries')
+        .map(path => {
+          if (!anchorBox) return Number.POSITIVE_INFINITY;
+          const local = path.getPointAtLength(path.dataset.from === 'six_ministries' ? 0 : path.getTotalLength());
+          const screen = new DOMPoint(local.x, local.y).matrixTransform(path.getScreenCTM());
+          return Math.hypot(screen.x - (anchorBox.left + anchorBox.width / 2), screen.y - (anchorBox.top + anchorBox.height / 2));
+        });
+      return {
+        contained: Boolean(frameBox) && members.length === 6 && members.every(({box}) => box.left >= frameBox.left && box.right <= frameBox.right && box.top >= frameBox.top && box.bottom <= frameBox.bottom),
+        rowSpread: members.length ? Math.max(...members.map(({box}) => box.top)) - Math.min(...members.map(({box}) => box.top)) : Number.POSITIVE_INFINITY,
+        widthSpread: members.length ? Math.max(...members.map(({box}) => box.width)) - Math.min(...members.map(({box}) => box.width)) : Number.POSITIVE_INFINITY,
+        aggregateRelationCount: endpointMisses.length,
+        endpointMisses
+      };
+    });
+    if (!geometry.contained || geometry.rowSpread > 1 || geometry.widthSpread > 1 || geometry.aggregateRelationCount === 0 || geometry.endpointMisses.some(distance => distance > 3)) {
+      collectiveGeometryFailures.push(`${viewport.width}:${JSON.stringify(geometry)}`);
+    }
+  }
+  expect(collectiveGeometryFailures.length === 0, `six ministries frame geometry must contain six equal peer cards and attached aggregate relations: ${collectiveGeometryFailures.join('; ')}`);
+  await page.setViewportSize({width: 1440, height: 1000});
   await page.screenshot({path: path.join(root, '制度馆_关系图谱内部页.png'), fullPage: false});
   const visualAccessibility = await page.evaluate(() => {
     const canvas = document.createElement('canvas');
@@ -445,7 +496,12 @@ try {
       mobileGroups: document.querySelectorAll('.mobile-system-group').length,
       drawerPosition: drawer ? getComputedStyle(drawer).position : null,
       bodyWidth: document.body.scrollWidth,
-      viewport: innerWidth
+      viewport: innerWidth,
+      collectiveLabels: document.querySelectorAll('.mobile-collective-label[data-group-id="six_ministries"]').length,
+      collectiveText: document.querySelector('.mobile-collective-label[data-group-id="six_ministries"]')?.textContent.trim() ?? '',
+      legacyGroupButtons: document.querySelectorAll('.mobile-node[data-id="six_ministries"]').length,
+      ministryButtons: ['ministry_personnel', 'ministry_revenue', 'ministry_rites', 'ministry_war', 'ministry_justice', 'ministry_works']
+        .filter(id => document.querySelector(`.mobile-node[data-id="${id}"]`)).length
     };
   });
   expect(mobile.graphDisplay === 'none', 'mobile must replace the dense graph instead of shrinking it');
@@ -453,6 +509,9 @@ try {
   expect(mobile.mobileGroups >= 4, 'mobile narrative must retain system grouping');
   expect(mobile.drawerPosition === 'fixed', 'mobile dossier drawer must exist and use fixed positioning');
   expect(mobile.bodyWidth <= mobile.viewport, 'mobile page must not overflow horizontally');
+  expect(mobile.collectiveLabels === 1 && mobile.legacyGroupButtons === 0, 'mobile must replace the clickable six-ministries group card with one inert collective label');
+  expect(mobile.collectiveText.includes('六部（合称）') && mobile.collectiveText.includes('六个并列机构'), 'mobile collective label must explain that six ministries are six parallel institutions');
+  expect(mobile.ministryButtons === 6, 'mobile collective must retain six clickable ministry cards');
   await page.locator('.mobile-node').filter({hasText: '锦衣卫'}).click();
   const mobileDrawer = page.locator('.institution-drawer');
   const mobileDrawerExists = await mobileDrawer.count() === 1;
@@ -547,7 +606,7 @@ try {
       relationIds.has(relation.id) && activeAt(relation) && activeAt(institutionById.get(relation.from)) && activeAt(institutionById.get(relation.to))
     );
     const expectedGroups = graph.systems.map(system => {
-      const nodes = graph.institutions.filter(node => node.system === system.id && activeAt(node));
+      const nodes = graph.institutions.filter(node => node.system === system.id && node.id !== 'six_ministries' && activeAt(node));
       return {
         name: system.name,
         nodeIds: nodes.map(node => node.id),

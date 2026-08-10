@@ -10,7 +10,7 @@ export const ATLAS_LAYOUT=Object.freeze({
   emperor:{x:50,y:7,region:'axis',tier:0},
   central_secretariat:{x:50,y:20,region:'axis',tier:1},chancellor:{x:39,y:20,region:'axis',tier:1},
   grand_secretariat:{x:50,y:20,region:'axis',tier:1},
-  six_ministries:{x:50,y:34,region:'axis',tier:2},
+  six_ministries:{x:50,y:38,region:'axis',tier:2},
   ministry_personnel:{x:34,y:47,region:'civil',tier:3},ministry_revenue:{x:41,y:47,region:'civil',tier:3},
   ministry_rites:{x:47,y:47,region:'civil',tier:3},ministry_war:{x:53,y:47,region:'civil',tier:3},
   ministry_justice:{x:59,y:47,region:'civil',tier:3},ministry_works:{x:66,y:47,region:'civil',tier:3},
