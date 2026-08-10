@@ -20,6 +20,7 @@ function renderHead(){
 @media(max-width:800px){.museum-nav{height:auto;min-height:68px;padding:8px 14px;align-items:flex-start}.museum-brand small{display:none}.museum-links{align-self:stretch}.museum-links a{padding:0 8px;font-size:11px}.museum-links a:last-child{display:none}.hall-hero{grid-template-columns:1fr;grid-template-rows:auto auto auto auto;gap:35px;padding:24px 20px 25px}.institution-view-switch{position:relative;inset:auto;grid-column:1;width:100%;grid-template-columns:auto repeat(2,1fr)}.view-switch-label{writing-mode:horizontal-tb;padding:8px}.institution-view-switch a{min-width:0;padding-inline:10px}.hero-title h1{font-size:67px}.hero-year{justify-self:start;border-left:0;border-top:2px solid var(--gold);padding:20px 0;width:100%}.hero-year output{font-size:72px}.dynasty-ruler{grid-template-columns:1fr 1fr}.atlas-shell{display:block}.topic-rail{position:static;display:flex;overflow:auto}.view-button{min-width:142px}.view-band{padding:28px 20px}.graph-stage{display:none}.mobile-structure{display:block;padding:18px 16px 48px;background:var(--canvas)}.mobile-system-group{border:2px solid var(--darkline);margin-bottom:12px;background:var(--bone)}.mobile-system-head{display:flex;align-items:center;justify-content:space-between;padding:14px;background:oklch(.84 .05 80)}.mobile-system-head b{font-size:16px}.mobile-system-head span{font:700 10px/1 ui-monospace,monospace;color:var(--muted)}.mobile-node-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}.mobile-node{border:0;background:var(--bone);color:var(--ink);min-height:62px;padding:12px;text-align:left;font-size:14px}.mobile-node small{display:block;margin-top:6px;color:var(--muted);font:700 10px/1.2 ui-monospace,monospace}.mobile-relation-list{list-style:none;margin:0;padding:12px 14px;border-top:1px solid var(--line);color:var(--ink2);font-size:12px;line-height:1.55}.mobile-relation-list li+li{margin-top:7px}.relation-legend{grid-template-columns:1fr 1fr}.relation-legend li{border-bottom:1px solid var(--line)}.method-band{grid-template-columns:1fr;padding:38px 20px}.method-band p+p{grid-column:auto}.institution-drawer{top:auto;width:100%;height:min(88svh,760px)}.footer{display:block}.footer span{display:block;margin-top:8px}}
 @media(max-width:470px){.museum-links a{padding:0 5px;font-size:10px}.museum-links a[href="exhibitions.html"]{display:none}.hero-title h1{font-size:58px}.phase-button{padding:12px 8px;font-size:11px}.mobile-node-list{grid-template-columns:1fr}.relation-legend{grid-template-columns:1fr}.relation-legend li{border-right:0}}
 .relation-layer path.is-focused{opacity:1;stroke-width:2.8}.relation-label{fill:var(--ink);stroke:var(--canvas);stroke-width:.34;stroke-linejoin:round;paint-order:stroke;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:1.4px;font-weight:650;font-synthesis:none;text-anchor:middle}.institution-node.is-context{opacity:.68}.institution-node.is-dimmed{opacity:.4}
+.embedded-mode .museum-nav,.embedded-mode .hero-title,.embedded-mode .hero-year,.embedded-mode .footer,.embedded-mode .institution-view-switch{display:none!important}.embedded-mode .hall-hero{min-height:0;display:block;padding:0 24px 18px;background:var(--bone)}.embedded-mode .hall-hero:after{display:none}.embedded-mode .dynasty-ruler{padding-top:10px}.embedded-mode .atlas-shell{border-top:0}.embedded-mode .institution-drawer{top:0}body.embedded-mode:before{display:none}
 @media(prefers-reduced-motion:reduce){.institution-node,.institution-drawer{transition-duration:0s!important;animation:none!important}html{scroll-behavior:auto}}
 </style>`;
 }
@@ -30,7 +31,7 @@ function renderMuseumNav(){
 
 function renderHero(graph){
   const buttons=graph.phases.map(phase=>`<button class="phase-button" type="button" data-phase="${esc(phase.id)}" aria-pressed="${phase.id==='mid_late_ming'}">${esc(phase.name.split('：')[0])}</button>`).join('');
-  return `<header class="hall-hero"><nav class="institution-view-switch" aria-label="制度馆观看模式"><span class="view-switch-label">观看模式</span><a data-mode="graph" aria-current="page" href="institutions.html"><b>关系图谱</b><small>29 节点 · 关系</small></a><a data-mode="palace" href="institutions-palace.html"><b>权力空间</b><small>主轴 · 制度房间</small></a></nav><div class="hero-title"><span>INSTITUTION GALLERY · 1368—1644</span><h1>大明如何运转</h1><p>沿皇权中轴观察中枢、外廷、监察、内廷、军事与地方治理。</p></div><div class="hero-year"><output id="yearValue">1600</output><b id="phaseName">正统至崇祯</b><p id="phaseSummary">票拟、批红、督抚和厂卫关系随年份变化。</p></div><div class="dynasty-ruler">${buttons}<input id="yearRange" aria-label="选择年份" type="range" min="1368" max="1644" value="1600" step="1"></div></header>`;
+  return `<header class="hall-hero"><div class="hero-title"><span>INSTITUTION GALLERY · 1368—1644</span><h1>大明如何运转</h1><p>沿皇权中轴观察中枢、外廷、监察、内廷、军事与地方治理。</p></div><div class="hero-year"><output id="yearValue">1600</output><b id="phaseName">正统至崇祯</b><p id="phaseSummary">票拟、批红、督抚和厂卫关系随年份变化。</p></div><div class="dynasty-ruler">${buttons}<input id="yearRange" aria-label="选择年份" type="range" min="1368" max="1644" value="1600" step="1"></div></header>`;
 }
 
 function renderAtlas(graph,layout){
@@ -46,9 +47,10 @@ function renderDrawer(){
 function clientRuntime(){
   return `const graph=JSON.parse(document.getElementById('institutionGraphData').textContent);
 const initialParams=new URLSearchParams(location.search);
+const embeddedMode=initialParams.get('embedded')==='1';
+if(embeddedMode)document.body.classList.add('embedded-mode');
 const requestedYear=Number(initialParams.get('year'));
 const requestedView=initialParams.get('view');
-const requestedRoom=initialParams.get('room');
 const requestedInstitution=initialParams.get('institution');
 const state={year:Number.isFinite(requestedYear)&&requestedYear>=1368&&requestedYear<=1644?requestedYear:1600,view:graph.views.some(item=>item.id===requestedView)?requestedView:'overview',hoveredNode:null,selectedNode:null,lastTriggerId:null};
 const institutionById=new Map(graph.institutions.map(item=>[item.id,item]));
@@ -299,7 +301,6 @@ function openDrawer(id){
   document.body.classList.add('drawer-open');
   drawer.querySelector('.drawer-close').focus();
   setFocus(id);
-  updateModeSwitch();
 }
 
 function closeDrawer(focusTarget=visibleInstitutionTrigger(state.lastTriggerId)||document.getElementById('yearRange')){
@@ -309,19 +310,12 @@ function closeDrawer(focusTarget=visibleInstitutionTrigger(state.lastTriggerId)|
   state.selectedNode=null;
   state.lastTriggerId=null;
   setFocus(state.hoveredNode);
-  updateModeSwitch();
-  focusTarget?.focus?.();
+  focusTarget?.focus?.({preventScroll:true});
 }
 
-function updateModeSwitch(){
-  const target=document.querySelector('.institution-view-switch a[data-mode="palace"]');
-  if(!target)return;
-  const params=new URLSearchParams();
-  params.set('year',String(state.year));
-  if(state.view!=='overview')params.set('view',state.view);
-  if(requestedRoom)params.set('room',requestedRoom);
-  if(state.selectedNode)params.set('institution',state.selectedNode);
-  target.href='institutions-palace.html?'+params.toString();
+function reportEmbeddedHeight(){
+  if(!embeddedMode)return;
+  requestAnimationFrame(()=>parent.postMessage({type:'institution-graph-height',height:document.documentElement.scrollHeight},'*'));
 }
 
 function renderAtlas(){
@@ -345,12 +339,15 @@ function renderAtlas(){
   renderMobile();
   if(state.selectedNode&&!drawer.hidden)populateDrawer(institutionById.get(state.selectedNode));
   setFocus(state.selectedNode||state.hoveredNode);
-  updateModeSwitch();
+  reportEmbeddedHeight();
 }
 
-window.setInstitutionYear=function(year){
-  state.year=Math.max(1368,Math.min(1644,Number(year)));
+window.setInstitutionYear=function(year,notifyParent=true){
+  const nextYear=Math.max(1368,Math.min(1644,Number(year)));
+  if(!Number.isFinite(nextYear))return;
+  state.year=nextYear;
   renderAtlas();
+  if(embeddedMode&&notifyParent)parent.postMessage({type:'institution-graph-year',year:state.year},'*');
 };
 document.getElementById('yearRange').addEventListener('input',event=>setInstitutionYear(event.target.value));
 document.querySelectorAll('.phase-button').forEach(button=>button.addEventListener('click',()=>setInstitutionYear(phaseById.get(button.dataset.phase).default_year)));
@@ -392,7 +389,10 @@ addEventListener('keydown',event=>{if(event.key==='Escape'&&!drawer.hidden)close
 addEventListener('resize',()=>{
   renderRelations();
   setFocus(state.selectedNode||state.hoveredNode);
+  reportEmbeddedHeight();
 });
+addEventListener('message',event=>{if(!embeddedMode||event.data?.type!=='institution-palace-year')return;const next=Number(event.data.year);if(Number.isFinite(next)&&next!==state.year)setInstitutionYear(next,false)});
+if(embeddedMode)new ResizeObserver(reportEmbeddedHeight).observe(document.documentElement);
 renderAtlas();
 if(requestedInstitution&&institutionById.has(requestedInstitution)&&activeAt(institutionById.get(requestedInstitution),state.year))openDrawer(requestedInstitution);`;
 }

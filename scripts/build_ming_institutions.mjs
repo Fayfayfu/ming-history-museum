@@ -9,5 +9,5 @@ const failures=validateAtlasLayout(graph,ATLAS_LAYOUT);
 if(failures.length)throw new Error(`Invalid institution atlas layout:\n${failures.join('\n')}`);
 const html=renderInstitutionGallery({graph,peopleByInstitution:buildPeopleByInstitution(personInstitutions),layout:ATLAS_LAYOUT});
 await fs.mkdir(root,{recursive:true});
-await fs.writeFile(`${root}/institutions.html`,html,'utf8');
-console.log(`wrote institutions.html with ${graph.institutions.length} nodes and ${graph.relations.length} relations`);
+await fs.writeFile(`${root}/institutions-graph.html`,html,'utf8');
+console.log(`wrote institutions-graph.html with ${graph.institutions.length} nodes and ${graph.relations.length} relations`);

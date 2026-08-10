@@ -3,12 +3,12 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const root=path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
-const file=path.join(root,'institutions-palace.html');
+const file=path.join(root,'institutions.html');
 const failures=[];
 const expect=(condition,message)=>{if(!condition)failures.push(message);};
 
 try{await fs.access(file);}catch{
-  console.error('Institution palace verification failed (1):\n- institutions-palace.html must be generated');
+  console.error('Institution palace verification failed (1):\n- institutions.html must be generated as the unified institution hall');
   process.exit(1);
 }
 
@@ -67,11 +67,15 @@ const inspectDesktop=async(width,height)=>{
       axis:document.querySelectorAll('.power-axis').length,
       rooms:document.querySelectorAll('.institution-room').length,
       openRooms:document.querySelectorAll('.institution-room[aria-expanded="true"]').length,
-      returnLink:document.querySelector('.return-archive')?.getAttribute('href'),
-      modeSwitches:document.querySelectorAll('.institution-view-switch a').length,
-      activeMode:document.querySelector('.institution-view-switch a[aria-current="page"]')?.dataset.mode,
-      graphModeHref:document.querySelector('.institution-view-switch a[data-mode="graph"]')?.getAttribute('href')||'',
-      navPalaceLinks:document.querySelectorAll('.museum-links a[href="institutions-palace.html"]').length,
+      navBackground:document.querySelector('.museum-nav')?getComputedStyle(document.querySelector('.museum-nav')).backgroundColor:'',
+      activeInstitutionNav:document.querySelector('.museum-links a.active')?.getAttribute('href'),
+      displaySwitches:document.querySelectorAll('.institution-display-switch button').length,
+      activeDisplay:document.querySelector('.institution-display-switch button[aria-selected="true"]')?.dataset.display,
+      displayPanels:document.querySelectorAll('.institution-display-panel').length,
+      palacePanelHidden:document.querySelector('[data-display-panel="palace"]')?.hidden,
+      graphPanelHidden:document.querySelector('[data-display-panel="graph"]')?.hidden,
+      graphFrameSrc:document.querySelector('.institution-graph-frame')?.getAttribute('src')||'',
+      developmentCopy:/B\s*版|C\s*版|返回明代官制档案|版本号/.test(document.body.textContent),
       titleOverlap:Boolean(hero&&stage&&hero.bottom>stage.top+1),
       bodyOverflow:document.body.scrollWidth>innerWidth,
       collisions,endpointMisses,lineWidths,distorted:transforms.length,
@@ -84,8 +88,8 @@ const inspectDesktop=async(width,height)=>{
       groupStripeWidth:ministryGroup?parseFloat(getComputedStyle(ministryGroup).borderLeftWidth):0,
       memberStripeWidth:ministryMembers[0]?parseFloat(getComputedStyle(ministryMembers[0]).borderLeftWidth):0,
       parentNodeType:ministryParent?.dataset.nodeType||'',
-      desktopDisplay:getComputedStyle(document.querySelector('.palace-stage')).display,
-      mobileDisplay:getComputedStyle(document.querySelector('.mobile-room-chapters')).display
+      desktopDisplay:document.querySelector('.palace-stage')?getComputedStyle(document.querySelector('.palace-stage')).display:'missing',
+      mobileDisplay:document.querySelector('.mobile-room-chapters')?getComputedStyle(document.querySelector('.mobile-room-chapters')).display:'missing'
     };
   });
 };
@@ -97,11 +101,13 @@ for(const [width,height] of [[1440,1000],[1024,768],[1800,1000]]){
   expect(state.axis===1,`${width}: page must expose one persistent power axis`);
   expect(state.rooms===5,`${width}: page must expose five institution rooms`);
   expect(state.openRooms<=1,`${width}: only one room may be open`);
-  expect(state.returnLink==='institutions.html',`${width}: C version must link back to B version`);
-  expect(state.modeSwitches===2,`${width}: institution hall must expose two persistent viewing modes`);
-  expect(state.activeMode==='palace',`${width}: palace space must identify itself as the current viewing mode`);
-  expect(state.graphModeHref.startsWith('institutions.html'),`${width}: palace space must link to the relationship-graph mode`);
-  expect(state.navPalaceLinks===0,`${width}: C version must remain absent from official navigation`);
+  expect(state.navBackground.includes('40, 34, 25'),`${width}: the unified hall must use the black museum navigation`);
+  expect(state.activeInstitutionNav==='institutions.html',`${width}: the shared navigation must keep 制度馆 active`);
+  expect(state.displaySwitches===2,`${width}: the unified hall must offer exactly two lower exhibition paths`);
+  expect(state.activeDisplay==='palace',`${width}: palace space must be the default exhibition path`);
+  expect(state.displayPanels===2&&!state.palacePanelHidden&&state.graphPanelHidden,`${width}: only the palace panel may be visible initially`);
+  expect(state.graphFrameSrc.startsWith('institutions-graph.html?embedded=1'),`${width}: relationship graph must be embedded inside the same hall`);
+  expect(!state.developmentCopy,`${width}: visitor copy must not expose B/C version or return-to-version language`);
   expect(!state.titleOverlap,`${width}: title must not overlap the palace stage`);
   expect(!state.bodyOverflow,`${width}: page must not overflow horizontally`);
   expect(state.collisions.length===0,`${width}: visible axis cards collide: ${state.collisions.join(', ')}`);
@@ -122,9 +128,10 @@ for(const [width,height] of [[1440,1000],[1024,768],[1800,1000]]){
 
 await page.setViewportSize({width:1440,height:1000});
 await page.goto(url,{waitUntil:'domcontentloaded'});
-await page.screenshot({path:path.join(root,'制度馆_双视角切换_权力空间.png'),fullPage:false});
+await page.screenshot({path:path.join(root,'制度馆_统一页面_权力空间.png'),fullPage:false});
 const interaction=await page.evaluate(async()=>{
   const roomTrigger=document.querySelector('[data-room-trigger="royal_east_palace_room"]');
+  if(!roomTrigger)return {missing:true};
   roomTrigger.focus();roomTrigger.click();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
   const room=document.querySelector('[data-room="royal_east_palace_room"]');
   const roomFocus=room.contains(document.activeElement);
@@ -153,17 +160,39 @@ expect(interaction.roomFocusReturned,'closing a room must return focus to its tr
 expect(interaction.focusedLineWidth>=3,'focused relations must be at least 3px');
 expect(interaction.year===1600,'global year state must return to 1600');
 
-const palaceSwitchState=await page.evaluate(()=>{window.setPalaceYear(1425);const href=document.querySelector('.institution-view-switch a[data-mode="graph"]')?.getAttribute('href')||'';window.setPalaceYear(1600);return href});
-expect(new URL(palaceSwitchState||'institutions.html',url).searchParams.get('year')==='1425','palace-to-graph switch must preserve the selected year');
+const displaySwitchState=await page.evaluate(async()=>{
+  const nav=document.querySelector('.museum-nav'),intro=document.querySelector('.palace-intro');
+  const graphButton=document.querySelector('.institution-display-switch [data-display="graph"]');
+  if(!graphButton)return {missing:true,pathname:location.pathname};
+  graphButton.click();await new Promise(resolve=>requestAnimationFrame(resolve));
+  const graphPanel=document.querySelector('[data-display-panel="graph"]');
+  const graphState={pathname:location.pathname,navSame:nav===document.querySelector('.museum-nav'),introSame:intro===document.querySelector('.palace-intro'),graphVisible:!graphPanel.hidden,palaceHidden:document.querySelector('[data-display-panel="palace"]').hidden,selected:graphButton.getAttribute('aria-selected')};
+  document.querySelector('.institution-display-switch [data-display="palace"]').click();await new Promise(resolve=>requestAnimationFrame(resolve));
+  return {...graphState,palaceRestored:!document.querySelector('[data-display-panel="palace"]').hidden};
+});
+expect(displaySwitchState.pathname.endsWith('/institutions.html'),'display switch must stay on the same institution page');
+expect(displaySwitchState.navSame&&displaySwitchState.introSame,'shared navigation and curatorial introduction must remain mounted while switching');
+expect(displaySwitchState.graphVisible&&displaySwitchState.palaceHidden&&displaySwitchState.selected==='true','relationship graph must replace only the lower exhibition panel');
+expect(displaySwitchState.palaceRestored,'palace panel must be restorable without page navigation');
+
+await page.locator('.institution-display-switch [data-display="graph"]').click();
+await page.waitForTimeout(120);
+await page.locator('.institution-display-switch').scrollIntoViewIfNeeded();
+const graphFrame=page.frames().find(frame=>frame.url().includes('institutions-graph.html'));
+const embeddedGraph=graphFrame?await graphFrame.evaluate(()=>({navDisplay:getComputedStyle(document.querySelector('.museum-nav')).display,titleDisplay:getComputedStyle(document.querySelector('.hero-title')).display,rulerDisplay:getComputedStyle(document.querySelector('.dynasty-ruler')).display,overflow:document.body.scrollWidth>innerWidth})):null;
+expect(embeddedGraph?.navDisplay==='none'&&embeddedGraph?.titleDisplay==='none','embedded relationship graph must not repeat the shared navigation or curatorial hero');
+expect(embeddedGraph?.rulerDisplay!=='none'&&!embeddedGraph?.overflow,'embedded relationship graph must retain its year ruler without horizontal overflow');
+await page.screenshot({path:path.join(root,'制度馆_统一页面_关系图谱.png'),fullPage:false});
+await page.locator('.institution-display-switch [data-display="palace"]').click();
 
 await page.goto(url,{waitUntil:'domcontentloaded'});
 await page.locator('.room-approach').scrollIntoViewIfNeeded();
-await page.screenshot({path:path.join(root,'制度馆C版_桌面预览.png'),fullPage:false});
-await page.locator('.axis-cluster[data-system="civil_administration"]').screenshot({path:path.join(root,'制度馆C版_六部组成关系.png')});
+await page.screenshot({path:path.join(root,'制度馆_权力空间_桌面预览.png'),fullPage:false});
+await page.locator('.axis-cluster[data-system="civil_administration"]').screenshot({path:path.join(root,'制度馆_六部组成关系.png')});
 
 await page.setViewportSize({width:390,height:844});
 await page.goto(url,{waitUntil:'domcontentloaded'});
-await page.screenshot({path:path.join(root,'制度馆C版_移动预览.png'),fullPage:false});
+await page.screenshot({path:path.join(root,'制度馆_权力空间_移动预览.png'),fullPage:false});
 const mobile=await page.evaluate(async()=>{
   const stage=getComputedStyle(document.querySelector('.palace-stage')).display;
   const chapters=document.querySelector('.mobile-room-chapters');
@@ -183,6 +212,31 @@ expect(mobile.expanded,'mobile room chapter must expand inline');
 expect(mobile.drawerRatio<=.82,'mobile dossier must not exceed 82% of viewport height');
 expect(!mobile.overflow,'mobile page must not overflow horizontally');
 expect(mobile.minHistoryFontSize>=12,`mobile historical explanatory copy must be at least 12px (got ${mobile.minHistoryFontSize}px)`);
+
+await page.keyboard.press('Escape');
+await page.locator('.institution-display-switch [data-display="graph"]').click();
+await page.waitForTimeout(120);
+const mobileDisplaySwitch=await page.evaluate(()=>({
+  pathname:location.pathname,
+  graphVisible:!document.querySelector('[data-display-panel="graph"]')?.hidden,
+  palaceHidden:document.querySelector('[data-display-panel="palace"]')?.hidden,
+  selected:document.querySelector('.institution-display-switch [data-display="graph"]')?.getAttribute('aria-selected'),
+  overflow:document.body.scrollWidth>innerWidth
+}));
+const mobileGraphFrame=page.frames().find(frame=>frame.url().includes('institutions-graph.html'));
+const mobileEmbeddedGraph=mobileGraphFrame?await mobileGraphFrame.evaluate(()=>({
+  navDisplay:getComputedStyle(document.querySelector('.museum-nav')).display,
+  titleDisplay:getComputedStyle(document.querySelector('.hero-title')).display,
+  rulerDisplay:getComputedStyle(document.querySelector('.dynasty-ruler')).display,
+  overflow:document.body.scrollWidth>innerWidth
+})):null;
+expect(mobileDisplaySwitch.pathname.endsWith('/institutions.html'),'mobile display switch must stay on the same institution page');
+expect(mobileDisplaySwitch.graphVisible&&mobileDisplaySwitch.palaceHidden&&mobileDisplaySwitch.selected==='true','mobile relationship graph must replace only the lower exhibition panel');
+expect(!mobileDisplaySwitch.overflow,'mobile unified hall must remain free of horizontal overflow after switching');
+expect(mobileEmbeddedGraph?.navDisplay==='none'&&mobileEmbeddedGraph?.titleDisplay==='none','mobile embedded graph must not repeat the shared navigation or curatorial hero');
+expect(mobileEmbeddedGraph?.rulerDisplay!=='none'&&!mobileEmbeddedGraph?.overflow,'mobile embedded graph must retain its year ruler without horizontal overflow');
+await page.locator('.institution-display-switch').scrollIntoViewIfNeeded();
+await page.screenshot({path:path.join(root,'制度馆_统一页面_移动关系图谱.png'),fullPage:false});
 
 const reduced=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
 await reduced.goto(url,{waitUntil:'domcontentloaded'});
