@@ -8,6 +8,8 @@ const browser = await chromium.launch({ headless: true, executablePath: chrome }
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const url = (file) => `file://${path.join(root, file)}`;
 const failures = [];
+const pageErrors = [];
+page.on('pageerror', (error) => pageErrors.push(error.message));
 
 const check = (condition, message, details) => {
   if (!condition) failures.push(`${message}${details ? `: ${JSON.stringify(details)}` : ''}`);
@@ -109,6 +111,97 @@ const personView = await page.evaluate(() => ({
 check(personView.view === 'timeline' && personView.timeline !== 'none' && personView.table === 'none', 'person query must retain timeline view', personView);
 check(personView.drawerOpen && personView.drawerName === '于谦', 'person query must keep the requested profile open', personView);
 
+const yuqian = page.locator('[data-timeline-person="于谦"]');
+const yuqianBefore = await yuqian.evaluate((node) => ({ left: node.style.left, top: node.style.top }));
+await yuqian.locator('.timeline-person-select').click();
+const yuqianSelected = await yuqian.evaluate((node) => ({
+  selected: node.classList.contains('is-selected'),
+  selectedCount: document.querySelectorAll('.timeline-person.is-selected').length,
+  pressed: node.querySelector('.timeline-person-select')?.getAttribute('aria-pressed'),
+  zIndex: Number(getComputedStyle(node).zIndex),
+  left: node.style.left,
+  top: node.style.top,
+  openHidden: node.querySelector('.timeline-person-open')?.hidden,
+}));
+check(
+  yuqianSelected.selected && yuqianSelected.selectedCount === 1 && yuqianSelected.pressed === 'true'
+    && yuqianSelected.zIndex >= 1000 && !yuqianSelected.openHidden
+    && yuqianSelected.left === yuqianBefore.left && yuqianSelected.top === yuqianBefore.top,
+  'selecting 于谦 must elevate one stable node and reveal its archive action',
+  yuqianSelected,
+);
+await yuqian.locator('.timeline-person-open').click();
+check((await page.locator('#detail h2').textContent())?.trim() === '于谦', 'timeline archive action must open 于谦 drawer');
+
+const portraitLoad = await page.evaluate(async () => {
+  const images = [...document.querySelectorAll('[data-timeline-image]')];
+  await Promise.race([
+    Promise.all(images.map((image) => new Promise((resolve, reject) => {
+      image.loading = 'eager';
+      if (image.complete) {
+        if (image.naturalWidth > 0) resolve();
+        else reject(new Error(image.currentSrc || image.src));
+        return;
+      }
+      image.addEventListener('load', resolve, { once: true });
+      image.addEventListener('error', () => reject(new Error(image.currentSrc || image.src)), { once: true });
+    }))),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('portrait load timed out')), 15000)),
+  ]);
+  return { count: images.length, naturalWidths: images.map((image) => image.naturalWidth) };
+}).catch((error) => ({ error: error.message }));
+check(
+  !portraitLoad.error && portraitLoad.count > 0 && portraitLoad.naturalWidths.every((width) => width > 0),
+  'timeline portraits must load before exercising the error fallback',
+  portraitLoad,
+);
+const portraitFallback = await page.evaluate(async () => {
+  const person = document.querySelector('[data-timeline-person="于谦"]');
+  const image = person?.querySelector('[data-timeline-image]');
+  if (!person || !image) return { missing: true };
+  const errored = new Promise((resolve) => image.addEventListener('error', resolve, { once: true }));
+  image.src = 'assets/does-not-exist-timeline-test.png';
+  await errored;
+  return {
+    imageHidden: image.hidden,
+    sourceHidden: person.querySelector('[data-timeline-image-source]')?.hidden,
+    fallbackVisible: getComputedStyle(person.querySelector('[data-timeline-fallback]')).display !== 'none',
+  };
+});
+check(
+  !portraitFallback.missing && portraitFallback.imageHidden && portraitFallback.sourceHidden && portraitFallback.fallbackVisible,
+  'a failed timeline portrait must hide image and source while exposing the initial fallback',
+  portraitFallback,
+);
+await yuqian.locator('.timeline-person-select').click();
+check(await yuqian.evaluate((node) => node.classList.contains('is-selected')), 'portrait fallback node must remain selectable');
+
+await page.locator('#peopleTableTab').focus();
+await page.keyboard.press('Tab');
+const keyboardFocus = await page.evaluate(() => {
+  const person = document.activeElement?.closest('[data-timeline-person]');
+  return {
+    person: person?.dataset.timelinePerson || '',
+    zIndex: person ? Number(getComputedStyle(person).zIndex) : 0,
+    pressed: document.activeElement?.getAttribute('aria-pressed') || '',
+  };
+});
+check(keyboardFocus.person && keyboardFocus.zIndex >= 1000 && keyboardFocus.pressed === 'false', 'Tab must focus a timeline selection control above the canvas', keyboardFocus);
+await page.keyboard.press('Enter');
+check(await page.evaluate(() => document.activeElement?.getAttribute('aria-pressed') === 'true'), 'Enter must select the focused timeline person');
+await page.keyboard.press('Escape');
+check(await page.evaluate(() => document.querySelectorAll('.timeline-person.is-selected').length === 0), 'Escape must clear timeline selection');
+await yuqian.locator('.timeline-person-select').click();
+const wangShouren = page.locator('[data-timeline-person="王守仁"]');
+await wangShouren.locator('.timeline-person-select').click();
+const exclusiveSelection = await page.evaluate(() => ({
+  selected: [...document.querySelectorAll('.timeline-person.is-selected')].map((node) => node.dataset.timelinePerson),
+  yuqianSelected: document.querySelector('[data-timeline-person="于谦"]')?.classList.contains('is-selected'),
+}));
+check(exclusiveSelection.selected.length === 1 && exclusiveSelection.selected[0] === '王守仁' && !exclusiveSelection.yuqianSelected, 'selecting another person must replace 于谦 selection', exclusiveSelection);
+await page.locator('.people-timeline-canvas').click({ position: { x: 1, y: 1 } });
+check(await page.evaluate(() => document.querySelectorAll('.timeline-person.is-selected').length === 0), 'clicking blank timeline canvas must clear selection');
+
 await page.goto(url('events.html'), { waitUntil: 'networkidle' });
 const eventsView = await page.evaluate(() => ({
   timeline: document.querySelectorAll('#peopleTimelineView').length,
@@ -143,6 +236,7 @@ check(noScriptCellsByHeader['家乡 / 世系']?.includes('濠州钟离'), 'no-sc
 check(childrenHeader && noScriptCellsByHeader[childrenHeader]?.includes('合计'), 'no-script child counts must follow the real child-count header', noScript);
 await noScriptContext.close();
 
+check(pageErrors.length === 0, 'page must not emit JavaScript errors', pageErrors);
 await browser.close();
 
 if (failures.length) throw new Error(failures.join('\n'));

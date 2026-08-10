@@ -274,14 +274,14 @@ function firstCharacter(value) {
 function portraitMarkup(name, portrait) {
   const initial = escapeHtml(firstCharacter(name));
   if (!portrait?.file) {
-    return `<span class="timeline-portrait timeline-portrait--fallback" aria-hidden="true"><span class="timeline-portrait-fallback">${initial}</span></span>`;
+    return `<span class="timeline-portrait timeline-portrait--fallback" aria-hidden="true"><span class="timeline-portrait-fallback" data-timeline-fallback>${initial}</span></span>`;
   }
 
   const file = escapeHtml(portrait.file);
   const kind = escapeHtml(portrait.kind || '历史图像');
   const label = escapeHtml(portrait.label || portrait.kind || '人物画像');
   const alt = escapeHtml(`${name}：${portrait.label || portrait.kind || '人物画像'}`);
-  return `<span class="timeline-portrait" data-portrait-kind="${kind}" data-portrait-label="${label}"><img class="timeline-portrait-image" src="${file}" alt="${alt}" loading="lazy" decoding="async"><span class="timeline-portrait-fallback" aria-hidden="true">${initial}</span></span>`;
+  return `<span class="timeline-portrait" data-portrait-kind="${kind}" data-portrait-label="${label}"><img class="timeline-portrait-image" data-timeline-image src="${file}" alt="${alt}" loading="lazy" decoding="async"><span class="timeline-portrait-source" data-timeline-image-source aria-hidden="true">${kind}</span><span class="timeline-portrait-fallback" data-timeline-fallback aria-hidden="true">${initial}</span></span>`;
 }
 
 function laneMarkup(layout) {
@@ -367,8 +367,9 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{color:#171815;font-family:u
 .timeline-lane-label{position:absolute;z-index:1;left:18px;top:var(--lane-y);margin:0;transform:translateY(-50%);width:108px;color:#625d50;font-size:12px;line-height:1.25;text-align:center}
 .timeline-person{position:absolute;left:var(--person-x);top:var(--person-y);z-index:2;transform:translate(-50%,-50%);width:max-content;text-align:center}
 .timeline-person-select{display:flex;flex-direction:column;align-items:center;gap:2px;max-width:110px;padding:0;border:0;background:transparent;color:inherit;font:inherit;cursor:pointer}
-.timeline-portrait{display:grid;place-items:center;width:var(--avatar-size);height:var(--avatar-size);box-sizing:border-box;border:3px solid var(--category-color);border-radius:50%;overflow:hidden;background:#dfd6c4;color:#171815;font-weight:700;line-height:1}
+.timeline-portrait{position:relative;display:grid;place-items:center;width:var(--avatar-size);height:var(--avatar-size);box-sizing:border-box;border:3px solid var(--category-color);border-radius:50%;overflow:hidden;background:#dfd6c4;color:#171815;font-weight:700;line-height:1}
 .timeline-portrait-image{display:block;width:100%;height:100%;object-fit:cover}
+.timeline-portrait-source{position:absolute;right:0;bottom:0;max-width:100%;padding:1px 3px;overflow:hidden;background:rgba(23,24,21,.78);color:#f5f0e3;font:8px/1.15 ui-sans-serif,sans-serif;text-overflow:ellipsis;white-space:nowrap}
 .timeline-portrait .timeline-portrait-fallback{display:none}
 .timeline-portrait--fallback .timeline-portrait-fallback,.timeline-portrait.is-failed .timeline-portrait-fallback{display:grid;place-items:center;width:100%;height:100%}
 .timeline-portrait.is-failed .timeline-portrait-image{display:none}
@@ -389,7 +390,7 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{color:#171815;font-family:u
 .category-external{--category-color:#61778b}
 .timeline-person.is-selected,.timeline-person:focus-within{z-index:1000}
 .timeline-person.is-selected .timeline-portrait,.timeline-person:focus-within .timeline-portrait{box-shadow:0 0 0 4px #171815,0 0 0 7px #f0e1b6}
-.timeline-person.is-selected time,.timeline-person:focus-within time,.timeline-person.is-selected .timeline-person-open,.timeline-person:focus-within .timeline-person-open{display:block}
+.timeline-person.is-selected time,.timeline-person:focus-within time,.timeline-person.is-selected .timeline-person-open{display:block}
 `;
 
 export function peopleTimelineClientScript() {
@@ -423,6 +424,51 @@ export function peopleTimelineClientScript() {
         setPeopleView(next.dataset.peopleView);
         next.focus();
       });
+    });
+    const people=[...document.querySelectorAll('[data-timeline-person]')];
+    const clearPersonSelection=()=>people.forEach(person=>{
+      person.classList.remove('is-selected');
+      const select=person.querySelector('.timeline-person-select');
+      const open=person.querySelector('.timeline-person-open');
+      if(select)select.setAttribute('aria-pressed','false');
+      if(open)open.hidden=true;
+    });
+    const selectPerson=person=>{
+      clearPersonSelection();
+      person.classList.add('is-selected');
+      const select=person.querySelector('.timeline-person-select');
+      const open=person.querySelector('.timeline-person-open');
+      if(select)select.setAttribute('aria-pressed','true');
+      if(open)open.hidden=false;
+    };
+    const openTimelinePerson=name=>{
+      const person=personRecord(name);
+      if(!person)return;
+      syncPeopleQuery('person',person.name);
+      if(personPageMeta(person)&&matchMedia('(max-width:720px)').matches){
+        location.href=personPageHref(person);
+        return;
+      }
+      openDetail(person);
+    };
+    timeline.addEventListener('click',event=>{
+      const person=event.target.closest('[data-timeline-person]');
+      if(!person){clearPersonSelection();return}
+      if(event.target.closest('.timeline-person-select')){selectPerson(person);return}
+      const open=event.target.closest('.timeline-person-open');
+      if(open){openTimelinePerson(person.dataset.timelinePerson)}
+    });
+    document.addEventListener('keydown',event=>{
+      if(event.key==='Escape')clearPersonSelection();
+    });
+    document.querySelectorAll('[data-timeline-image]').forEach(image=>{
+      image.addEventListener('error',()=>{
+        image.hidden=true;
+        const portrait=image.closest('.timeline-portrait');
+        portrait?.classList.add('is-failed');
+        const source=portrait?.querySelector('[data-timeline-image-source]');
+        if(source)source.hidden=true;
+      },{once:true});
     });
     setPeopleView(new URLSearchParams(location.search).has('event')?'table':'timeline');
   })();`;
