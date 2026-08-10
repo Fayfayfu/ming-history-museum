@@ -4,6 +4,8 @@ import fs from 'node:fs/promises';
 import {
   canonicalPersonName,
   layoutPeopleTimeline,
+  PEOPLE_TIMELINE_CSS,
+  renderPeopleTimeline,
   uniquePeopleRoster,
   validatePeopleTimelineData,
 } from './people_timeline.mjs';
@@ -133,4 +135,47 @@ test('layout keeps real timeline data on the strict year scale', async () => {
       assert.ok(current.x - previous.x >= 0.8 * (previous.sizePx + current.sizePx) / 2);
     }
   }
+});
+
+test('renderer outputs every semantic lane and never writes 最近皇帝', async () => {
+  const timelineData = JSON.parse(await fs.readFile('data/ming_people_timeline.json', 'utf8'));
+  const people = validatePeopleTimelineData({ core, children, timelineData });
+  const layout = layoutPeopleTimeline(people);
+  const html = renderPeopleTimeline({ people, layout, portraitFor: () => null });
+
+  assert.match(html, /id="peopleTimelineView"/);
+  assert.equal((html.match(/data-timeline-person=/g) || []).length, 163);
+  for (const label of ['后妃与内廷女性', '皇子女', '皇帝', '宦官', '文臣／武官', '在野人物', '政权人物／域外人物']) {
+    assert.match(html, new RegExp(label));
+  }
+  assert.doesNotMatch(html, /最近皇帝/);
+  assert.match(html, /data-people-view="timeline"/);
+  assert.match(html, /data-people-view="table"/);
+  assert.match(PEOPLE_TIMELINE_CSS, /\.people-timeline-viewport\{overflow-x:auto/);
+});
+
+test('renderer escapes person metadata and keeps portrait fallbacks available', () => {
+  const people = [{
+    name: '甲<乙', category: '文臣', timeline_year: 1421, timeline_year_label: '宣德六年',
+    timeline_role: '兵部<尚书', timeline_year_confidence: '高', timeline_size: 'featured',
+  }];
+  const layout = layoutPeopleTimeline(people);
+  const withPortrait = renderPeopleTimeline({
+    people,
+    layout,
+    portraitFor: () => ({ file: 'assets/portrait?x="<x>', kind: 'AI想象像', label: '艺术<想象' }),
+  });
+  const withoutPortrait = renderPeopleTimeline({ people, layout, portraitFor: () => null });
+
+  assert.match(withPortrait, /loading="lazy" decoding="async"/);
+  assert.match(withPortrait, /data-portrait-kind="AI想象像"/);
+  assert.match(withPortrait, /src="assets\/portrait\?x=&quot;&lt;x&gt;"/);
+  assert.match(withPortrait, /甲&lt;乙/);
+  assert.match(withPortrait, /兵部&lt;尚书/);
+  assert.match(withPortrait, /<time datetime="1421">宣德六年<\/time>/);
+  assert.match(withPortrait, /<button class="timeline-person-select"/);
+  assert.match(withPortrait, /<button class="timeline-person-open"[^>]* hidden>/);
+  assert.match(withPortrait, /timeline-portrait-fallback/);
+  assert.match(withoutPortrait, /timeline-portrait--fallback/);
+  assert.doesNotMatch(withoutPortrait, /<img /);
 });
