@@ -311,7 +311,7 @@ function personMarkup(node, portraitFor) {
   const portrait = portraitFor(node.name);
   const ariaLabel = escapeHtml(`${node.name}，${node.timeline_role || node.office || '人物'}，${node.timeline_year_label || node.timeline_year}进入历史叙事，${node.timeline_year_confidence || '未知'}置信度`);
 
-  return `<article class="timeline-person category-${categoryStyle} size-${size}" data-timeline-person="${name}" data-year="${node.timeline_year}" style="--person-x:${x}px;--person-y:${y}px;--avatar-size:${avatarSize}px">
+  return `<article class="timeline-person category-${categoryStyle} size-${size}" data-timeline-person="${name}" data-year="${node.timeline_year}" data-lane="${escapeHtml(node.lane.id)}" data-layer="${Number(node.slot)}" style="--person-x:${x}px;--person-y:${y}px;--avatar-size:${avatarSize}px">
     <button class="timeline-person-select" type="button" aria-pressed="false" aria-label="${ariaLabel}">
       ${portraitMarkup(node.name, portrait)}
       <strong>${name}</strong><small>${role}</small><time datetime="${node.timeline_year}">${yearLabel}</time>

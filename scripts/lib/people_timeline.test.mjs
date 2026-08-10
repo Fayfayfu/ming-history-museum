@@ -162,6 +162,15 @@ test('renderer outputs every semantic lane and never writes 最近皇帝', async
 
   assert.match(html, /id="peopleTimelineView"/);
   assert.equal((html.match(/data-timeline-person=/g) || []).length, 163);
+  const personArticles = html.match(/<article class="timeline-person[^>]*>/g) || [];
+  const allowedLanes = new Set(['women', 'children', 'emperor', 'eunuch', 'officials', 'independent', 'external']);
+  assert.equal(personArticles.length, 163);
+  for (const article of personArticles) {
+    const lane = article.match(/data-lane="([^"]+)"/)?.[1];
+    const layer = article.match(/data-layer="([^"]+)"/)?.[1];
+    assert.ok(allowedLanes.has(lane), `unexpected or missing lane in ${article}`);
+    assert.match(layer || '', /^\d+$/, `invalid layer in ${article}`);
+  }
   for (const label of ['后妃与内廷女性', '皇子女', '皇帝', '宦官', '文臣／武官', '在野人物', '政权人物／域外人物']) {
     assert.match(html, new RegExp(label));
   }
