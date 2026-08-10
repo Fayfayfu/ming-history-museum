@@ -170,8 +170,11 @@ function renderInstitutionPalaceDocument(model){
 export function renderInstitutionPalace(model){
   return renderInstitutionPalaceDocument(model)
     .replace('<title>宫廷权力空间｜明朝制度馆｜步入大明</title>','<title>明朝制度馆｜步入大明</title>')
-    .replace('PALACE OF POWER · 制度馆 C 版','PALACE OF POWER · 明朝制度馆')
-    .replace('<div class="intro-actions"><a class="jump-axis" href="#palaceMap">进入权力轴线</a><a class="return-archive" href="institutions.html">返回明代官制档案</a></div></header><section class="time-desk"','<div class="intro-actions"><a class="jump-axis" href="#palaceMap">进入权力轴线</a></div></header>'+displaySwitch()+'<section class="time-desk"')
+    .replace('PALACE OF POWER · 制度馆 C 版','INSTITUTIONAL ATLAS · 明朝制度馆')
+    .replace('<h1>宫门之内，权力如何分流<span>轴线驻留 · 制度房间渐次展开</span></h1>','<h1>大明如何运转<span>明朝机构制度舆图</span></h1>')
+    .replace('这里不是宫殿建筑复原，而是一座可以行走的权力模型。29 个机构构成始终可见的制度主轴；靠近内廷、东宫、礼仪文教、外朝与京师军政时，再推开相应房间，查看机构如何接入权力与文书流程。','这是一幅可交互的明朝机构制度舆图。29 个主干节点与 16 个展开机构共同呈现中央决策、外朝行政、监察司法、内廷服务、礼仪文教、地方治理与京师军政之间的连接；拖动年份、展开章节，可以查看机构如何参与权力运行与文书流转。')
+    .replace('<div class="intro-actions"><a class="jump-axis" href="#palaceMap">进入权力轴线</a><a class="return-archive" href="institutions.html">返回明代官制档案</a></div></header><section class="time-desk"','<div class="intro-actions"><a class="jump-axis" href="#palaceMap">进入制度舆图</a></div></header>'+displaySwitch()+'<section class="time-desk"')
+    .replace('<footer class="palace-footer"><b>步入大明 · 宫廷权力空间</b>','<footer class="palace-footer"><b>步入大明 · 明朝机构制度舆图</b>')
     .replace('</div></section><section class="palace-shell">','</div></section><section class="institution-display-panel" data-display-panel="palace" id="palaceDisplay" role="tabpanel" tabindex="-1"><section class="palace-shell">')
     .replace('</article></section></section></main><aside class="institution-dossier"','</article></section></section></section><section class="institution-display-panel institution-graph-panel" data-display-panel="graph" id="graphDisplay" role="tabpanel" tabindex="-1" hidden><iframe class="institution-graph-frame" title="明朝机构关系图谱" src="institutions-graph.html?embedded=1"></iframe></section></main><aside class="institution-dossier"')
     .replace('<div class="dossier-sources" data-dossier-sources></div>','<section class="dossier-people" aria-labelledby="dossierPeopleTitle"><header><b id="dossierPeopleTitle">相关人物</b><span data-dossier-people-phase></span></header><div class="dossier-person-list" data-dossier-people></div><p class="dossier-people-empty" data-dossier-people-empty></p></section><div class="dossier-sources" data-dossier-sources></div>')
