@@ -57,7 +57,7 @@ test('verifier accepts the curated 163-person timeline', () => {
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 });
 
-test('default verify gate runs data, both timeline test suites, legacy regression, then page E2E', () => {
+test('default verify gate runs data, all timeline test suites, legacy regression, then page E2E', () => {
   assert.equal(
     packageJson.scripts['verify:people-timeline-unit'],
     'node --test scripts/lib/people_timeline.test.mjs scripts/verify_ming_people_timeline.test.mjs',
@@ -65,6 +65,7 @@ test('default verify gate runs data, both timeline test suites, legacy regressio
   assert.deepEqual(packageJson.scripts.verify.split(' && '), [
     'npm run verify:people-timeline',
     'npm run verify:people-timeline-unit',
+    'npm run verify:people-timeline-variants-unit',
     'node scripts/verify_ming_museum.mjs',
     'npm run verify:people-timeline-page',
   ]);

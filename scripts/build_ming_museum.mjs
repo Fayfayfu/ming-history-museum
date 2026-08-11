@@ -7,6 +7,7 @@ import {
   peopleTimelineClientScript,
 } from './lib/people_timeline.mjs';
 import {MUSEUM_NAV_CSS,renderMuseumNavigation} from './lib/museum_navigation.mjs';
+import {PEOPLE_TIMELINE_VARIANTS,renderPeopleTimelineVariantPage} from './lib/people_timeline_variants.mjs';
 
 // Rebuild the research baseline first, then derive two focused exhibition halls.
 await import('./build_ming_html.mjs');
@@ -156,7 +157,11 @@ function baseHall(kind) {
   return html;
 }
 
-await fs.writeFile(`${museum}/people.html`, baseHall('people'), 'utf8');
+const peopleHallHtml = baseHall('people');
+await fs.writeFile(`${museum}/people.html`, peopleHallHtml, 'utf8');
+for (const config of Object.values(PEOPLE_TIMELINE_VARIANTS)) {
+  await fs.writeFile(`${museum}/${config.filename}`, renderPeopleTimelineVariantPage(peopleHallHtml, config.key), 'utf8');
+}
 await fs.writeFile(`${museum}/events.html`, baseHall('events'), 'utf8');
 
 const stageCards = events.stages.map((stage,index)=>{
