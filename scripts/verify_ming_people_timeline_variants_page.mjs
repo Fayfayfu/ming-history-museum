@@ -69,6 +69,7 @@ try {
   const a = await verifyA(page);
   await page.goto(`file://${path.join(root, 'people-timeline-b.html')}`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('[data-scroll-drag-surface]');
+  await page.waitForSelector('.stat strong');
   verifiedVariants.push('b');
 
   const beforeDrag = await page.evaluate(() => {
@@ -95,6 +96,51 @@ try {
       } : null,
     };
   });
+  const readability = await page.evaluate(() => {
+    const parseColor = (value) => {
+      const channels = value.match(/[\d.]+/g)?.map(Number) || [];
+      return { rgb: channels.slice(0, 3), alpha: channels[3] ?? 1 };
+    };
+    const composite = (foreground, background) => foreground.rgb.map((value, index) => Math.round(value * foreground.alpha + background[index] * (1 - foreground.alpha)));
+    const luminance = (rgb) => rgb.map((value) => {
+      const channel = value / 255;
+      return channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4;
+    }).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
+    const contrast = (foreground, background) => {
+      const a = luminance(foreground);
+      const b = luminance(background);
+      return (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+    };
+    const stageSurface = [56, 50, 38];
+    const readText = (selector) => parseColor(getComputedStyle(document.querySelector(selector)).color).rgb;
+    const stat = document.querySelector('.stat');
+    const statSurface = composite(parseColor(getComputedStyle(stat).backgroundColor), stageSurface);
+    const lede = readText('.lede');
+    const scope = readText('.scope');
+    const scopeBold = readText('.scope b');
+    const mastSmall = readText('.mast h1 small');
+    const statLabel = readText('.stat span');
+    const statStrong = readText('.stat:nth-child(2) strong');
+    const firstAccent = readText('.stat:first-child strong');
+    const lastAccent = readText('.stat:last-child strong');
+    return {
+      stageSurface,
+      statSurface,
+      stageText: {
+        lede: { color: lede, contrast: contrast(lede, stageSurface) },
+        scope: { color: scope, contrast: contrast(scope, stageSurface) },
+        scopeBold: { color: scopeBold, contrast: contrast(scopeBold, stageSurface) },
+        mastSmall: { color: mastSmall, contrast: contrast(mastSmall, stageSurface) },
+      },
+      stats: {
+        background: statSurface,
+        label: { color: statLabel, contrast: contrast(statLabel, statSurface) },
+        strong: { color: statStrong, contrast: contrast(statStrong, statSurface) },
+        firstAccent: { color: firstAccent, contrast: contrast(firstAccent, statSurface) },
+        lastAccent: { color: lastAccent, contrast: contrast(lastAccent, statSurface) },
+      },
+    };
+  });
   check(beforeDrag.scrollHeight <= 1000, 'B drag surface scrollHeight must be at most 1000', beforeDrag);
   check(beforeDrag.scrollWidth > beforeDrag.clientWidth, 'B drag surface must overflow horizontally', beforeDrag);
   check(beforeDrag.stage === 'immersive', 'B must include the immersive stage shell', beforeDrag);
@@ -105,6 +151,15 @@ try {
   check(beforeDrag.maskPointerEvents.every((value) => value === 'none'), 'B side masks must not capture pointers', beforeDrag);
   check(beforeDrag.rollerPointerEvents.length === 2 && beforeDrag.rollerPointerEvents.every((value) => value === 'none'), 'B rollers must not capture pointers', beforeDrag);
   check(beforeDrag.nav?.height === '54px', 'B secondary navigation must be compact', beforeDrag);
+  check(Object.values(readability.stageText).every((item) => item.contrast >= 4.5), 'B stage text must meet 4.5:1 against its brightest stage surface', readability);
+  check(readability.stats.label.contrast >= 4.5 && readability.stats.strong.contrast >= 4.5, 'B light stat cards must use readable dark text', readability);
+  check(readability.stats.firstAccent.contrast >= 4.5 && readability.stats.lastAccent.contrast >= 4.5, 'B stat accents must remain readable red emphasis', readability);
+  check(
+    readability.stats.firstAccent.color.join(',') === readability.stats.lastAccent.color.join(',')
+      && readability.stats.firstAccent.color.join(',') !== readability.stats.strong.color.join(','),
+    'B first and last stat values must retain their distinct red emphasis',
+    readability,
+  );
 
   const surface = page.locator('[data-scroll-drag-surface]');
   const box = await surface.boundingBox();
@@ -148,7 +203,7 @@ try {
   check(!peopleHtml.includes('data-scroll-variant="b"'), 'people.html must remain isolated from B variant');
   check(!peopleHtml.includes('data-scroll-drag-surface'), 'people.html must not receive B drag surface');
   await page.locator('.people-timeline').screenshot({ path: screenshotPath });
-  result = { status: 'ok', screenshotPath, a, b: { beforeDrag, afterDrag, drawerBefore, drawerDuring, drawerAfter } };
+  result = { status: 'ok', screenshotPath, a, b: { beforeDrag, readability, afterDrag, drawerBefore, drawerDuring, drawerAfter } };
 } finally {
   await browser?.close();
 }

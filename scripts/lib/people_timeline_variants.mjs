@@ -15,7 +15,9 @@ body[data-scroll-variant="b"] .people-timeline:before,body[data-scroll-variant="
 body[data-scroll-variant="b"] .people-timeline:before{left:30px;background:linear-gradient(90deg,rgba(23,17,9,.72),transparent)}
 body[data-scroll-variant="b"] .people-timeline:after{right:30px;background:linear-gradient(-90deg,rgba(23,17,9,.72),transparent)}
 body[data-scroll-variant="b"] [data-scroll-roller]{position:absolute;z-index:9;top:52px;bottom:32px;width:12px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f);box-shadow:0 0 0 1px #241609,0 8px 18px rgba(0,0,0,.38);pointer-events:none}
-body[data-scroll-variant="b"] [data-scroll-roller="start"]{left:24px}body[data-scroll-variant="b"] [data-scroll-roller="end"]{right:24px}`,
+body[data-scroll-variant="b"] [data-scroll-roller="start"]{left:24px}body[data-scroll-variant="b"] [data-scroll-roller="end"]{right:24px}
+body[data-scroll-variant="b"] .lede{color:#eee6d3}body[data-scroll-variant="b"] .scope{color:#c9bfa9}body[data-scroll-variant="b"] .scope b{color:#f5f0e3}body[data-scroll-variant="b"] .mast h1 small{color:#c9bfa9}
+body[data-scroll-variant="b"] .stat{background:#f5f0e3;color:#171611}body[data-scroll-variant="b"] .stat span{color:#625d50}body[data-scroll-variant="b"] .stat strong{color:#171611}body[data-scroll-variant="b"] .stat:nth-child(1) strong,body[data-scroll-variant="b"] .stat:last-child strong{color:#9c2f23}`,
 });
 
 export const PEOPLE_TIMELINE_VARIANTS = Object.freeze(Object.fromEntries(KEYS.map((key) => [key, Object.freeze({
