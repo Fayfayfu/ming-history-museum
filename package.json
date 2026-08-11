@@ -16,6 +16,7 @@
     "verify:people-timeline-page": "node scripts/verify_ming_people_timeline_page.mjs",
     "verify:people-timeline-variants-page": "node scripts/verify_ming_people_timeline_variants_page.mjs",
     "verify:people-timeline-doubleclick-page": "node scripts/verify_ming_people_timeline_doubleclick_page.mjs",
+    "verify:reign-years": "node --test scripts/lib/ming_reign_year.test.mjs && node scripts/verify_ming_reign_year_page.mjs",
     "verify:institutions": "node scripts/verify_ming_institution_graph.mjs",
     "verify:institution-expansion": "node scripts/verify_ming_institution_expansion.mjs",
     "verify:institution-palace": "node scripts/verify_ming_institution_palace_page.mjs",
@@ -24,7 +25,7 @@
     "verify:navigation": "node scripts/verify_ming_museum_navigation.mjs",
     "verify:navigation-type": "node scripts/verify_museum_nav_typography.mjs",
     "verify:deploy": "node scripts/verify_vercel_bundle.mjs",
-    "verify": "npm run verify:people-timeline && npm run verify:people-timeline-unit && npm run verify:people-timeline-variants-unit && node scripts/verify_ming_museum.mjs && npm run verify:people-timeline-page && npm run verify:people-timeline-variants-page && npm run verify:people-timeline-doubleclick-page"
+    "verify": "npm run verify:people-timeline && npm run verify:people-timeline-unit && npm run verify:people-timeline-variants-unit && node --test scripts/lib/ming_reign_year.test.mjs && node scripts/verify_ming_museum.mjs && npm run verify:people-timeline-page && npm run verify:people-timeline-variants-page && npm run verify:people-timeline-doubleclick-page && node scripts/verify_ming_reign_year_page.mjs"
   },
   "dependencies": {
     "sharp": "^0.34.5"
