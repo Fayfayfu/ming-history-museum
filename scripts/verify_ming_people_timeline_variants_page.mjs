@@ -152,13 +152,32 @@ async function captureB2Geometry(page) {
     const stage = document.querySelector('#peopleTimelineView');
     const portrait = document.querySelector('.timeline-portrait');
     const portraitBox = portrait?.getBoundingClientRect();
+    const stageBox = stage?.getBoundingClientRect();
+    const verticallyVisible = (element) => {
+      const box = element?.getBoundingClientRect();
+      return Boolean(stageBox && box && box.top >= stageBox.top && box.bottom <= stageBox.bottom);
+    };
+    const peopleVisibility = [...document.querySelectorAll('[data-timeline-person]')].map((person) => ({
+      name: person.dataset.timelinePerson || '',
+      avatar: verticallyVisible(person.querySelector('.timeline-portrait')),
+      nameLabel: verticallyVisible(person.querySelector('strong')),
+      identity: verticallyVisible(person.querySelector('small')),
+    }));
+    const hiddenPeople = peopleVisibility.filter((person) => !person.avatar || !person.nameLabel || !person.identity);
+    const bottomSamples = peopleVisibility.filter((person) => ['张士诚', '李自成', '李舜臣'].includes(person.name));
     return {
       componentHeight: timeline?.getBoundingClientRect().height || 0,
       stageHeight: stage?.getBoundingClientRect().height || 0,
+      stageClientHeight: stage?.clientHeight || 0,
+      stageScrollHeight: stage?.scrollHeight || 0,
+      stageOverflowY: stage ? getComputedStyle(stage).overflowY : '',
       portraitWidth: portraitBox?.width || 0,
       portraitHeight: portraitBox?.height || 0,
       scrollWidth: stage?.scrollWidth || 0,
       clientWidth: stage?.clientWidth || 0,
+      personCount: peopleVisibility.length,
+      hiddenPeople,
+      bottomSamples,
     };
   });
 }
@@ -203,6 +222,9 @@ async function verifyB2(page, currentPage) {
   check(stagePalette.maskPointerEvents.every((value) => value === 'none') && stagePalette.rollerPointerEvents.length === 2 && stagePalette.rollerPointerEvents.every((value) => value === 'none'), 'B2 masks and rollers must not capture pointers', stagePalette);
   check(stagePalette.canvasTransform === 'none', 'B2 must not scale the timeline canvas', stagePalette);
   check(geometry.componentHeight <= 1000, 'B2 component height must stay within 1000px', geometry);
+  check(geometry.stageScrollHeight <= geometry.stageClientHeight && geometry.stageOverflowY === 'hidden', 'B2 stage must fit its full canvas with no usable vertical scroll', geometry);
+  check(geometry.personCount === 163 && geometry.hiddenPeople.length === 0, 'B2 must fully show every avatar, name, and identity within the stage', geometry);
+  check(geometry.bottomSamples.length === 3 && geometry.bottomSamples.every((person) => person.avatar && person.nameLabel && person.identity), 'B2 bottom people must remain fully visible', geometry.bottomSamples);
   check(Math.abs(geometry.portraitWidth - geometry.portraitHeight) <= 1, 'B2 portraits must remain circular', geometry);
   check(geometry.scrollWidth > geometry.clientWidth, 'B2 long scroll must retain horizontal overflow', geometry);
   check(Object.values(readability).filter((value) => value?.contrast).every((item) => item.contrast >= 4.5), 'B2 timeline text must meet 4.5:1 contrast against its brightest stage surface', readability);
