@@ -10,6 +10,49 @@ const verifiedVariants = [];
 const check = (condition, message, details) => {
   if (!condition) failures.push(`${message}${details ? `: ${JSON.stringify(details)}` : ''}`);
 };
+const sameStyle = (left, right) => JSON.stringify(left) === JSON.stringify(right);
+
+async function captureTableStyles(page) {
+  return page.evaluate(() => {
+    const read = (selector) => {
+      const style = getComputedStyle(document.querySelector(selector));
+      return { color: style.color, backgroundColor: style.backgroundColor, backgroundImage: style.backgroundImage };
+    };
+    return Object.fromEntries([
+      ['body', read('body')],
+      ['mastSmall', read('.mast h1 small')],
+      ['lede', read('.lede')],
+      ['scope', read('.scope')],
+      ['scopeBold', read('.scope b')],
+      ['stat', read('.stat')],
+      ['statLabel', read('.stat span')],
+      ['statStrong', read('.stat:nth-child(2) strong')],
+      ['toolbar', read('.toolbar')],
+      ['statusline', read('.statusline')],
+      ['tablewrap', read('.tablewrap')],
+      ['tableHead', read('.roster thead th')],
+      ['tableRow', read('.roster tbody tr')],
+      ['method', read('.method')],
+    ]);
+  });
+}
+
+async function captureDrawerStyles(page) {
+  return page.evaluate(() => {
+    const read = (selector) => {
+      const style = getComputedStyle(document.querySelector(selector));
+      return { color: style.color, backgroundColor: style.backgroundColor, borderColor: style.borderColor };
+    };
+    return Object.fromEntries([
+      ['panel', read('.panel')],
+      ['panelHeading', read('.panel h2')],
+      ['fact', read('.fact')],
+      ['factLabel', read('.fact span')],
+      ['identity', read('.identity')],
+      ['close', read('.close')],
+    ]);
+  });
+}
 
 async function verifyA(page) {
   await page.goto(`file://${path.join(root, 'people-timeline-a.html')}`, { waitUntil: 'domcontentloaded' });
@@ -161,6 +204,30 @@ try {
     readability,
   );
 
+  const currentPage = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  await currentPage.goto(`file://${path.join(root, 'people-timeline-current.html')}`, { waitUntil: 'domcontentloaded' });
+  await currentPage.waitForSelector('.stat strong');
+  await page.locator('#peopleTableTab').click();
+  await currentPage.locator('#peopleTableTab').click();
+  await page.waitForSelector('.tablewrap:not([hidden])');
+  await currentPage.waitForSelector('.tablewrap:not([hidden])');
+  const bTable = await captureTableStyles(page);
+  const currentTable = await captureTableStyles(currentPage);
+  check(sameStyle(bTable, currentTable), 'B table view must restore current page colors', { bTable, currentTable });
+
+  await page.locator('#peopleTimelineTab').click();
+  await page.waitForSelector('[data-scroll-drag-surface]');
+  const bTimelineAfterTable = await page.evaluate(() => ({
+    view: document.body.dataset.peopleView,
+    background: getComputedStyle(document.body).backgroundImage,
+    color: getComputedStyle(document.body).color,
+  }));
+  check(
+    bTimelineAfterTable.view === 'timeline' && bTimelineAfterTable.background.includes('radial-gradient') && bTimelineAfterTable.color === 'rgb(238, 230, 211)',
+    'B timeline must retain its dark stage after table view closes',
+    bTimelineAfterTable,
+  );
+
   const surface = page.locator('[data-scroll-drag-surface]');
   const box = await surface.boundingBox();
   if (!box) throw new Error('B drag surface has no bounding box');
@@ -192,18 +259,27 @@ try {
   const drawerBefore = await page.evaluate(() => document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0);
   await visiblePerson.locator('.timeline-person-open').click();
   await page.waitForSelector('#drawer.open');
+  await currentPage.locator('#peopleTimelineTab').click();
+  await currentPage.locator('[data-timeline-person="朱元璋"] .timeline-person-select').click();
+  await currentPage.locator('[data-timeline-person="朱元璋"] .timeline-person-open').click();
+  await currentPage.waitForSelector('#drawer.open');
+  const bDrawer = await captureDrawerStyles(page);
+  const currentDrawer = await captureDrawerStyles(currentPage);
+  check(sameStyle(bDrawer, currentDrawer), 'B drawer paper colors must restore current page colors', { bDrawer, currentDrawer });
   const drawerDuring = await page.evaluate(() => document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0);
   check(Math.abs(drawerDuring - drawerBefore) <= 1, 'B opening drawer must preserve scrollLeft', { drawerBefore, drawerDuring });
   await page.locator('#close').click();
   await page.waitForFunction(() => !document.querySelector('#drawer')?.classList.contains('open'));
   const drawerAfter = await page.evaluate(() => document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0);
   check(Math.abs(drawerAfter - drawerBefore) <= 1, 'B drawer must preserve scrollLeft', { drawerBefore, drawerAfter });
+  const bStageAfterDrawer = await page.evaluate(() => ({ background: getComputedStyle(document.body).backgroundImage, color: getComputedStyle(document.body).color }));
+  check(bStageAfterDrawer.background.includes('radial-gradient') && bStageAfterDrawer.color === 'rgb(238, 230, 211)', 'B must restore its dark stage after drawer closes', bStageAfterDrawer);
 
   const peopleHtml = await fs.readFile(path.join(root, 'people.html'), 'utf8');
   check(!peopleHtml.includes('data-scroll-variant="b"'), 'people.html must remain isolated from B variant');
   check(!peopleHtml.includes('data-scroll-drag-surface'), 'people.html must not receive B drag surface');
   await page.locator('.people-timeline').screenshot({ path: screenshotPath });
-  result = { status: 'ok', screenshotPath, a, b: { beforeDrag, readability, afterDrag, drawerBefore, drawerDuring, drawerAfter } };
+  result = { status: 'ok', screenshotPath, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, current: { table: currentTable, drawer: currentDrawer } };
 } finally {
   await browser?.close();
 }
