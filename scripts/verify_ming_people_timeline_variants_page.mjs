@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import http from 'node:http';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
@@ -11,7 +12,8 @@ const cScreenshotPaths = Object.freeze({
   opening: path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/C版_展开中.png'),
   open: path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/C版_展开后.png'),
 });
-const cPageUrl = process.env.PEOPLE_TIMELINE_C_URL || 'http://127.0.0.1:56228/people-timeline-c.html';
+let cPageUrl = '';
+const cServerLifecycle = { started: false, closed: false, port: 0 };
 const cStage = (name) => console.error(`[C ritual] ${name}`);
 const failures = [];
 const verifiedVariants = [];
@@ -19,6 +21,50 @@ const check = (condition, message, details) => {
   if (!condition) failures.push(`${message}${details ? `: ${JSON.stringify(details)}` : ''}`);
 };
 const sameStyle = (left, right) => JSON.stringify(left) === JSON.stringify(right);
+
+const contentTypeFor = (file) => ({
+  '.css': 'text/css; charset=utf-8',
+  '.html': 'text/html; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.webp': 'image/webp',
+})[path.extname(file)] || 'application/octet-stream';
+
+async function startCServer() {
+  const server = http.createServer(async (request, response) => {
+    const pathname = decodeURIComponent(new URL(request.url || '/', 'http://127.0.0.1').pathname);
+    const requested = path.resolve(root, `.${pathname}`);
+    if (requested !== root && !requested.startsWith(`${root}${path.sep}`)) {
+      response.writeHead(403).end('Forbidden');
+      return;
+    }
+    try {
+      const body = await fs.readFile(requested);
+      response.writeHead(200, { 'content-type': contentTypeFor(requested), 'cache-control': 'no-store' }).end(body);
+    } catch (_) {
+      response.writeHead(404).end('Not found');
+    }
+  });
+  await new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(0, '127.0.0.1', resolve);
+  });
+  const address = server.address();
+  if (!address || typeof address === 'string') throw new Error('C verifier server did not receive a TCP port');
+  cPageUrl = `http://127.0.0.1:${address.port}/people-timeline-c.html`;
+  cServerLifecycle.started = true;
+  cServerLifecycle.port = address.port;
+  cStage(`server:start:${address.port}`);
+  return server;
+}
+
+async function stopCServer(server) {
+  if (!server) return;
+  await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+  cServerLifecycle.closed = true;
+  cStage(`server:closed:${cServerLifecycle.port}`);
+}
 
 async function captureTableStyles(page) {
   return page.evaluate(() => {
@@ -138,23 +184,40 @@ async function verifyC(browser) {
       stage: Boolean(document.querySelector('[data-scroll-stage]')),
       stageInk: getComputedStyle(document.body).getPropertyValue('--stage-ink').trim(),
       paper: getComputedStyle(document.querySelector('.people-timeline')).getPropertyValue('--scroll-paper').trim(),
+      componentHeight: Math.ceil(document.querySelector('.people-timeline')?.getBoundingClientRect().height || 0),
+      timelineInert: document.querySelector('[data-scroll-drag-surface]')?.inert || false,
+      timelineAriaHidden: document.querySelector('[data-scroll-drag-surface]')?.getAttribute('aria-hidden') || '',
     }));
     check(closed.state === 'closed' && closed.focused && !closed.ritualHidden, 'C fresh session must be closed with focus on 展卷', closed);
     check(closed.replayHidden, 'C must hide replay before opening', closed);
     check(closed.scrollHeight <= 1000 && closed.scrollWidth > closed.clientWidth, 'C must retain A horizontal scroll geometry', closed);
+    check(closed.componentHeight <= 1000, 'C closed visible component must be at most 1000px tall', closed);
+    check(closed.timelineInert && closed.timelineAriaHidden === 'true', 'C closed timeline must be inert and hidden from assistive technology', closed);
     check(!closed.stage && !closed.stageInk && closed.paper === '#f5f0e3', 'C must retain the bright A structure without B stage', closed);
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    check(!await page.evaluate(() => Boolean(document.activeElement?.closest('[data-timeline-person]'))), 'C closed tab sequence must not enter a person control');
     await page.locator('.people-timeline').screenshot({ path: cScreenshotPaths.closed });
     cStage('fresh-session:done');
 
     cStage('unfurl:start');
+    const unfurlStartedAt = Date.now();
     await page.locator('[data-scroll-unfurl]').click();
     await page.waitForFunction(() => document.body.dataset.ritualState === 'opening');
-    const opening = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden, active: document.activeElement?.id || '' }));
-    check(opening.state === 'opening' && opening.ritualHidden && opening.active === 'peopleTimelineView', 'C click must start opening without retaining focus in hidden ritual', opening);
+    const opening = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden, active: document.activeElement?.id || '', componentHeight: Math.ceil(document.querySelector('.people-timeline')?.getBoundingClientRect().height || 0), timelineInert: document.querySelector('[data-scroll-drag-surface]')?.inert || false, timelineAriaHidden: document.querySelector('[data-scroll-drag-surface]')?.getAttribute('aria-hidden') || '' }));
+    check(opening.state === 'opening' && opening.ritualHidden && opening.active !== 'peopleTimelineView', 'C opening must move focus away from the hidden ritual and inert timeline', opening);
+    check(opening.componentHeight <= 1000 && opening.timelineInert && opening.timelineAriaHidden === 'true', 'C opening component must stay compact and inert', opening);
+    await page.keyboard.press('Tab');
+    check(!await page.evaluate(() => Boolean(document.activeElement?.closest('[data-timeline-person]'))), 'C opening tab sequence must not enter a person control');
     await page.locator('.people-timeline').screenshot({ path: cScreenshotPaths.opening });
     await page.waitForFunction(() => document.body.dataset.ritualState === 'open', undefined, { timeout: 1200 });
-    const opened = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden, replayHidden: document.querySelector('[data-scroll-replay]')?.hidden }));
+    const unfurlElapsedMs = Date.now() - unfurlStartedAt;
+    const opened = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden, replayHidden: document.querySelector('[data-scroll-replay]')?.hidden, componentHeight: Math.ceil(document.querySelector('.people-timeline')?.getBoundingClientRect().height || 0), timelineInert: document.querySelector('[data-scroll-drag-surface]')?.inert || false, timelineAriaHidden: document.querySelector('[data-scroll-drag-surface]')?.getAttribute('aria-hidden') || '' }));
     check(opened.state === 'open' && opened.ritualHidden && !opened.replayHidden, 'C must finish within 1200ms and expose replay', opened);
+    check(unfurlElapsedMs >= 650 && unfurlElapsedMs <= 1200, 'C unfurl must remain opening for approximately 800ms', { unfurlElapsedMs });
+    check(opened.componentHeight <= 1000 && !opened.timelineInert && opened.timelineAriaHidden === '', 'C open component must stay compact and restore timeline accessibility', opened);
+    await page.keyboard.press('Tab');
+    check(await page.evaluate(() => Boolean(document.activeElement?.closest('[data-timeline-person]'))), 'C open tab sequence must restore person controls');
     await page.locator('.people-timeline').screenshot({ path: cScreenshotPaths.open });
     cStage('unfurl:done');
 
@@ -236,7 +299,7 @@ async function verifyC(browser) {
       await noScriptContext.close();
     }
     cStage('no-js:done');
-    return { closed, opening, opened, reduced, remembered, cDrag, screenshots: cScreenshotPaths };
+    return { closed, opening, opened, reduced, remembered, cDrag, unfurlElapsedMs, screenshots: cScreenshotPaths };
   } finally {
     await context.close();
   }
@@ -265,7 +328,10 @@ async function verifyCFailOpen(browser, initScript, label) {
 
 if (process.env.PEOPLE_TIMELINE_C_ONLY === '1') {
   let cOnlyBrowser;
+  let cOnlyServer;
+  let cOnlyResult;
   try {
+    cOnlyServer = await startCServer();
     cOnlyBrowser = await chromium.launch({ headless: true, executablePath: chrome });
     const c = await verifyC(cOnlyBrowser);
     const storageFailure = await verifyCFailOpen(cOnlyBrowser, () => {
@@ -274,17 +340,21 @@ if (process.env.PEOPLE_TIMELINE_C_ONLY === '1') {
     const scriptFailure = await verifyCFailOpen(cOnlyBrowser, () => {
       window.matchMedia = () => { throw new Error('matchMedia unavailable'); };
     }, 'script exception');
-    if (failures.length) throw new Error(`People timeline C verification failed:\n- ${failures.join('\n- ')}`);
-    console.log(JSON.stringify({ status: 'ok', c: { ...c, storageFailure, scriptFailure } }));
+    cOnlyResult = { c: { ...c, storageFailure, scriptFailure } };
   } finally {
     await cOnlyBrowser?.close();
+    await stopCServer(cOnlyServer);
   }
+  if (failures.length) throw new Error(`People timeline C verification failed:\n- ${failures.join('\n- ')}`);
+  console.log(JSON.stringify({ status: 'ok', ...cOnlyResult, serverLifecycle: cServerLifecycle }));
   process.exit(0);
 }
 
 let browser;
+let cServer;
 let result;
 try {
+  cServer = await startCServer();
   browser = await chromium.launch({ headless: true, executablePath: chrome });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const a = await verifyA(page);
@@ -478,9 +548,10 @@ try {
     window.matchMedia = () => { throw new Error('matchMedia unavailable'); };
   }, 'script exception');
   verifiedVariants.push('c');
-  result = { status: 'ok', screenshotPath, cScreenshotPaths, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, c: { ...c, storageFailure: cStorageFailure, scriptFailure: cScriptFailure }, current: { table: currentTable, drawer: currentDrawer } };
+  result = { status: 'ok', screenshotPath, cScreenshotPaths, serverLifecycle: cServerLifecycle, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, c: { ...c, storageFailure: cStorageFailure, scriptFailure: cScriptFailure }, current: { table: currentTable, drawer: currentDrawer } };
 } finally {
   await browser?.close();
+  await stopCServer(cServer);
 }
 
 check(verifiedVariants.includes('a') && verifiedVariants.includes('b') && verifiedVariants.includes('c'), 'variant page verifier must cover A, B, and C', verifiedVariants);

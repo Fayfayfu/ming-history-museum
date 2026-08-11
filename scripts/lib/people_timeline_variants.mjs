@@ -20,13 +20,16 @@ body[data-scroll-variant="b"][data-people-view="timeline"] .lede{color:#eee6d3}b
 body[data-scroll-variant="b"][data-people-view="timeline"] .stat{background:#f5f0e3;color:#171611}body[data-scroll-variant="b"][data-people-view="timeline"] .stat span{color:#625d50}body[data-scroll-variant="b"][data-people-view="timeline"] .stat strong{color:#171611}body[data-scroll-variant="b"][data-people-view="timeline"] .stat:nth-child(1) strong,body[data-scroll-variant="b"][data-people-view="timeline"] .stat:last-child strong{color:#9c2f23}
 body[data-scroll-variant="b"] .drawer .panel{color:var(--ink)}`,
   c: `body[data-scroll-variant="c"]{--scroll-paper:#f5f0e3;background:#e7deca}
-body[data-scroll-variant="c"] .people-timeline{padding:10px 20px 14px;background:#efe5cf;overflow:hidden}
-body[data-scroll-variant="c"] .people-timeline-viewport{cursor:grab;border-color:#ad9367;background:linear-gradient(#eadcbd 0 7px,var(--scroll-paper) 7px calc(100% - 7px),#eadcbd calc(100% - 7px));box-shadow:inset 18px 0 24px -24px #4b3317,inset -18px 0 24px -24px #4b3317}
+body[data-scroll-variant="c"] .people-timeline{height:984px;padding:10px 20px 14px;background:#efe5cf;overflow:hidden}
+body[data-scroll-variant="c"] .people-view-tabs{position:absolute;z-index:5;top:18px;left:32px;margin:0}
+body[data-scroll-variant="c"] .people-timeline-viewport{height:960px;cursor:grab;border-color:#ad9367;background:linear-gradient(#eadcbd 0 7px,var(--scroll-paper) 7px calc(100% - 7px),#eadcbd calc(100% - 7px));box-shadow:inset 18px 0 24px -24px #4b3317,inset -18px 0 24px -24px #4b3317}
+body[data-scroll-variant="c"] .people-timeline-canvas{transform:scaleY(.967742);transform-origin:top left}
 body[data-scroll-variant="c"] .people-timeline-viewport[data-dragging="true"]{cursor:grabbing;user-select:none}
 body[data-scroll-variant="c"] [data-scroll-prologue],body[data-scroll-variant="c"] [data-scroll-epilogue]{position:absolute;top:18px;color:#8b6334;font:12px/1.3 "STKaiti","KaiTi",serif;writing-mode:vertical-rl;pointer-events:none}
 body[data-scroll-variant="c"] [data-scroll-prologue]{left:38px}body[data-scroll-variant="c"] [data-scroll-epilogue]{right:38px}
-body[data-scroll-variant="c"] .scroll-ritual{position:relative}body[data-scroll-variant="c"] .scroll-ritual:before,body[data-scroll-variant="c"] .scroll-ritual:after{content:"";position:absolute;top:0;bottom:0;width:14px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f)}
+body[data-scroll-variant="c"] .scroll-ritual{position:absolute;z-index:6;inset:0}body[data-scroll-variant="c"] .scroll-ritual:before,body[data-scroll-variant="c"] .scroll-ritual:after{content:"";position:absolute;top:0;bottom:0;width:14px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f)}
 body[data-scroll-variant="c"] .scroll-ritual:before{left:calc(50% - 19px)}body[data-scroll-variant="c"] .scroll-ritual:after{right:calc(50% - 19px)}
+body[data-scroll-variant="c"] .scroll-ritual h2{margin:62px 0 14px}body[data-scroll-variant="c"] [data-scroll-ritual] button{position:relative;z-index:1}body[data-scroll-variant="c"] [data-scroll-replay]{position:absolute;z-index:7;top:60px;right:32px}
 body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="closed"] #peopleTimelineView{clip-path:inset(0 49%);opacity:0}
 body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="opening"] #peopleTimelineView{animation:unfurlTimeline 800ms cubic-bezier(.22,.75,.25,1) both}
 body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="open"] #peopleTimelineView{clip-path:inset(0);opacity:1}
@@ -79,29 +82,39 @@ export function timelineVariantClientScript(variant) {
     const storageKey = 'ming.peopleTimelineC.opened';
     let timer = 0;
     const safeStore = () => { try { sessionStorage.setItem(storageKey, '1'); } catch (_) {} };
+    const setTimelineInteractivity = (interactive) => {
+      surface.inert = !interactive;
+      if (interactive) surface.removeAttribute('aria-hidden');
+      else surface.setAttribute('aria-hidden', 'true');
+    };
     const moveFocusToSurface = () => { if (surface) surface.focus({ preventScroll: true }); };
+    const moveFocusToBody = () => { body.setAttribute('tabindex', '-1'); body.focus({ preventScroll: true }); };
     const finish = () => {
       clearTimeout(timer);
+      setTimelineInteractivity(true);
       body.dataset.ritualState = 'open';
       ritual.hidden = true;
       replay.hidden = false;
       unfurl.setAttribute('aria-expanded', 'true');
       safeStore();
       moveFocusToSurface();
+      body.removeAttribute('tabindex');
     };
     const open = () => {
       clearTimeout(timer);
       body.dataset.ritualState = 'opening';
+      setTimelineInteractivity(false);
       ritual.hidden = true;
       replay.hidden = true;
       unfurl.setAttribute('aria-expanded', 'true');
-      moveFocusToSurface();
+      moveFocusToBody();
       timer = setTimeout(finish, 800);
     };
     const failOpen = () => {
       clearTimeout(timer);
       body.classList.add('ritual-enhanced');
       body.dataset.ritualState = 'open';
+      if (surface) setTimelineInteractivity(true);
       if (ritual) ritual.hidden = true;
       if (replay) replay.hidden = false;
       if (unfurl) unfurl.setAttribute('aria-expanded', 'true');
@@ -112,6 +125,7 @@ export function timelineVariantClientScript(variant) {
       skip.addEventListener('click', finish);
       replay.addEventListener('click', () => {
         body.dataset.ritualState = 'closed';
+        setTimelineInteractivity(false);
         ritual.hidden = false;
         replay.hidden = true;
         unfurl.setAttribute('aria-expanded', 'false');
@@ -125,6 +139,7 @@ export function timelineVariantClientScript(variant) {
       body.classList.add('ritual-enhanced');
       if (reduced || previouslyOpened) finish();
       else {
+        setTimelineInteractivity(false);
         body.dataset.ritualState = 'closed';
         ritual.hidden = false;
         replay.hidden = true;
