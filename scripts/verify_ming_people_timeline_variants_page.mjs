@@ -153,7 +153,8 @@ async function captureB2Geometry(page) {
     const portrait = document.querySelector('.timeline-portrait');
     const portraitBox = portrait?.getBoundingClientRect();
     return {
-      componentHeight: Math.ceil(stage?.getBoundingClientRect().height || 0),
+      componentHeight: timeline?.getBoundingClientRect().height || 0,
+      stageHeight: stage?.getBoundingClientRect().height || 0,
       portraitWidth: portraitBox?.width || 0,
       portraitHeight: portraitBox?.height || 0,
       scrollWidth: stage?.scrollWidth || 0,
@@ -175,11 +176,13 @@ async function captureB2Readability(page) {
     const strong = read('.timeline-person strong');
     const small = read('.timeline-person small');
     const tick = read('.timeline-tick');
+    const boundary = read('.timeline-boundary time');
     return {
       stageSurface,
       strong: { color: strong, contrast: contrast(strong, stageSurface) },
       small: { color: small, contrast: contrast(small, stageSurface) },
       tick: { color: tick, contrast: contrast(tick, stageSurface) },
+      boundary: { color: boundary, contrast: contrast(boundary, stageSurface) },
     };
   });
 }
@@ -203,6 +206,7 @@ async function verifyB2(page, currentPage) {
   check(Math.abs(geometry.portraitWidth - geometry.portraitHeight) <= 1, 'B2 portraits must remain circular', geometry);
   check(geometry.scrollWidth > geometry.clientWidth, 'B2 long scroll must retain horizontal overflow', geometry);
   check(Object.values(readability).filter((value) => value?.contrast).every((item) => item.contrast >= 4.5), 'B2 timeline text must meet 4.5:1 contrast against its brightest stage surface', readability);
+  check(readability.boundary.contrast >= 4.5, 'B2 12px boundary text must meet 4.5:1 contrast against its brightest stage surface', readability.boundary);
 
   await page.locator('#peopleTableTab').click();
   await currentPage.locator('#peopleTableTab').click();

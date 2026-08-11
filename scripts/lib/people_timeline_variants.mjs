@@ -20,10 +20,11 @@ body[data-scroll-variant="b"][data-people-view="timeline"] .lede{color:#eee6d3}b
 body[data-scroll-variant="b"][data-people-view="timeline"] .stat{background:#f5f0e3;color:#171611}body[data-scroll-variant="b"][data-people-view="timeline"] .stat span{color:#625d50}body[data-scroll-variant="b"][data-people-view="timeline"] .stat strong{color:#171611}body[data-scroll-variant="b"][data-people-view="timeline"] .stat:nth-child(1) strong,body[data-scroll-variant="b"][data-people-view="timeline"] .stat:last-child strong{color:#9c2f23}
 body[data-scroll-variant="b"] .drawer .panel{color:var(--ink)}`,
   b2: `body[data-scroll-variant="b2"] .people-timeline{position:relative;padding:14px 26px 20px;background:#efe5cf}
-body[data-scroll-variant="b2"] #peopleTimelineView{--b2-stage-ink:#171611;cursor:grab;border:1px solid #8a6a3a;outline:5px solid #c8b58d;background:radial-gradient(circle at 50% 48%,#383226 0,#211f19 42%,var(--b2-stage-ink) 100%);box-shadow:inset 16px 0 22px -18px #000,inset -16px 0 22px -18px #000,0 12px 28px rgba(50,38,20,.2);color:#eee6d3}
+body[data-scroll-variant="b2"] #peopleTimelineView{--b2-stage-ink:#171611;height:916px;cursor:grab;border:1px solid #8a6a3a;outline:5px solid #c8b58d;background:radial-gradient(circle at 50% 48%,#383226 0,#211f19 42%,var(--b2-stage-ink) 100%);box-shadow:inset 16px 0 22px -18px #000,inset -16px 0 22px -18px #000,0 12px 28px rgba(50,38,20,.2);color:#eee6d3}
 body[data-scroll-variant="b2"] #peopleTimelineView[data-dragging="true"]{cursor:grabbing;user-select:none}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-axis,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person-guide{background:rgba(238,230,211,.46)}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-tick,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-lane-label,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person small{color:#cfc5b0}
+body[data-scroll-variant="b2"] #peopleTimelineView .timeline-boundary,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-boundary time{color:#efb09a}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person strong{color:#f5f0e3}
 body[data-scroll-variant="b2"] .people-timeline:before,body[data-scroll-variant="b2"] .people-timeline:after{content:"";position:absolute;z-index:8;top:55px;bottom:20px;width:34px;pointer-events:none}
 body[data-scroll-variant="b2"] .people-timeline:before{left:21px;background:linear-gradient(90deg,rgba(23,17,9,.72),transparent)}
