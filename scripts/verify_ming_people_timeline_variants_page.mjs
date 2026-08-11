@@ -210,8 +210,10 @@ async function captureB2Ambience(page) {
       position: base?.position || '',
       width: box?.width || 0,
       height: box?.height || 0,
+      left: box?.left || 0,
       canvasWidth: canvasBox?.width || 0,
       canvasHeight: canvasBox?.height || 0,
+      canvasLeft: canvasBox?.left || 0,
       baseBackground: base?.backgroundImage || '',
       beforeBackground: before?.backgroundImage || '',
       afterBackground: after?.backgroundImage || '',
@@ -219,6 +221,28 @@ async function captureB2Ambience(page) {
       afterDuration: after?.animationDuration || '',
       beforeAnimation: before?.animationName || '',
       afterAnimation: after?.animationName || '',
+    };
+  });
+}
+
+async function captureB2Alignment(page) {
+  return page.evaluate(() => {
+    const rect = (element) => {
+      const box = element?.getBoundingClientRect();
+      return box ? { left: box.left, top: box.top, right: box.right, bottom: box.bottom, width: box.width, height: box.height } : null;
+    };
+    const style = (element) => {
+      const computed = element ? getComputedStyle(element) : null;
+      return computed ? { position: computed.position, display: computed.display, gap: computed.gap } : null;
+    };
+    const tabs = document.querySelector('.people-view-tabs');
+    return {
+      view: document.body.dataset.peopleView || '',
+      module: rect(document.querySelector('.people-timeline')),
+      stage: rect(document.querySelector('#peopleTimelineView')),
+      tabs: rect(tabs),
+      tabsStyle: style(tabs),
+      buttons: [...document.querySelectorAll('.people-view-tabs button')].map((button) => ({ id: button.id, rect: rect(button) })),
     };
   });
 }
@@ -359,6 +383,9 @@ async function verifyB2(browser, page, currentPage) {
   const currentTimeline = await capturePageStyles(currentPage);
   const stagePalette = await captureB2StageStyles(page);
   const ambience = await captureB2Ambience(page);
+  await page.evaluate(() => { document.querySelector('[data-scroll-drag-surface]').scrollLeft = 660; });
+  const scrolledAmbience = await captureB2Ambience(page);
+  await page.evaluate(() => { document.querySelector('[data-scroll-drag-surface]').scrollLeft = 0; });
   const geometry = await captureB2Geometry(page);
   const readability = await captureB2Readability(page);
   const controls = await captureB2ControlAudit(page);
@@ -380,13 +407,21 @@ async function verifyB2(browser, page, currentPage) {
     ambience,
   );
   check(
-    ambience.baseBackground.includes('radial-gradient')
+    ambience.baseBackground.includes('repeating-radial-gradient')
       && ambience.beforeBackground.includes('radial-gradient')
+      && ambience.beforeBackground.includes('linear-gradient')
       && ambience.afterBackground.includes('radial-gradient')
-      && new Set([ambience.beforeDuration, ambience.afterDuration]).has('19s')
-      && new Set([ambience.beforeDuration, ambience.afterDuration]).has('23s'),
-    'B2 ambience must combine static dust with independent 19s and 23s glows',
+      && ambience.afterBackground.includes('linear-gradient')
+      && ambience.beforeDuration === '6s'
+      && ambience.afterDuration === '8s',
+    'B2 ambience must preserve paper texture and use independent 6s and 8s cross-shaped glows',
     ambience,
+  );
+  check(
+    Math.abs((scrolledAmbience.left - ambience.left) + 660) <= 2
+      && Math.abs(scrolledAmbience.left - scrolledAmbience.canvasLeft) <= 1,
+    'B2 starlight must move with the timeline canvas rather than the pointer or viewport',
+    { ambience, scrolledAmbience },
   );
   check(geometry.componentHeight <= 1000, 'B2 component height must stay within 1000px', geometry);
   check(geometry.stageScrollHeight <= geometry.stageClientHeight && geometry.stageOverflowY === 'hidden', 'B2 stage must fit its full canvas with no usable vertical scroll', geometry);
@@ -418,7 +453,7 @@ async function verifyB2(browser, page, currentPage) {
     reducedAmbience.baseBackground.includes('radial-gradient')
       && reducedAmbience.beforeAnimation === 'none'
       && reducedAmbience.afterAnimation === 'none',
-    'B2 reduced motion must preserve static dust and disable breathing glows',
+    'B2 reduced motion must preserve paper texture and static starlight while disabling breathing glows',
     reducedAmbience,
   );
 
@@ -442,9 +477,9 @@ async function verifyB2(browser, page, currentPage) {
       && tableCleanup.rollers.every((roller) => roller.display === 'none' && roller.width === 0 && roller.height === 0)
       && pseudoIsClean(tableCleanup.before)
       && pseudoIsClean(tableCleanup.after)
-      && Math.abs(tableCleanup.module.height - currentTableCleanup.module.height) <= 1
+      && tableCleanup.module.height <= 1
       && tableCleanup.module.backgroundColor === currentTableCleanup.module.backgroundColor,
-    'B2 table view must remove rollers, masks, dark background, and residual framed geometry',
+    'B2 table view must remove rollers, masks, dark background, and residual framed geometry while its shared tabs stay absolutely positioned',
     { tableCleanup, currentTableCleanup },
   );
   await page.locator('#peopleTimelineTab').click();
@@ -496,11 +531,39 @@ async function verifyB2(browser, page, currentPage) {
   }
 
   const widths = [];
+  const sameRect = (left, right) => left && right && ['left', 'top', 'width', 'height'].every((key) => Math.abs(left[key] - right[key]) <= 1);
   for (const width of [1440, 768, 390]) {
     await page.setViewportSize({ width, height: 1000 });
-    widths.push(await page.evaluate(() => ({ width: innerWidth, bodyScrollWidth: document.body.scrollWidth, scrollWidth: document.querySelector('[data-scroll-drag-surface]')?.scrollWidth || 0, clientWidth: document.querySelector('[data-scroll-drag-surface]')?.clientWidth || 0 })));
+    await page.evaluate(() => window.scrollTo({ top: 0, left: 0 }));
+    const timelineAlignment = await captureB2Alignment(page);
+    const scrollGeometry = await page.evaluate(() => ({ width: innerWidth, bodyScrollWidth: document.body.scrollWidth, scrollWidth: document.querySelector('[data-scroll-drag-surface]')?.scrollWidth || 0, clientWidth: document.querySelector('[data-scroll-drag-surface]')?.clientWidth || 0 }));
+    await page.locator('#peopleTableTab').click();
+    await page.waitForSelector('.tablewrap:not([hidden])');
+    await page.evaluate(() => window.scrollTo({ top: 0, left: 0 }));
+    const tableAlignment = await captureB2Alignment(page);
+    await page.locator('#peopleTimelineTab').click();
+    await page.waitForSelector('[data-scroll-drag-surface]');
+    widths.push({ ...scrollGeometry, timelineAlignment, tableAlignment });
   }
-  check(widths.every((item) => item.bodyScrollWidth === item.width && item.scrollWidth > item.clientWidth), 'B2 must keep body width contained and scroll horizontally at 1440, 768, and 390', widths);
+  check(
+    widths.every((item) => item.bodyScrollWidth === item.width
+      && item.scrollWidth > item.clientWidth
+      && item.timelineAlignment.module
+      && item.timelineAlignment.stage
+      && Math.abs(item.timelineAlignment.module.left - item.timelineAlignment.stage.left) <= 1
+      && Math.abs(item.timelineAlignment.module.right - item.timelineAlignment.stage.right) <= 1),
+    'B2 stage must align to the readable module width and retain horizontal scrolling at 1440, 768, and 390',
+    widths,
+  );
+  check(
+    widths.every((item) => item.timelineAlignment.tabsStyle?.position === 'absolute'
+      && item.tableAlignment.tabsStyle?.position === 'absolute'
+      && item.timelineAlignment.buttons.length === 2
+      && item.tableAlignment.buttons.length === 2
+      && item.timelineAlignment.buttons.every((button, index) => button.id === item.tableAlignment.buttons[index].id && sameRect(button.rect, item.tableAlignment.buttons[index].rect))),
+    'B2 timeline and table views must keep both switch buttons in the same position and shape',
+    widths,
+  );
   await page.setViewportSize({ width: 1440, height: 1000 });
 
   const noJsContext = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
@@ -521,7 +584,7 @@ async function verifyB2(browser, page, currentPage) {
     await page.locator('.museum-nav').evaluate((nav) => { nav.style.removeProperty('visibility'); });
   }
   verifiedVariants.push('b2');
-  return { pagePalette, currentTimeline, stagePalette, ambience, reducedAmbience, geometry, readability, controls, drag, table, tableCleanup, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
+  return { pagePalette, currentTimeline, stagePalette, ambience, scrolledAmbience, reducedAmbience, geometry, readability, controls, drag, table, tableCleanup, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
 }
 
 async function captureCompleteModuleGeometry(page) {

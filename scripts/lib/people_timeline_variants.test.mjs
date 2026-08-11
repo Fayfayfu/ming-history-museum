@@ -90,12 +90,18 @@ test('B2 scopes darkness to the framed timeline without scaling portraits', () =
   assert.match(css, /--b2-stage-ink:#171611/);
   assert.match(css, /cursor:grab/);
   assert.match(css, /pointer-events:none/);
-  assert.match(css, /\.people-timeline\{position:relative;display:block;margin-top:49px;padding:0 26px/);
-  assert.match(css, /\.people-view-tabs\{position:absolute;left:26px;top:-43px;display:flex/);
+  assert.match(css, /body\[data-scroll-variant="b2"\] \.people-timeline\{position:relative;display:block;margin-top:49px;padding:0/);
+  assert.match(css, /body\[data-scroll-variant="b2"\] \.people-view-tabs\{position:absolute;left:0;top:-43px;display:flex/);
+  assert.doesNotMatch(css, /padding:0 26px|left:26px|right:26px|padding:0 12px|left:12px|right:12px/);
   assert.doesNotMatch(css, /grid-template-columns:170px/);
   assert.match(css, /\[data-b2-ambient\]\{[^}]*position:absolute[^}]*inset:0[^}]*pointer-events:none/);
-  assert.match(css, /\[data-b2-ambient\]:before[^\n]*animation:b2GlowA 19s/);
-  assert.match(css, /\[data-b2-ambient\]:after[^\n]*animation:b2GlowB 23s/);
+  assert.match(css, /\[data-b2-ambient\]:before[^\n]*animation:b2GlowA 6s/);
+  assert.match(css, /\[data-b2-ambient\]:after[^\n]*animation:b2GlowB 8s/);
+  assert.match(css, /\[data-b2-ambient\]:before\{[^\n]*linear-gradient\(90deg/);
+  assert.match(css, /\[data-b2-ambient\]:after\{[^\n]*linear-gradient\(0deg/);
+  assert.match(css, /mask-image:radial-gradient\(ellipse 22px 2px[^;]*radial-gradient\(ellipse 2px 15px/);
+  assert.match(css, /mask-image:radial-gradient\(ellipse 20px 1\.8px[^;]*radial-gradient\(ellipse 1\.8px 14px/);
+  assert.doesNotMatch(css, /radial-gradient\(circle at 12% 23%|radial-gradient\(circle at 67% 61%|radial-gradient\(circle at 38% 76%/);
   assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?data-b2-ambient[\s\S]*?animation:none/);
   assert.match(css, /#peopleTimelineView \.timeline-boundary[^\n]*#efb09a/);
   assert.doesNotMatch(css, /body\[data-scroll-variant="b2"\]\[data-people-view="timeline"\]\{[^}]*background:/);
@@ -117,7 +123,8 @@ test('B2 alone renders one inaccessible ambient layer inside the timeline canvas
 
 test('B2 table state removes every dark stage decoration and restores normal module flow', () => {
   const css = TIMELINE_VARIANT_CSS.b2;
-  assert.match(css, /data-people-view="table"[^\n]*\.people-timeline\{[^}]*display:block[^}]*padding:0[^}]*background:transparent/);
+  assert.match(css, /body\[data-scroll-variant="b2"\] \.people-timeline\{[^}]*display:block[^}]*padding:0[^}]*background:transparent/);
+  assert.match(css, /data-people-view="table"[^\n]*\.people-timeline\{height:0/);
   assert.match(css, /data-people-view="table"[^\n]*\[data-scroll-roller\]\{display:none/);
   assert.match(css, /data-people-view="table"[^\n]*\.people-timeline:before[^\n]*content:none/);
 });
