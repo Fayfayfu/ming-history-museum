@@ -39,6 +39,16 @@ const initial = await page.evaluate(() => {
     tableLabelled: table?.getAttribute('aria-labelledby') || '',
     timelineText: timelineTab?.textContent.trim() || '',
     tableText: tableTab?.textContent.trim() || '',
+    scopePlacement: {
+      mastCount: document.querySelectorAll('.mast .scope').length,
+      footerCount: document.querySelectorAll('.people-scope-footer .scope').length,
+      footerText: document.querySelector('.people-scope-footer .scope')?.textContent.replace(/\s+/g, ' ').trim() || '',
+      followsMethod: Boolean(
+        document.querySelector('.method')
+        && document.querySelector('.people-scope-footer')
+        && (document.querySelector('.method').compareDocumentPosition(document.querySelector('.people-scope-footer')) & Node.DOCUMENT_POSITION_FOLLOWING)
+      ),
+    },
     legacySections: [...document.querySelectorAll('.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method')].map((section) => ({
       className: section.className,
       hidden: section.hidden,
@@ -56,6 +66,14 @@ check(initial.tableSelected === 'false' && initial.tableTabIndex === '-1', 'tabl
 check(initial.timelineControls === 'peopleTimelineView' && initial.tableControls === 'peopleTableView' && initial.controlledPanelsExist, 'tabs must control existing panels', initial);
 check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled === 'peopleTableTab', 'panels must reference their real tabs', initial);
 check(initial.timelineText === '历史长卷' && initial.tableText === '人物总表', 'people view tabs must use the approved visitor wording', initial);
+check(
+  initial.scopePlacement.mastCount === 0
+    && initial.scopePlacement.footerCount === 1
+    && initial.scopePlacement.followsMethod
+    && ['本馆范围', '画像', '叙事协议', '纪年'].every((label) => initial.scopePlacement.footerText.includes(label)),
+  'secondary people-hall scope copy must move from the masthead to one complete footer after the main content',
+  initial.scopePlacement,
+);
 check(
   initial.legacySections.length === 5
     && initial.legacySections.every((section) => section.hidden && section.display === 'none'),
