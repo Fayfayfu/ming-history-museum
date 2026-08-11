@@ -263,8 +263,21 @@ try {
   await currentPage.locator('[data-timeline-person="朱元璋"] .timeline-person-select').click();
   await currentPage.locator('[data-timeline-person="朱元璋"] .timeline-person-open').click();
   await currentPage.waitForSelector('#drawer.open');
+  const bDrawerContext = await page.evaluate(() => ({
+    view: document.body.dataset.peopleView,
+    bodyColor: getComputedStyle(document.body).color,
+    panelColor: getComputedStyle(document.querySelector('#drawer .panel')).color,
+  }));
   const bDrawer = await captureDrawerStyles(page);
   const currentDrawer = await captureDrawerStyles(currentPage);
+  check(
+    bDrawerContext.view === 'timeline'
+      && bDrawerContext.bodyColor === 'rgb(238, 230, 211)'
+      && bDrawerContext.panelColor === 'rgb(24, 23, 19)'
+      && bDrawerContext.panelColor === currentDrawer.panel.color,
+    'B open drawer must keep the timeline stage light text while restoring current ink on its paper panel',
+    { bDrawerContext, currentPanelColor: currentDrawer.panel.color },
+  );
   check(sameStyle(bDrawer, currentDrawer), 'B drawer paper colors must restore current page colors', { bDrawer, currentDrawer });
   const drawerDuring = await page.evaluate(() => document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0);
   check(Math.abs(drawerDuring - drawerBefore) <= 1, 'B opening drawer must preserve scrollLeft', { drawerBefore, drawerDuring });
@@ -279,7 +292,7 @@ try {
   check(!peopleHtml.includes('data-scroll-variant="b"'), 'people.html must remain isolated from B variant');
   check(!peopleHtml.includes('data-scroll-drag-surface'), 'people.html must not receive B drag surface');
   await page.locator('.people-timeline').screenshot({ path: screenshotPath });
-  result = { status: 'ok', screenshotPath, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, current: { table: currentTable, drawer: currentDrawer } };
+  result = { status: 'ok', screenshotPath, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, current: { table: currentTable, drawer: currentDrawer } };
 } finally {
   await browser?.close();
 }
