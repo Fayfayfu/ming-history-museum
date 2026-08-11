@@ -77,7 +77,7 @@ test('registry exposes five stable filenames', () => {
 
 test('B2 is a framed local stage and leaves B isolated', () => {
   const b = renderPeopleTimelineVariantPage(base, 'b');
-  const b2 = renderPeopleTimelineVariantPage(base, 'b2');
+  const b2 = renderPeopleTimelineVariantPage(timelineBase, 'b2');
   assert.equal(PEOPLE_TIMELINE_VARIANTS.b2.filename, 'people-timeline-b2.html');
   assert.match(b2, /data-scroll-variant="b2"/);
   assert.match(b2, /data-scroll-stage="framed"/);
@@ -91,7 +91,7 @@ test('B2 is a framed local stage and leaves B isolated', () => {
 test('all five preview pages are noindex while the formal source stays indexable', () => {
   assert.doesNotMatch(base, /<meta name="robots"/);
   for (const key of Object.keys(PEOPLE_TIMELINE_VARIANTS)) {
-    const html = renderPeopleTimelineVariantPage(base, key);
+    const html = renderPeopleTimelineVariantPage(key === 'b2' ? timelineBase : base, key);
     assert.equal((html.match(/<meta name="robots" content="noindex,nofollow">/g) || []).length, 1, key);
   }
 });
@@ -154,14 +154,17 @@ test('B2 scopes darkness to the framed timeline without scaling portraits', () =
   assert.doesNotMatch(css, /padding:0 26px|left:26px|right:26px|padding:0 12px|left:12px|right:12px/);
   assert.doesNotMatch(css, /grid-template-columns:170px/);
   assert.match(css, /\[data-b2-ambient\]\{[^}]*position:absolute[^}]*inset:0[^}]*pointer-events:none/);
-  assert.match(css, /\[data-b2-ambient\]:before[^\n]*animation:b2GlowA 6s/);
-  assert.match(css, /\[data-b2-ambient\]:after[^\n]*animation:b2GlowB 8s/);
-  assert.match(css, /\[data-b2-ambient\]:before\{[^\n]*linear-gradient\(90deg/);
-  assert.match(css, /\[data-b2-ambient\]:after\{[^\n]*linear-gradient\(0deg/);
-  assert.match(css, /mask-image:radial-gradient\(ellipse 22px 2px[^;]*radial-gradient\(ellipse 2px 15px/);
-  assert.match(css, /mask-image:radial-gradient\(ellipse 20px 1\.8px[^;]*radial-gradient\(ellipse 1\.8px 14px/);
+  assert.match(css, /\.b2-star\{[^}]*width:18px[^}]*height:27px[^}]*pointer-events:none/);
+  assert.match(css, /\.b2-star:before\{[^}]*width:18px[^}]*height:1px/);
+  assert.match(css, /\.b2-star:after\{[^}]*width:1px[^}]*height:27px/);
+  assert.match(css, /animation-duration:var\(--star-duration\)/);
+  assert.match(css, /animation-delay:var\(--star-delay\)/);
+  assert.match(css, /b2Twinkle1/);
+  assert.match(css, /b2Twinkle2/);
+  assert.match(css, /b2Twinkle3/);
+  assert.doesNotMatch(css, /b2GlowA|b2GlowB|animation:[^;]* 6s|animation:[^;]* 8s/);
   assert.doesNotMatch(css, /radial-gradient\(circle at 12% 23%|radial-gradient\(circle at 67% 61%|radial-gradient\(circle at 38% 76%/);
-  assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?data-b2-ambient[\s\S]*?animation:none/);
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.b2-star\{animation:none/);
   assert.match(css, /#peopleTimelineView \.timeline-boundary[^\n]*#efb09a/);
   assert.doesNotMatch(css, /body\[data-scroll-variant="b2"\]\[data-people-view="timeline"\]\{[^}]*background:/);
   assert.doesNotMatch(css, /scaleY|scale\(/);
@@ -169,13 +172,13 @@ test('B2 scopes darkness to the framed timeline without scaling portraits', () =
 
 test('B2 alone renders one inaccessible ambient layer inside the timeline canvas', () => {
   const pages = Object.fromEntries(
-    ['current', 'a', 'b', 'b2', 'c'].map((key) => [key, renderPeopleTimelineVariantPage(base, key)]),
+    ['current', 'a', 'b', 'b2', 'c'].map((key) => [key, renderPeopleTimelineVariantPage(key === 'b2' ? timelineBase : base, key)]),
   );
-  const ambientMarkup = '<span class="b2-ambient" data-b2-ambient aria-hidden="true"></span>';
-  assert.equal(pages.b2.split(ambientMarkup).length - 1, 1);
+  assert.equal((pages.b2.match(/data-b2-ambient aria-hidden="true"/g) || []).length, 1);
+  assert.ok((pages.b2.match(/data-b2-star=/g) || []).length >= 40);
   assert.match(
     pages.b2,
-    /<div class="people-timeline-canvas"[^>]*><span class="b2-ambient" data-b2-ambient aria-hidden="true"><\/span>/,
+    /<div class="people-timeline-canvas"[^>]*><span class="b2-ambient" data-b2-ambient aria-hidden="true"><i class="b2-star/,
   );
   for (const key of ['current', 'a', 'b', 'c']) assert.doesNotMatch(pages[key], /data-b2-ambient/, key);
 });

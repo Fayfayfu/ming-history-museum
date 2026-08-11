@@ -29,11 +29,13 @@ body[data-scroll-variant="b2"] .people-view-tabs{position:absolute;left:0;top:-4
 body[data-scroll-variant="b2"][data-people-view="timeline"] #peopleTimelineView{--b2-stage-ink:#171611;display:block;width:100%;cursor:grab;border:1px solid #8a6a3a;outline:5px solid #c8b58d;background:radial-gradient(circle at 50% 48%,#383226 0,#211f19 42%,var(--b2-stage-ink) 100%);box-shadow:inset 16px 0 22px -18px #000,inset -16px 0 22px -18px #000,0 12px 28px rgba(50,38,20,.2);color:#eee6d3}
 body[data-scroll-variant="b2"] .people-timeline-canvas{isolation:isolate}
 body[data-scroll-variant="b2"] [data-b2-ambient]{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;background-image:repeating-radial-gradient(ellipse at 43% 48%,rgba(246,232,195,.018) 0 .45px,transparent .8px 5px);background-size:9px 7px;background-position:0 0}
-body[data-scroll-variant="b2"] [data-b2-ambient]:before,body[data-scroll-variant="b2"] [data-b2-ambient]:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;background-repeat:repeat;mask-repeat:repeat;-webkit-mask-repeat:repeat}
-body[data-scroll-variant="b2"] [data-b2-ambient]:before{background-image:radial-gradient(circle,rgba(255,228,166,.78) 0 1px,rgba(240,199,105,.24) 2px,transparent 6px),linear-gradient(90deg,transparent calc(50% - 15px),rgba(240,199,105,.05) calc(50% - 12px),rgba(248,215,139,.48) 50%,rgba(240,199,105,.05) calc(50% + 12px),transparent calc(50% + 15px)),linear-gradient(0deg,transparent calc(50% - 10px),rgba(240,199,105,.04) calc(50% - 8px),rgba(248,215,139,.34) 50%,rgba(240,199,105,.04) calc(50% + 8px),transparent calc(50% + 10px));background-size:1187px 743px;background-position:173px 131px;mask-image:radial-gradient(ellipse 22px 2px at center,#000 0 42%,transparent 78%),radial-gradient(ellipse 2px 15px at center,#000 0 42%,transparent 78%);mask-size:1187px 743px;mask-position:173px 131px;-webkit-mask-image:radial-gradient(ellipse 22px 2px at center,#000 0 42%,transparent 78%),radial-gradient(ellipse 2px 15px at center,#000 0 42%,transparent 78%);-webkit-mask-size:1187px 743px;-webkit-mask-position:173px 131px;animation:b2GlowA 6s ease-in-out -2.1s infinite}
-body[data-scroll-variant="b2"] [data-b2-ambient]:after{background-image:radial-gradient(circle,rgba(255,231,177,.72) 0 1.2px,rgba(240,199,105,.20) 2.5px,transparent 7px),linear-gradient(90deg,transparent calc(50% - 13px),rgba(248,215,139,.42) 50%,transparent calc(50% + 13px)),linear-gradient(0deg,transparent calc(50% - 9px),rgba(248,215,139,.30) 50%,transparent calc(50% + 9px));background-size:1693px 971px;background-position:389px 211px;mask-image:radial-gradient(ellipse 20px 1.8px at center,#000 0 40%,transparent 78%),radial-gradient(ellipse 1.8px 14px at center,#000 0 40%,transparent 78%);mask-size:1693px 971px;mask-position:389px 211px;-webkit-mask-image:radial-gradient(ellipse 20px 1.8px at center,#000 0 40%,transparent 78%),radial-gradient(ellipse 1.8px 14px at center,#000 0 40%,transparent 78%);-webkit-mask-size:1693px 971px;-webkit-mask-position:389px 211px;animation:b2GlowB 8s ease-in-out -5.3s infinite}
-@keyframes b2GlowA{0%,100%{opacity:.16}45%{opacity:.62}70%{opacity:.24}}@keyframes b2GlowB{0%,100%{opacity:.12}55%{opacity:.54}78%{opacity:.20}}
-@media(prefers-reduced-motion:reduce){body[data-scroll-variant="b2"] [data-b2-ambient]:before,body[data-scroll-variant="b2"] [data-b2-ambient]:after{animation:none;opacity:.22}}
+body[data-scroll-variant="b2"] .b2-star{position:absolute;left:var(--star-x);top:var(--star-y);z-index:0;width:18px;height:27px;pointer-events:none;transform:translate(-50%,-50%);opacity:.1;background:radial-gradient(circle,rgba(255,231,177,.78) 0 1px,rgba(240,199,105,.2) 2px,transparent 5px);animation-duration:var(--star-duration);animation-delay:var(--star-delay);animation-timing-function:linear;animation-iteration-count:infinite;animation-fill-mode:both}
+body[data-scroll-variant="b2"] .b2-star:before,body[data-scroll-variant="b2"] .b2-star:after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);filter:blur(.25px)}
+body[data-scroll-variant="b2"] .b2-star:before{width:18px;height:1px;background:linear-gradient(90deg,transparent,rgba(248,215,139,.72),transparent)}
+body[data-scroll-variant="b2"] .b2-star:after{width:1px;height:27px;background:linear-gradient(0deg,transparent,rgba(248,215,139,.78),transparent)}
+body[data-scroll-variant="b2"] .b2-star--1{animation-name:b2Twinkle1}body[data-scroll-variant="b2"] .b2-star--2{animation-name:b2Twinkle2}body[data-scroll-variant="b2"] .b2-star--3{animation-name:b2Twinkle3}
+@keyframes b2Twinkle1{0%,11%,22%,100%{opacity:.1}16%{opacity:var(--star-peak)}}@keyframes b2Twinkle2{0%,42%,56%,100%{opacity:.11}49%{opacity:var(--star-peak)}}@keyframes b2Twinkle3{0%,72%,84%,100%{opacity:.09}78%{opacity:var(--star-peak)}}
+@media(prefers-reduced-motion:reduce){body[data-scroll-variant="b2"] .b2-star{animation:none;opacity:.16}}
 body[data-scroll-variant="b2"] #peopleTimelineView[data-dragging="true"]{cursor:grabbing;user-select:none}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-axis,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person-guide{background:rgba(238,230,211,.46)}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-tick,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-lane-label,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person small{color:#cfc5b0}
@@ -379,10 +381,11 @@ export function renderPeopleTimelineVariantPage(baseHtml, variant) {
   if (variant === 'b2') {
     html = requiredReplace(html, 'class="people-timeline"', 'class="people-timeline" data-scroll-stage="framed"', 'B2 framed stage');
     html = requiredReplace(html, '<section id="peopleTimelineView"', '<i data-scroll-roller="start" aria-hidden="true"></i><i data-scroll-roller="end" aria-hidden="true"></i><section id="peopleTimelineView"', 'B2 rollers');
+    const ambientMarkup = renderB2AmbientMarkup(baseHtml);
     html = requiredReplace(
       html,
       /(<div class="people-timeline-canvas"[^>]*>)/,
-      '$1<span class="b2-ambient" data-b2-ambient aria-hidden="true"></span>',
+      `$1${ambientMarkup}`,
       'B2 ambient layer',
     );
   }
