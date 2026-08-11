@@ -98,6 +98,18 @@ test('B2 scopes darkness to the framed timeline without scaling portraits', () =
   assert.doesNotMatch(css, /scaleY|scale\(/);
 });
 
+test('B2 alone renders one inaccessible ambient layer inside the timeline canvas', () => {
+  const pages = Object.fromEntries(
+    ['current', 'a', 'b', 'b2', 'c'].map((key) => [key, renderPeopleTimelineVariantPage(base, key)]),
+  );
+  assert.equal((pages.b2.match(/data-b2-ambient/g) || []).length, 1);
+  assert.match(
+    pages.b2,
+    /<div class="people-timeline-canvas"[^>]*><span class="b2-ambient" data-b2-ambient aria-hidden="true"><\/span>/,
+  );
+  for (const key of ['current', 'a', 'b', 'c']) assert.doesNotMatch(pages[key], /data-b2-ambient/, key);
+});
+
 test('B2 table state removes every dark stage decoration and restores normal module flow', () => {
   const css = TIMELINE_VARIANT_CSS.b2;
   assert.match(css, /data-people-view="table"[^\n]*\.people-timeline\{[^}]*display:block[^}]*padding:0[^}]*background:transparent/);

@@ -216,6 +216,12 @@ export function renderPeopleTimelineVariantPage(baseHtml, variant) {
   if (variant === 'b2') {
     html = requiredReplace(html, 'class="people-timeline"', 'class="people-timeline" data-scroll-stage="framed"', 'B2 framed stage');
     html = requiredReplace(html, '<section id="peopleTimelineView"', '<i data-scroll-roller="start" aria-hidden="true"></i><i data-scroll-roller="end" aria-hidden="true"></i><section id="peopleTimelineView"', 'B2 rollers');
+    html = requiredReplace(
+      html,
+      /(<div class="people-timeline-canvas"[^>]*>)/,
+      '$1<span class="b2-ambient" data-b2-ambient aria-hidden="true"></span>',
+      'B2 ambient layer',
+    );
   }
   if (variant === 'a' || variant === 'c') html = requiredReplace(html, /(<div class="people-timeline-canvas"[^>]*>)/, '$1<span data-scroll-prologue aria-hidden="true">大明人物长卷</span><span data-scroll-epilogue aria-hidden="true">二百七十六年人物录</span>', `${variant} prologue and epilogue`);
   if (variant === 'c') {
