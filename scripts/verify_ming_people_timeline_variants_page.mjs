@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const screenshotPath = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/人物馆_历史长卷_B版.png');
+const screenshotAlreadyExists = await fs.access(screenshotPath).then(() => true, () => false);
 const failures = [];
 const verifiedVariants = [];
 const check = (condition, message, details) => {
@@ -291,7 +292,7 @@ try {
   const peopleHtml = await fs.readFile(path.join(root, 'people.html'), 'utf8');
   check(!peopleHtml.includes('data-scroll-variant="b"'), 'people.html must remain isolated from B variant');
   check(!peopleHtml.includes('data-scroll-drag-surface'), 'people.html must not receive B drag surface');
-  await page.locator('.people-timeline').screenshot({ path: screenshotPath });
+  if (!screenshotAlreadyExists) await page.locator('.people-timeline').screenshot({ path: screenshotPath });
   result = { status: 'ok', screenshotPath, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, current: { table: currentTable, drawer: currentDrawer } };
 } finally {
   await browser?.close();

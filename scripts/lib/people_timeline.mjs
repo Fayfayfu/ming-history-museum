@@ -529,6 +529,10 @@ export function peopleTimelineClientScript() {
       const open=event.target.closest('.timeline-person-open');
       if(open){openTimelinePerson(person.dataset.timelinePerson)}
     });
+    timeline.addEventListener('dblclick',event=>{
+      const person=event.target.closest('[data-timeline-person]');
+      if(person&&event.target.closest('.timeline-person-select'))openTimelinePerson(person.dataset.timelinePerson);
+    });
     document.addEventListener('keydown',event=>{
       if(event.key==='Escape')clearPersonSelection();
     });

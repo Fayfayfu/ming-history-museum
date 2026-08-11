@@ -5,6 +5,7 @@ import {
   canonicalPersonName,
   layoutPeopleTimeline,
   PEOPLE_TIMELINE_CSS,
+  peopleTimelineClientScript,
   renderPeopleTimeline,
   uniquePeopleRoster,
   validatePeopleTimelineData,
@@ -344,4 +345,11 @@ test('renderer only connects ARIA tabs to panels it renders and uses CSS selecti
   assert.doesNotMatch(html, /peopleTableView/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person-open\{display:none/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person\.is-selected [^{]*\.timeline-person-open[^}]*\{display:block/);
+});
+
+test('shared timeline client script delegates avatar double-clicks to the existing profile opener', () => {
+  const client = peopleTimelineClientScript();
+  assert.match(client, /timeline\.addEventListener\('dblclick',event=>\{/);
+  assert.match(client, /event\.target\.closest\('\.timeline-person-select'\)/);
+  assert.match(client, /openTimelinePerson\(person\.dataset\.timelinePerson\)/);
 });
