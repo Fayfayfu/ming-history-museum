@@ -206,6 +206,65 @@ async function captureB2Readability(page) {
   });
 }
 
+async function captureB2ControlAudit(page) {
+  return page.evaluate(() => {
+    const stage = document.querySelector('#peopleTimelineView');
+    const tabs = document.querySelector('.people-view-tabs');
+    const initialWindowY = window.scrollY;
+    window.scrollTo({ top: Math.max(0, (stage?.getBoundingClientRect().top || 0) + window.scrollY) });
+    const rect = (element) => {
+      const box = element?.getBoundingClientRect();
+      return box ? { left: box.left, top: box.top, right: box.right, bottom: box.bottom, width: box.width, height: box.height } : null;
+    };
+    const intersects = (left, right) => Boolean(left && right && left.left < right.right && left.right > right.left && left.top < right.bottom && left.bottom > right.top);
+    const capture = (scrollLeft) => {
+      stage.scrollLeft = scrollLeft;
+      const stageRect = rect(stage);
+      const tabsRect = rect(tabs);
+      const clipToStage = (box) => {
+        if (!box || !stageRect || !intersects(box, stageRect)) return null;
+        return {
+          left: Math.max(box.left, stageRect.left),
+          top: Math.max(box.top, stageRect.top),
+          right: Math.min(box.right, stageRect.right),
+          bottom: Math.min(box.bottom, stageRect.bottom),
+        };
+      };
+      const personOverlaps = [...document.querySelectorAll('[data-timeline-person]')].flatMap((person) => [
+        ['avatar', person.querySelector('.timeline-portrait')],
+        ['nameLabel', person.querySelector('strong')],
+        ['identity', person.querySelector('small')],
+      ].filter(([, element]) => intersects(tabsRect, clipToStage(rect(element)))).map(([part]) => ({ name: person.dataset.timelinePerson || '', part })));
+      const tabHits = [...tabs.querySelectorAll('button')].map((button) => {
+        const buttonRect = rect(button);
+        const hit = buttonRect ? document.elementFromPoint(buttonRect.left + buttonRect.width / 2, buttonRect.top + buttonRect.height / 2) : null;
+        return { id: button.id, hitId: hit?.closest('button')?.id || '' };
+      });
+      const visiblePerson = [...document.querySelectorAll('[data-timeline-person]')].find((person) => {
+        const avatar = rect(person.querySelector('.timeline-portrait'));
+        return Boolean(stageRect && avatar && avatar.left >= stageRect.left && avatar.right <= stageRect.right && avatar.top >= 80 && avatar.bottom <= innerHeight);
+      });
+      const avatarRect = rect(visiblePerson?.querySelector('.timeline-portrait'));
+      const hit = avatarRect ? document.elementFromPoint(avatarRect.left + avatarRect.width / 2, avatarRect.top + avatarRect.height / 2) : null;
+      return {
+        scrollLeft: stage.scrollLeft,
+        tabsRect,
+        stageRect,
+        tabsIntersectStage: intersects(tabsRect, stageRect),
+        personOverlaps,
+        tabHits,
+        personHit: { expected: visiblePerson?.dataset.timelinePerson || '', actual: hit?.closest('[data-timeline-person]')?.dataset.timelinePerson || '', tag: hit?.tagName || '' },
+      };
+    };
+    const initial = capture(0);
+    const scrolled = capture(Math.min(660, Math.max(1, stage.scrollWidth - stage.clientWidth)));
+    stage.scrollLeft = 0;
+    const result = { initial, scrolled };
+    window.scrollTo({ top: initialWindowY });
+    return result;
+  });
+}
+
 async function verifyB2(page, currentPage) {
   await page.goto(`file://${path.join(root, 'people-timeline-b2.html')}`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('[data-scroll-stage="framed"] [data-scroll-drag-surface]');
@@ -214,6 +273,7 @@ async function verifyB2(page, currentPage) {
   const stagePalette = await captureB2StageStyles(page);
   const geometry = await captureB2Geometry(page);
   const readability = await captureB2Readability(page);
+  const controls = await captureB2ControlAudit(page);
   check(sameStyle(pagePalette, currentTimeline), 'B2 outer page must keep current palette', { pagePalette, currentTimeline });
   check(stagePalette.background.includes('radial-gradient'), 'B2 must darken only its framed timeline', stagePalette);
   check(stagePalette.color === 'rgb(238, 230, 211)', 'B2 timeline text must use light ink', stagePalette);
@@ -225,6 +285,8 @@ async function verifyB2(page, currentPage) {
   check(geometry.stageScrollHeight <= geometry.stageClientHeight && geometry.stageOverflowY === 'hidden', 'B2 stage must fit its full canvas with no usable vertical scroll', geometry);
   check(geometry.personCount === 163 && geometry.hiddenPeople.length === 0, 'B2 must fully show every avatar, name, and identity within the stage', geometry);
   check(geometry.bottomSamples.length === 3 && geometry.bottomSamples.every((person) => person.avatar && person.nameLabel && person.identity), 'B2 bottom people must remain fully visible', geometry.bottomSamples);
+  check([controls.initial, controls.scrolled].every((audit) => !audit.tabsIntersectStage && audit.personOverlaps.length === 0), 'B2 tabs must not overlap the stage or any avatar, name, or identity at either scroll position', controls);
+  check([controls.initial, controls.scrolled].every((audit) => audit.tabHits.every((hit) => hit.id === hit.hitId) && audit.personHit.expected && audit.personHit.expected === audit.personHit.actual), 'B2 tabs and visible people must both win elementFromPoint hit testing at either scroll position', controls);
   check(Math.abs(geometry.portraitWidth - geometry.portraitHeight) <= 1, 'B2 portraits must remain circular', geometry);
   check(geometry.scrollWidth > geometry.clientWidth, 'B2 long scroll must retain horizontal overflow', geometry);
   check(Object.values(readability).filter((value) => value?.contrast).every((item) => item.contrast >= 4.5), 'B2 timeline text must meet 4.5:1 contrast against its brightest stage surface', readability);
@@ -311,7 +373,7 @@ async function verifyB2(page, currentPage) {
     await page.locator('.museum-nav').evaluate((nav) => { nav.style.removeProperty('visibility'); });
   }
   verifiedVariants.push('b2');
-  return { pagePalette, currentTimeline, stagePalette, geometry, readability, drag, table, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
+  return { pagePalette, currentTimeline, stagePalette, geometry, readability, controls, drag, table, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
 }
 
 async function verifyA(page) {
