@@ -71,6 +71,163 @@ body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="open"] #peopleT
 @media(max-width:600px){body[data-scroll-variant="c"][data-people-view="timeline"] .people-timeline{grid-template-columns:100px minmax(0,1fr);padding:0 12px}body[data-scroll-variant="c"][data-people-view="timeline"] .people-view-tabs{padding:10px 6px}}`,
 });
 
+const B2_STAR_WIDTH = 18;
+const B2_STAR_HEIGHT = 27;
+const B2_STAR_X_STEP = 104;
+const B2_STAR_Y_STEP = 71;
+const B2_STAR_SEGMENT_WIDTH = 1490;
+const B2_STARS_PER_SEGMENT = 10;
+
+function numericCssVar(style, name) {
+  const match = String(style || '').match(new RegExp(`--${name}:([\\d.]+)px`));
+  return match ? Number(match[1]) : null;
+}
+
+function parseB2TimelineGeometry(baseHtml) {
+  const canvas = baseHtml.match(/<div class="people-timeline-canvas"[^>]*style="([^"]+)"/);
+  if (!canvas) throw new Error('B2 ambient placement requires a timeline canvas');
+  const width = numericCssVar(canvas[1], 'timeline-width');
+  const height = numericCssVar(canvas[1], 'timeline-height');
+  const axisY = numericCssVar(canvas[1], 'timeline-axis-y');
+  if (![width, height, axisY].every(Number.isFinite)) {
+    throw new Error('B2 ambient placement requires timeline width, height, and axis');
+  }
+  const people = [...baseHtml.matchAll(/<article class="[^"]*timeline-person[^"]*"[^>]*style="([^"]+)"/g)].map((match) => ({
+    x: numericCssVar(match[1], 'person-x'),
+    y: numericCssVar(match[1], 'person-y'),
+    avatarSize: numericCssVar(match[1], 'avatar-size'),
+  }));
+  if (!people.length || people.some((person) => !Object.values(person).every(Number.isFinite))) {
+    throw new Error('B2 ambient placement requires valid timeline people');
+  }
+  const ticks = [...baseHtml.matchAll(/class="timeline-tick"[^>]*style="([^"]+)"/g)]
+    .map((match) => numericCssVar(match[1], 'tick-x'))
+    .filter(Number.isFinite);
+  const laneYs = [...baseHtml.matchAll(/class="[^"]*timeline-lane-label[^"]*"[^>]*style="([^"]+)"/g)]
+    .map((match) => numericCssVar(match[1], 'lane-y'))
+    .filter(Number.isFinite);
+  return { width, height, axisY, people, ticks, laneYs };
+}
+
+function buildB2Exclusions({ width, height, axisY, people, ticks }) {
+  const exclusions = [
+    { left: 0, top: 0, right: 150, bottom: height, kind: 'lane-labels' },
+    { left: 0, top: axisY - 14, right: width, bottom: axisY + 14, kind: 'axis' },
+    ...ticks.map((x) => ({ left: x - 12, top: axisY - 26, right: x + 12, bottom: axisY + 26, kind: 'tick' })),
+  ];
+  for (const { x, y, avatarSize } of people) {
+    const horizontalRadius = Math.max(avatarSize / 2, 58) + 14;
+    exclusions.push({
+      left: x - horizontalRadius,
+      top: y - avatarSize / 2 - 14,
+      right: x + horizontalRadius,
+      bottom: y + avatarSize / 2 + 52,
+      kind: 'person',
+    });
+    exclusions.push({
+      left: x - 5,
+      top: Math.min(y, axisY),
+      right: x + 5,
+      bottom: Math.max(y, axisY),
+      kind: 'guide',
+    });
+  }
+  return exclusions;
+}
+
+function rectanglesOverlap(a, b) {
+  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+}
+
+function pointDistanceToRect(x, y, rect) {
+  const dx = Math.max(rect.left - x, 0, x - rect.right);
+  const dy = Math.max(rect.top - y, 0, y - rect.bottom);
+  return Math.hypot(dx, dy);
+}
+
+function starRect(x, y) {
+  return {
+    left: x - B2_STAR_WIDTH / 2,
+    right: x + B2_STAR_WIDTH / 2,
+    top: y - B2_STAR_HEIGHT / 2,
+    bottom: y + B2_STAR_HEIGHT / 2,
+  };
+}
+
+function animationForB2Star(index) {
+  const variant = (index % 3) + 1;
+  const ranges = [[3.8, 5], [5.1, 6.8], [6.9, 8.5]];
+  const [min, max] = ranges[variant - 1];
+  const stepCount = Math.round((max - min) * 10);
+  const duration = Number((min + ((index * 7) % (stepCount + 1)) / 10).toFixed(1));
+  const rawDelay = Number((0.4 + ((index * 23) % 61) / 10).toFixed(1));
+  const delay = -Math.min(rawDelay, Number((duration - 0.1).toFixed(1)));
+  const peak = Number((0.42 + ((index * 7) % 27) / 100).toFixed(2));
+  return { variant, duration, delay, peak };
+}
+
+function selectB2Stars(geometry, exclusions) {
+  const candidates = [];
+  let column = 0;
+  for (let x = 176; x <= geometry.width - B2_STAR_WIDTH / 2; x += B2_STAR_X_STEP, column += 1) {
+    const offset = column % 2 ? B2_STAR_Y_STEP / 2 : 0;
+    for (let y = 28 + offset; y <= geometry.height - B2_STAR_HEIGHT / 2; y += B2_STAR_Y_STEP) {
+      const roundedY = Number(y.toFixed(1));
+      const rect = starRect(x, roundedY);
+      if (exclusions.some((exclusion) => rectanglesOverlap(rect, exclusion))) continue;
+      const clearance = Math.min(...exclusions.map((exclusion) => pointDistanceToRect(x, roundedY, exclusion)));
+      const texture = ((x * 31 + Math.round(roundedY * 10) * 17) % 83) / 10;
+      candidates.push({ x, y: roundedY, score: clearance + texture });
+    }
+  }
+
+  const selected = [];
+  const segmentCount = Math.ceil(geometry.width / B2_STAR_SEGMENT_WIDTH);
+  for (let segment = 0; segment < segmentCount; segment += 1) {
+    const left = segment * B2_STAR_SEGMENT_WIDTH;
+    const right = Math.min(geometry.width, left + B2_STAR_SEGMENT_WIDTH);
+    const pool = candidates
+      .filter((candidate) => candidate.x >= left && candidate.x < right)
+      .sort((a, b) => b.score - a.score || a.x - b.x || a.y - b.y);
+    const segmentStars = [];
+    const usedRows = new Set();
+    const bucketCounts = new Map();
+    for (const candidate of pool) {
+      const row = candidate.y.toFixed(1);
+      const bucket = Math.min(4, Math.floor(candidate.y / (geometry.height / 5)));
+      if (usedRows.has(row) || (bucketCounts.get(bucket) || 0) >= 3) continue;
+      if (selected.some((star) => Math.hypot(star.x - candidate.x, star.y - candidate.y) < 92)) continue;
+      segmentStars.push(candidate);
+      selected.push(candidate);
+      usedRows.add(row);
+      bucketCounts.set(bucket, (bucketCounts.get(bucket) || 0) + 1);
+      if (segmentStars.length === B2_STARS_PER_SEGMENT) break;
+    }
+  }
+
+  if (selected.length < 40) {
+    throw new Error(`B2 ambient placement found only ${selected.length} safe stars`);
+  }
+  return selected
+    .sort((a, b) => a.x - b.x || a.y - b.y)
+    .slice(0, 50)
+    .map(({ x, y }, index) => ({ x, y, ...animationForB2Star(index) }));
+}
+
+export function buildB2AmbientStars(baseHtml) {
+  const geometry = parseB2TimelineGeometry(baseHtml);
+  return selectB2Stars(geometry, buildB2Exclusions(geometry));
+}
+
+function renderB2Star(star, index) {
+  return `<i class="b2-star b2-star--${star.variant}" data-b2-star="${index}" aria-hidden="true" style="--star-x:${star.x}px;--star-y:${star.y}px;--star-duration:${star.duration}s;--star-delay:${star.delay}s;--star-peak:${star.peak}"></i>`;
+}
+
+export function renderB2AmbientMarkup(baseHtml) {
+  const stars = buildB2AmbientStars(baseHtml).map(renderB2Star).join('');
+  return `<span class="b2-ambient" data-b2-ambient aria-hidden="true">${stars}</span>`;
+}
+
 export const PEOPLE_TIMELINE_VARIANTS = Object.freeze(Object.fromEntries(KEYS.map((key) => [key, Object.freeze({
   key,
   filename: 'people-timeline-' + key + '.html',

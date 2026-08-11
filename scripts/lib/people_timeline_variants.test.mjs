@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import * as variantModule from './people_timeline_variants.mjs';
 import {
   PEOPLE_TIMELINE_VARIANTS,
   TIMELINE_VARIANT_CSS,
@@ -8,6 +9,64 @@ import {
 } from './people_timeline_variants.mjs';
 
 const base = '<html><head><title>人物馆｜步入大明数字历史博物馆</title><style>.fixture{display:block}</style></head><body class="people-page" data-people-view="timeline"><section class="people-timeline"><div class="people-view-tabs"><button id="peopleTimelineTab" data-people-view="timeline">历史长卷</button><button id="peopleTableTab" data-people-view="table">人物总表</button></div><section id="peopleTimelineView" class="people-timeline-viewport"><div class="people-timeline-canvas" style="--timeline-width:6704px"></div></section></section><script>window.sharedPeople=true</script></body></html>';
+
+const timelineBase = base.replace(
+  '<div class="people-timeline-canvas" style="--timeline-width:6704px"></div>',
+  `<div class="people-timeline-canvas" style="--timeline-width:6704px;--timeline-height:992.48px;--timeline-axis-y:391.68px">
+    <div class="timeline-axis"></div>
+    <span class="timeline-tick" style="--tick-x:360px"></span>
+    <p class="timeline-lane-label" style="--lane-y:56px">后妃与内廷女性</p>
+    <article class="timeline-person" data-timeline-person="甲" style="--person-x:492px;--person-y:307.68px;--avatar-size:88px"><strong>甲</strong><small>皇帝</small></article>
+    <article class="timeline-person" data-timeline-person="乙" style="--person-x:1152px;--person-y:562.43px;--avatar-size:56px"><strong>乙</strong><small>文臣</small></article>
+    <article class="timeline-person" data-timeline-person="丙" style="--person-x:1820px;--person-y:895.70px;--avatar-size:56px"><strong>丙</strong><small>域外人物</small></article>
+  </div>`,
+);
+
+const rectanglesOverlap = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+
+test('B2 deterministically places small starlight outside historical content', () => {
+  assert.equal(typeof variantModule.buildB2AmbientStars, 'function');
+  assert.equal(typeof variantModule.renderB2AmbientMarkup, 'function');
+  const first = variantModule.buildB2AmbientStars(timelineBase);
+  const second = variantModule.buildB2AmbientStars(timelineBase);
+  assert.deepEqual(first, second);
+  assert.ok(first.length >= 40 && first.length <= 50);
+  assert.ok(first.every(({ x, y }) => x >= 159 && x <= 6695 && y >= 13.5 && y <= 978.5));
+  assert.equal(new Set(first.map(({ variant }) => variant)).size, 3);
+  assert.ok(first.every(({ variant }) => [1, 2, 3].includes(variant)));
+  assert.ok(first.every(({ duration }) => duration >= 3.8 && duration <= 8.5));
+  assert.ok(first.every(({ duration, delay }) => delay < 0 && Math.abs(delay) < duration));
+  assert.ok(first.every(({ peak }) => peak >= 0.42 && peak <= 0.68));
+
+  const people = [
+    { x:492, y:307.68, avatarSize:88 },
+    { x:1152, y:562.43, avatarSize:56 },
+    { x:1820, y:895.70, avatarSize:56 },
+  ];
+  const personRects = people.map(({ x, y, avatarSize }) => ({
+    left:x - (Math.max(avatarSize / 2, 58) + 14),
+    right:x + (Math.max(avatarSize / 2, 58) + 14),
+    top:y - avatarSize / 2 - 14,
+    bottom:y + avatarSize / 2 + 52,
+  }));
+  const guideRects = people.map(({ x, y }) => ({ left:x - 5, right:x + 5, top:Math.min(y, 391.68), bottom:Math.max(y, 391.68) }));
+  const forbidden = [
+    ...personRects,
+    ...guideRects,
+    { left:0, right:6704, top:391.68 - 14, bottom:391.68 + 14 },
+    { left:360 - 12, right:360 + 12, top:391.68 - 26, bottom:391.68 + 26 },
+    { left:0, right:150, top:0, bottom:992.48 },
+  ];
+  assert.ok(first.every(({ x, y }) => !forbidden.some((rect) => rectanglesOverlap(
+    { left:x - 9, right:x + 9, top:y - 13.5, bottom:y + 13.5 },
+    rect,
+  ))));
+
+  const markup = variantModule.renderB2AmbientMarkup(timelineBase);
+  assert.equal((markup.match(/data-b2-star=/g) || []).length, first.length);
+  assert.match(markup, /data-b2-ambient aria-hidden="true"/);
+  assert.match(markup, /--star-x:[\d.]+px;--star-y:[\d.]+px;--star-duration:[\d.]+s;--star-delay:-[\d.]+s/);
+});
 
 test('registry exposes five stable filenames', () => {
   assert.deepEqual(
