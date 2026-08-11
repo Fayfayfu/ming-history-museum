@@ -43,6 +43,7 @@ const initial = await page.evaluate(() => {
       mastCount: document.querySelectorAll('.mast .scope').length,
       footerCount: document.querySelectorAll('.people-scope-footer .scope').length,
       footerText: document.querySelector('.people-scope-footer .scope')?.textContent.replace(/\s+/g, ' ').trim() || '',
+      footerFontSize: Number.parseFloat(getComputedStyle(document.querySelector('.people-scope-footer .scope')).fontSize),
       followsMethod: Boolean(
         document.querySelector('.method')
         && document.querySelector('.people-scope-footer')
@@ -70,6 +71,7 @@ check(
   initial.scopePlacement.mastCount === 0
     && initial.scopePlacement.footerCount === 1
     && initial.scopePlacement.followsMethod
+    && initial.scopePlacement.footerFontSize >= 14
     && ['本馆范围', '画像', '叙事协议', '纪年'].every((label) => initial.scopePlacement.footerText.includes(label)),
   'secondary people-hall scope copy must move from the masthead to one complete footer after the main content',
   initial.scopePlacement,
@@ -811,9 +813,31 @@ const eventsView = await page.evaluate(() => ({
   viewButtons: document.querySelectorAll('button[data-people-view]').length,
   peopleView: document.body.dataset.peopleView || '',
   clientApi: typeof window.setPeopleView,
+  scopePlacement: {
+    mastCount: document.querySelectorAll('.mast .scope').length,
+    footerCount: document.querySelectorAll('.events-scope-footer .scope').length,
+    footerText: document.querySelector('.events-scope-footer .scope')?.textContent.replace(/\s+/g, ' ').trim() || '',
+    footerFontSize: document.querySelector('.events-scope-footer .scope')
+      ? Number.parseFloat(getComputedStyle(document.querySelector('.events-scope-footer .scope')).fontSize)
+      : 0,
+    followsMethod: Boolean(
+      document.querySelector('.method')
+      && document.querySelector('.events-scope-footer')
+      && (document.querySelector('.method').compareDocumentPosition(document.querySelector('.events-scope-footer')) & Node.DOCUMENT_POSITION_FOLLOWING)
+    ),
+  },
 }));
 const eventsHtml = await fs.readFile(path.join(root, 'events.html'), 'utf8');
 check(eventsView.timeline === 0 && eventsView.viewButtons === 0 && !eventsView.peopleView && eventsView.clientApi === 'undefined', 'events.html must not initialize the people timeline', eventsView);
+check(
+  eventsView.scopePlacement.mastCount === 0
+    && eventsView.scopePlacement.footerCount === 1
+    && eventsView.scopePlacement.followsMethod
+    && eventsView.scopePlacement.footerFontSize >= 14
+    && ['本馆范围', '展览逻辑', '置信度', '跨馆'].every((label) => eventsView.scopePlacement.footerText.includes(label)),
+  'secondary event-hall scope copy must move from the masthead to one readable footer after the main content',
+  eventsView.scopePlacement,
+);
 check(!eventsHtml.includes('.people-timeline{'), 'events.html must not load people timeline styles');
 
 let noScript;

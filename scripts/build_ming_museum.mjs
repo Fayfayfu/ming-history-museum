@@ -111,19 +111,20 @@ const hallCSS = `
 .museum-brand{display:flex;gap:11px;align-items:center;color:inherit;text-decoration:none}.museum-brand b{display:block;font:800 18px/1.1 "Songti SC","STSong",serif;letter-spacing:.08em}.museum-brand small{display:block;margin-top:4px;font:9px/1 ui-monospace,monospace;letter-spacing:.16em;color:#a99f8a}.brand-seal{width:38px;height:38px;display:grid;place-items:center;border:1px solid #c14a38;color:#d85743;font:700 25px/1 "STKaiti","KaiTi",serif;transform:rotate(-3deg)}
 .museum-links{height:100%;display:flex;align-items:stretch}.museum-links a{display:grid;place-items:center;padding:0 20px;color:#cfc5b0;text-decoration:none;font:700 13px/1 inherit;border-left:1px solid #39362f;position:relative}.museum-links a:hover,.museum-links a.active{color:#fff;background:#292721}.museum-links a.active:after{content:"";position:absolute;height:3px;left:18px;right:18px;bottom:0;background:#b43a2c}
 .people-page .eventlab{display:none}.events-page .stats,.events-page .timeline,.events-page .toolbar,.events-page .statusline,.events-page .tablewrap,.events-page .method{display:none}.events-page .eventlab{margin-top:22px}.events-page .shell{padding-bottom:58px}
-.people-page .mast{grid-template-columns:1fr}.people-scope-footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--ink)}.people-scope-footer .scope{max-width:920px;padding:0;border-left:0;color:var(--muted);font-size:12px;line-height:1.75}.people-scope-footer .scope b{color:var(--ink)}
+.people-page .mast,.events-page .mast{grid-template-columns:1fr}.hall-scope-footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--ink)}.hall-scope-footer .scope{max-width:1020px;padding:0;border-left:0;color:var(--muted);font-size:14px;line-height:1.8}.hall-scope-footer .scope b{color:var(--ink)}
 .hall-note{margin:18px 0 0;padding:12px 16px;border-left:3px solid var(--gold);background:rgba(169,121,43,.08);color:var(--muted);font-size:13px;line-height:1.7}
 @media(max-width:720px){.museum-nav{height:auto;min-height:66px;padding:8px 14px;align-items:flex-start}.museum-brand small{display:none}.museum-links{align-self:stretch}.museum-links a{padding:0 9px;font-size:12px}.museum-links a:last-child{display:none}}
 ${MUSEUM_NAV_CSS}
 .drawer{z-index:120}
 `;
 
-function movePeopleScopeToFooter(html) {
+function moveHallScopeToFooter(html, kind) {
   const scope = html.match(/<div class="scope">.*?<\/div>/s)?.[0];
-  if (!scope) throw new Error('People hall scope copy is missing');
+  if (!scope) throw new Error(`${kind} hall scope copy is missing`);
+  const label = kind === 'people' ? '人物馆说明' : '事件馆说明';
   return html
     .replace(scope, '')
-    .replace('</main>', `<footer class="people-scope-footer" aria-label="人物馆说明">${scope}</footer></main>`);
+    .replace('</main>', `<footer class="hall-scope-footer ${kind}-scope-footer" aria-label="${label}">${scope}</footer></main>`);
 }
 
 function baseHall(kind) {
@@ -151,7 +152,7 @@ function baseHall(kind) {
       )
       .replace('renderEvents();render();', "renderEvents();render();const peopleParams=new URLSearchParams(location.search);const requestedEvent=peopleParams.get('event');const requestedPerson=peopleParams.get('person');if(requestedEvent&&eventRecord(requestedEvent)){state.event=requestedEvent;state.parent='';document.getElementById('personEvent').value=requestedEvent;render()}else if(requestedPerson)focusPerson(requestedPerson);")
       .replace('</body>', `<script>${peopleTimelineClientScript()}</script></body>`);
-    html = movePeopleScopeToFooter(html);
+    html = moveHallScopeToFooter(html, 'people');
   } else {
     html = html
       .replace('</style>', `${hallCSS}</style>`)
@@ -163,6 +164,7 @@ function baseHall(kind) {
       .replace(/<div class="scope"><b>本馆范围<\/b>.*?<\/div>/s, '<div class="scope"><b>本馆范围</b><br>起于 1368 年明朝建立，止于 1662 年永历帝被杀。<br><b>展览逻辑</b><br>六个阶段不是唯一分期，而是识别结构变化的参观路径。<br><b>置信度</b><br>81 件为高、14 件为中；因果与长期影响属于结构化研究判断。<br><b>跨馆</b><br>点击人物标签，前往人物馆查看生平、任期与评价。</div>')
       .replace(/function focusPerson\(name\)\{[^\n]*\}/, "function focusPerson(name){location.href='people.html?person='+encodeURIComponent(name)}")
       .replace('renderEvents();render();', "renderEvents();render();const eventParams=new URLSearchParams(location.search);const requestedStage=eventParams.get('stage');const requestedQuery=eventParams.get('q');const requestedCategory=eventParams.get('category');const requestedEvent=eventParams.get('event');if(requestedStage&&eventStages.some(s=>s.id===requestedStage))eventState.stage=requestedStage;if(requestedQuery){eventState.q=requestedQuery;document.getElementById('eventSearch').value=requestedQuery}if(requestedCategory&&eventCategories.includes(requestedCategory)){eventState.category=requestedCategory;document.getElementById('eventCategory').value=requestedCategory}renderEvents();if(requestedEvent&&eventRecord(requestedEvent))openEventDetail(eventRecord(requestedEvent));");
+    html = moveHallScopeToFooter(html, 'events');
   }
   return html;
 }
