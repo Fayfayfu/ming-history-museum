@@ -1,8 +1,10 @@
 import path from 'node:path';
 import { chromium } from 'playwright';
 
-const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
+const root = path.resolve(process.env.MING_TIMELINE_ROOT || 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
+const baseUrl = process.env.MING_TIMELINE_BASE_URL?.replace(/\/$/, '');
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const mutateB2UrlForTest = process.env.MING_TIMELINE_TEST_MUTATE_B2_URL === '1';
 const files = [
   'people.html',
   'people-timeline-current.html',
@@ -15,7 +17,7 @@ const failures = [];
 const check = (condition, message, details) => {
   if (!condition) failures.push(`${message}${details ? `: ${JSON.stringify(details)}` : ''}`);
 };
-const url = (file) => `file://${path.join(root, file)}`;
+const url = (file) => baseUrl ? `${baseUrl}/${file}` : `file://${path.join(root, file)}`;
 
 async function openRitualIfPresent(page) {
   const skip = page.locator('[data-scroll-skip]');
@@ -76,13 +78,23 @@ async function verifyDesktopPage(page, file) {
   const beforeDoubleClick = await page.evaluate(() => document.querySelector('#peopleTimelineView')?.scrollLeft || 0);
   check(beforeDoubleClick >= 1, `${file} must exercise avatar double-click at a nonzero scrollLeft`, { beforeDoubleClick });
   await avatar.dblclick();
+  if (mutateB2UrlForTest && file === 'people-timeline-b2.html') {
+    await page.evaluate((person) => history.replaceState(null, '', `people-timeline-b.html?person=${encodeURIComponent(person)}`), name);
+  }
   await page.waitForTimeout(100);
-  const afterDoubleClick = await page.evaluate(() => ({
-    drawerOpen: document.querySelector('#drawer')?.classList.contains('open') || false,
-    drawerName: document.querySelector('#detail h2')?.textContent.trim() || '',
-    person: new URL(location.href).searchParams.get('person'),
-    scrollLeft: document.querySelector('#peopleTimelineView')?.scrollLeft || 0,
-  }));
+  const afterDoubleClick = await page.evaluate(() => {
+    const locationUrl = new URL(location.href);
+    return {
+      drawerOpen: document.querySelector('#drawer')?.classList.contains('open') || false,
+      drawerName: document.querySelector('#detail h2')?.textContent.trim() || '',
+      person: locationUrl.searchParams.get('person'),
+      pathname: locationUrl.pathname,
+      search: locationUrl.search,
+      hash: locationUrl.hash,
+      params: [...locationUrl.searchParams.entries()],
+      scrollLeft: document.querySelector('#peopleTimelineView')?.scrollLeft || 0,
+    };
+  });
   check(
     afterDoubleClick.drawerOpen
       && afterDoubleClick.drawerName === name
@@ -90,6 +102,15 @@ async function verifyDesktopPage(page, file) {
       && Math.abs(afterDoubleClick.scrollLeft - beforeDoubleClick) <= 1,
     `${file} double-click must open the selected profile without horizontal jump`,
     { name, beforeDoubleClick, afterDoubleClick },
+  );
+  check(
+    afterDoubleClick.pathname.endsWith(`/${file}`)
+      && afterDoubleClick.hash === ''
+      && afterDoubleClick.params.length === 1
+      && afterDoubleClick.params[0][0] === 'person'
+      && afterDoubleClick.params[0][1] === name,
+    `${file} double-click must preserve its variant pathname and allow only person=<name>`,
+    { name, afterDoubleClick },
   );
   await closeDrawer(page);
   return { file, name, initialScroll, afterClick, beforeDoubleClick, afterDoubleClick };
