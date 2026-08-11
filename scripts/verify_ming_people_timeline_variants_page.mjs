@@ -258,6 +258,7 @@ async function captureB2ControlAudit(page) {
   return page.evaluate(() => {
     const stage = document.querySelector('#peopleTimelineView');
     const tabs = document.querySelector('.people-view-tabs');
+    const module = document.querySelector('.people-timeline');
     const initialWindowY = window.scrollY;
     window.scrollTo({ top: Math.max(0, (stage?.getBoundingClientRect().top || 0) + window.scrollY) });
     const rect = (element) => {
@@ -269,6 +270,8 @@ async function captureB2ControlAudit(page) {
       stage.scrollLeft = scrollLeft;
       const stageRect = rect(stage);
       const tabsRect = rect(tabs);
+      const moduleRect = rect(module);
+      const tabRects = [...tabs.querySelectorAll('button')].map(rect);
       const clipToStage = (box) => {
         if (!box || !stageRect || !intersects(box, stageRect)) return null;
         return {
@@ -298,6 +301,11 @@ async function captureB2ControlAudit(page) {
         scrollLeft: stage.scrollLeft,
         tabsRect,
         stageRect,
+        moduleRect,
+        tabRects,
+        tabsAboveStage: Boolean(tabsRect && stageRect && tabsRect.bottom <= stageRect.top),
+        stageUsesModuleWidth: Boolean(moduleRect && stageRect && stageRect.left - moduleRect.left <= 30 && moduleRect.right - stageRect.right <= 30),
+        tabsAreHorizontal: tabRects.length === 2 && Math.abs(tabRects[0].top - tabRects[1].top) <= 1,
         tabsIntersectStage: intersects(tabsRect, stageRect),
         personOverlaps,
         tabHits,
@@ -334,6 +342,7 @@ async function verifyB2(page, currentPage) {
   check(geometry.personCount === 163 && geometry.hiddenPeople.length === 0, 'B2 must fully show every avatar, name, and identity within the stage', geometry);
   check(geometry.bottomSamples.length === 3 && geometry.bottomSamples.every((person) => person.avatar && person.nameLabel && person.identity), 'B2 bottom people must remain fully visible', geometry.bottomSamples);
   check([controls.initial, controls.scrolled].every((audit) => !audit.tabsIntersectStage && audit.personOverlaps.length === 0), 'B2 tabs must not overlap the stage or any avatar, name, or identity at either scroll position', controls);
+  check([controls.initial, controls.scrolled].every((audit) => audit.tabsAboveStage && audit.stageUsesModuleWidth && audit.tabsAreHorizontal), 'B2 tabs must sit horizontally above a full-width timeline stage', controls);
   check([controls.initial, controls.scrolled].every((audit) => audit.tabHits.every((hit) => hit.id === hit.hitId) && audit.personHit.expected && audit.personHit.expected === audit.personHit.actual), 'B2 tabs and visible people must both win elementFromPoint hit testing at either scroll position', controls);
   check(Math.abs(geometry.portraitWidth - geometry.portraitHeight) <= 1, 'B2 portraits must remain circular', geometry);
   check(geometry.scrollWidth > geometry.clientWidth, 'B2 long scroll must retain horizontal overflow', geometry);
@@ -506,7 +515,9 @@ async function captureScrollHitAudit(page, requestedScrollLeft) {
     const module = document.querySelector('.people-timeline');
     const previousScrollBehavior = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = 'auto';
-    window.scrollTo({ top: Math.max(0, (module?.getBoundingClientRect().top || 0) + window.scrollY - 70), left: 0, behavior: 'auto' });
+    const moduleTop = module?.getBoundingClientRect().top || 0;
+    const tabsTop = tabs?.getBoundingClientRect().top || moduleTop;
+    window.scrollTo({ top: Math.max(0, Math.min(moduleTop, tabsTop) + window.scrollY - 90), left: 0, behavior: 'auto' });
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     stage.scrollLeft = Math.min(requested, Math.max(0, stage.scrollWidth - stage.clientWidth));
     const stageBox = stage.getBoundingClientRect();
@@ -521,7 +532,7 @@ async function captureScrollHitAudit(page, requestedScrollLeft) {
     const tabHits = [...tabs.querySelectorAll('button')].map((button) => {
       const box = button.getBoundingClientRect();
       const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
-      return { id: button.id, hitId: hit?.closest('button')?.id || '' };
+      return { id: button.id, hitId: hit?.closest('button')?.id || '', box: { left: box.left, top: box.top, width: box.width, height: box.height }, hitTag: hit?.tagName || '' };
     });
     const result = {
       requested,

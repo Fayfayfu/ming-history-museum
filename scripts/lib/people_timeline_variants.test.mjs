@@ -90,8 +90,9 @@ test('B2 scopes darkness to the framed timeline without scaling portraits', () =
   assert.match(css, /--b2-stage-ink:#171611/);
   assert.match(css, /cursor:grab/);
   assert.match(css, /pointer-events:none/);
-  assert.match(css, /display:grid;grid-template-columns:170px minmax\(0,1fr\)/);
-  assert.doesNotMatch(css, /people-view-tabs\{position:absolute/);
+  assert.match(css, /\.people-timeline\{position:relative;display:block;margin-top:49px;padding:0 26px/);
+  assert.match(css, /\.people-view-tabs\{position:absolute;left:26px;top:-43px;display:flex/);
+  assert.doesNotMatch(css, /grid-template-columns:170px/);
   assert.match(css, /#peopleTimelineView \.timeline-boundary[^\n]*#efb09a/);
   assert.doesNotMatch(css, /body\[data-scroll-variant="b2"\]\[data-people-view="timeline"\]\{[^}]*background:/);
   assert.doesNotMatch(css, /scaleY|scale\(/);
