@@ -46,3 +46,10 @@ test('A is bright, draggable, and has no B or C shell', () => {
   assert.doesNotMatch(html, /data-scroll-stage/);
   assert.doesNotMatch(html, /data-scroll-ritual/);
 });
+
+test('B is immersive and has no ritual controls', () => {
+  assert.match(TIMELINE_VARIANT_CSS.b, /--stage-ink:#171611/);
+  const html = renderPeopleTimelineVariantPage(base, 'b');
+  assert.match(html, /data-scroll-stage="immersive"/);
+  assert.doesNotMatch(html, /data-scroll-ritual/);
+});
