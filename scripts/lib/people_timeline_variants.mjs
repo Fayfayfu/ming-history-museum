@@ -19,6 +19,19 @@ body[data-scroll-variant="b"] [data-scroll-roller="start"]{left:24px}body[data-s
 body[data-scroll-variant="b"][data-people-view="timeline"] .lede{color:#eee6d3}body[data-scroll-variant="b"][data-people-view="timeline"] .scope{color:#c9bfa9}body[data-scroll-variant="b"][data-people-view="timeline"] .scope b{color:#f5f0e3}body[data-scroll-variant="b"][data-people-view="timeline"] .mast h1 small{color:#c9bfa9}
 body[data-scroll-variant="b"][data-people-view="timeline"] .stat{background:#f5f0e3;color:#171611}body[data-scroll-variant="b"][data-people-view="timeline"] .stat span{color:#625d50}body[data-scroll-variant="b"][data-people-view="timeline"] .stat strong{color:#171611}body[data-scroll-variant="b"][data-people-view="timeline"] .stat:nth-child(1) strong,body[data-scroll-variant="b"][data-people-view="timeline"] .stat:last-child strong{color:#9c2f23}
 body[data-scroll-variant="b"] .drawer .panel{color:var(--ink)}`,
+  c: `body[data-scroll-variant="c"]{--scroll-paper:#f5f0e3;background:#e7deca}
+body[data-scroll-variant="c"] .people-timeline{padding:10px 20px 14px;background:#efe5cf;overflow:hidden}
+body[data-scroll-variant="c"] .people-timeline-viewport{cursor:grab;border-color:#ad9367;background:linear-gradient(#eadcbd 0 7px,var(--scroll-paper) 7px calc(100% - 7px),#eadcbd calc(100% - 7px));box-shadow:inset 18px 0 24px -24px #4b3317,inset -18px 0 24px -24px #4b3317}
+body[data-scroll-variant="c"] .people-timeline-viewport[data-dragging="true"]{cursor:grabbing;user-select:none}
+body[data-scroll-variant="c"] [data-scroll-prologue],body[data-scroll-variant="c"] [data-scroll-epilogue]{position:absolute;top:18px;color:#8b6334;font:12px/1.3 "STKaiti","KaiTi",serif;writing-mode:vertical-rl;pointer-events:none}
+body[data-scroll-variant="c"] [data-scroll-prologue]{left:38px}body[data-scroll-variant="c"] [data-scroll-epilogue]{right:38px}
+body[data-scroll-variant="c"] .scroll-ritual{position:relative}body[data-scroll-variant="c"] .scroll-ritual:before,body[data-scroll-variant="c"] .scroll-ritual:after{content:"";position:absolute;top:0;bottom:0;width:14px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f)}
+body[data-scroll-variant="c"] .scroll-ritual:before{left:calc(50% - 19px)}body[data-scroll-variant="c"] .scroll-ritual:after{right:calc(50% - 19px)}
+body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="closed"] #peopleTimelineView{clip-path:inset(0 49%);opacity:0}
+body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="opening"] #peopleTimelineView{animation:unfurlTimeline 800ms cubic-bezier(.22,.75,.25,1) both}
+body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="open"] #peopleTimelineView{clip-path:inset(0);opacity:1}
+@keyframes unfurlTimeline{from{clip-path:inset(0 49%);opacity:.35}to{clip-path:inset(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){body[data-scroll-variant="c"] #peopleTimelineView{animation:none!important;clip-path:inset(0)!important;opacity:1!important}}`,
 });
 
 export const PEOPLE_TIMELINE_VARIANTS = Object.freeze(Object.fromEntries(KEYS.map((key) => [key, Object.freeze({
@@ -56,6 +69,72 @@ export function timelineVariantClientScript(variant) {
       surface.addEventListener('pointercancel', finish);
     }
     document.querySelectorAll('[data-scroll-drag-surface]').forEach(mountTimelineDrag);
+    ${variant === 'c' ? `(()=>{
+    const body = document.body;
+    const ritual = document.querySelector('[data-scroll-ritual]');
+    const unfurl = document.querySelector('[data-scroll-unfurl]');
+    const skip = document.querySelector('[data-scroll-skip]');
+    const replay = document.querySelector('[data-scroll-replay]');
+    const surface = document.querySelector('[data-scroll-drag-surface]');
+    const storageKey = 'ming.peopleTimelineC.opened';
+    let timer = 0;
+    const safeStore = () => { try { sessionStorage.setItem(storageKey, '1'); } catch (_) {} };
+    const moveFocusToSurface = () => { if (surface) surface.focus({ preventScroll: true }); };
+    const finish = () => {
+      clearTimeout(timer);
+      body.dataset.ritualState = 'open';
+      ritual.hidden = true;
+      replay.hidden = false;
+      unfurl.setAttribute('aria-expanded', 'true');
+      safeStore();
+      moveFocusToSurface();
+    };
+    const open = () => {
+      clearTimeout(timer);
+      body.dataset.ritualState = 'opening';
+      ritual.hidden = true;
+      replay.hidden = true;
+      unfurl.setAttribute('aria-expanded', 'true');
+      moveFocusToSurface();
+      timer = setTimeout(finish, 800);
+    };
+    const failOpen = () => {
+      clearTimeout(timer);
+      body.classList.add('ritual-enhanced');
+      body.dataset.ritualState = 'open';
+      if (ritual) ritual.hidden = true;
+      if (replay) replay.hidden = false;
+      if (unfurl) unfurl.setAttribute('aria-expanded', 'true');
+    };
+    try {
+      if (!ritual || !unfurl || !skip || !replay || !surface) throw new Error('Missing C ritual controls');
+      unfurl.addEventListener('click', open);
+      skip.addEventListener('click', finish);
+      replay.addEventListener('click', () => {
+        body.dataset.ritualState = 'closed';
+        ritual.hidden = false;
+        replay.hidden = true;
+        unfurl.setAttribute('aria-expanded', 'false');
+        requestAnimationFrame(open);
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && body.dataset.ritualState !== 'open') finish();
+      });
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const previouslyOpened = sessionStorage.getItem(storageKey) === '1';
+      body.classList.add('ritual-enhanced');
+      if (reduced || previouslyOpened) finish();
+      else {
+        body.dataset.ritualState = 'closed';
+        ritual.hidden = false;
+        replay.hidden = true;
+        unfurl.setAttribute('aria-expanded', 'false');
+        unfurl.focus();
+      }
+    } catch (_) {
+      failOpen();
+    }
+    })();` : ''}
   })();`;
 }
 
@@ -71,7 +150,9 @@ export function renderPeopleTimelineVariantPage(baseHtml, variant) {
   if (variant === 'b') html = html.replace('class="people-timeline"', 'class="people-timeline" data-scroll-stage="immersive"');
   if (variant === 'b') html = html.replace('<section id="peopleTimelineView"', '<i data-scroll-roller="start" aria-hidden="true"></i><i data-scroll-roller="end" aria-hidden="true"></i><section id="peopleTimelineView"');
   if (variant === 'a' || variant === 'c') html = html.replace(/(<div class="people-timeline-canvas"[^>]*>)/, '$1<span data-scroll-prologue aria-hidden="true">大明人物长卷</span><span data-scroll-epilogue aria-hidden="true">二百七十六年人物录</span>');
-  if (variant === 'c') html = html.replace('<section id="peopleTimelineView"', '<section data-scroll-ritual hidden><h2>明朝人物历史长卷</h2><button data-scroll-unfurl>展卷</button><button data-scroll-skip>跳过</button></section><button data-scroll-replay hidden>重播开卷</button><section id="peopleTimelineView"');
+  if (variant === 'c') html = html
+    .replace('id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface', 'id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface tabindex="-1"')
+    .replace('<section id="peopleTimelineView"', '<section class="scroll-ritual" data-scroll-ritual hidden aria-labelledby="scrollRitualTitle"><h2 id="scrollRitualTitle">明朝人物历史长卷</h2><button type="button" data-scroll-unfurl aria-controls="peopleTimelineView" aria-expanded="false">展卷</button><button type="button" data-scroll-skip>跳过</button></section><button type="button" data-scroll-replay hidden>重播开卷</button><section id="peopleTimelineView"');
   if (TIMELINE_VARIANT_CSS[variant]) html = html.replace('</style>', `${TIMELINE_VARIANT_CSS[variant]}</style>`);
   if (['a', 'b', 'c'].includes(variant)) html = html.replace('</body>', `<script>${timelineVariantClientScript(variant)}</script></body>`);
   return html;

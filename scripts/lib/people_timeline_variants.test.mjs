@@ -53,3 +53,16 @@ test('B is immersive and has no ritual controls', () => {
   assert.match(html, /data-scroll-stage="immersive"/);
   assert.doesNotMatch(html, /data-scroll-ritual/);
 });
+
+test('C exposes an accessible 800ms ritual that degrades to open', () => {
+  const html = renderPeopleTimelineVariantPage(base, 'c');
+  assert.match(html, /data-scroll-unfurl/);
+  assert.match(html, /data-scroll-skip/);
+  assert.match(html, /data-scroll-replay/);
+  assert.match(timelineVariantClientScript('c'), /800/);
+  assert.match(timelineVariantClientScript('c'), /prefers-reduced-motion: reduce/);
+});
+
+test('C emits a syntactically executable client script', () => {
+  assert.doesNotThrow(() => new Function(timelineVariantClientScript('c')));
+});

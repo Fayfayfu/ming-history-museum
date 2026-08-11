@@ -6,6 +6,13 @@ const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史�
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const screenshotPath = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/人物馆_历史长卷_B版.png');
 const screenshotAlreadyExists = await fs.access(screenshotPath).then(() => true, () => false);
+const cScreenshotPaths = Object.freeze({
+  closed: path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/C版_收拢.png'),
+  opening: path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/C版_展开中.png'),
+  open: path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/C版_展开后.png'),
+});
+const cPageUrl = process.env.PEOPLE_TIMELINE_C_URL || 'http://127.0.0.1:56228/people-timeline-c.html';
+const cStage = (name) => console.error(`[C ritual] ${name}`);
 const failures = [];
 const verifiedVariants = [];
 const check = (condition, message, details) => {
@@ -103,6 +110,176 @@ async function verifyA(page) {
   check(!peopleHtml.includes('data-scroll-drag-surface'), 'people.html must not receive A drag surface');
   verifiedVariants.push('a');
   return { beforeDrag, afterDrag };
+}
+
+async function resetC(page) {
+  cStage('reset:start');
+  await page.goto(cPageUrl, { waitUntil: 'domcontentloaded' });
+  await page.evaluate(() => sessionStorage.clear());
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  cStage('reset:done');
+}
+
+async function verifyC(browser) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const page = await context.newPage();
+  try {
+    cStage('fresh-session:start');
+    await resetC(page);
+    await page.waitForFunction(() => document.body.dataset.ritualState === 'closed');
+    const closed = await page.evaluate(() => ({
+      state: document.body.dataset.ritualState,
+      focused: document.activeElement?.matches('[data-scroll-unfurl]') || false,
+      ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden,
+      replayHidden: document.querySelector('[data-scroll-replay]')?.hidden,
+      scrollHeight: document.querySelector('[data-scroll-drag-surface]')?.scrollHeight || 0,
+      scrollWidth: document.querySelector('[data-scroll-drag-surface]')?.scrollWidth || 0,
+      clientWidth: document.querySelector('[data-scroll-drag-surface]')?.clientWidth || 0,
+      stage: Boolean(document.querySelector('[data-scroll-stage]')),
+      stageInk: getComputedStyle(document.body).getPropertyValue('--stage-ink').trim(),
+      paper: getComputedStyle(document.querySelector('.people-timeline')).getPropertyValue('--scroll-paper').trim(),
+    }));
+    check(closed.state === 'closed' && closed.focused && !closed.ritualHidden, 'C fresh session must be closed with focus on 展卷', closed);
+    check(closed.replayHidden, 'C must hide replay before opening', closed);
+    check(closed.scrollHeight <= 1000 && closed.scrollWidth > closed.clientWidth, 'C must retain A horizontal scroll geometry', closed);
+    check(!closed.stage && !closed.stageInk && closed.paper === '#f5f0e3', 'C must retain the bright A structure without B stage', closed);
+    await page.locator('.people-timeline').screenshot({ path: cScreenshotPaths.closed });
+    cStage('fresh-session:done');
+
+    cStage('unfurl:start');
+    await page.locator('[data-scroll-unfurl]').click();
+    await page.waitForFunction(() => document.body.dataset.ritualState === 'opening');
+    const opening = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden, active: document.activeElement?.id || '' }));
+    check(opening.state === 'opening' && opening.ritualHidden && opening.active === 'peopleTimelineView', 'C click must start opening without retaining focus in hidden ritual', opening);
+    await page.locator('.people-timeline').screenshot({ path: cScreenshotPaths.opening });
+    await page.waitForFunction(() => document.body.dataset.ritualState === 'open', undefined, { timeout: 1200 });
+    const opened = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden, replayHidden: document.querySelector('[data-scroll-replay]')?.hidden }));
+    check(opened.state === 'open' && opened.ritualHidden && !opened.replayHidden, 'C must finish within 1200ms and expose replay', opened);
+    await page.locator('.people-timeline').screenshot({ path: cScreenshotPaths.open });
+    cStage('unfurl:done');
+
+    cStage('replay-escape:start');
+    await page.locator('[data-scroll-replay]').click();
+    await page.waitForFunction(() => document.body.dataset.ritualState === 'opening');
+    check(await page.evaluate(() => document.body.dataset.ritualState) === 'opening', 'C replay must restart opening');
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => document.body.dataset.ritualState === 'open');
+    cStage('replay-escape:done');
+
+    cStage('escape-skip:start');
+    await resetC(page);
+    await page.locator('[data-scroll-unfurl]').click();
+    await page.waitForFunction(() => document.body.dataset.ritualState === 'opening');
+    await page.keyboard.press('Escape');
+    check(await page.evaluate(() => document.body.dataset.ritualState) === 'open', 'C Escape must finish opening immediately');
+
+    await resetC(page);
+    await page.locator('[data-scroll-skip]').click();
+    check(await page.evaluate(() => document.body.dataset.ritualState) === 'open', 'C skip must finish opening immediately');
+    cStage('escape-skip:done');
+
+    cStage('reduced-session:start');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await resetC(page);
+    const reduced = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden }));
+    check(reduced.state === 'open' && reduced.ritualHidden, 'C reduced motion must start open', reduced);
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+
+    await page.evaluate(() => sessionStorage.setItem('ming.peopleTimelineC.opened', '1'));
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    const remembered = await page.evaluate(() => document.body.dataset.ritualState);
+    check(remembered === 'open', 'C opened session must start open', { remembered });
+    cStage('reduced-session:done');
+
+    cStage('drag-doubleclick:start');
+    const surface = page.locator('[data-scroll-drag-surface]');
+    const box = await surface.boundingBox();
+    if (!box) throw new Error('C drag surface has no bounding box');
+    await page.mouse.move(box.x + box.width * .75, box.y + 10);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width * .25, box.y + 10, { steps: 8 });
+    await page.mouse.up();
+    const cDrag = await page.evaluate(() => ({ scrollLeft: document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0, dragging: document.querySelector('[data-scroll-drag-surface]')?.dataset.dragging || '' }));
+    check(cDrag.scrollLeft > 0 && !cDrag.dragging, 'C must retain shared pointer dragging', cDrag);
+
+    const doubleClickName = await page.evaluate(() => {
+      const surfaceBounds = document.querySelector('[data-scroll-drag-surface]')?.getBoundingClientRect();
+      return [...document.querySelectorAll('[data-timeline-person]')].find((person) => {
+        const avatar = person.querySelector('.timeline-portrait')?.getBoundingClientRect();
+        return surfaceBounds && avatar && avatar.left >= surfaceBounds.left && avatar.right <= surfaceBounds.right && avatar.top >= surfaceBounds.top && avatar.bottom <= surfaceBounds.bottom;
+      })?.dataset.timelinePerson || '';
+    });
+    check(Boolean(doubleClickName), 'C drag position must expose an avatar for double-click', { doubleClickName, cDrag });
+    if (doubleClickName) {
+      const avatar = page.locator(`[data-timeline-person="${doubleClickName}"] .timeline-person-select`);
+      const beforeDoubleClick = await page.evaluate(() => document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0);
+      await avatar.dblclick();
+      await page.waitForSelector('#drawer.open');
+      const doubleClick = await page.evaluate(() => ({ drawer: document.querySelector('#drawer')?.classList.contains('open') || false, person: new URL(location.href).searchParams.get('person'), scrollLeft: document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0 }));
+      check(doubleClick.drawer && doubleClick.person === doubleClickName && Math.abs(doubleClick.scrollLeft - beforeDoubleClick) <= 1, 'C double-click must preserve the shared archive behavior and scroll position', { doubleClickName, beforeDoubleClick, doubleClick });
+    }
+    cStage('drag-doubleclick:done');
+
+    cStage('no-js:start');
+    const noScriptContext = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
+    try {
+      const noScriptPage = await noScriptContext.newPage();
+      await noScriptPage.goto(cPageUrl, { waitUntil: 'load' });
+      const noScript = await noScriptPage.evaluate(() => ({
+        ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden,
+        enhanced: document.body.classList.contains('ritual-enhanced'),
+        clipPath: getComputedStyle(document.querySelector('#peopleTimelineView')).clipPath,
+        opacity: getComputedStyle(document.querySelector('#peopleTimelineView')).opacity,
+      }));
+      check(noScript.ritualHidden && !noScript.enhanced && noScript.clipPath === 'none' && noScript.opacity === '1', 'C no-JS fallback must keep the full scroll visible with no closed mask', noScript);
+    } finally {
+      await noScriptContext.close();
+    }
+    cStage('no-js:done');
+    return { closed, opening, opened, reduced, remembered, cDrag, screenshots: cScreenshotPaths };
+  } finally {
+    await context.close();
+  }
+}
+
+async function verifyCFailOpen(browser, initScript, label) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  await context.addInitScript(initScript);
+  try {
+    cStage(`${label}:start`);
+    const page = await context.newPage();
+    await page.goto(cPageUrl, { waitUntil: 'domcontentloaded' });
+    const state = await page.evaluate(() => ({
+      ritualState: document.body.dataset.ritualState,
+      ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden,
+      clipPath: getComputedStyle(document.querySelector('#peopleTimelineView')).clipPath,
+      opacity: getComputedStyle(document.querySelector('#peopleTimelineView')).opacity,
+    }));
+    check(state.ritualState === 'open' && state.ritualHidden && state.clipPath === 'inset(0px)' && state.opacity === '1', `C ${label} must fail open`, state);
+    cStage(`${label}:done`);
+    return state;
+  } finally {
+    await context.close();
+  }
+}
+
+if (process.env.PEOPLE_TIMELINE_C_ONLY === '1') {
+  let cOnlyBrowser;
+  try {
+    cOnlyBrowser = await chromium.launch({ headless: true, executablePath: chrome });
+    const c = await verifyC(cOnlyBrowser);
+    const storageFailure = await verifyCFailOpen(cOnlyBrowser, () => {
+      Object.defineProperty(Storage.prototype, 'getItem', { configurable: true, value: () => { throw new Error('storage unavailable'); } });
+    }, 'storage failure');
+    const scriptFailure = await verifyCFailOpen(cOnlyBrowser, () => {
+      window.matchMedia = () => { throw new Error('matchMedia unavailable'); };
+    }, 'script exception');
+    if (failures.length) throw new Error(`People timeline C verification failed:\n- ${failures.join('\n- ')}`);
+    console.log(JSON.stringify({ status: 'ok', c: { ...c, storageFailure, scriptFailure } }));
+  } finally {
+    await cOnlyBrowser?.close();
+  }
+  process.exit(0);
 }
 
 let browser;
@@ -293,11 +470,19 @@ try {
   check(!peopleHtml.includes('data-scroll-variant="b"'), 'people.html must remain isolated from B variant');
   check(!peopleHtml.includes('data-scroll-drag-surface'), 'people.html must not receive B drag surface');
   if (!screenshotAlreadyExists) await page.locator('.people-timeline').screenshot({ path: screenshotPath });
-  result = { status: 'ok', screenshotPath, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, current: { table: currentTable, drawer: currentDrawer } };
+  const c = await verifyC(browser);
+  const cStorageFailure = await verifyCFailOpen(browser, () => {
+    Object.defineProperty(Storage.prototype, 'getItem', { configurable: true, value: () => { throw new Error('storage unavailable'); } });
+  }, 'storage failure');
+  const cScriptFailure = await verifyCFailOpen(browser, () => {
+    window.matchMedia = () => { throw new Error('matchMedia unavailable'); };
+  }, 'script exception');
+  verifiedVariants.push('c');
+  result = { status: 'ok', screenshotPath, cScreenshotPaths, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, c: { ...c, storageFailure: cStorageFailure, scriptFailure: cScriptFailure }, current: { table: currentTable, drawer: currentDrawer } };
 } finally {
   await browser?.close();
 }
 
-check(verifiedVariants.includes('a') && verifiedVariants.includes('b'), 'variant page verifier must cover both A and B', verifiedVariants);
+check(verifiedVariants.includes('a') && verifiedVariants.includes('b') && verifiedVariants.includes('c'), 'variant page verifier must cover A, B, and C', verifiedVariants);
 if (failures.length) throw new Error(`People timeline variant page verification failed:\n- ${failures.join('\n- ')}`);
 console.log(JSON.stringify(result));
