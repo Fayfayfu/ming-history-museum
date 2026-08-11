@@ -53,24 +53,52 @@ check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled 
 check(initial.timelineText === '历史长卷' && initial.tableText === '人物总表', 'people view tabs must use the approved visitor wording', initial);
 check(initial.emperorFilterSelects === 0 && initial.emperorAxisButtons === 16, 'the imperial lineage must be the sole emperor-selection control', initial);
 
+await page.waitForFunction(() => {
+  const viewport = document.querySelector('.people-timeline-viewport');
+  const viewportRect = viewport?.getBoundingClientRect();
+  if (!viewportRect) return false;
+  const visible = [...document.querySelectorAll('[data-timeline-person]')].filter((node) => {
+    const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    return portrait && portrait.right > viewportRect.left && portrait.left < viewportRect.right;
+  });
+  return visible.length > 0 && visible.every((node) => node.querySelector('[data-timeline-image]')?.classList.contains('is-paint-ready'));
+}, undefined, { timeout: 15000 }).catch(() => {});
 const initialPortraitLoading = await page.evaluate(() => {
   const viewport = document.querySelector('.people-timeline-viewport');
   const viewportRect = viewport?.getBoundingClientRect();
-  const visible = [...document.querySelectorAll('[data-timeline-person]')].filter((node) => {
+  const viewportWidth = viewportRect?.width || 0;
+  const portraits = [...document.querySelectorAll('[data-timeline-person]')].map((node) => {
     const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
-    return portrait && viewportRect && portrait.right > viewportRect.left && portrait.left < viewportRect.right;
-  }).map((node) => ({
-    name: node.dataset.timelinePerson,
-    loading: node.querySelector('[data-timeline-image]')?.loading || 'fallback',
-  }));
+    const image = node.querySelector('[data-timeline-image]');
+    return {
+      name: node.dataset.timelinePerson,
+      visible: Boolean(portrait && viewportRect && portrait.right > viewportRect.left && portrait.left < viewportRect.right),
+      farAhead: Boolean(portrait && viewportRect && portrait.left > viewportRect.right + viewportWidth),
+      loading: image?.loading || 'fallback',
+      src: image?.getAttribute('src') || '',
+      deferredSrc: image?.dataset.src || '',
+      paintReady: image?.classList.contains('is-paint-ready') || false,
+    };
+  });
+  const visible = portraits.filter((portrait) => portrait.visible);
+  const farAhead = portraits.filter((portrait) => portrait.farAhead);
   return {
     count: visible.length,
     unprioritized: visible.filter((portrait) => portrait.loading !== 'eager'),
+    visibleWithoutSrc: visible.filter((portrait) => !portrait.src || !portrait.deferredSrc),
+    visibleNotPaintReady: visible.filter((portrait) => !portrait.paintReady),
+    farAheadCount: farAhead.length,
+    farAheadRequested: farAhead.filter((portrait) => portrait.src),
   };
 });
 check(
-  initialPortraitLoading.count > 0 && initialPortraitLoading.unprioritized.length === 0,
-  'timeline portraits in the current viewport must start loading without a click',
+  initialPortraitLoading.count > 0
+    && initialPortraitLoading.unprioritized.length === 0
+    && initialPortraitLoading.visibleWithoutSrc.length === 0
+    && initialPortraitLoading.visibleNotPaintReady.length === 0
+    && initialPortraitLoading.farAheadCount > 0
+    && initialPortraitLoading.farAheadRequested.length === 0,
+  'timeline must request visible portraits without a click while leaving far-ahead portraits out of the initial network queue',
   initialPortraitLoading,
 );
 
@@ -668,13 +696,16 @@ const portraitLoad = await page.evaluate(async () => {
   await Promise.race([
     Promise.all(images.map((image) => new Promise((resolve, reject) => {
       image.loading = 'eager';
+      image.fetchPriority = 'auto';
       if (image.complete) {
-        if (image.naturalWidth > 0) resolve();
-        else reject(new Error(image.currentSrc || image.src));
-        return;
+        if (image.naturalWidth > 0) {
+          resolve();
+          return;
+        }
       }
       image.addEventListener('load', resolve, { once: true });
       image.addEventListener('error', () => reject(new Error(image.currentSrc || image.src)), { once: true });
+      if (!image.getAttribute('src') && image.dataset.src) image.src = image.dataset.src;
     }))),
     new Promise((_, reject) => setTimeout(() => reject(new Error('portrait load timed out')), 15000)),
   ]);
@@ -982,13 +1013,16 @@ const loadTimelinePortraits = () => page.evaluate(async () => {
   await Promise.race([
     Promise.all(images.map((image) => new Promise((resolve, reject) => {
       image.loading = 'eager';
+      image.fetchPriority = 'auto';
       if (image.complete) {
-        if (image.naturalWidth > 0) resolve();
-        else reject(new Error(image.currentSrc || image.src));
-        return;
+        if (image.naturalWidth > 0) {
+          resolve();
+          return;
+        }
       }
       image.addEventListener('load', resolve, { once: true });
       image.addEventListener('error', () => reject(new Error(image.currentSrc || image.src)), { once: true });
+      if (!image.getAttribute('src') && image.dataset.src) image.src = image.dataset.src;
     }))),
     new Promise((_, reject) => setTimeout(() => reject(new Error('screenshot portrait load timed out')), 15000)),
   ]);

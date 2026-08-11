@@ -310,7 +310,7 @@ function portraitMarkup(name, portrait) {
     portrait.transformOrigin ? `transform-origin:${escapeHtml(portrait.transformOrigin)}` : '',
   ].filter(Boolean).join(';');
   const styleAttribute = imageStyles ? ` style="${imageStyles}"` : '';
-  return `<span class="timeline-portrait" data-portrait-kind="${kind}" data-portrait-label="${visitorLabel}"><img class="timeline-portrait-image" data-timeline-image src="${file}" alt="${alt}" loading="lazy" decoding="async"${styleAttribute}><span class="timeline-portrait-source" data-timeline-image-source aria-hidden="true">${visitorLabel}</span><span class="timeline-portrait-fallback" data-timeline-fallback aria-hidden="true">${initial}</span></span>`;
+  return `<span class="timeline-portrait" data-portrait-kind="${kind}" data-portrait-label="${visitorLabel}"><img class="timeline-portrait-image" data-timeline-image data-src="${file}" alt="${alt}" loading="lazy" decoding="async"${styleAttribute}><span class="timeline-portrait-source" data-timeline-image-source aria-hidden="true">${visitorLabel}</span><span class="timeline-portrait-fallback" data-timeline-fallback aria-hidden="true">${initial}</span></span>`;
 }
 
 function laneMarkup(layout) {
@@ -406,7 +406,8 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .timeline-person[data-side="bottom"] .timeline-person-guide{bottom:50%;height:var(--axis-distance)}
 .timeline-person-select{position:absolute;z-index:1;inset:0;display:block;width:100%;height:100%;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;font:inherit;cursor:pointer;pointer-events:auto}
 .timeline-portrait{position:relative;display:grid;place-items:center;width:100%;height:100%;box-sizing:border-box;border:2px solid var(--category-color);border-radius:50%;overflow:hidden;background:#dfd6c4;color:#171815;font-weight:700;line-height:1}
-.timeline-portrait-image{display:block;width:100%;height:100%;object-fit:cover}
+.timeline-portrait-image{display:block;width:100%;height:100%;object-fit:cover;opacity:0}
+.timeline-portrait-image.is-paint-ready{opacity:1}
 .timeline-portrait-source{position:absolute;right:0;bottom:0;max-width:100%;padding:1px 3px;overflow:hidden;background:rgba(23,24,21,.78);color:#f5f0e3;font:8px/1.15 ui-sans-serif,sans-serif;text-overflow:ellipsis;white-space:nowrap}
 .timeline-portrait .timeline-portrait-fallback{display:none}
 .timeline-portrait--fallback .timeline-portrait-fallback,.timeline-portrait.is-failed .timeline-portrait-fallback{display:grid;place-items:center;width:100%;height:100%}
@@ -454,7 +455,7 @@ export function peopleTimelineClientScript() {
       const viewportLeft=timeline.scrollLeft;
       const viewportRight=viewportLeft+timeline.clientWidth;
       const preloadLeft=Math.max(0,viewportLeft-timeline.clientWidth*.25);
-      const preloadRight=viewportRight+timeline.clientWidth;
+      const preloadRight=viewportRight+timeline.clientWidth*.5;
       people.forEach(person=>{
         const image=person.querySelector('[data-timeline-image]');
         if(!image)return;
@@ -463,6 +464,7 @@ export function peopleTimelineClientScript() {
         if(right<preloadLeft||left>preloadRight)return;
         image.loading='eager';
         image.fetchPriority=right>=viewportLeft&&left<=viewportRight?'high':'auto';
+        if(!image.getAttribute('src')&&image.dataset.src)image.src=image.dataset.src;
       });
     };
     const schedulePortraitLoading=()=>{
@@ -534,6 +536,13 @@ export function peopleTimelineClientScript() {
     addEventListener('resize',schedulePortraitLoading,{passive:true});
     addEventListener('pageshow',schedulePortraitLoading);
     document.querySelectorAll('[data-timeline-image]').forEach(image=>{
+      const revealAfterDecode=()=>{
+        const reveal=()=>requestAnimationFrame(()=>image.classList.add('is-paint-ready'));
+        if(typeof image.decode==='function')image.decode().then(reveal,()=>{if(image.naturalWidth)reveal()});
+        else reveal();
+      };
+      image.addEventListener('load',revealAfterDecode,{once:true});
+      if(image.complete&&image.naturalWidth)revealAfterDecode();
       image.addEventListener('error',()=>{
         image.hidden=true;
         const portrait=image.closest('.timeline-portrait');

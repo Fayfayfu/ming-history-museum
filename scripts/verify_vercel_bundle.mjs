@@ -46,7 +46,10 @@ for (const file of files) {
   await page.goto(`${base}/${file}`, {waitUntil:'domcontentloaded', timeout:60000});
   await page.evaluate(async () => {
     const images = [...document.images];
-    images.forEach(image => { image.loading = 'eager'; });
+    images.forEach(image => {
+      image.loading = 'eager';
+      if (!image.getAttribute('src') && image.dataset.src) image.src = image.dataset.src;
+    });
     window.scrollTo(0, document.body.scrollHeight);
     await Promise.race([
       Promise.all(images.map(image => image.complete
