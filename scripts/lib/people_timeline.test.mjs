@@ -219,6 +219,11 @@ test('renderer outputs every semantic lane and never writes 最近皇帝', async
   assert.match(html, /data-people-view="timeline"/);
   assert.match(html, /data-people-view="table"/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.people-timeline-viewport\{overflow-x:auto/);
+  assert.match(
+    PEOPLE_TIMELINE_CSS,
+    /\.people-page>\.shell>\.statusline\[hidden\][^{]*\{[^}]*display:none!important/,
+    'timeline styles must authoritatively hide legacy table sections whose own display rules override the hidden attribute',
+  );
 });
 
 test('renderer gives all 163 people escaped basis text and one non-blocking axis guide', async () => {

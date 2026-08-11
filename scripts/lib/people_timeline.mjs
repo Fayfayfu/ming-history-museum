@@ -392,6 +392,7 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .people-view-tabs{display:flex;gap:8px;margin-bottom:12px}
 .people-view-tabs button{border:1px solid #8f8876;background:#f5f0e3;color:#171815;padding:7px 12px;cursor:pointer}
 .people-view-tabs button[aria-selected="true"]{background:#171815;color:#f5f0e3}
+.people-page>.shell>.timeline[hidden],.people-page>.shell>.toolbar[hidden],.people-page>.shell>.statusline[hidden],.people-page>.shell>.tablewrap[hidden],.people-page>.shell>.method[hidden]{display:none!important}
 .people-timeline-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-gutter:stable;border:1px solid #c7bea9;background:#f5f0e3}
 .people-timeline-canvas{position:relative;width:var(--timeline-width);height:var(--timeline-height);min-width:6500px}
 .timeline-axis{position:absolute;left:0;right:0;top:var(--timeline-axis-y);height:1px;background:#8f8876}

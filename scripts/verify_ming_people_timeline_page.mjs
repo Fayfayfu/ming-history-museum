@@ -39,6 +39,11 @@ const initial = await page.evaluate(() => {
     tableLabelled: table?.getAttribute('aria-labelledby') || '',
     timelineText: timelineTab?.textContent.trim() || '',
     tableText: tableTab?.textContent.trim() || '',
+    legacySections: [...document.querySelectorAll('.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method')].map((section) => ({
+      className: section.className,
+      hidden: section.hidden,
+      display: getComputedStyle(section).display,
+    })),
     emperorFilterSelects: document.querySelectorAll('#parent').length,
     emperorAxisButtons: document.querySelectorAll('#emperors .emperor').length,
   };
@@ -51,6 +56,12 @@ check(initial.tableSelected === 'false' && initial.tableTabIndex === '-1', 'tabl
 check(initial.timelineControls === 'peopleTimelineView' && initial.tableControls === 'peopleTableView' && initial.controlledPanelsExist, 'tabs must control existing panels', initial);
 check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled === 'peopleTableTab', 'panels must reference their real tabs', initial);
 check(initial.timelineText === '历史长卷' && initial.tableText === '人物总表', 'people view tabs must use the approved visitor wording', initial);
+check(
+  initial.legacySections.length === 5
+    && initial.legacySections.every((section) => section.hidden && section.display === 'none'),
+  'timeline view must hide every legacy table section including the roster title and current-view count',
+  initial.legacySections,
+);
 check(initial.emperorFilterSelects === 0 && initial.emperorAxisButtons === 16, 'the imperial lineage must be the sole emperor-selection control', initial);
 
 await page.waitForFunction(() => {
