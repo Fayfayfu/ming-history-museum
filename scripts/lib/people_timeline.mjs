@@ -446,6 +446,28 @@ export function peopleTimelineClientScript() {
     const timeline=document.getElementById('peopleTimelineView');
     const tableSections=[...document.querySelectorAll('.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method')];
     const buttons=[...document.querySelectorAll('button[data-people-view]')];
+    const people=[...document.querySelectorAll('[data-timeline-person]')];
+    let portraitLoadingFrame=0;
+    const prioritizeTimelinePortraits=()=>{
+      portraitLoadingFrame=0;
+      if(timeline.hidden)return;
+      const viewportLeft=timeline.scrollLeft;
+      const viewportRight=viewportLeft+timeline.clientWidth;
+      const preloadLeft=Math.max(0,viewportLeft-timeline.clientWidth*.25);
+      const preloadRight=viewportRight+timeline.clientWidth;
+      people.forEach(person=>{
+        const image=person.querySelector('[data-timeline-image]');
+        if(!image)return;
+        const left=person.offsetLeft;
+        const right=left+person.offsetWidth;
+        if(right<preloadLeft||left>preloadRight)return;
+        image.loading='eager';
+        image.fetchPriority=right>=viewportLeft&&left<=viewportRight?'high':'auto';
+      });
+    };
+    const schedulePortraitLoading=()=>{
+      if(!portraitLoadingFrame)portraitLoadingFrame=requestAnimationFrame(prioritizeTimelinePortraits);
+    };
     window.setPeopleView=view=>{
       const showTimeline=view==='timeline';
       body.dataset.peopleView=showTimeline?'timeline':'table';
@@ -456,6 +478,7 @@ export function peopleTimelineClientScript() {
         button.setAttribute('aria-selected',String(selected));
         button.tabIndex=selected?0:-1;
       });
+      if(showTimeline)schedulePortraitLoading();
     };
     buttons.forEach((button,index)=>{
       button.addEventListener('click',()=>setPeopleView(button.dataset.peopleView));
@@ -472,7 +495,6 @@ export function peopleTimelineClientScript() {
         next.focus();
       });
     });
-    const people=[...document.querySelectorAll('[data-timeline-person]')];
     const clearPersonSelection=()=>people.forEach(person=>{
       person.classList.remove('is-selected');
       const select=person.querySelector('.timeline-person-select');
@@ -508,6 +530,9 @@ export function peopleTimelineClientScript() {
     document.addEventListener('keydown',event=>{
       if(event.key==='Escape')clearPersonSelection();
     });
+    timeline.addEventListener('scroll',schedulePortraitLoading,{passive:true});
+    addEventListener('resize',schedulePortraitLoading,{passive:true});
+    addEventListener('pageshow',schedulePortraitLoading);
     document.querySelectorAll('[data-timeline-image]').forEach(image=>{
       image.addEventListener('error',()=>{
         image.hidden=true;

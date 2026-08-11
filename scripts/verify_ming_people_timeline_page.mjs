@@ -53,6 +53,27 @@ check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled 
 check(initial.timelineText === '历史长卷' && initial.tableText === '人物总表', 'people view tabs must use the approved visitor wording', initial);
 check(initial.emperorFilterSelects === 0 && initial.emperorAxisButtons === 16, 'the imperial lineage must be the sole emperor-selection control', initial);
 
+const initialPortraitLoading = await page.evaluate(() => {
+  const viewport = document.querySelector('.people-timeline-viewport');
+  const viewportRect = viewport?.getBoundingClientRect();
+  const visible = [...document.querySelectorAll('[data-timeline-person]')].filter((node) => {
+    const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    return portrait && viewportRect && portrait.right > viewportRect.left && portrait.left < viewportRect.right;
+  }).map((node) => ({
+    name: node.dataset.timelinePerson,
+    loading: node.querySelector('[data-timeline-image]')?.loading || 'fallback',
+  }));
+  return {
+    count: visible.length,
+    unprioritized: visible.filter((portrait) => portrait.loading !== 'eager'),
+  };
+});
+check(
+  initialPortraitLoading.count > 0 && initialPortraitLoading.unprioritized.length === 0,
+  'timeline portraits in the current viewport must start loading without a click',
+  initialPortraitLoading,
+);
+
 const timelineLabelPainting = await page.evaluate(() => {
   const selects = [...document.querySelectorAll('.timeline-person-select')];
   const portraits = [...document.querySelectorAll('.timeline-portrait')];
