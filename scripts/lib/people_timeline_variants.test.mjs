@@ -93,6 +93,10 @@ test('B2 scopes darkness to the framed timeline without scaling portraits', () =
   assert.match(css, /\.people-timeline\{position:relative;display:block;margin-top:49px;padding:0 26px/);
   assert.match(css, /\.people-view-tabs\{position:absolute;left:26px;top:-43px;display:flex/);
   assert.doesNotMatch(css, /grid-template-columns:170px/);
+  assert.match(css, /\[data-b2-ambient\]\{[^}]*position:absolute[^}]*inset:0[^}]*pointer-events:none/);
+  assert.match(css, /\[data-b2-ambient\]:before[^\n]*animation:b2GlowA 19s/);
+  assert.match(css, /\[data-b2-ambient\]:after[^\n]*animation:b2GlowB 23s/);
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?data-b2-ambient[\s\S]*?animation:none/);
   assert.match(css, /#peopleTimelineView \.timeline-boundary[^\n]*#efb09a/);
   assert.doesNotMatch(css, /body\[data-scroll-variant="b2"\]\[data-people-view="timeline"\]\{[^}]*background:/);
   assert.doesNotMatch(css, /scaleY|scale\(/);
@@ -102,7 +106,8 @@ test('B2 alone renders one inaccessible ambient layer inside the timeline canvas
   const pages = Object.fromEntries(
     ['current', 'a', 'b', 'b2', 'c'].map((key) => [key, renderPeopleTimelineVariantPage(base, key)]),
   );
-  assert.equal((pages.b2.match(/data-b2-ambient/g) || []).length, 1);
+  const ambientMarkup = '<span class="b2-ambient" data-b2-ambient aria-hidden="true"></span>';
+  assert.equal(pages.b2.split(ambientMarkup).length - 1, 1);
   assert.match(
     pages.b2,
     /<div class="people-timeline-canvas"[^>]*><span class="b2-ambient" data-b2-ambient aria-hidden="true"><\/span>/,

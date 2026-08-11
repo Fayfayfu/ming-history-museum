@@ -194,6 +194,35 @@ async function captureB2StageStyles(page) {
   });
 }
 
+async function captureB2Ambience(page) {
+  return page.evaluate(() => {
+    const ambience = document.querySelector('[data-b2-ambient]');
+    const canvas = document.querySelector('.people-timeline-canvas');
+    const box = ambience?.getBoundingClientRect();
+    const canvasBox = canvas?.getBoundingClientRect();
+    const base = ambience ? getComputedStyle(ambience) : null;
+    const before = ambience ? getComputedStyle(ambience, '::before') : null;
+    const after = ambience ? getComputedStyle(ambience, '::after') : null;
+    return {
+      count: document.querySelectorAll('[data-b2-ambient]').length,
+      ariaHidden: ambience?.getAttribute('aria-hidden') || '',
+      pointerEvents: base?.pointerEvents || '',
+      position: base?.position || '',
+      width: box?.width || 0,
+      height: box?.height || 0,
+      canvasWidth: canvasBox?.width || 0,
+      canvasHeight: canvasBox?.height || 0,
+      baseBackground: base?.backgroundImage || '',
+      beforeBackground: before?.backgroundImage || '',
+      afterBackground: after?.backgroundImage || '',
+      beforeDuration: before?.animationDuration || '',
+      afterDuration: after?.animationDuration || '',
+      beforeAnimation: before?.animationName || '',
+      afterAnimation: after?.animationName || '',
+    };
+  });
+}
+
 async function captureB2Geometry(page) {
   return page.evaluate(() => {
     const timeline = document.querySelector('.people-timeline');
@@ -219,6 +248,8 @@ async function captureB2Geometry(page) {
       stageClientHeight: stage?.clientHeight || 0,
       stageScrollHeight: stage?.scrollHeight || 0,
       stageOverflowY: stage ? getComputedStyle(stage).overflowY : '',
+      stageOverflowX: stage ? getComputedStyle(stage).overflowX : '',
+      stageTouchAction: stage ? getComputedStyle(stage).touchAction : '',
       portraitWidth: portraitBox?.width || 0,
       portraitHeight: portraitBox?.height || 0,
       scrollWidth: stage?.scrollWidth || 0,
@@ -321,12 +352,13 @@ async function captureB2ControlAudit(page) {
   });
 }
 
-async function verifyB2(page, currentPage) {
+async function verifyB2(browser, page, currentPage) {
   await page.goto(`file://${path.join(root, 'people-timeline-b2.html')}`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('[data-scroll-stage="framed"] [data-scroll-drag-surface]');
   const pagePalette = await capturePageStyles(page);
   const currentTimeline = await capturePageStyles(currentPage);
   const stagePalette = await captureB2StageStyles(page);
+  const ambience = await captureB2Ambience(page);
   const geometry = await captureB2Geometry(page);
   const readability = await captureB2Readability(page);
   const controls = await captureB2ControlAudit(page);
@@ -337,8 +369,33 @@ async function verifyB2(page, currentPage) {
   check(stagePalette.cursor === 'grab' && stagePalette.stageInk === '#171611', 'B2 framed stage must expose the approved grab surface', stagePalette);
   check(stagePalette.maskPointerEvents.every((value) => value === 'none') && stagePalette.rollerPointerEvents.length === 2 && stagePalette.rollerPointerEvents.every((value) => value === 'none'), 'B2 masks and rollers must not capture pointers', stagePalette);
   check(stagePalette.canvasTransform === 'none', 'B2 must not scale the timeline canvas', stagePalette);
+  check(
+    ambience.count === 1
+      && ambience.ariaHidden === 'true'
+      && ambience.pointerEvents === 'none'
+      && ambience.position === 'absolute'
+      && Math.abs(ambience.width - ambience.canvasWidth) <= 1
+      && Math.abs(ambience.height - ambience.canvasHeight) <= 1,
+    'B2 ambience must be one inert full-canvas layer',
+    ambience,
+  );
+  check(
+    ambience.baseBackground.includes('radial-gradient')
+      && ambience.beforeBackground.includes('radial-gradient')
+      && ambience.afterBackground.includes('radial-gradient')
+      && new Set([ambience.beforeDuration, ambience.afterDuration]).has('19s')
+      && new Set([ambience.beforeDuration, ambience.afterDuration]).has('23s'),
+    'B2 ambience must combine static dust with independent 19s and 23s glows',
+    ambience,
+  );
   check(geometry.componentHeight <= 1000, 'B2 component height must stay within 1000px', geometry);
   check(geometry.stageScrollHeight <= geometry.stageClientHeight && geometry.stageOverflowY === 'hidden', 'B2 stage must fit its full canvas with no usable vertical scroll', geometry);
+  check(
+    ['auto', 'scroll'].includes(geometry.stageOverflowX)
+      && geometry.stageTouchAction !== 'none',
+    'B2 stage must preserve native horizontal touch scrolling',
+    geometry,
+  );
   check(geometry.personCount === 163 && geometry.hiddenPeople.length === 0, 'B2 must fully show every avatar, name, and identity within the stage', geometry);
   check(geometry.bottomSamples.length === 3 && geometry.bottomSamples.every((person) => person.avatar && person.nameLabel && person.identity), 'B2 bottom people must remain fully visible', geometry.bottomSamples);
   check([controls.initial, controls.scrolled].every((audit) => !audit.tabsIntersectStage && audit.personOverlaps.length === 0), 'B2 tabs must not overlap the stage or any avatar, name, or identity at either scroll position', controls);
@@ -348,6 +405,22 @@ async function verifyB2(page, currentPage) {
   check(geometry.scrollWidth > geometry.clientWidth, 'B2 long scroll must retain horizontal overflow', geometry);
   check(Object.values(readability).filter((value) => value?.contrast).every((item) => item.contrast >= 4.5), 'B2 timeline text must meet 4.5:1 contrast against its brightest stage surface', readability);
   check(readability.boundary.contrast >= 4.5, 'B2 12px boundary text must meet 4.5:1 contrast against its brightest stage surface', readability.boundary);
+
+  const reducedPage = await browser.newPage({ reducedMotion: 'reduce', viewport: { width: 1440, height: 1000 } });
+  let reducedAmbience;
+  try {
+    await reducedPage.goto(`file://${path.join(root, 'people-timeline-b2.html')}`, { waitUntil: 'domcontentloaded' });
+    reducedAmbience = await captureB2Ambience(reducedPage);
+  } finally {
+    await reducedPage.close();
+  }
+  check(
+    reducedAmbience.baseBackground.includes('radial-gradient')
+      && reducedAmbience.beforeAnimation === 'none'
+      && reducedAmbience.afterAnimation === 'none',
+    'B2 reduced motion must preserve static dust and disable breathing glows',
+    reducedAmbience,
+  );
 
   await page.locator('#peopleTableTab').click();
   await currentPage.locator('#peopleTableTab').click();
@@ -448,7 +521,7 @@ async function verifyB2(page, currentPage) {
     await page.locator('.museum-nav').evaluate((nav) => { nav.style.removeProperty('visibility'); });
   }
   verifiedVariants.push('b2');
-  return { pagePalette, currentTimeline, stagePalette, geometry, readability, controls, drag, table, tableCleanup, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
+  return { pagePalette, currentTimeline, stagePalette, ambience, reducedAmbience, geometry, readability, controls, drag, table, tableCleanup, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
 }
 
 async function captureCompleteModuleGeometry(page) {
@@ -1111,7 +1184,7 @@ try {
   await currentPage.goto(`file://${path.join(root, 'people-timeline-current.html')}`, { waitUntil: 'domcontentloaded' });
   await currentPage.waitForSelector('.stat strong');
   const b2Page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
-  const b2 = await verifyB2(b2Page, currentPage);
+  const b2 = await verifyB2(browser, b2Page, currentPage);
   await page.locator('#peopleTableTab').click();
   await currentPage.locator('#peopleTableTab').click();
   await page.waitForSelector('.tablewrap:not([hidden])');
