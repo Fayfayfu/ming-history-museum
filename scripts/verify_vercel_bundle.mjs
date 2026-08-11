@@ -3,7 +3,7 @@ import http from 'node:http';
 import path from 'node:path';
 import {chromium} from 'playwright';
 
-const root = path.resolve('dist');
+const root = path.resolve(process.env.MING_DEPLOY_ROOT || 'dist');
 const types = {'.html':'text/html; charset=utf-8','.webp':'image/webp','.json':'application/json'};
 const server = process.env.MING_DEPLOY_URL ? null : http.createServer(async (request, response) => {
   try {
@@ -34,16 +34,24 @@ const immersivePeople = (await fs.readdir(path.join(root, 'people')))
   .filter(file => file.endsWith('.html'))
   .sort()
   .map(file => `people/${file}`);
+const timelinePreviews = Object.freeze({
+  'people-timeline-current.html': { variant: 'current', titleMarker: '当前版' },
+  'people-timeline-a.html': { variant: 'a', titleMarker: 'A版' },
+  'people-timeline-b.html': { variant: 'b', titleMarker: 'B版' },
+  'people-timeline-b2.html': { variant: 'b2', titleMarker: 'B2版' },
+  'people-timeline-c.html': { variant: 'c', titleMarker: 'C版' },
+});
 const files = [
   'index.html','people.html','events.html','exhibitions.html',
   'institutions.html','institutions-graph.html',
+  ...Object.keys(timelinePreviews),
   'exhibit-yongle-capital.html','exhibit-zheng-he-voyages.html','exhibit-tumu-crisis.html',
   'exhibit-zhang-reform.html','exhibit-imjin-war.html','exhibit-fall-1644.html',
   ...immersivePeople,
 ];
 const pages = [];
 for (const file of files) {
-  await page.goto(`${base}/${file}`, {waitUntil:'domcontentloaded', timeout:60000});
+  const response = await page.goto(`${base}/${file}`, {waitUntil:'domcontentloaded', timeout:60000});
   await page.evaluate(async () => {
     const images = [...document.images];
     images.forEach(image => {
@@ -64,6 +72,7 @@ for (const file of files) {
   });
   pages.push(await page.evaluate(file => ({
     file,
+    responseStatus: Number(document.documentElement.dataset.verifierResponseStatus || 0),
     title: document.title,
     images: document.images.length,
     broken: [...document.images].filter(image => !image.naturalWidth).length,
@@ -74,7 +83,10 @@ for (const file of files) {
     palaceNavLinks: document.querySelectorAll('.museum-links a[href="institutions-palace.html"]').length,
     institutionDisplayTabs: document.querySelectorAll('.institution-display-switch [data-display]').length,
     developmentCopy: /B\s*版|C\s*版|返回明代官制档案|版本号/.test(document.body.textContent),
+    scrollVariant: document.body.dataset.scrollVariant || '',
+    robots: document.querySelector('meta[name="robots"]')?.getAttribute('content') || '',
   }), file));
+  pages.at(-1).responseStatus = response?.status() || 0;
 }
 
 await page.goto(`${base}/institutions-palace.html`, {waitUntil:'domcontentloaded', timeout:60000});
@@ -123,7 +135,7 @@ const audit = {
   legacyInstitutionRedirect,
   errors,
   pass: pages.length === files.length
-    && pages.every(record => record.title && record.broken === 0 && record.bodyWidth === record.viewport)
+    && pages.every(record => record.responseStatus === 200 && record.title && record.broken === 0 && record.bodyWidth === record.viewport)
     && pages.every(record => record.navLabels.includes('专题展'))
     && pages.every(record => record.palaceNavLinks === 0)
     && pages.find(record => record.file === 'institutions.html')?.institutionDisplayTabs === 2
@@ -133,6 +145,14 @@ const audit = {
       pages.find(record => record.file === file)?.navLabels.includes('制度馆')
     )
     && pages.find(record => record.file === 'index.html')?.exhibitionCards === 6
+    && Object.entries(timelinePreviews).every(([file, expected]) => {
+      const record = pages.find(candidate => candidate.file === file);
+      return record?.title.includes(expected.titleMarker)
+        && record.scrollVariant === expected.variant
+        && record.robots === 'noindex,nofollow';
+    })
+    && pages.find(record => record.file === 'people.html')?.scrollVariant === ''
+    && pages.find(record => record.file === 'people.html')?.robots === ''
     && yao.open && yao.loaded && yao.src?.endsWith('.webp')
     && yangJisheng.open && yangJisheng.name === '杨继盛' && yangJisheng.portraitLoaded
     && yangJisheng.portraitLabel === '18世纪清人绘像'

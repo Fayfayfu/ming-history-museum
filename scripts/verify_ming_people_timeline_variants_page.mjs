@@ -3,7 +3,7 @@ import http from 'node:http';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
-const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
+const root = path.resolve(process.env.MING_TIMELINE_ROOT || 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const screenshotPath = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/人物馆_历史长卷_B版.png');
 const screenshotAlreadyExists = await fs.access(screenshotPath).then(() => true, () => false);
@@ -118,11 +118,59 @@ async function capturePageStyles(page) {
     return Object.fromEntries([
       ['body', read('body')],
       ['mast', read('.mast')],
+      ['mastSmall', read('.mast h1 small')],
       ['lede', read('.lede')],
       ['scope', read('.scope')],
+      ['scopeBold', read('.scope b')],
       ['stat', read('.stat')],
+      ['statLabel', read('.stat span')],
+      ['statValue', read('.stat:nth-child(2) strong')],
+      ['statFirstAccent', read('.stat:first-child strong')],
+      ['statLastAccent', read('.stat:last-child strong')],
       ['tabs', read('.people-view-tabs')],
+      ['timelineTab', read('#peopleTimelineTab')],
+      ['tableTab', read('#peopleTableTab')],
     ]);
+  });
+}
+
+async function captureTableStageCleanup(page) {
+  return page.evaluate(() => {
+    const timeline = document.querySelector('.people-timeline');
+    const stage = document.querySelector('#peopleTimelineView');
+    const box = (element) => {
+      const rect = element?.getBoundingClientRect();
+      return rect ? { width: rect.width, height: rect.height } : { width: 0, height: 0 };
+    };
+    const pseudo = (name) => {
+      const style = getComputedStyle(timeline, name);
+      return {
+        content: style.content,
+        display: style.display,
+        visibility: style.visibility,
+        backgroundColor: style.backgroundColor,
+        backgroundImage: style.backgroundImage,
+        width: style.width,
+        height: style.height,
+      };
+    };
+    return {
+      module: { ...box(timeline), backgroundColor: getComputedStyle(timeline).backgroundColor },
+      stage: {
+        ...box(stage),
+        display: getComputedStyle(stage).display,
+        visibility: getComputedStyle(stage).visibility,
+        opacity: getComputedStyle(stage).opacity,
+      },
+      rollers: [...document.querySelectorAll('[data-scroll-roller]')].map((roller) => ({
+        ...box(roller),
+        display: getComputedStyle(roller).display,
+        visibility: getComputedStyle(roller).visibility,
+        opacity: getComputedStyle(roller).opacity,
+      })),
+      before: pseudo('::before'),
+      after: pseudo('::after'),
+    };
   });
 }
 
@@ -299,6 +347,24 @@ async function verifyB2(page, currentPage) {
   const table = await captureTableStyles(page);
   const currentTable = await captureTableStyles(currentPage);
   check(sameStyle(table, currentTable), 'B2 table view must retain current page colors', { table, currentTable });
+  const tableCleanup = await captureTableStageCleanup(page);
+  const currentTableCleanup = await captureTableStageCleanup(currentPage);
+  const pseudoIsClean = (pseudo) => (pseudo.content === 'none' || pseudo.content === 'normal')
+    && pseudo.backgroundImage === 'none'
+    && pseudo.backgroundColor === 'rgba(0, 0, 0, 0)';
+  check(
+    tableCleanup.stage.display === 'none'
+      && tableCleanup.stage.width === 0
+      && tableCleanup.stage.height === 0
+      && tableCleanup.rollers.length === 2
+      && tableCleanup.rollers.every((roller) => roller.display === 'none' && roller.width === 0 && roller.height === 0)
+      && pseudoIsClean(tableCleanup.before)
+      && pseudoIsClean(tableCleanup.after)
+      && Math.abs(tableCleanup.module.height - currentTableCleanup.module.height) <= 1
+      && tableCleanup.module.backgroundColor === currentTableCleanup.module.backgroundColor,
+    'B2 table view must remove rollers, masks, dark background, and residual framed geometry',
+    { tableCleanup, currentTableCleanup },
+  );
   await page.locator('#peopleTimelineTab').click();
   await currentPage.locator('#peopleTimelineTab').click();
   await page.waitForSelector('[data-scroll-drag-surface]');
@@ -373,7 +439,181 @@ async function verifyB2(page, currentPage) {
     await page.locator('.museum-nav').evaluate((nav) => { nav.style.removeProperty('visibility'); });
   }
   verifiedVariants.push('b2');
-  return { pagePalette, currentTimeline, stagePalette, geometry, readability, controls, drag, table, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
+  return { pagePalette, currentTimeline, stagePalette, geometry, readability, controls, drag, table, tableCleanup, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
+}
+
+async function captureCompleteModuleGeometry(page) {
+  return page.evaluate(() => {
+    const module = document.querySelector('.people-timeline');
+    const stage = document.querySelector('#peopleTimelineView');
+    const canvas = document.querySelector('.people-timeline-canvas');
+    const tabs = document.querySelector('.people-view-tabs');
+    const stageBox = stage?.getBoundingClientRect();
+    const tabsBox = tabs?.getBoundingClientRect();
+    const rect = (element) => {
+      const box = element?.getBoundingClientRect();
+      return box ? { left: box.left, top: box.top, right: box.right, bottom: box.bottom, width: box.width, height: box.height } : null;
+    };
+    const verticallyInside = (element) => {
+      const box = element?.getBoundingClientRect();
+      return Boolean(stageBox && box && box.top >= stageBox.top && box.bottom <= stageBox.bottom);
+    };
+    const people = [...document.querySelectorAll('[data-timeline-person]')].map((person) => ({
+      name: person.dataset.timelinePerson || '',
+      avatar: verticallyInside(person.querySelector('.timeline-portrait')),
+      nameLabel: verticallyInside(person.querySelector('strong')),
+      identity: verticallyInside(person.querySelector('small')),
+    }));
+    const portraitBox = document.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    const intersects = Boolean(stageBox && tabsBox
+      && tabsBox.left < stageBox.right && tabsBox.right > stageBox.left
+      && tabsBox.top < stageBox.bottom && tabsBox.bottom > stageBox.top);
+    return {
+      module: rect(module),
+      stage: rect(stage),
+      stageDisplay: stage ? getComputedStyle(stage).display : '',
+      stageVisibility: stage ? getComputedStyle(stage).visibility : '',
+      stageOpacity: stage ? getComputedStyle(stage).opacity : '',
+      tabs: rect(tabs),
+      tabsIntersectStage: intersects,
+      stageClientHeight: stage?.clientHeight || 0,
+      stageScrollHeight: stage?.scrollHeight || 0,
+      stageOverflowY: stage ? getComputedStyle(stage).overflowY : '',
+      canvasTransform: canvas ? getComputedStyle(canvas).transform : '',
+      portraitWidth: portraitBox?.width || 0,
+      portraitHeight: portraitBox?.height || 0,
+      peopleCount: people.length,
+      hiddenPeople: people.filter((person) => !person.avatar || !person.nameLabel || !person.identity),
+      bodyScrollWidth: document.body.scrollWidth,
+      viewportWidth: innerWidth,
+    };
+  });
+}
+
+function checkCompleteModuleGeometry(label, geometry) {
+  check(geometry.module?.height > 0 && geometry.module.height <= 1000, `${label} complete .people-timeline border box must be at most 1000px`, geometry);
+  check(geometry.stage?.width > 0 && geometry.stage.height > 0 && geometry.stageDisplay !== 'none' && geometry.stageVisibility === 'visible' && geometry.stageOpacity === '1' && geometry.stageScrollHeight <= geometry.stageClientHeight && geometry.stageOverflowY === 'hidden', `${label} must expose a nonzero visible full canvas without vertical scrolling`, geometry);
+  check(geometry.peopleCount === 163 && geometry.hiddenPeople.length === 0, `${label} must keep all 163 avatars, names, and identities vertically visible`, geometry);
+  check(Math.abs(geometry.portraitWidth - geometry.portraitHeight) <= 1 && geometry.canvasTransform === 'none', `${label} must retain circular portraits without canvas scaling`, geometry);
+  check(!geometry.tabsIntersectStage, `${label} tabs must not overlay timeline content`, geometry);
+  check(geometry.bodyScrollWidth === geometry.viewportWidth, `${label} must not create page-level horizontal overflow`, geometry);
+}
+
+async function captureScrollHitAudit(page, requestedScrollLeft) {
+  return page.evaluate(async (requested) => {
+    const stage = document.querySelector('#peopleTimelineView');
+    const tabs = document.querySelector('.people-view-tabs');
+    const module = document.querySelector('.people-timeline');
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo({ top: Math.max(0, (module?.getBoundingClientRect().top || 0) + window.scrollY - 70), left: 0, behavior: 'auto' });
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    stage.scrollLeft = Math.min(requested, Math.max(0, stage.scrollWidth - stage.clientWidth));
+    const stageBox = stage.getBoundingClientRect();
+    const visiblePerson = [...document.querySelectorAll('[data-timeline-person]')].find((person) => {
+      const avatar = person.querySelector('.timeline-portrait')?.getBoundingClientRect();
+      return avatar
+        && avatar.left >= stageBox.left && avatar.right <= stageBox.right
+        && avatar.top >= Math.max(stageBox.top, 0) && avatar.bottom <= Math.min(stageBox.bottom, innerHeight);
+    });
+    const avatar = visiblePerson?.querySelector('.timeline-portrait')?.getBoundingClientRect();
+    const personHit = avatar ? document.elementFromPoint(avatar.left + avatar.width / 2, avatar.top + avatar.height / 2) : null;
+    const tabHits = [...tabs.querySelectorAll('button')].map((button) => {
+      const box = button.getBoundingClientRect();
+      const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+      return { id: button.id, hitId: hit?.closest('button')?.id || '' };
+    });
+    const result = {
+      requested,
+      scrollLeft: stage.scrollLeft,
+      expectedPerson: visiblePerson?.dataset.timelinePerson || '',
+      actualPerson: personHit?.closest('[data-timeline-person]')?.dataset.timelinePerson || '',
+      tabHits,
+    };
+    document.documentElement.style.scrollBehavior = previousScrollBehavior;
+    return result;
+  }, requestedScrollLeft);
+}
+
+async function verifyResponsiveAndNoJs(browser) {
+  const files = [
+    ['current', 'people-timeline-current.html'],
+    ['a', 'people-timeline-a.html'],
+    ['b', 'people-timeline-b.html'],
+    ['b2', 'people-timeline-b2.html'],
+    ['c', 'people-timeline-c.html'],
+  ];
+  const responsive = [];
+  const page = await browser.newPage();
+  try {
+    for (const [key, file] of files) {
+      for (const width of [1440, 768, 390]) {
+        await page.setViewportSize({ width, height: 1000 });
+        await page.goto(`file://${path.join(root, file)}`, { waitUntil: 'domcontentloaded' });
+        if (key === 'c') {
+          const skip = page.locator('[data-scroll-skip]');
+          if (await skip.isVisible()) await skip.click();
+          await page.waitForFunction(() => document.body.dataset.ritualState === 'open');
+        }
+        const geometry = await captureCompleteModuleGeometry(page);
+        const zeroHit = await captureScrollHitAudit(page, 0);
+        const nonzeroHit = await captureScrollHitAudit(page, 660);
+        check(geometry.module?.height > 0, `${key} ${width}px complete module must have nonzero geometry`, geometry);
+        if (key !== 'current') checkCompleteModuleGeometry(`${key} ${width}px`, geometry);
+        else {
+          check(geometry.stage?.width > 0 && geometry.stage.height > 0 && geometry.stageVisibility === 'visible' && geometry.stageOpacity === '1', `current ${width}px stage must be visibly measurable`, geometry);
+          check(geometry.peopleCount === 163 && geometry.hiddenPeople.length === 0 && geometry.bodyScrollWidth === width, `current ${width}px must retain all people and contain page width`, geometry);
+        }
+        check(
+          zeroHit.expectedPerson && zeroHit.expectedPerson === zeroHit.actualPerson
+            && nonzeroHit.scrollLeft > 0
+            && nonzeroHit.expectedPerson && nonzeroHit.expectedPerson === nonzeroHit.actualPerson
+            && zeroHit.tabHits.every((hit) => hit.id === hit.hitId)
+            && nonzeroHit.tabHits.every((hit) => hit.id === hit.hitId),
+          `${key} ${width}px must preserve tab and portrait hit testing at zero and nonzero horizontal scroll`,
+          { zeroHit, nonzeroHit },
+        );
+        responsive.push({ key, width, geometry, zeroHit, nonzeroHit });
+      }
+    }
+  } finally {
+    await page.close();
+  }
+
+  const noJs = [];
+  for (const [key, file] of files) {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
+    try {
+      const noJsPage = await context.newPage();
+      await noJsPage.goto(`file://${path.join(root, file)}`, { waitUntil: 'load' });
+      const audit = await noJsPage.evaluate(() => {
+        const read = (selector) => {
+          const element = document.querySelector(selector);
+          const style = getComputedStyle(element);
+          const box = element.getBoundingClientRect();
+          return { display: style.display, visibility: style.visibility, opacity: style.opacity, width: box.width, height: box.height };
+        };
+        return {
+          table: read('.tablewrap'),
+          stage: read('#peopleTimelineView'),
+          module: read('.people-timeline'),
+          bodyScrollWidth: document.body.scrollWidth,
+          viewportWidth: innerWidth,
+        };
+      });
+      check(
+        audit.table.display !== 'none' && audit.table.visibility === 'visible' && audit.table.opacity === '1' && audit.table.width > 0 && audit.table.height > 0
+          && audit.stage.display === 'none' && audit.stage.width === 0 && audit.stage.height === 0
+          && audit.bodyScrollWidth === audit.viewportWidth,
+        `${key} no-JS must visibly expose the populated table, fully hide the unusable scroll, and contain page width`,
+        audit,
+      );
+      noJs.push({ key, ...audit });
+    } finally {
+      await context.close();
+    }
+  }
+  return { responsive, noJs };
 }
 
 async function verifyA(page) {
@@ -395,7 +635,8 @@ async function verifyA(page) {
       paper: timeline ? getComputedStyle(timeline).getPropertyValue('--scroll-paper').trim() : '',
     };
   });
-  check(beforeDrag.scrollHeight <= 1000, 'A drag surface scrollHeight must be at most 1000', beforeDrag);
+  const completeGeometry = await captureCompleteModuleGeometry(page);
+  checkCompleteModuleGeometry('A', completeGeometry);
   check(beforeDrag.scrollWidth > beforeDrag.clientWidth, 'A drag surface must overflow horizontally', beforeDrag);
   check(beforeDrag.hasPrologue && beforeDrag.hasEpilogue, 'A must include prologue and epilogue', beforeDrag);
   check(!beforeDrag.hasStage && !beforeDrag.hasRitual, 'A must not include B or C shell', beforeDrag);
@@ -423,7 +664,7 @@ async function verifyA(page) {
   check(!peopleHtml.includes('data-scroll-variant="a"'), 'people.html must remain isolated from A variant');
   check(!peopleHtml.includes('data-scroll-drag-surface'), 'people.html must not receive A drag surface');
   verifiedVariants.push('a');
-  return { beforeDrag, afterDrag };
+  return { beforeDrag, completeGeometry, afterDrag };
 }
 
 async function resetC(page) {
@@ -432,6 +673,44 @@ async function resetC(page) {
   await page.evaluate(() => sessionStorage.clear());
   await page.reload({ waitUntil: 'domcontentloaded' });
   cStage('reset:done');
+}
+
+async function captureCRitualRollers(page) {
+  return page.evaluate(() => {
+    const ritual = document.querySelector('[data-scroll-ritual]');
+    const ritualBox = ritual?.getBoundingClientRect();
+    const readPseudo = (name) => {
+      const style = getComputedStyle(ritual, name);
+      return {
+        left: Number.parseFloat(style.left),
+        right: Number.parseFloat(style.right),
+        width: Number.parseFloat(style.width),
+        animationName: style.animationName,
+        animationDuration: style.animationDuration,
+      };
+    };
+    const controls = [...ritual.querySelectorAll('h2,button')].map((control) => ({
+      text: control.textContent.trim(),
+      visibility: getComputedStyle(control).visibility,
+      opacity: getComputedStyle(control).opacity,
+      pointerEvents: getComputedStyle(control).pointerEvents,
+    }));
+    return {
+      state: document.body.dataset.ritualState,
+      ritualHidden: ritual.hidden,
+      ritualAriaHidden: ritual.getAttribute('aria-hidden') || '',
+      ritualPointerEvents: getComputedStyle(ritual).pointerEvents,
+      ritualWidth: ritualBox?.width || 0,
+      start: readPseudo('::before'),
+      end: readPseudo('::after'),
+      controls,
+      activeInRitual: Boolean(document.activeElement?.closest('[data-scroll-ritual]')),
+      activeInTimeline: Boolean(document.activeElement?.closest('#peopleTimelineView')),
+      activeTag: document.activeElement?.tagName || '',
+      timelineInert: document.querySelector('#peopleTimelineView')?.inert || false,
+      timelineAriaHidden: document.querySelector('#peopleTimelineView')?.getAttribute('aria-hidden') || '',
+    };
+  });
 }
 
 async function verifyC(browser) {
@@ -456,12 +735,20 @@ async function verifyC(browser) {
       timelineInert: document.querySelector('[data-scroll-drag-surface]')?.inert || false,
       timelineAriaHidden: document.querySelector('[data-scroll-drag-surface]')?.getAttribute('aria-hidden') || '',
     }));
+    closed.rollers = await captureCRitualRollers(page);
     check(closed.state === 'closed' && closed.focused && !closed.ritualHidden, 'C fresh session must be closed with focus on 展卷', closed);
     check(closed.replayHidden, 'C must hide replay before opening', closed);
     check(closed.scrollHeight <= 1000 && closed.scrollWidth > closed.clientWidth, 'C must retain A horizontal scroll geometry', closed);
     check(closed.componentHeight <= 1000, 'C closed visible component must be at most 1000px tall', closed);
     check(closed.timelineInert && closed.timelineAriaHidden === 'true', 'C closed timeline must be inert and hidden from assistive technology', closed);
     check(!closed.stage && !closed.stageInk && closed.paper === '#f5f0e3', 'C must retain the bright A structure without B stage', closed);
+    check(
+      !closed.rollers.ritualHidden
+        && Math.abs(closed.rollers.start.left - (closed.rollers.ritualWidth / 2 - 19)) <= 2
+        && Math.abs(closed.rollers.end.right - (closed.rollers.ritualWidth / 2 - 19)) <= 2,
+      'C closed rollers must begin together at the center',
+      closed.rollers,
+    );
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');
     check(!await page.evaluate(() => Boolean(document.activeElement?.closest('[data-timeline-person]'))), 'C closed tab sequence must not enter a person control');
@@ -473,17 +760,42 @@ async function verifyC(browser) {
     await page.locator('[data-scroll-unfurl]').click();
     await page.waitForFunction(() => document.body.dataset.ritualState === 'opening');
     const opening = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden, active: document.activeElement?.id || '', componentHeight: Math.ceil(document.querySelector('.people-timeline')?.getBoundingClientRect().height || 0), timelineInert: document.querySelector('[data-scroll-drag-surface]')?.inert || false, timelineAriaHidden: document.querySelector('[data-scroll-drag-surface]')?.getAttribute('aria-hidden') || '' }));
-    check(opening.state === 'opening' && opening.ritualHidden && opening.active !== 'peopleTimelineView', 'C opening must move focus away from the hidden ritual and inert timeline', opening);
+    opening.rollers = await captureCRitualRollers(page);
+    check(
+      opening.state === 'opening'
+        && !opening.ritualHidden
+        && opening.active !== 'peopleTimelineView'
+        && opening.rollers.ritualAriaHidden === 'true'
+        && opening.rollers.ritualPointerEvents === 'none'
+        && opening.rollers.controls.every((control) => control.visibility === 'hidden' && control.opacity === '0' && control.pointerEvents === 'none')
+        && !opening.rollers.activeInRitual
+        && !opening.rollers.activeInTimeline,
+      'C opening must retain only its roller layer while hiding controls and moving focus away from inert content',
+      opening,
+    );
     check(opening.componentHeight <= 1000 && opening.timelineInert && opening.timelineAriaHidden === 'true', 'C opening component must stay compact and inert', opening);
     await page.keyboard.press('Tab');
     check(!await page.evaluate(() => Boolean(document.activeElement?.closest('[data-timeline-person]'))), 'C opening tab sequence must not enter a person control');
+    await page.waitForTimeout(320);
+    const openingMid = await captureCRitualRollers(page);
+    check(
+      !openingMid.ritualHidden
+        && openingMid.start.left < closed.rollers.start.left - 80
+        && openingMid.end.right < closed.rollers.end.right - 80
+        && openingMid.start.animationName.includes('unfurlRollerStart')
+        && openingMid.end.animationName.includes('unfurlRollerEnd')
+        && openingMid.start.animationDuration === '0.8s'
+        && openingMid.end.animationDuration === '0.8s',
+      'C opening rollers must visibly separate from center toward both sides during the same 800ms interval',
+      { closed: closed.rollers, openingMid },
+    );
     await page.locator('.people-timeline').screenshot({ path: cScreenshotPaths.opening });
     await page.waitForFunction(() => document.body.dataset.ritualState === 'open', undefined, { timeout: 1200 });
     const unfurlElapsedMs = Date.now() - unfurlStartedAt;
-    const opened = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden, replayHidden: document.querySelector('[data-scroll-replay]')?.hidden, componentHeight: Math.ceil(document.querySelector('.people-timeline')?.getBoundingClientRect().height || 0), timelineInert: document.querySelector('[data-scroll-drag-surface]')?.inert || false, timelineAriaHidden: document.querySelector('[data-scroll-drag-surface]')?.getAttribute('aria-hidden') || '' }));
+    const opened = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden, replayHidden: document.querySelector('[data-scroll-replay]')?.hidden, componentHeight: Math.ceil(document.querySelector('.people-timeline')?.getBoundingClientRect().height || 0), timelineInert: document.querySelector('[data-scroll-drag-surface]')?.inert || false, timelineAriaHidden: document.querySelector('[data-scroll-drag-surface]')?.getAttribute('aria-hidden') || '', activeTimeline: document.activeElement?.id === 'peopleTimelineView' }));
     check(opened.state === 'open' && opened.ritualHidden && !opened.replayHidden, 'C must finish within 1200ms and expose replay', opened);
     check(unfurlElapsedMs >= 650 && unfurlElapsedMs <= 1200, 'C unfurl must remain opening for approximately 800ms', { unfurlElapsedMs });
-    check(opened.componentHeight <= 1000 && !opened.timelineInert && opened.timelineAriaHidden === '', 'C open component must stay compact and restore timeline accessibility', opened);
+    check(opened.componentHeight <= 1000 && !opened.timelineInert && opened.timelineAriaHidden === '' && opened.activeTimeline, 'C open component must stay compact and restore timeline accessibility and focus', opened);
     await page.keyboard.press('Tab');
     check(await page.evaluate(() => Boolean(document.activeElement?.closest('[data-timeline-person]'))), 'C open tab sequence must restore person controls');
     await page.locator('.people-timeline').screenshot({ path: cScreenshotPaths.open });
@@ -502,18 +814,36 @@ async function verifyC(browser) {
     await page.locator('[data-scroll-unfurl]').click();
     await page.waitForFunction(() => document.body.dataset.ritualState === 'opening');
     await page.keyboard.press('Escape');
-    check(await page.evaluate(() => document.body.dataset.ritualState) === 'open', 'C Escape must finish opening immediately');
+    const escaped = await page.evaluate(() => ({
+      state: document.body.dataset.ritualState,
+      activeTimeline: document.activeElement?.id === 'peopleTimelineView',
+      timelineInert: document.querySelector('#peopleTimelineView')?.inert || false,
+      timelineAriaHidden: document.querySelector('#peopleTimelineView')?.getAttribute('aria-hidden') || '',
+    }));
+    check(escaped.state === 'open' && escaped.activeTimeline && !escaped.timelineInert && escaped.timelineAriaHidden === '', 'C Escape must finish opening immediately and restore timeline focus/interactivity', escaped);
 
     await resetC(page);
     await page.locator('[data-scroll-skip]').click();
-    check(await page.evaluate(() => document.body.dataset.ritualState) === 'open', 'C skip must finish opening immediately');
+    const skipped = await page.evaluate(() => ({
+      state: document.body.dataset.ritualState,
+      activeTimeline: document.activeElement?.id === 'peopleTimelineView',
+      timelineInert: document.querySelector('#peopleTimelineView')?.inert || false,
+      timelineAriaHidden: document.querySelector('#peopleTimelineView')?.getAttribute('aria-hidden') || '',
+    }));
+    check(skipped.state === 'open' && skipped.activeTimeline && !skipped.timelineInert && skipped.timelineAriaHidden === '', 'C skip must finish opening immediately and restore timeline focus/interactivity', skipped);
     cStage('escape-skip:done');
 
     cStage('reduced-session:start');
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await resetC(page);
-    const reduced = await page.evaluate(() => ({ state: document.body.dataset.ritualState, ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden }));
-    check(reduced.state === 'open' && reduced.ritualHidden, 'C reduced motion must start open', reduced);
+    const reduced = await page.evaluate(() => ({
+      state: document.body.dataset.ritualState,
+      ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden,
+      activeTimeline: document.activeElement?.id === 'peopleTimelineView',
+      timelineInert: document.querySelector('#peopleTimelineView')?.inert || false,
+      timelineAriaHidden: document.querySelector('#peopleTimelineView')?.getAttribute('aria-hidden') || '',
+    }));
+    check(reduced.state === 'open' && reduced.ritualHidden && reduced.activeTimeline && !reduced.timelineInert && reduced.timelineAriaHidden === '', 'C reduced motion must start open with timeline focus/interactivity restored', reduced);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
 
     await page.evaluate(() => sessionStorage.setItem('ming.peopleTimelineC.opened', '1'));
@@ -567,7 +897,7 @@ async function verifyC(browser) {
       await noScriptContext.close();
     }
     cStage('no-js:done');
-    return { closed, opening, opened, reduced, remembered, cDrag, unfurlElapsedMs, screenshots: cScreenshotPaths };
+    return { closed, opening, openingMid, opened, reduced, remembered, cDrag, unfurlElapsedMs, screenshots: cScreenshotPaths };
   } finally {
     await context.close();
   }
@@ -585,8 +915,23 @@ async function verifyCFailOpen(browser, initScript, label) {
       ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden,
       clipPath: getComputedStyle(document.querySelector('#peopleTimelineView')).clipPath,
       opacity: getComputedStyle(document.querySelector('#peopleTimelineView')).opacity,
+      replayHidden: document.querySelector('[data-scroll-replay]')?.hidden,
+      activeTimeline: document.activeElement?.id === 'peopleTimelineView',
+      timelineInert: document.querySelector('#peopleTimelineView')?.inert || false,
+      timelineAriaHidden: document.querySelector('#peopleTimelineView')?.getAttribute('aria-hidden') || '',
     }));
-    check(state.ritualState === 'open' && state.ritualHidden && state.clipPath === 'inset(0px)' && state.opacity === '1', `C ${label} must fail open`, state);
+    check(
+      state.ritualState === 'open'
+        && state.ritualHidden
+        && state.clipPath === 'inset(0px)'
+        && state.opacity === '1'
+        && !state.replayHidden
+        && state.activeTimeline
+        && !state.timelineInert
+        && state.timelineAriaHidden === '',
+      `C ${label} must fail open with timeline focus/interactivity restored`,
+      state,
+    );
     cStage(`${label}:done`);
     return state;
   } finally {
@@ -618,10 +963,40 @@ if (process.env.PEOPLE_TIMELINE_C_ONLY === '1') {
   process.exit(0);
 }
 
+async function verifyGeneratedRobotsMarkers() {
+  const variants = ['current', 'a', 'b', 'b2', 'c'];
+  const previews = [];
+  for (const key of variants) {
+    const file = `people-timeline-${key}.html`;
+    const html = await fs.readFile(path.join(root, file), 'utf8');
+    previews.push({
+      key,
+      file,
+      markerCount: (html.match(/<meta name="robots" content="noindex,nofollow">/g) || []).length,
+      bodyVariantMarker: html.includes(`<body class="people-page" data-scroll-variant="${key}"`),
+    });
+  }
+  const formal = await fs.readFile(path.join(root, 'people.html'), 'utf8');
+  const result = {
+    previews,
+    formalMarkerCount: (formal.match(/<meta name="robots"/g) || []).length,
+    formalVariantMarkers: (formal.match(/data-scroll-variant=/g) || []).length,
+  };
+  check(
+    previews.every((entry) => entry.markerCount === 1 && entry.bodyVariantMarker)
+      && result.formalMarkerCount === 0
+      && result.formalVariantMarkers === 0,
+    'all five generated previews must be noindex while formal people.html stays indexable and unversioned',
+    result,
+  );
+  return result;
+}
+
 let browser;
 let cServer;
 let result;
 try {
+  const robots = await verifyGeneratedRobotsMarkers();
   cServer = await startCServer();
   browser = await chromium.launch({ headless: true, executablePath: chrome });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
@@ -700,7 +1075,8 @@ try {
       },
     };
   });
-  check(beforeDrag.scrollHeight <= 1000, 'B drag surface scrollHeight must be at most 1000', beforeDrag);
+  const bCompleteGeometry = await captureCompleteModuleGeometry(page);
+  checkCompleteModuleGeometry('B', bCompleteGeometry);
   check(beforeDrag.scrollWidth > beforeDrag.clientWidth, 'B drag surface must overflow horizontally', beforeDrag);
   check(beforeDrag.stage === 'immersive', 'B must include the immersive stage shell', beforeDrag);
   check(beforeDrag.ritualControlCount === 0, 'B must not include C ritual controls', beforeDrag);
@@ -817,8 +1193,9 @@ try {
   const cScriptFailure = await verifyCFailOpen(browser, () => {
     window.matchMedia = () => { throw new Error('matchMedia unavailable'); };
   }, 'script exception');
+  const sharedResponsive = await verifyResponsiveAndNoJs(browser);
   verifiedVariants.push('c');
-  result = { status: 'ok', screenshotPath, b2ScreenshotPath, cScreenshotPaths, serverLifecycle: cServerLifecycle, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, b2, c: { ...c, storageFailure: cStorageFailure, scriptFailure: cScriptFailure }, current: { table: currentTable, drawer: currentDrawer } };
+  result = { status: 'ok', screenshotPath, b2ScreenshotPath, cScreenshotPaths, serverLifecycle: cServerLifecycle, robots, sharedResponsive, a, b: { beforeDrag, completeGeometry: bCompleteGeometry, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, b2, c: { ...c, storageFailure: cStorageFailure, scriptFailure: cScriptFailure }, current: { table: currentTable, drawer: currentDrawer } };
 } finally {
   await browser?.close();
   await stopCServer(cServer);

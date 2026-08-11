@@ -7,7 +7,7 @@ import {
   timelineVariantClientScript,
 } from './people_timeline_variants.mjs';
 
-const base = '<html><head><title>人物馆｜步入大明数字历史博物馆</title></head><body class="people-page"><section class="people-timeline"><section id="peopleTimelineView" class="people-timeline-viewport"><div class="people-timeline-canvas" style="--timeline-width:6704px"></div></section></section><script>window.sharedPeople=true</script></body></html>';
+const base = '<html><head><title>人物馆｜步入大明数字历史博物馆</title><style>.fixture{display:block}</style></head><body class="people-page" data-people-view="timeline"><section class="people-timeline"><div class="people-view-tabs"><button id="peopleTimelineTab" data-people-view="timeline">历史长卷</button><button id="peopleTableTab" data-people-view="table">人物总表</button></div><section id="peopleTimelineView" class="people-timeline-viewport"><div class="people-timeline-canvas" style="--timeline-width:6704px"></div></section></section><script>window.sharedPeople=true</script></body></html>';
 
 test('registry exposes five stable filenames', () => {
   assert.deepEqual(
@@ -23,10 +23,27 @@ test('B2 is a framed local stage and leaves B isolated', () => {
   assert.match(b2, /data-scroll-variant="b2"/);
   assert.match(b2, /data-scroll-stage="framed"/);
   assert.match(b2, /data-scroll-drag-surface/);
-  assert.equal((b2.match(/data-scroll-roller=/g) || []).length, 2);
+  assert.equal((b2.match(/<i data-scroll-roller=/g) || []).length, 2);
   assert.doesNotMatch(b2, /data-scroll-stage="immersive"/);
   assert.match(b, /data-scroll-stage="immersive"/);
   assert.doesNotMatch(b, /data-scroll-variant="b2"/);
+});
+
+test('all five preview pages are noindex while the formal source stays indexable', () => {
+  assert.doesNotMatch(base, /<meta name="robots"/);
+  for (const key of Object.keys(PEOPLE_TIMELINE_VARIANTS)) {
+    const html = renderPeopleTimelineVariantPage(base, key);
+    assert.equal((html.match(/<meta name="robots" content="noindex,nofollow">/g) || []).length, 1, key);
+  }
+});
+
+test('renderer injects variant CSS into a real style element and fails when a required sentinel is absent', () => {
+  const a = renderPeopleTimelineVariantPage(base, 'a');
+  assert.match(a, /<style>\.fixture\{display:block\}[\s\S]*--scroll-paper:#f5f0e3[\s\S]*<\/style>/);
+  assert.throws(
+    () => renderPeopleTimelineVariantPage(base.replace('<style>.fixture{display:block}</style>', ''), 'a'),
+    /required replacement.*style/i,
+  );
 });
 
 test('renderer preserves shared markup and isolates semantics', () => {
@@ -76,8 +93,24 @@ test('B2 scopes darkness to the framed timeline without scaling portraits', () =
   assert.match(css, /display:grid;grid-template-columns:170px minmax\(0,1fr\)/);
   assert.doesNotMatch(css, /people-view-tabs\{position:absolute/);
   assert.match(css, /#peopleTimelineView \.timeline-boundary[^\n]*#efb09a/);
-  assert.doesNotMatch(css, /body\[data-scroll-variant="b2"\]\[data-people-view="timeline"\].*background:/s);
+  assert.doesNotMatch(css, /body\[data-scroll-variant="b2"\]\[data-people-view="timeline"\]\{[^}]*background:/);
   assert.doesNotMatch(css, /scaleY|scale\(/);
+});
+
+test('B2 table state removes every dark stage decoration and restores normal module flow', () => {
+  const css = TIMELINE_VARIANT_CSS.b2;
+  assert.match(css, /data-people-view="table"[^\n]*\.people-timeline\{[^}]*display:block[^}]*padding:0[^}]*background:transparent/);
+  assert.match(css, /data-people-view="table"[^\n]*\[data-scroll-roller\]\{display:none/);
+  assert.match(css, /data-people-view="table"[^\n]*\.people-timeline:before[^\n]*content:none/);
+});
+
+test('A and B reflow controls beside an unscaled complete timeline module', () => {
+  for (const key of ['a', 'b']) {
+    const css = TIMELINE_VARIANT_CSS[key];
+    assert.match(css, /data-people-view="timeline"[^\n]*\.people-timeline\{[^}]*display:grid[^}]*grid-template-columns:/, key);
+    assert.match(css, /data-people-view="timeline"[^\n]*\.people-view-tabs\{[^}]*grid-column:1/, key);
+    assert.doesNotMatch(css, /scaleY|scale\(/, key);
+  }
 });
 
 test('C exposes an accessible 800ms ritual that degrades to open', () => {
@@ -87,6 +120,10 @@ test('C exposes an accessible 800ms ritual that degrades to open', () => {
   assert.match(html, /data-scroll-replay/);
   assert.match(timelineVariantClientScript('c'), /800/);
   assert.match(timelineVariantClientScript('c'), /prefers-reduced-motion: reduce/);
+  assert.match(TIMELINE_VARIANT_CSS.c, /unfurlRollerStart 800ms/);
+  assert.match(TIMELINE_VARIANT_CSS.c, /unfurlRollerEnd 800ms/);
+  assert.doesNotMatch(TIMELINE_VARIANT_CSS.c, /scaleY|scale\(/);
+  assert.match(timelineVariantClientScript('c'), /ritual\.hidden = false/);
 });
 
 test('C emits a syntactically executable client script', () => {

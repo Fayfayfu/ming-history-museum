@@ -57,7 +57,7 @@ test('verifier accepts the curated 163-person timeline', () => {
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 });
 
-test('default verify gate runs data, all timeline test suites, legacy regression, then page E2E', () => {
+test('default verify gate runs data, all timeline test suites, legacy regression, and every timeline page verifier', () => {
   assert.equal(
     packageJson.scripts['verify:people-timeline-unit'],
     'node --test scripts/lib/people_timeline.test.mjs scripts/verify_ming_people_timeline.test.mjs',
@@ -68,7 +68,17 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'npm run verify:people-timeline-variants-unit',
     'node scripts/verify_ming_museum.mjs',
     'npm run verify:people-timeline-page',
+    'npm run verify:people-timeline-variants-page',
+    'npm run verify:people-timeline-doubleclick-page',
   ]);
+  assert.equal(
+    packageJson.scripts['verify:people-timeline-variants-page'],
+    'node scripts/verify_ming_people_timeline_variants_page.mjs',
+  );
+  assert.equal(
+    packageJson.scripts['verify:people-timeline-doubleclick-page'],
+    'node scripts/verify_ming_people_timeline_doubleclick_page.mjs',
+  );
 });
 
 test('curated first-activity corrections and authority upgrades stay locked', () => {

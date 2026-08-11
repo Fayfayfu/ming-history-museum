@@ -2,52 +2,67 @@ const KEYS = ['current', 'a', 'b', 'b2', 'c'];
 
 export const TIMELINE_VARIANT_CSS = Object.freeze({
   a: `body[data-scroll-variant="a"]{--scroll-paper:#f5f0e3;background:#e7deca}
-body[data-scroll-variant="a"] .people-timeline{padding:10px 20px 14px;background:linear-gradient(90deg,#d1bd91 0 12px,#efe5cf 12px calc(100% - 12px),#d1bd91 calc(100% - 12px));box-shadow:0 14px 34px rgba(50,38,20,.12)}
-body[data-scroll-variant="a"] .people-timeline-viewport{cursor:grab;border-color:#ad9367;background:linear-gradient(#eadcbd 0 7px,var(--scroll-paper) 7px calc(100% - 7px),#eadcbd calc(100% - 7px));box-shadow:inset 18px 0 24px -24px #4b3317,inset -18px 0 24px -24px #4b3317}
+body[data-scroll-variant="a"][data-people-view="timeline"] .people-timeline{display:grid;grid-template-columns:150px minmax(0,1fr);padding:0 20px;background:linear-gradient(90deg,#d1bd91 0 12px,#efe5cf 12px calc(100% - 12px),#d1bd91 calc(100% - 12px));box-shadow:0 14px 34px rgba(50,38,20,.12)}
+body[data-scroll-variant="a"][data-people-view="timeline"] .people-view-tabs{grid-column:1;grid-row:1;display:grid;align-content:start;gap:8px;margin:0;padding:14px 10px;z-index:10}
+body[data-scroll-variant="a"][data-people-view="timeline"] .people-timeline-viewport{grid-column:2;grid-row:1;cursor:grab;border-color:#ad9367;background:linear-gradient(#eadcbd 0 7px,var(--scroll-paper) 7px calc(100% - 7px),#eadcbd calc(100% - 7px));box-shadow:inset 18px 0 24px -24px #4b3317,inset -18px 0 24px -24px #4b3317}
 body[data-scroll-variant="a"] .people-timeline-viewport[data-dragging="true"]{cursor:grabbing;user-select:none}
 body[data-scroll-variant="a"] [data-scroll-prologue],body[data-scroll-variant="a"] [data-scroll-epilogue]{position:absolute;top:18px;color:#8b6334;font:12px/1.3 "STKaiti","KaiTi",serif;writing-mode:vertical-rl;pointer-events:none}
-body[data-scroll-variant="a"] [data-scroll-prologue]{left:38px}body[data-scroll-variant="a"] [data-scroll-epilogue]{right:38px}`,
+body[data-scroll-variant="a"] [data-scroll-prologue]{left:38px}body[data-scroll-variant="a"] [data-scroll-epilogue]{right:38px}
+@media(max-width:600px){body[data-scroll-variant="a"][data-people-view="timeline"] .people-timeline{grid-template-columns:100px minmax(0,1fr);padding:0 12px}body[data-scroll-variant="a"][data-people-view="timeline"] .people-view-tabs{padding:10px 6px}}`,
   b: `body[data-scroll-variant="b"][data-people-view="timeline"]{--stage-ink:#171611;min-height:100vh;background:radial-gradient(circle at 50% 48%,#383226 0,#211f19 42%,var(--stage-ink) 100%);color:#eee6d3}
 body[data-scroll-variant="b"] .museum-nav{min-height:54px;height:54px;background:rgba(17,16,13,.9)}
-body[data-scroll-variant="b"] .people-timeline{position:relative;padding:18px 34px 24px}
-body[data-scroll-variant="b"] .people-timeline-viewport{cursor:grab;border:10px solid #9a7741;border-width:10px 16px;background:#f5f0e3;box-shadow:0 24px 60px rgba(0,0,0,.42)}
-body[data-scroll-variant="b"] .people-timeline:before,body[data-scroll-variant="b"] .people-timeline:after{content:"";position:absolute;z-index:8;top:56px;bottom:36px;width:42px;pointer-events:none}
-body[data-scroll-variant="b"] .people-timeline:before{left:30px;background:linear-gradient(90deg,rgba(23,17,9,.72),transparent)}
-body[data-scroll-variant="b"] .people-timeline:after{right:30px;background:linear-gradient(-90deg,rgba(23,17,9,.72),transparent)}
-body[data-scroll-variant="b"] [data-scroll-roller]{position:absolute;z-index:9;top:52px;bottom:32px;width:12px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f);box-shadow:0 0 0 1px #241609,0 8px 18px rgba(0,0,0,.38);pointer-events:none}
-body[data-scroll-variant="b"] [data-scroll-roller="start"]{left:24px}body[data-scroll-variant="b"] [data-scroll-roller="end"]{right:24px}
+body[data-scroll-variant="b"][data-people-view="timeline"] .people-timeline{position:relative;display:grid;grid-template-columns:170px minmax(0,1fr);padding:0 34px}
+body[data-scroll-variant="b"][data-people-view="timeline"] .people-view-tabs{grid-column:1;grid-row:1;display:grid;align-content:start;gap:8px;margin:0;padding:14px 10px;z-index:10}
+body[data-scroll-variant="b"][data-people-view="timeline"] .people-timeline-viewport{grid-column:2;grid-row:1;cursor:grab;border:3px solid #9a7741;border-width:3px 16px;background:#f5f0e3;box-shadow:0 24px 60px rgba(0,0,0,.42)}
+body[data-scroll-variant="b"][data-people-view="timeline"] .people-timeline:before,body[data-scroll-variant="b"][data-people-view="timeline"] .people-timeline:after{content:"";position:relative;grid-column:2;grid-row:1;z-index:8;align-self:stretch;width:42px;pointer-events:none}
+body[data-scroll-variant="b"][data-people-view="timeline"] .people-timeline:before{justify-self:start;background:linear-gradient(90deg,rgba(23,17,9,.72),transparent)}
+body[data-scroll-variant="b"][data-people-view="timeline"] .people-timeline:after{justify-self:end;background:linear-gradient(-90deg,rgba(23,17,9,.72),transparent)}
+body[data-scroll-variant="b"][data-people-view="timeline"] [data-scroll-roller]{position:relative;grid-column:2;grid-row:1;z-index:9;align-self:stretch;width:12px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f);box-shadow:0 0 0 1px #241609,0 8px 18px rgba(0,0,0,.38);pointer-events:none}
+body[data-scroll-variant="b"][data-people-view="timeline"] [data-scroll-roller="start"]{justify-self:start}body[data-scroll-variant="b"][data-people-view="timeline"] [data-scroll-roller="end"]{justify-self:end}
+body[data-scroll-variant="b"][data-people-view="table"] [data-scroll-roller]{display:none}body[data-scroll-variant="b"][data-people-view="table"] .people-timeline:before,body[data-scroll-variant="b"][data-people-view="table"] .people-timeline:after{content:none;background:none}
 body[data-scroll-variant="b"][data-people-view="timeline"] .lede{color:#eee6d3}body[data-scroll-variant="b"][data-people-view="timeline"] .scope{color:#c9bfa9}body[data-scroll-variant="b"][data-people-view="timeline"] .scope b{color:#f5f0e3}body[data-scroll-variant="b"][data-people-view="timeline"] .mast h1 small{color:#c9bfa9}
 body[data-scroll-variant="b"][data-people-view="timeline"] .stat{background:#f5f0e3;color:#171611}body[data-scroll-variant="b"][data-people-view="timeline"] .stat span{color:#625d50}body[data-scroll-variant="b"][data-people-view="timeline"] .stat strong{color:#171611}body[data-scroll-variant="b"][data-people-view="timeline"] .stat:nth-child(1) strong,body[data-scroll-variant="b"][data-people-view="timeline"] .stat:last-child strong{color:#9c2f23}
-body[data-scroll-variant="b"] .drawer .panel{color:var(--ink)}`,
-  b2: `body[data-scroll-variant="b2"] .people-timeline{position:relative;display:grid;grid-template-columns:170px minmax(0,1fr);padding:0 26px;background:#efe5cf}
-body[data-scroll-variant="b2"] .people-view-tabs{grid-column:1;grid-row:1;display:grid;align-content:start;gap:8px;margin:0;padding:14px 10px;z-index:10}
-body[data-scroll-variant="b2"] #peopleTimelineView{--b2-stage-ink:#171611;grid-column:2;grid-row:1;cursor:grab;border:1px solid #8a6a3a;outline:5px solid #c8b58d;background:radial-gradient(circle at 50% 48%,#383226 0,#211f19 42%,var(--b2-stage-ink) 100%);box-shadow:inset 16px 0 22px -18px #000,inset -16px 0 22px -18px #000,0 12px 28px rgba(50,38,20,.2);color:#eee6d3}
+body[data-scroll-variant="b"] .drawer .panel{color:var(--ink)}
+@media(max-width:600px){body[data-scroll-variant="b"][data-people-view="timeline"] .people-timeline{grid-template-columns:100px minmax(0,1fr);padding:0 12px}body[data-scroll-variant="b"][data-people-view="timeline"] .people-view-tabs{padding:10px 6px}}`,
+  b2: `body[data-scroll-variant="b2"][data-people-view="timeline"] .people-timeline{position:relative;display:grid;grid-template-columns:170px minmax(0,1fr);padding:0 26px;background:#efe5cf}
+body[data-scroll-variant="b2"][data-people-view="timeline"] .people-view-tabs{grid-column:1;grid-row:1;display:grid;align-content:start;gap:8px;margin:0;padding:14px 10px;z-index:10}
+body[data-scroll-variant="b2"][data-people-view="timeline"] #peopleTimelineView{--b2-stage-ink:#171611;grid-column:2;grid-row:1;cursor:grab;border:1px solid #8a6a3a;outline:5px solid #c8b58d;background:radial-gradient(circle at 50% 48%,#383226 0,#211f19 42%,var(--b2-stage-ink) 100%);box-shadow:inset 16px 0 22px -18px #000,inset -16px 0 22px -18px #000,0 12px 28px rgba(50,38,20,.2);color:#eee6d3}
 body[data-scroll-variant="b2"] #peopleTimelineView[data-dragging="true"]{cursor:grabbing;user-select:none}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-axis,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person-guide{background:rgba(238,230,211,.46)}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-tick,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-lane-label,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person small{color:#cfc5b0}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-boundary,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-boundary time{color:#efb09a}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person strong{color:#f5f0e3}
-body[data-scroll-variant="b2"] .people-timeline:before,body[data-scroll-variant="b2"] .people-timeline:after{content:"";position:relative;grid-column:2;grid-row:1;z-index:8;align-self:stretch;width:34px;pointer-events:none}
-body[data-scroll-variant="b2"] .people-timeline:before{justify-self:start;background:linear-gradient(90deg,rgba(23,17,9,.72),transparent)}
-body[data-scroll-variant="b2"] .people-timeline:after{justify-self:end;background:linear-gradient(-90deg,rgba(23,17,9,.72),transparent)}
-body[data-scroll-variant="b2"] [data-scroll-roller]{position:relative;grid-column:2;grid-row:1;z-index:9;align-self:stretch;width:12px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f);box-shadow:0 0 0 1px #241609,0 8px 18px rgba(0,0,0,.38);pointer-events:none}
-body[data-scroll-variant="b2"] [data-scroll-roller="start"]{justify-self:start}body[data-scroll-variant="b2"] [data-scroll-roller="end"]{justify-self:end}`,
+body[data-scroll-variant="b2"][data-people-view="timeline"] .people-timeline:before,body[data-scroll-variant="b2"][data-people-view="timeline"] .people-timeline:after{content:"";position:relative;grid-column:2;grid-row:1;z-index:8;align-self:stretch;width:34px;pointer-events:none}
+body[data-scroll-variant="b2"][data-people-view="timeline"] .people-timeline:before{justify-self:start;background:linear-gradient(90deg,rgba(23,17,9,.72),transparent)}
+body[data-scroll-variant="b2"][data-people-view="timeline"] .people-timeline:after{justify-self:end;background:linear-gradient(-90deg,rgba(23,17,9,.72),transparent)}
+body[data-scroll-variant="b2"][data-people-view="timeline"] [data-scroll-roller]{position:relative;grid-column:2;grid-row:1;z-index:9;align-self:stretch;width:12px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f);box-shadow:0 0 0 1px #241609,0 8px 18px rgba(0,0,0,.38);pointer-events:none}
+body[data-scroll-variant="b2"][data-people-view="timeline"] [data-scroll-roller="start"]{justify-self:start}body[data-scroll-variant="b2"][data-people-view="timeline"] [data-scroll-roller="end"]{justify-self:end}
+body[data-scroll-variant="b2"][data-people-view="table"] .people-timeline{display:block;padding:0;background:transparent}
+body[data-scroll-variant="b2"][data-people-view="table"] [data-scroll-roller]{display:none}
+body[data-scroll-variant="b2"][data-people-view="table"] .people-timeline:before,body[data-scroll-variant="b2"][data-people-view="table"] .people-timeline:after{content:none;background:none}
+@media(max-width:600px){body[data-scroll-variant="b2"][data-people-view="timeline"] .people-timeline{grid-template-columns:100px minmax(0,1fr);padding:0 12px}body[data-scroll-variant="b2"][data-people-view="timeline"] .people-view-tabs{padding:10px 6px}}`,
   c: `body[data-scroll-variant="c"]{--scroll-paper:#f5f0e3;background:#e7deca}
-body[data-scroll-variant="c"] .people-timeline{height:984px;padding:10px 20px 14px;background:#efe5cf;overflow:hidden}
-body[data-scroll-variant="c"] .people-view-tabs{position:absolute;z-index:5;top:18px;left:32px;margin:0}
-body[data-scroll-variant="c"] .people-timeline-viewport{height:960px;cursor:grab;border-color:#ad9367;background:linear-gradient(#eadcbd 0 7px,var(--scroll-paper) 7px calc(100% - 7px),#eadcbd calc(100% - 7px));box-shadow:inset 18px 0 24px -24px #4b3317,inset -18px 0 24px -24px #4b3317}
-body[data-scroll-variant="c"] .people-timeline-canvas{transform:scaleY(.967742);transform-origin:top left}
+body[data-scroll-variant="c"][data-people-view="timeline"] .people-timeline{display:grid;grid-template-columns:170px minmax(0,1fr);padding:0 20px;background:#efe5cf;overflow:hidden}
+body[data-scroll-variant="c"][data-people-view="timeline"] .people-view-tabs{grid-column:1;grid-row:1;display:grid;align-content:start;gap:8px;margin:0;padding:14px 10px;z-index:5}
+body[data-scroll-variant="c"][data-people-view="timeline"] .people-timeline-viewport{grid-column:2;grid-row:1;cursor:grab;border-color:#ad9367;background:linear-gradient(#eadcbd 0 7px,var(--scroll-paper) 7px calc(100% - 7px),#eadcbd calc(100% - 7px));box-shadow:inset 18px 0 24px -24px #4b3317,inset -18px 0 24px -24px #4b3317}
 body[data-scroll-variant="c"] .people-timeline-viewport[data-dragging="true"]{cursor:grabbing;user-select:none}
 body[data-scroll-variant="c"] [data-scroll-prologue],body[data-scroll-variant="c"] [data-scroll-epilogue]{position:absolute;top:18px;color:#8b6334;font:12px/1.3 "STKaiti","KaiTi",serif;writing-mode:vertical-rl;pointer-events:none}
 body[data-scroll-variant="c"] [data-scroll-prologue]{left:38px}body[data-scroll-variant="c"] [data-scroll-epilogue]{right:38px}
-body[data-scroll-variant="c"] .scroll-ritual{position:absolute;z-index:6;inset:0}body[data-scroll-variant="c"] .scroll-ritual:before,body[data-scroll-variant="c"] .scroll-ritual:after{content:"";position:absolute;top:0;bottom:0;width:14px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f)}
+body[data-scroll-variant="c"] .scroll-ritual{position:relative;grid-column:2;grid-row:1;z-index:6}body[data-scroll-variant="c"] .scroll-ritual:before,body[data-scroll-variant="c"] .scroll-ritual:after{content:"";position:absolute;top:0;bottom:0;width:14px;border-radius:8px;background:linear-gradient(90deg,#4a2e13,#b18448 45%,#3b240f)}
 body[data-scroll-variant="c"] .scroll-ritual:before{left:calc(50% - 19px)}body[data-scroll-variant="c"] .scroll-ritual:after{right:calc(50% - 19px)}
-body[data-scroll-variant="c"] .scroll-ritual h2{margin:62px 0 14px}body[data-scroll-variant="c"] [data-scroll-ritual] button{position:relative;z-index:1}body[data-scroll-variant="c"] [data-scroll-replay]{position:absolute;z-index:7;top:60px;right:32px}
+body[data-scroll-variant="c"] .scroll-ritual h2{margin:62px 0 14px}body[data-scroll-variant="c"] [data-scroll-ritual] button{position:relative;z-index:1}body[data-scroll-variant="c"] [data-scroll-replay]{position:relative;grid-column:1;grid-row:1;z-index:7;align-self:start;justify-self:start;margin:108px 10px 0}
 body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="closed"] #peopleTimelineView{clip-path:inset(0 49%);opacity:0}
 body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="opening"] #peopleTimelineView{animation:unfurlTimeline 800ms cubic-bezier(.22,.75,.25,1) both}
+body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="opening"] .scroll-ritual{pointer-events:none}
+body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="opening"] .scroll-ritual h2,body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="opening"] .scroll-ritual button{visibility:hidden;opacity:0;pointer-events:none}
+body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="opening"] .scroll-ritual:before{animation:unfurlRollerStart 800ms cubic-bezier(.22,.75,.25,1) both}
+body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="opening"] .scroll-ritual:after{animation:unfurlRollerEnd 800ms cubic-bezier(.22,.75,.25,1) both}
 body[data-scroll-variant="c"].ritual-enhanced[data-ritual-state="open"] #peopleTimelineView{clip-path:inset(0);opacity:1}
 @keyframes unfurlTimeline{from{clip-path:inset(0 49%);opacity:.35}to{clip-path:inset(0);opacity:1}}
-@media(prefers-reduced-motion:reduce){body[data-scroll-variant="c"] #peopleTimelineView{animation:none!important;clip-path:inset(0)!important;opacity:1!important}}`,
+@keyframes unfurlRollerStart{from{left:calc(50% - 19px)}to{left:0}}
+@keyframes unfurlRollerEnd{from{right:calc(50% - 19px)}to{right:0}}
+@media(prefers-reduced-motion:reduce){body[data-scroll-variant="c"] #peopleTimelineView{animation:none!important;clip-path:inset(0)!important;opacity:1!important}}
+@media(max-width:600px){body[data-scroll-variant="c"][data-people-view="timeline"] .people-timeline{grid-template-columns:100px minmax(0,1fr);padding:0 12px}body[data-scroll-variant="c"][data-people-view="timeline"] .people-view-tabs{padding:10px 6px}}`,
 });
 
 export const PEOPLE_TIMELINE_VARIANTS = Object.freeze(Object.fromEntries(KEYS.map((key) => [key, Object.freeze({
@@ -107,6 +122,7 @@ export function timelineVariantClientScript(variant) {
       setTimelineInteractivity(true);
       body.dataset.ritualState = 'open';
       ritual.hidden = true;
+      ritual.removeAttribute('aria-hidden');
       replay.hidden = false;
       unfurl.setAttribute('aria-expanded', 'true');
       safeStore();
@@ -117,7 +133,8 @@ export function timelineVariantClientScript(variant) {
       clearTimeout(timer);
       body.dataset.ritualState = 'opening';
       setTimelineInteractivity(false);
-      ritual.hidden = true;
+      ritual.hidden = false;
+      ritual.setAttribute('aria-hidden', 'true');
       replay.hidden = true;
       unfurl.setAttribute('aria-expanded', 'true');
       moveFocusToBody();
@@ -128,9 +145,14 @@ export function timelineVariantClientScript(variant) {
       body.classList.add('ritual-enhanced');
       body.dataset.ritualState = 'open';
       if (surface) setTimelineInteractivity(true);
-      if (ritual) ritual.hidden = true;
+      if (ritual) {
+        ritual.hidden = true;
+        ritual.removeAttribute('aria-hidden');
+      }
       if (replay) replay.hidden = false;
       if (unfurl) unfurl.setAttribute('aria-expanded', 'true');
+      moveFocusToSurface();
+      body.removeAttribute('tabindex');
     };
     try {
       if (!ritual || !unfurl || !skip || !replay || !surface) throw new Error('Missing C ritual controls');
@@ -140,6 +162,7 @@ export function timelineVariantClientScript(variant) {
         body.dataset.ritualState = 'closed';
         setTimelineInteractivity(false);
         ritual.hidden = false;
+        ritual.removeAttribute('aria-hidden');
         replay.hidden = true;
         unfurl.setAttribute('aria-expanded', 'false');
         requestAnimationFrame(open);
@@ -155,6 +178,7 @@ export function timelineVariantClientScript(variant) {
         setTimelineInteractivity(false);
         body.dataset.ritualState = 'closed';
         ritual.hidden = false;
+        ritual.removeAttribute('aria-hidden');
         replay.hidden = true;
         unfurl.setAttribute('aria-expanded', 'false');
         unfurl.focus();
@@ -166,25 +190,39 @@ export function timelineVariantClientScript(variant) {
   })();`;
 }
 
+function requiredReplace(source, sentinel, replacement, label) {
+  const matched = typeof sentinel === 'string' ? source.includes(sentinel) : sentinel.test(source);
+  if (sentinel instanceof RegExp) sentinel.lastIndex = 0;
+  if (!matched) throw new Error(`Required replacement sentinel missing: ${label}`);
+  return source.replace(sentinel, replacement);
+}
+
 export function renderPeopleTimelineVariantPage(baseHtml, variant) {
   const config = PEOPLE_TIMELINE_VARIANTS[variant];
   if (!config) throw new Error('Unknown people timeline variant: ' + variant);
-  let html = baseHtml
-    .replace('<title>人物馆｜步入大明数字历史博物馆</title>', '<title>' + config.title + '</title>')
-    .replace('<body class="people-page"', '<body class="people-page" data-scroll-variant="' + variant + '"');
+  let html = requiredReplace(
+    baseHtml,
+    '<title>人物馆｜步入大明数字历史博物馆</title>',
+    '<title>' + config.title + '</title>',
+    'people page title',
+  );
+  html = requiredReplace(html, '</head>', '<meta name="robots" content="noindex,nofollow"></head>', 'head closing tag for robots marker');
+  html = requiredReplace(html, '<body class="people-page"', '<body class="people-page" data-scroll-variant="' + variant + '"', 'people page body');
   if (['a', 'b', 'b2', 'c'].includes(variant)) {
-    html = html.replace('id="peopleTimelineView" class="people-timeline-viewport"', 'id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface');
+    html = requiredReplace(html, 'id="peopleTimelineView" class="people-timeline-viewport"', 'id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface', `${variant} drag surface`);
   }
-  if (variant === 'b') html = html.replace('class="people-timeline"', 'class="people-timeline" data-scroll-stage="immersive"');
-  if (variant === 'b') html = html.replace('<section id="peopleTimelineView"', '<i data-scroll-roller="start" aria-hidden="true"></i><i data-scroll-roller="end" aria-hidden="true"></i><section id="peopleTimelineView"');
-  if (variant === 'b2') html = html
-    .replace('class="people-timeline"', 'class="people-timeline" data-scroll-stage="framed"')
-    .replace('<section id="peopleTimelineView"', '<i data-scroll-roller="start" aria-hidden="true"></i><i data-scroll-roller="end" aria-hidden="true"></i><section id="peopleTimelineView"');
-  if (variant === 'a' || variant === 'c') html = html.replace(/(<div class="people-timeline-canvas"[^>]*>)/, '$1<span data-scroll-prologue aria-hidden="true">大明人物长卷</span><span data-scroll-epilogue aria-hidden="true">二百七十六年人物录</span>');
-  if (variant === 'c') html = html
-    .replace('id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface', 'id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface tabindex="-1"')
-    .replace('<section id="peopleTimelineView"', '<section class="scroll-ritual" data-scroll-ritual hidden aria-labelledby="scrollRitualTitle"><h2 id="scrollRitualTitle">明朝人物历史长卷</h2><button type="button" data-scroll-unfurl aria-controls="peopleTimelineView" aria-expanded="false">展卷</button><button type="button" data-scroll-skip>跳过</button></section><button type="button" data-scroll-replay hidden>重播开卷</button><section id="peopleTimelineView"');
-  if (TIMELINE_VARIANT_CSS[variant]) html = html.replace('</style>', `${TIMELINE_VARIANT_CSS[variant]}</style>`);
-  if (['a', 'b', 'b2', 'c'].includes(variant)) html = html.replace('</body>', `<script>${timelineVariantClientScript(variant)}</script></body>`);
+  if (variant === 'b') html = requiredReplace(html, 'class="people-timeline"', 'class="people-timeline" data-scroll-stage="immersive"', 'B immersive stage');
+  if (variant === 'b') html = requiredReplace(html, '<section id="peopleTimelineView"', '<i data-scroll-roller="start" aria-hidden="true"></i><i data-scroll-roller="end" aria-hidden="true"></i><section id="peopleTimelineView"', 'B rollers');
+  if (variant === 'b2') {
+    html = requiredReplace(html, 'class="people-timeline"', 'class="people-timeline" data-scroll-stage="framed"', 'B2 framed stage');
+    html = requiredReplace(html, '<section id="peopleTimelineView"', '<i data-scroll-roller="start" aria-hidden="true"></i><i data-scroll-roller="end" aria-hidden="true"></i><section id="peopleTimelineView"', 'B2 rollers');
+  }
+  if (variant === 'a' || variant === 'c') html = requiredReplace(html, /(<div class="people-timeline-canvas"[^>]*>)/, '$1<span data-scroll-prologue aria-hidden="true">大明人物长卷</span><span data-scroll-epilogue aria-hidden="true">二百七十六年人物录</span>', `${variant} prologue and epilogue`);
+  if (variant === 'c') {
+    html = requiredReplace(html, 'id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface', 'id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface tabindex="-1"', 'C focusable surface');
+    html = requiredReplace(html, '<section id="peopleTimelineView"', '<section class="scroll-ritual" data-scroll-ritual hidden aria-labelledby="scrollRitualTitle"><h2 id="scrollRitualTitle">明朝人物历史长卷</h2><button type="button" data-scroll-unfurl aria-controls="peopleTimelineView" aria-expanded="false">展卷</button><button type="button" data-scroll-skip>跳过</button></section><button type="button" data-scroll-replay hidden>重播开卷</button><section id="peopleTimelineView"', 'C ritual controls');
+  }
+  if (TIMELINE_VARIANT_CSS[variant]) html = requiredReplace(html, '</style>', `${TIMELINE_VARIANT_CSS[variant]}</style>`, `${variant} style injection`);
+  if (['a', 'b', 'b2', 'c'].includes(variant)) html = requiredReplace(html, '</body>', `<script>${timelineVariantClientScript(variant)}</script></body>`, `${variant} client script`);
   return html;
 }
