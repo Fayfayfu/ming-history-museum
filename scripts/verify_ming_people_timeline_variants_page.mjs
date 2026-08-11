@@ -201,26 +201,71 @@ async function captureB2Ambience(page) {
     const box = ambience?.getBoundingClientRect();
     const canvasBox = canvas?.getBoundingClientRect();
     const base = ambience ? getComputedStyle(ambience) : null;
-    const before = ambience ? getComputedStyle(ambience, '::before') : null;
-    const after = ambience ? getComputedStyle(ambience, '::after') : null;
     return {
-      count: document.querySelectorAll('[data-b2-ambient]').length,
-      ariaHidden: ambience?.getAttribute('aria-hidden') || '',
-      pointerEvents: base?.pointerEvents || '',
-      position: base?.position || '',
-      width: box?.width || 0,
-      height: box?.height || 0,
-      left: box?.left || 0,
+      layer: {
+        count: document.querySelectorAll('[data-b2-ambient]').length,
+        ariaHidden: ambience?.getAttribute('aria-hidden') || '',
+        pointerEvents: base?.pointerEvents || '',
+        position: base?.position || '',
+        width: box?.width || 0,
+        height: box?.height || 0,
+        left: box?.left || 0,
+        baseBackground: base?.backgroundImage || '',
+      },
+      stars: [...document.querySelectorAll('[data-b2-star]')].map((star) => {
+        const starBox = star.getBoundingClientRect();
+        const style = getComputedStyle(star);
+        return {
+          id: star.dataset.b2Star || '',
+          ariaHidden: star.getAttribute('aria-hidden') || '',
+          left: starBox.left,
+          top: starBox.top,
+          right: starBox.right,
+          bottom: starBox.bottom,
+          width: starBox.width,
+          height: starBox.height,
+          x: style.getPropertyValue('--star-x').trim(),
+          y: style.getPropertyValue('--star-y').trim(),
+          animationName: style.animationName,
+          duration: parseFloat(style.animationDuration),
+          delay: parseFloat(style.animationDelay),
+          opacity: parseFloat(style.opacity),
+          pointerEvents: style.pointerEvents,
+        };
+      }),
       canvasWidth: canvasBox?.width || 0,
       canvasHeight: canvasBox?.height || 0,
       canvasLeft: canvasBox?.left || 0,
-      baseBackground: base?.backgroundImage || '',
-      beforeBackground: before?.backgroundImage || '',
-      afterBackground: after?.backgroundImage || '',
-      beforeDuration: before?.animationDuration || '',
-      afterDuration: after?.animationDuration || '',
-      beforeAnimation: before?.animationName || '',
-      afterAnimation: after?.animationName || '',
+    };
+  });
+}
+
+async function captureB2StarCollisions(page) {
+  return page.evaluate(() => {
+    const rect = (element) => {
+      const box = element.getBoundingClientRect();
+      return { left: box.left, top: box.top, right: box.right, bottom: box.bottom };
+    };
+    const overlaps = (left, right) => left.left < right.right && left.right > right.left && left.top < right.bottom && left.bottom > right.top;
+    const stage = document.querySelector('[data-scroll-drag-surface]');
+    const stageBox = stage?.getBoundingClientRect();
+    const stars = [...document.querySelectorAll('[data-b2-star]')].map((element) => ({ id: element.dataset.b2Star || '', element, box: rect(element) }));
+    const content = [...document.querySelectorAll('.timeline-portrait,.timeline-person strong,.timeline-person small,.timeline-axis,.timeline-tick,.timeline-lane-label,.timeline-person-guide')]
+      .map((element) => ({
+        label: element.closest('[data-timeline-person]')?.dataset.timelinePerson || element.className || element.tagName,
+        box: rect(element),
+      }))
+      .filter(({ box }) => box.right > box.left && box.bottom > box.top);
+    return {
+      count: stars.length,
+      visibleCount: stageBox ? stars.filter(({ box }) => {
+        const centerX = (box.left + box.right) / 2;
+        const centerY = (box.top + box.bottom) / 2;
+        return centerX >= stageBox.left && centerX <= stageBox.right && centerY >= stageBox.top && centerY <= stageBox.bottom;
+      }).length : 0,
+      items: stars.flatMap((star) => content
+        .filter((item) => overlaps(star.box, item.box))
+        .map((item) => ({ star: star.id, content: item.label, starBox: star.box, contentBox: item.box }))),
     };
   });
 }
@@ -386,6 +431,7 @@ async function verifyB2(browser, page, currentPage) {
   await page.evaluate(() => { document.querySelector('[data-scroll-drag-surface]').scrollLeft = 660; });
   const scrolledAmbience = await captureB2Ambience(page);
   await page.evaluate(() => { document.querySelector('[data-scroll-drag-surface]').scrollLeft = 0; });
+  const starCollisions = await captureB2StarCollisions(page);
   const geometry = await captureB2Geometry(page);
   const readability = await captureB2Readability(page);
   const controls = await captureB2ControlAudit(page);
@@ -397,31 +443,53 @@ async function verifyB2(browser, page, currentPage) {
   check(stagePalette.maskPointerEvents.every((value) => value === 'none') && stagePalette.rollerPointerEvents.length === 2 && stagePalette.rollerPointerEvents.every((value) => value === 'none'), 'B2 masks and rollers must not capture pointers', stagePalette);
   check(stagePalette.canvasTransform === 'none', 'B2 must not scale the timeline canvas', stagePalette);
   check(
-    ambience.count === 1
-      && ambience.ariaHidden === 'true'
-      && ambience.pointerEvents === 'none'
-      && ambience.position === 'absolute'
-      && Math.abs(ambience.width - ambience.canvasWidth) <= 1
-      && Math.abs(ambience.height - ambience.canvasHeight) <= 1,
+    ambience.layer.count === 1
+      && ambience.layer.ariaHidden === 'true'
+      && ambience.layer.pointerEvents === 'none'
+      && ambience.layer.position === 'absolute'
+      && Math.abs(ambience.layer.width - ambience.canvasWidth) <= 1
+      && Math.abs(ambience.layer.height - ambience.canvasHeight) <= 1,
     'B2 ambience must be one inert full-canvas layer',
     ambience,
   );
   check(
-    ambience.baseBackground.includes('repeating-radial-gradient')
-      && ambience.beforeBackground.includes('radial-gradient')
-      && ambience.beforeBackground.includes('linear-gradient')
-      && ambience.afterBackground.includes('radial-gradient')
-      && ambience.afterBackground.includes('linear-gradient')
-      && ambience.beforeDuration === '6s'
-      && ambience.afterDuration === '8s',
-    'B2 ambience must preserve paper texture and use independent 6s and 8s cross-shaped glows',
+    ambience.layer.baseBackground.includes('repeating-radial-gradient')
+      && ambience.stars.length >= 40
+      && ambience.stars.length <= 50
+      && ambience.stars.every((star) => star.ariaHidden === 'true' && star.pointerEvents === 'none'),
+    'B2 ambience must preserve paper texture and render 40-50 inert stars',
     ambience,
   );
   check(
-    Math.abs((scrolledAmbience.left - ambience.left) + 660) <= 2
-      && Math.abs(scrolledAmbience.left - scrolledAmbience.canvasLeft) <= 1,
+    ambience.stars.every((star) => Math.abs(star.width - 18) <= 1 && Math.abs(star.height - 27) <= 1),
+    'B2 stars must be small vertical crosses',
+    ambience.stars,
+  );
+  check(
+    new Set(ambience.stars.map((star) => star.animationName)).size === 3
+      && new Set(ambience.stars.map((star) => `${star.duration}/${star.delay}`)).size >= 20
+      && ambience.stars.every((star) => star.duration >= 3.8 && star.duration <= 8.5 && star.delay < 0 && Math.abs(star.delay) < star.duration),
+    'B2 stars must use three independent deterministic twinkle rhythms',
+    ambience.stars,
+  );
+  check(starCollisions.items.length === 0, 'B2 stars must avoid avatars, names, identities, guides, lanes, ticks, and the axis', starCollisions);
+  check(starCollisions.visibleCount >= 8 && starCollisions.visibleCount <= 12, 'B2 viewport must show 8-12 stars', starCollisions);
+  const initialStars = new Map(ambience.stars.map((star) => [star.id, star]));
+  const movedStars = scrolledAmbience.stars.slice(0, 3).map((star) => ({ before: initialStars.get(star.id), after: star }));
+  check(
+    Math.abs((scrolledAmbience.layer.left - ambience.layer.left) + 660) <= 2
+      && Math.abs(scrolledAmbience.layer.left - scrolledAmbience.canvasLeft) <= 1,
     'B2 starlight must move with the timeline canvas rather than the pointer or viewport',
     { ambience, scrolledAmbience },
+  );
+  check(
+    movedStars.length === 3
+      && movedStars.every(({ before, after }) => before
+        && Math.abs((after.left - before.left) + 660) <= 2
+        && after.x === before.x
+        && after.y === before.y),
+    'B2 star coordinates must remain attached to the scrolling canvas',
+    movedStars,
   );
   check(geometry.componentHeight <= 1000, 'B2 component height must stay within 1000px', geometry);
   check(geometry.stageScrollHeight <= geometry.stageClientHeight && geometry.stageOverflowY === 'hidden', 'B2 stage must fit its full canvas with no usable vertical scroll', geometry);
@@ -450,10 +518,10 @@ async function verifyB2(browser, page, currentPage) {
     await reducedPage.close();
   }
   check(
-    reducedAmbience.baseBackground.includes('radial-gradient')
-      && reducedAmbience.beforeAnimation === 'none'
-      && reducedAmbience.afterAnimation === 'none',
-    'B2 reduced motion must preserve paper texture and static starlight while disabling breathing glows',
+    reducedAmbience.layer.baseBackground.includes('radial-gradient')
+      && reducedAmbience.stars.length >= 40
+      && reducedAmbience.stars.every((star) => star.animationName === 'none' && star.opacity > 0),
+    'B2 reduced motion must preserve paper texture and static starlight while disabling twinkles',
     reducedAmbience,
   );
 
@@ -584,7 +652,7 @@ async function verifyB2(browser, page, currentPage) {
     await page.locator('.museum-nav').evaluate((nav) => { nav.style.removeProperty('visibility'); });
   }
   verifiedVariants.push('b2');
-  return { pagePalette, currentTimeline, stagePalette, ambience, scrolledAmbience, reducedAmbience, geometry, readability, controls, drag, table, tableCleanup, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
+  return { pagePalette, currentTimeline, stagePalette, ambience, scrolledAmbience, starCollisions, reducedAmbience, geometry, readability, controls, drag, table, tableCleanup, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
 }
 
 async function captureCompleteModuleGeometry(page) {

@@ -77,7 +77,7 @@ const B2_STAR_WIDTH = 18;
 const B2_STAR_HEIGHT = 27;
 const B2_STAR_X_STEP = 104;
 const B2_STAR_Y_STEP = 71;
-const B2_STAR_SEGMENT_WIDTH = 1490;
+const B2_STAR_SEGMENT_WIDTH = 1341;
 const B2_STARS_PER_SEGMENT = 10;
 
 function numericCssVar(style, name) {
