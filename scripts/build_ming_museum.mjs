@@ -139,7 +139,7 @@ function baseHall(kind) {
         /function focusPerson\(name\)\{([^\n]*?)openDetail\(person\)\}/,
         (_, beforeOpenDetail) => `async function focusPerson(name){${beforeOpenDetail}openDetail(person);const portrait=document.querySelector('#detail .portrait img');if(portrait&&!portrait.complete)await new Promise(resolve=>{portrait.addEventListener('load',resolve,{once:true});portrait.addEventListener('error',resolve,{once:true});if(portrait.complete)resolve()})}`,
       )
-      .replace('renderEvents();render();', "renderEvents();render();const peopleParams=new URLSearchParams(location.search);const requestedEvent=peopleParams.get('event');const requestedPerson=peopleParams.get('person');if(requestedEvent&&eventRecord(requestedEvent)){state.event=requestedEvent;state.parent='';document.getElementById('personEvent').value=requestedEvent;document.getElementById('parent').value='';render()}else if(requestedPerson)focusPerson(requestedPerson);")
+      .replace('renderEvents();render();', "renderEvents();render();const peopleParams=new URLSearchParams(location.search);const requestedEvent=peopleParams.get('event');const requestedPerson=peopleParams.get('person');if(requestedEvent&&eventRecord(requestedEvent)){state.event=requestedEvent;state.parent='';document.getElementById('personEvent').value=requestedEvent;render()}else if(requestedPerson)focusPerson(requestedPerson);")
       .replace('</body>', `<script>${peopleTimelineClientScript()}</script></body>`);
   } else {
     html = html

@@ -39,6 +39,8 @@ const initial = await page.evaluate(() => {
     tableLabelled: table?.getAttribute('aria-labelledby') || '',
     timelineText: timelineTab?.textContent.trim() || '',
     tableText: tableTab?.textContent.trim() || '',
+    emperorFilterSelects: document.querySelectorAll('#parent').length,
+    emperorAxisButtons: document.querySelectorAll('#emperors .emperor').length,
   };
 });
 check(initial.view === 'timeline', 'people.html must default to timeline view', initial);
@@ -49,6 +51,7 @@ check(initial.tableSelected === 'false' && initial.tableTabIndex === '-1', 'tabl
 check(initial.timelineControls === 'peopleTimelineView' && initial.tableControls === 'peopleTableView' && initial.controlledPanelsExist, 'tabs must control existing panels', initial);
 check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled === 'peopleTableTab', 'panels must reference their real tabs', initial);
 check(initial.timelineText === '历史长卷' && initial.tableText === '人物总表', 'people view tabs must use the approved visitor wording', initial);
+check(initial.emperorFilterSelects === 0 && initial.emperorAxisButtons === 16, 'the imperial lineage must be the sole emperor-selection control', initial);
 
 const timelineLabelPainting = await page.evaluate(() => {
   const selects = [...document.querySelectorAll('.timeline-person-select')];
