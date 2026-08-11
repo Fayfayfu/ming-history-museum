@@ -8,6 +8,7 @@ const files = [
   'people-timeline-current.html',
   'people-timeline-a.html',
   'people-timeline-b.html',
+  'people-timeline-b2.html',
   'people-timeline-c.html',
 ];
 const failures = [];
@@ -153,7 +154,12 @@ try {
   for (const file of files) pages.push(await verifyDesktopPage(page, file));
   const keyboard = await verifyKeyboard(page);
   const mobile = await verifyMobile(browser);
-  check(Array.isArray(mobile) && mobile.length === files.length, 'mobile double-click verification must cover all five timeline pages', mobile);
+  check(
+    pages.length === 6 && new Set(pages.map((entry) => entry.file)).size === 6,
+    'desktop double-click verification must cover six unique timeline pages',
+    pages.map((entry) => entry.file),
+  );
+  check(Array.isArray(mobile) && mobile.length === 6, 'mobile double-click verification must cover all six timeline pages', mobile);
   if (failures.length) throw new Error(`Timeline double-click verification failed:\n- ${failures.join('\n- ')}`);
   console.log(JSON.stringify({ status: 'ok', pages, keyboard, mobile }));
 } finally {
