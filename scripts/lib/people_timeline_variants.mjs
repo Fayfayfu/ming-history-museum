@@ -1,4 +1,4 @@
-const KEYS = ['current', 'a', 'b', 'c'];
+const KEYS = ['current', 'a', 'b', 'b2', 'c'];
 
 export const TIMELINE_VARIANT_CSS = Object.freeze({
   a: `body[data-scroll-variant="a"]{--scroll-paper:#f5f0e3;background:#e7deca}
@@ -44,7 +44,7 @@ export const PEOPLE_TIMELINE_VARIANTS = Object.freeze(Object.fromEntries(KEYS.ma
 })])));
 
 export function timelineVariantClientScript(variant) {
-  if (!['a', 'b', 'c'].includes(variant)) return '';
+  if (!['a', 'b', 'b2', 'c'].includes(variant)) return '';
   return `(()=>{
     function mountTimelineDrag(surface) {
       let pointerId = null;
@@ -159,16 +159,19 @@ export function renderPeopleTimelineVariantPage(baseHtml, variant) {
   let html = baseHtml
     .replace('<title>人物馆｜步入大明数字历史博物馆</title>', '<title>' + config.title + '</title>')
     .replace('<body class="people-page"', '<body class="people-page" data-scroll-variant="' + variant + '"');
-  if (['a', 'b', 'c'].includes(variant)) {
+  if (['a', 'b', 'b2', 'c'].includes(variant)) {
     html = html.replace('id="peopleTimelineView" class="people-timeline-viewport"', 'id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface');
   }
   if (variant === 'b') html = html.replace('class="people-timeline"', 'class="people-timeline" data-scroll-stage="immersive"');
   if (variant === 'b') html = html.replace('<section id="peopleTimelineView"', '<i data-scroll-roller="start" aria-hidden="true"></i><i data-scroll-roller="end" aria-hidden="true"></i><section id="peopleTimelineView"');
+  if (variant === 'b2') html = html
+    .replace('class="people-timeline"', 'class="people-timeline" data-scroll-stage="framed"')
+    .replace('<section id="peopleTimelineView"', '<i data-scroll-roller="start" aria-hidden="true"></i><i data-scroll-roller="end" aria-hidden="true"></i><section id="peopleTimelineView"');
   if (variant === 'a' || variant === 'c') html = html.replace(/(<div class="people-timeline-canvas"[^>]*>)/, '$1<span data-scroll-prologue aria-hidden="true">大明人物长卷</span><span data-scroll-epilogue aria-hidden="true">二百七十六年人物录</span>');
   if (variant === 'c') html = html
     .replace('id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface', 'id="peopleTimelineView" class="people-timeline-viewport" data-scroll-drag-surface tabindex="-1"')
     .replace('<section id="peopleTimelineView"', '<section class="scroll-ritual" data-scroll-ritual hidden aria-labelledby="scrollRitualTitle"><h2 id="scrollRitualTitle">明朝人物历史长卷</h2><button type="button" data-scroll-unfurl aria-controls="peopleTimelineView" aria-expanded="false">展卷</button><button type="button" data-scroll-skip>跳过</button></section><button type="button" data-scroll-replay hidden>重播开卷</button><section id="peopleTimelineView"');
   if (TIMELINE_VARIANT_CSS[variant]) html = html.replace('</style>', `${TIMELINE_VARIANT_CSS[variant]}</style>`);
-  if (['a', 'b', 'c'].includes(variant)) html = html.replace('</body>', `<script>${timelineVariantClientScript(variant)}</script></body>`);
+  if (['a', 'b', 'b2', 'c'].includes(variant)) html = html.replace('</body>', `<script>${timelineVariantClientScript(variant)}</script></body>`);
   return html;
 }

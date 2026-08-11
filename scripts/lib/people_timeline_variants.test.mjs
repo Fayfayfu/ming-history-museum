@@ -9,11 +9,24 @@ import {
 
 const base = '<html><head><title>人物馆｜步入大明数字历史博物馆</title></head><body class="people-page"><section class="people-timeline"><section id="peopleTimelineView" class="people-timeline-viewport"><div class="people-timeline-canvas" style="--timeline-width:6704px"></div></section></section><script>window.sharedPeople=true</script></body></html>';
 
-test('registry exposes four stable filenames', () => {
+test('registry exposes five stable filenames', () => {
   assert.deepEqual(
     Object.fromEntries(Object.entries(PEOPLE_TIMELINE_VARIANTS).map(([key, value]) => [key, value.filename])),
-    { current:'people-timeline-current.html', a:'people-timeline-a.html', b:'people-timeline-b.html', c:'people-timeline-c.html' },
+    { current:'people-timeline-current.html', a:'people-timeline-a.html', b:'people-timeline-b.html', b2:'people-timeline-b2.html', c:'people-timeline-c.html' },
   );
+});
+
+test('B2 is a framed local stage and leaves B isolated', () => {
+  const b = renderPeopleTimelineVariantPage(base, 'b');
+  const b2 = renderPeopleTimelineVariantPage(base, 'b2');
+  assert.equal(PEOPLE_TIMELINE_VARIANTS.b2.filename, 'people-timeline-b2.html');
+  assert.match(b2, /data-scroll-variant="b2"/);
+  assert.match(b2, /data-scroll-stage="framed"/);
+  assert.match(b2, /data-scroll-drag-surface/);
+  assert.equal((b2.match(/data-scroll-roller=/g) || []).length, 2);
+  assert.doesNotMatch(b2, /data-scroll-stage="immersive"/);
+  assert.match(b, /data-scroll-stage="immersive"/);
+  assert.doesNotMatch(b, /data-scroll-variant="b2"/);
 });
 
 test('renderer preserves shared markup and isolates semantics', () => {
