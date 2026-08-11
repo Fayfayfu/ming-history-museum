@@ -67,6 +67,16 @@ test('B is immersive and has no ritual controls', () => {
   assert.doesNotMatch(html, /data-scroll-ritual/);
 });
 
+test('B2 scopes darkness to the framed timeline without scaling portraits', () => {
+  const css = TIMELINE_VARIANT_CSS.b2;
+  assert.match(css, /body\[data-scroll-variant="b2"\] #peopleTimelineView/);
+  assert.match(css, /--b2-stage-ink:#171611/);
+  assert.match(css, /cursor:grab/);
+  assert.match(css, /pointer-events:none/);
+  assert.doesNotMatch(css, /body\[data-scroll-variant="b2"\]\[data-people-view="timeline"\].*background:/s);
+  assert.doesNotMatch(css, /scaleY|scale\(/);
+});
+
 test('C exposes an accessible 800ms ritual that degrades to open', () => {
   const html = renderPeopleTimelineVariantPage(base, 'c');
   assert.match(html, /data-scroll-unfurl/);

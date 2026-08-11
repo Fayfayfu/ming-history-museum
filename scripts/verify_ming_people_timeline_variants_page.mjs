@@ -7,6 +7,7 @@ const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史�
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const screenshotPath = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/人物馆_历史长卷_B版.png');
 const screenshotAlreadyExists = await fs.access(screenshotPath).then(() => true, () => false);
+const b2ScreenshotPath = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/人物馆_历史长卷_B2版.png');
 const cScreenshotPaths = Object.freeze({
   closed: path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/C版_收拢.png'),
   opening: path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/C版_展开中.png'),
@@ -106,6 +107,185 @@ async function captureDrawerStyles(page) {
       ['close', read('.close')],
     ]);
   });
+}
+
+async function capturePageStyles(page) {
+  return page.evaluate(() => {
+    const read = (selector) => {
+      const style = getComputedStyle(document.querySelector(selector));
+      return { color: style.color, backgroundColor: style.backgroundColor, backgroundImage: style.backgroundImage };
+    };
+    return Object.fromEntries([
+      ['body', read('body')],
+      ['mast', read('.mast')],
+      ['lede', read('.lede')],
+      ['scope', read('.scope')],
+      ['stat', read('.stat')],
+      ['tabs', read('.people-view-tabs')],
+    ]);
+  });
+}
+
+async function captureB2StageStyles(page) {
+  return page.evaluate(() => {
+    const stage = document.querySelector('#peopleTimelineView');
+    const timeline = document.querySelector('.people-timeline');
+    const canvas = document.querySelector('.people-timeline-canvas');
+    const rollers = [...document.querySelectorAll('[data-scroll-roller]')];
+    return {
+      background: stage ? getComputedStyle(stage).backgroundImage : '',
+      color: stage ? getComputedStyle(stage).color : '',
+      cursor: stage ? getComputedStyle(stage).cursor : '',
+      stageInk: stage ? getComputedStyle(stage).getPropertyValue('--b2-stage-ink').trim() : '',
+      maskPointerEvents: timeline ? [getComputedStyle(timeline, '::before').pointerEvents, getComputedStyle(timeline, '::after').pointerEvents] : [],
+      rollerPointerEvents: rollers.map((roller) => getComputedStyle(roller).pointerEvents),
+      stage: timeline?.dataset.scrollStage || '',
+      ritualControlCount: document.querySelectorAll('[data-scroll-ritual],[data-scroll-unfurl],[data-scroll-skip],[data-scroll-replay]').length,
+      canvasTransform: canvas ? getComputedStyle(canvas).transform : '',
+    };
+  });
+}
+
+async function captureB2Geometry(page) {
+  return page.evaluate(() => {
+    const timeline = document.querySelector('.people-timeline');
+    const stage = document.querySelector('#peopleTimelineView');
+    const portrait = document.querySelector('.timeline-portrait');
+    const portraitBox = portrait?.getBoundingClientRect();
+    return {
+      componentHeight: Math.ceil(stage?.getBoundingClientRect().height || 0),
+      portraitWidth: portraitBox?.width || 0,
+      portraitHeight: portraitBox?.height || 0,
+      scrollWidth: stage?.scrollWidth || 0,
+      clientWidth: stage?.clientWidth || 0,
+    };
+  });
+}
+
+async function captureB2Readability(page) {
+  return page.evaluate(() => {
+    const parseColor = (value) => (value.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+    const luminance = (rgb) => rgb.map((value) => {
+      const channel = value / 255;
+      return channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4;
+    }).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
+    const contrast = (foreground, background) => (Math.max(luminance(foreground), luminance(background)) + .05) / (Math.min(luminance(foreground), luminance(background)) + .05);
+    const stageSurface = [56, 50, 38];
+    const read = (selector) => parseColor(getComputedStyle(document.querySelector(selector)).color);
+    const strong = read('.timeline-person strong');
+    const small = read('.timeline-person small');
+    const tick = read('.timeline-tick');
+    return {
+      stageSurface,
+      strong: { color: strong, contrast: contrast(strong, stageSurface) },
+      small: { color: small, contrast: contrast(small, stageSurface) },
+      tick: { color: tick, contrast: contrast(tick, stageSurface) },
+    };
+  });
+}
+
+async function verifyB2(page, currentPage) {
+  await page.goto(`file://${path.join(root, 'people-timeline-b2.html')}`, { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('[data-scroll-stage="framed"] [data-scroll-drag-surface]');
+  const pagePalette = await capturePageStyles(page);
+  const currentTimeline = await capturePageStyles(currentPage);
+  const stagePalette = await captureB2StageStyles(page);
+  const geometry = await captureB2Geometry(page);
+  const readability = await captureB2Readability(page);
+  check(sameStyle(pagePalette, currentTimeline), 'B2 outer page must keep current palette', { pagePalette, currentTimeline });
+  check(stagePalette.background.includes('radial-gradient'), 'B2 must darken only its framed timeline', stagePalette);
+  check(stagePalette.color === 'rgb(238, 230, 211)', 'B2 timeline text must use light ink', stagePalette);
+  check(stagePalette.stage === 'framed' && stagePalette.ritualControlCount === 0, 'B2 must use framed stage with no C ritual controls', stagePalette);
+  check(stagePalette.cursor === 'grab' && stagePalette.stageInk === '#171611', 'B2 framed stage must expose the approved grab surface', stagePalette);
+  check(stagePalette.maskPointerEvents.every((value) => value === 'none') && stagePalette.rollerPointerEvents.length === 2 && stagePalette.rollerPointerEvents.every((value) => value === 'none'), 'B2 masks and rollers must not capture pointers', stagePalette);
+  check(stagePalette.canvasTransform === 'none', 'B2 must not scale the timeline canvas', stagePalette);
+  check(geometry.componentHeight <= 1000, 'B2 component height must stay within 1000px', geometry);
+  check(Math.abs(geometry.portraitWidth - geometry.portraitHeight) <= 1, 'B2 portraits must remain circular', geometry);
+  check(geometry.scrollWidth > geometry.clientWidth, 'B2 long scroll must retain horizontal overflow', geometry);
+  check(Object.values(readability).filter((value) => value?.contrast).every((item) => item.contrast >= 4.5), 'B2 timeline text must meet 4.5:1 contrast against its brightest stage surface', readability);
+
+  await page.locator('#peopleTableTab').click();
+  await currentPage.locator('#peopleTableTab').click();
+  await page.waitForSelector('.tablewrap:not([hidden])');
+  await currentPage.waitForSelector('.tablewrap:not([hidden])');
+  const table = await captureTableStyles(page);
+  const currentTable = await captureTableStyles(currentPage);
+  check(sameStyle(table, currentTable), 'B2 table view must retain current page colors', { table, currentTable });
+  await page.locator('#peopleTimelineTab').click();
+  await currentPage.locator('#peopleTimelineTab').click();
+  await page.waitForSelector('[data-scroll-drag-surface]');
+  await currentPage.waitForSelector('#peopleTimelineView');
+
+  const surface = page.locator('[data-scroll-drag-surface]');
+  const box = await surface.boundingBox();
+  if (!box) throw new Error('B2 drag surface has no bounding box');
+  await page.mouse.move(box.x + box.width * .75, box.y + 10);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * .25, box.y + 10, { steps: 8 });
+  await page.mouse.up();
+  const drag = await page.evaluate(() => ({ scrollLeft: document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0, dragging: document.querySelector('[data-scroll-drag-surface]')?.dataset.dragging || '' }));
+  check(drag.scrollLeft > 0 && drag.dragging === '', 'B2 pointer drag must scroll and clear data-dragging', drag);
+
+  const personName = await page.evaluate(() => {
+    const surfaceBounds = document.querySelector('[data-scroll-drag-surface]')?.getBoundingClientRect();
+    return [...document.querySelectorAll('[data-timeline-person]')].find((person) => {
+      const avatar = person.querySelector('.timeline-portrait')?.getBoundingClientRect();
+      return surfaceBounds && avatar && avatar.left >= surfaceBounds.left && avatar.right <= surfaceBounds.right && avatar.top >= surfaceBounds.top && avatar.bottom <= surfaceBounds.bottom;
+    })?.dataset.timelinePerson || '';
+  });
+  check(Boolean(personName), 'B2 drag position must expose a selectable person', { drag });
+  let drawer = {};
+  let drawerBefore = 0;
+  let drawerDuring = 0;
+  let drawerAfter = 0;
+  if (personName) {
+    const person = page.locator(`[data-timeline-person="${personName}"]`);
+    await person.locator('.timeline-person-select').click();
+    drawerBefore = await page.evaluate(() => document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0);
+    await person.locator('.timeline-person-open').click();
+    await page.waitForSelector('#drawer.open');
+    await currentPage.locator('[data-timeline-person="朱元璋"] .timeline-person-select').click();
+    await currentPage.locator('[data-timeline-person="朱元璋"] .timeline-person-open').click();
+    await currentPage.waitForSelector('#drawer.open');
+    drawer = await captureDrawerStyles(page);
+    const currentDrawer = await captureDrawerStyles(currentPage);
+    check(sameStyle(drawer, currentDrawer), 'B2 drawer paper colors must retain current page colors', { drawer, currentDrawer });
+    drawerDuring = await page.evaluate(() => document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0);
+    check(Math.abs(drawerDuring - drawerBefore) <= 1, 'B2 opening drawer must preserve scrollLeft', { drawerBefore, drawerDuring });
+    await page.locator('#close').click();
+    await page.waitForFunction(() => !document.querySelector('#drawer')?.classList.contains('open'));
+    drawerAfter = await page.evaluate(() => document.querySelector('[data-scroll-drag-surface]')?.scrollLeft || 0);
+    check(Math.abs(drawerAfter - drawerBefore) <= 1, 'B2 closing drawer must preserve scrollLeft', { drawerBefore, drawerAfter });
+    await currentPage.locator('#close').click();
+  }
+
+  const widths = [];
+  for (const width of [1440, 768, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    widths.push(await page.evaluate(() => ({ width: innerWidth, bodyScrollWidth: document.body.scrollWidth, scrollWidth: document.querySelector('[data-scroll-drag-surface]')?.scrollWidth || 0, clientWidth: document.querySelector('[data-scroll-drag-surface]')?.clientWidth || 0 })));
+  }
+  check(widths.every((item) => item.bodyScrollWidth === item.width && item.scrollWidth > item.clientWidth), 'B2 must keep body width contained and scroll horizontally at 1440, 768, and 390', widths);
+  await page.setViewportSize({ width: 1440, height: 1000 });
+
+  const noJsContext = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
+  let noJs;
+  try {
+    const noJsPage = await noJsContext.newPage();
+    await noJsPage.goto(`file://${path.join(root, 'people-timeline-b2.html')}`, { waitUntil: 'load' });
+    noJs = await noJsPage.evaluate(() => ({ tableVisible: getComputedStyle(document.querySelector('.tablewrap')).display !== 'none', scrollVisible: getComputedStyle(document.querySelector('#peopleTimelineView')).display !== 'none' }));
+  } finally {
+    await noJsContext.close();
+  }
+  check(noJs.tableVisible && !noJs.scrollVisible, 'B2 no-JS fallback must show the table and hide the long scroll', noJs);
+  await page.evaluate(() => window.scrollTo({ top: 0, left: 0 }));
+  await page.locator('.museum-nav').evaluate((nav) => { nav.style.visibility = 'hidden'; });
+  try {
+    await page.locator('.people-timeline').screenshot({ path: b2ScreenshotPath });
+  } finally {
+    await page.locator('.museum-nav').evaluate((nav) => { nav.style.removeProperty('visibility'); });
+  }
+  verifiedVariants.push('b2');
+  return { pagePalette, currentTimeline, stagePalette, geometry, readability, drag, table, drawer, drawerBefore, drawerDuring, drawerAfter, widths, noJs, screenshotPath: b2ScreenshotPath };
 }
 
 async function verifyA(page) {
@@ -455,6 +635,8 @@ try {
   const currentPage = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await currentPage.goto(`file://${path.join(root, 'people-timeline-current.html')}`, { waitUntil: 'domcontentloaded' });
   await currentPage.waitForSelector('.stat strong');
+  const b2Page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  const b2 = await verifyB2(b2Page, currentPage);
   await page.locator('#peopleTableTab').click();
   await currentPage.locator('#peopleTableTab').click();
   await page.waitForSelector('.tablewrap:not([hidden])');
@@ -548,12 +730,12 @@ try {
     window.matchMedia = () => { throw new Error('matchMedia unavailable'); };
   }, 'script exception');
   verifiedVariants.push('c');
-  result = { status: 'ok', screenshotPath, cScreenshotPaths, serverLifecycle: cServerLifecycle, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, c: { ...c, storageFailure: cStorageFailure, scriptFailure: cScriptFailure }, current: { table: currentTable, drawer: currentDrawer } };
+  result = { status: 'ok', screenshotPath, b2ScreenshotPath, cScreenshotPaths, serverLifecycle: cServerLifecycle, a, b: { beforeDrag, readability, table: bTable, timelineAfterTable: bTimelineAfterTable, afterDrag, drawerContext: bDrawerContext, drawer: bDrawer, drawerBefore, drawerDuring, drawerAfter, stageAfterDrawer: bStageAfterDrawer }, b2, c: { ...c, storageFailure: cStorageFailure, scriptFailure: cScriptFailure }, current: { table: currentTable, drawer: currentDrawer } };
 } finally {
   await browser?.close();
   await stopCServer(cServer);
 }
 
-check(verifiedVariants.includes('a') && verifiedVariants.includes('b') && verifiedVariants.includes('c'), 'variant page verifier must cover A, B, and C', verifiedVariants);
+check(verifiedVariants.includes('a') && verifiedVariants.includes('b') && verifiedVariants.includes('b2') && verifiedVariants.includes('c'), 'variant page verifier must cover A, B, B2, and C', verifiedVariants);
 if (failures.length) throw new Error(`People timeline variant page verification failed:\n- ${failures.join('\n- ')}`);
 console.log(JSON.stringify(result));
