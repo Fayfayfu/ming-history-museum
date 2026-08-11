@@ -1,6 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PEOPLE_TIMELINE_VARIANTS, renderPeopleTimelineVariantPage } from './people_timeline_variants.mjs';
+import {
+  PEOPLE_TIMELINE_VARIANTS,
+  TIMELINE_VARIANT_CSS,
+  renderPeopleTimelineVariantPage,
+  timelineVariantClientScript,
+} from './people_timeline_variants.mjs';
 
 const base = '<html><head><title>人物馆｜步入大明数字历史博物馆</title></head><body class="people-page"><section class="people-timeline"><section id="peopleTimelineView" class="people-timeline-viewport"><div class="people-timeline-canvas" style="--timeline-width:6704px"></div></section></section><script>window.sharedPeople=true</script></body></html>';
 
@@ -31,4 +36,13 @@ test('renderer preserves shared markup and isolates semantics', () => {
 
 test('unknown variant fails closed', () => {
   assert.throws(() => renderPeopleTimelineVariantPage(base, 'unknown'), /Unknown people timeline variant/);
+});
+
+test('A is bright, draggable, and has no B or C shell', () => {
+  assert.match(TIMELINE_VARIANT_CSS.a, /--scroll-paper:#f5f0e3/);
+  assert.match(TIMELINE_VARIANT_CSS.a, /cursor:grab/);
+  assert.match(timelineVariantClientScript('a'), /setPointerCapture/);
+  const html = renderPeopleTimelineVariantPage(base, 'a');
+  assert.doesNotMatch(html, /data-scroll-stage/);
+  assert.doesNotMatch(html, /data-scroll-ritual/);
 });
