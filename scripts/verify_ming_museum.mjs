@@ -111,14 +111,14 @@ const zhuChangluoTenure=await page.evaluate(()=>document.querySelector('#detail 
 await page.locator('#close').click();
 await page.evaluate(()=>focusPerson('朱厚熜'));
 const zhuHoucongLineage=await page.evaluate(()=>({
-  text:document.querySelector('#detail .lineage-fact')?.textContent.trim()||'',
-  entries:document.querySelectorAll('#detail .lineage-list b').length,
-  rich:document.querySelector('#detail .lineage-fact')?.classList.contains('rich')||false,
-  scoreSummaryLast:document.querySelector('#detail .facts')?.lastElementChild?.classList.contains('score-summary')||false,
-  scoreItems:document.querySelectorAll('#detail .facts>.score-summary .score-summary-item').length,
+  text:document.querySelector('#detail .founder-royal-relations')?.textContent.trim()||'',
+  entries:document.querySelectorAll('#detail .founder-royal-column').length,
+  rich:document.querySelectorAll('#detail .facts-founder').length===1,
+  scoreSummaryLast:document.querySelectorAll('#detail .profile-score-section .score-summary').length===1,
+  scoreItems:document.querySelectorAll('#detail .profile-score-section .score-summary-item').length,
   source:[...document.querySelectorAll('#detail .sources a')].some(a=>a.href.includes('%E6%98%8E%E5%8F%B2/%E5%8D%B717')||a.href.includes('明史/卷17'))
 }));
-await page.locator('#detail .lineage-fact').screenshot({path:path.join(root,'人物档案_朱厚熜_帝系关系_预览.png')});
+await page.locator('#detail .founder-royal-relations').screenshot({path:path.join(root,'人物档案_朱厚熜_帝系关系_预览.png')});
 await page.locator('#close').click();
 const emperorLineageSamples=[];
 for(const name of ['朱元璋','朱允炆','朱棣','朱高炽','朱瞻基','朱祁镇','朱祁钰','朱见深','朱祐樘','朱厚照','朱厚熜','朱载坖','朱翊钧','朱常洛','朱由校','朱由检']){
@@ -128,14 +128,17 @@ for(const name of ['朱元璋','朱允炆','朱棣','朱高炽','朱瞻基','朱
     drawerName:document.querySelector('#detail h2')?.textContent.trim()||'',
     lineageCards:document.querySelectorAll('#detail .lineage-fact.rich').length,
     entries:document.querySelectorAll('#detail .lineage-list b').length,
-    text:document.querySelector('#detail .lineage-fact')?.textContent.trim()||'',
-    confidence:document.querySelector('#detail .lineage-fact>span')?.textContent.trim()||'',
+    founderCards:document.querySelectorAll('#detail .founder-royal-relations').length,
+    founderColumns:document.querySelectorAll('#detail .founder-royal-column').length,
+    governanceItems:document.querySelectorAll('#detail .founder-governance-item').length,
+    text:(document.querySelector('#detail .founder-royal-relations')||document.querySelector('#detail .lineage-fact'))?.textContent.trim()||'',
+    confidence:(document.querySelector('#detail .founder-royal-relations>span')||document.querySelector('#detail .lineage-fact>span'))?.textContent.trim()||'',
     succession:document.querySelector('#detail .lineage-list .succession')?.textContent.trim()||'',
-    boundary:document.querySelector('#detail .lineage-boundary')?.textContent.trim()||'',
+    boundary:document.querySelector('#detail .founder-basic-notes')?.textContent.trim()||'',
     sourceLinks:document.querySelectorAll('#detail .sources a').length
   }),name));
   if(['朱元璋','朱允炆','朱祁镇'].includes(name)){
-    await page.locator('#detail .lineage-fact').screenshot({path:path.join(root,`人物档案_${name}_帝系关系_预览.png`)});
+    await page.locator('#detail .founder-royal-relations').screenshot({path:path.join(root,`人物档案_${name}_帝系关系_预览.png`)});
   }
   await page.locator('#close').click();
 }
@@ -189,8 +192,8 @@ for(const name of ['朱元璋','朱棣','朱祁镇','朱由检','胡惟庸','杨
     enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href')||''
   }),name));
   if(name==='朱由检'){
-    await page.locator('#detail .history-slice').scrollIntoViewIfNeeded();
-    await page.locator('#detail .history-slice').screenshot({path:path.join(root,'人物档案_朱由检_历史切片_第二批预览.png')});
+    await page.locator('#detail .profile-preview').scrollIntoViewIfNeeded();
+    await page.locator('#detail .profile-preview').screenshot({path:path.join(root,'人物档案_朱由检_人物速览_第二批预览.png')});
   }
   await page.locator('#close').click();
 }
@@ -212,8 +215,8 @@ for(const name of ['朱允炆','朱高炽','朱瞻基','朱祁钰','朱见深','
     enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href')||''
   }),name));
   if(name==='朱祁钰'){
-    await page.locator('#detail .history-slice').scrollIntoViewIfNeeded();
-    await page.locator('#detail .history-slice').screenshot({path:path.join(root,'人物档案_朱祁钰_历史切片_第三批预览.png')});
+    await page.locator('#detail .profile-preview').scrollIntoViewIfNeeded();
+    await page.locator('#detail .profile-preview').screenshot({path:path.join(root,'人物档案_朱祁钰_人物速览_第三批预览.png')});
   }
   await page.locator('#close').click();
 }
@@ -778,6 +781,9 @@ for(const spec of personPageSpecs){
     ageLabels:[...document.querySelectorAll('.chapter-age')].map(x=>x.textContent.trim()),
     evidence:document.querySelectorAll('.chapter .evidence').length,
     inferences:document.querySelectorAll('.chapter .inference').length,
+    sourceNotes:document.querySelectorAll('.chapter-source-note').length,
+    interpretationBoundaries:document.querySelectorAll('.chapter-interpretation-boundary').length,
+    reignYears:document.querySelectorAll('.chapter-reign').length,
     protocols:document.querySelectorAll('.protocol>div').length,
     historicalSlice:document.querySelectorAll('.history-slice').length,
     sliceCoordinate:document.querySelector('.history-slice-coord')?.textContent.trim()||'',
@@ -1316,11 +1322,16 @@ const yangJishengPass=yangJisheng.first==='杨继盛'&&yangJisheng.drawerName===
 const immersivePass=immersivePages.length===personPageSpecs.length&&immersivePages.every((x,i)=>{
   const spec=personPageSpecs[i];
   const expectedTriggers=spec.sourceTriggers??(spec.name==='王守仁'?5:(spec.name==='于谦'?3:0));
-  return x.title.includes(spec.name)&&x.h1===spec.name&&x.theme===spec.theme&&x.portraitLoaded&&x.chapters===spec.chapters&&x.ageLabels.length===spec.chapters&&x.ageLabels.every(Boolean)&&x.evidence===spec.chapters&&x.inferences===spec.chapters&&x.protocols===3&&x.historicalSlice===1&&x.sliceCoordinate&&x.sliceKnownUnknown===2&&x.sliceAction===1&&x.sliceConsequence===1&&x.sliceBoundary===1&&x.featureItems===spec.featureItems&&x.artCards===spec.artCards&&x.brokenArt===0&&x.work===spec.work&&x.sources>=spec.minSources&&x.sourceTriggers===expectedTriggers&&(!spec.thought||(x.thoughtProfile===1&&x.thoughtPractice===1&&x.thoughtAfterlife===3))&&(!spec.state||(x.stateProfile===1&&x.stateCosts===6))&&(!spec.reach||(x.reachProfile===1&&x.reachItems===6))&&x.finalQuestion&&x.peopleLink==='../people.html'&&x.nextLinks===2&&x.bodyWidth===x.viewport;
+  const evidencePass=spec.name==='朱元璋'
+    ? x.evidence===0&&x.inferences===0&&x.sourceNotes===spec.chapters&&x.interpretationBoundaries===spec.chapters&&x.reignYears===spec.chapters
+    : x.evidence===spec.chapters&&x.inferences===spec.chapters;
+  return x.title.includes(spec.name)&&x.h1===spec.name&&x.theme===spec.theme&&x.portraitLoaded&&x.chapters===spec.chapters&&x.ageLabels.length===spec.chapters&&x.ageLabels.every(Boolean)&&evidencePass&&x.protocols===3&&x.historicalSlice===1&&x.sliceCoordinate&&x.sliceKnownUnknown===2&&x.sliceAction===1&&x.sliceConsequence===1&&x.sliceBoundary===1&&x.featureItems===spec.featureItems&&x.artCards===spec.artCards&&x.brokenArt===0&&x.work===spec.work&&x.sources>=spec.minSources&&x.sourceTriggers===expectedTriggers&&(!spec.thought||(x.thoughtProfile===1&&x.thoughtPractice===1&&x.thoughtAfterlife===3))&&(!spec.state||(x.stateProfile===1&&x.stateCosts===6))&&(!spec.reach||(x.reachProfile===1&&x.reachItems===6))&&x.finalQuestion&&x.peopleLink==='../people.html'&&x.nextLinks===2&&x.bodyWidth===x.viewport;
 });
 const secondSliceDrawerPass=secondSliceDrawerSamples.length===11&&secondSliceDrawerSamples.every(x=>{
-  if(x.name==='朱元璋') return x.drawerName===x.name&&x.preview===1&&x.enterHref==='people/zhu-yuan-zhang.html'&&x.historicalSlice===0&&x.genericCamera===0;
-  if(x.name==='朱棣') return x.drawerName===x.name&&x.preview===1&&x.enterHref==='people/zhu-di.html'&&x.historicalSlice===0&&x.genericCamera===0;
+  if(['朱元璋','朱棣','朱祁镇','朱由检'].includes(x.name)){
+    const expectedHref={朱元璋:'people/zhu-yuan-zhang.html',朱棣:'people/zhu-di.html'}[x.name]||'';
+    return x.drawerName===x.name&&x.preview===1&&x.enterHref===expectedHref&&x.historicalSlice===0&&x.genericCamera===0;
+  }
   return x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1;
 });
 const reenactmentPass=reenactmentSamples.length===12&&reenactmentSamples.every(x=>{
@@ -1328,7 +1339,10 @@ const reenactmentPass=reenactmentSamples.length===12&&reenactmentSamples.every(x
   return x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1;
 });
 const thirdSliceDrawerPass=thirdSliceDrawerSamples.length===16&&thirdSliceDrawerSamples.every(x=>{
-  if(x.name==='朱翊钧') return x.drawerName===x.name&&x.preview===1&&x.enterHref==='people/zhu-yi-jun.html'&&x.historicalSlice===0&&x.genericCamera===0;
+  if(['朱允炆','朱高炽','朱瞻基','朱祁钰','朱见深','朱祐樘','朱厚照','朱厚熜','朱载坖','朱翊钧','朱常洛','朱由校'].includes(x.name)){
+    const expectedHref=x.name==='朱翊钧'?'people/zhu-yi-jun.html':'';
+    return x.drawerName===x.name&&x.preview===1&&x.enterHref===expectedHref&&x.historicalSlice===0&&x.genericCamera===0;
+  }
   return x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1;
 });
 const fourthSliceDrawerPass=fourthSliceDrawerSamples.length===16&&fourthSliceDrawerSamples.every(x=>{
@@ -1353,9 +1367,9 @@ const knowledgeCardPass=knowledgeCardSamples.length===6&&knowledgeCardSamples.ev
 const sourceDialogPass=sourceDialogAudit?.triggers===3&&sourceDialogAudit.open&&sourceDialogAudit.title==='1449：从反对南迁到列阵九门'&&sourceDialogAudit.location.includes('卷一百七十')&&sourceDialogAudit.paragraphs===3&&sourceDialogAudit.original.includes('言南迁者，可斩也')&&sourceDialogAudit.original.includes('列阵九门外')&&sourceDialogAudit.reading.includes('连续步骤')&&sourceDialogAudit.boundary.includes('清代')&&sourceDialogAudit.fullTextHref.includes('卷170')&&sourceDialogAudit.closeFocused&&sourceDialogAudit.bodyLocked&&sourceDialogAudit.closedByEscape;
 const homeTitlePass=homeTitleLayouts.length===5&&homeTitleLayouts.every(x=>x.lineRects===1&&x.titleWithinViewport&&x.whiteSpace==='nowrap'&&x.yearBalanced&&x.yearsInset&&x.bodyWidth===x.viewport);
 const factGridPass=personStory.identityValue==='文臣'&&JSON.stringify(personStory.factLabels)===JSON.stringify(['身份','生卒 / 寿命','籍贯','关键任期 / 历朝','历史领域','关联机构'])&&personStory.scoreSummaryLast&&personStory.scoreItems===6&&personStory.totalScoreLabel==='加权总分 · 100%'&&/^\d+\.\d$/.test(personStory.totalScoreValue)&&!personStory.totalScoreValue.includes('/100')&&!personStory.scoreSummaryText.startsWith('评分细项')&&['加权总分','治国制度','军事危机','社会文化','长期遗产','责任代价'].every(label=>personStory.scoreSummaryText.includes(label))&&personStory.legacyScoreGrid===0;
-const zhuHoucongLineagePass=zhuHoucongLineage.rich&&zhuHoucongLineage.entries===7&&zhuHoucongLineage.scoreSummaryLast&&zhuHoucongLineage.scoreItems===6&&['兴献王朱祐杬','蒋氏','明宪宗朱见深','明孝宗朱祐樘','堂兄明武宗朱厚照','皇位由孝宗一支转入兴献王一支'].every(text=>zhuHoucongLineage.text.includes(text))&&zhuHoucongLineage.source;
+const zhuHoucongLineagePass=zhuHoucongLineage.rich&&zhuHoucongLineage.entries===3&&zhuHoucongLineage.scoreSummaryLast&&zhuHoucongLineage.scoreItems===6&&['兴献王朱祐杬','蒋氏','兴献王一支','堂兄明武宗朱厚照','皇位由孝宗一支转入兴献王一支'].every(text=>zhuHoucongLineage.text.includes(text))&&zhuHoucongLineage.source;
 const emperorLineageByName=Object.fromEntries(emperorLineageSamples.map(item=>[item.name,item]));
-const emperorLineagePass=emperorLineageSamples.length===16&&emperorLineageSamples.every(item=>item.drawerName===item.name&&item.lineageCards===1&&item.entries>=5&&/高置信度|中置信度/.test(item.confidence)&&item.succession.startsWith('入继：')&&item.boundary.startsWith('证据边界：')&&item.sourceLinks>=2)&&['朱世珍','陈氏','明朝开国皇帝'].every(text=>emperorLineageByName['朱元璋'].text.includes(text))&&['朱标','吕氏','明太祖朱元璋','皇太孙'].every(text=>emperorLineageByName['朱允炆'].text.includes(text))&&emperorLineageByName['朱棣'].text.includes('生母异说')&&emperorLineageByName['朱祁镇'].text.includes('两段统治')&&emperorLineageByName['朱厚熜'].text.includes('兴献王一支')&&emperorLineageByName['朱由检'].text.includes('兄终弟及');
+const emperorLineagePass=emperorLineageSamples.length===16&&emperorLineageSamples.every(item=>item.drawerName===item.name&&/高置信度|中置信度/.test(item.confidence)&&item.sourceLinks>=2&&item.lineageCards===0&&item.founderCards===1&&item.founderColumns===3&&item.governanceItems>=1&&item.governanceItems<=4&&item.boundary.startsWith('说明：'))&&['朱世珍','陈氏','明朝开国皇帝','朱允炆'].every(text=>emperorLineageByName['朱元璋'].text.includes(text))&&['朱标','吕氏','明太祖朱元璋','皇太孙'].every(text=>emperorLineageByName['朱允炆'].text.includes(text))&&emperorLineageByName['朱棣'].boundary.includes('生母异说')&&emperorLineageByName['朱祁镇'].text.includes('两段统治')&&emperorLineageByName['朱厚熜'].text.includes('兴献王一支')&&emperorLineageByName['朱由检'].text.includes('兄终弟及');
 const exhibitionPortraitPass=exhibitionPortraitChecks.length===exhibitionSource.reduce((sum,exhibit)=>sum+exhibit.people.length,0)&&exhibitionPortraitChecks.every(item=>item.expectedSrc
   ?item.image&&item.loaded&&!item.fallback&&item.src===item.expectedSrc&&item.label===item.expectedLabel
   :!item.image&&item.fallback);
