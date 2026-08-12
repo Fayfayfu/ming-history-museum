@@ -541,6 +541,16 @@
       "url": "https://www.dpm.org.cn/lemmas/241639.html",
       "kind": "博物馆"
     },
+    "DPM_FUSHAN": {
+      "label": "故宫博物院·傅山",
+      "url": "https://www.dpm.org.cn/lemmas/242778.html",
+      "kind": "博物馆"
+    },
+    "DPM_FUSHAN_1636": {
+      "label": "《紫禁城》·傅山与《因人私记》",
+      "url": "https://www.dpm.org.cn/Uploads/File/2019/05/13/u5cd90ebc94932.pdf",
+      "kind": "博物馆研究"
+    },
     "IHP_HEXINYIN_1553": {
       "label": "中研院近代史研究所集刊·何心隐聚和堂研究",
       "url": "https://www.mh.sinica.edu.tw/MHDocument/PublicationDetail/PublicationDetail_646.pdf",
@@ -590,6 +600,16 @@
       "label": "《明史》卷120",
       "url": "https://zh.wikisource.org/wiki/明史/卷120",
       "kind": "正史"
+    },
+    "MS124": {
+      "label": "《明史》卷124",
+      "url": "https://zh.wikisource.org/wiki/明史/卷124",
+      "kind": "正史"
+    },
+    "SHM_WANGBAOBAO_TOMB": {
+      "label": "上海博物馆·墓志所见扩廓帖木儿家世",
+      "url": "https://www.shanghaimuseum.net/mu/asset1/20150521/ff20d3f6-0ba9-4e32-9d56-e5b9a210b7a9.pdf",
+      "kind": "博物馆研究"
     }
   },
   "people": [
@@ -2789,6 +2809,33 @@
         "MS121"
       ],
       "timeline_role": "长平公主",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "傅山",
+      "source": "core",
+      "timeline_year": 1636,
+      "timeline_year_label": "1636",
+      "timeline_year_basis": "崇祯九年率山西诸生赴京为袁继咸伏阙诉冤",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "DPM_FUSHAN",
+        "DPM_FUSHAN_1636"
+      ],
+      "timeline_role": "明遗民、书画医家",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "王保保",
+      "source": "core",
+      "timeline_year": 1362,
+      "timeline_year_label": "1362",
+      "timeline_year_basis": "至正二十二年接掌察罕帖木儿军政职位并攻克益都",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS124"
+      ],
+      "timeline_role": "北元名将",
       "timeline_size": "standard"
     }
   ]

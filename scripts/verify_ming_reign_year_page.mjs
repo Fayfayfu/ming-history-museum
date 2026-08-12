@@ -75,6 +75,51 @@ try {
   check(zhuBiao.chapters.some((text) => text.includes('洪武元年') && text.includes('1368')), 'Ming life chapters must show era and Gregorian dates together', zhuBiao.chapters);
   check(zhuBiao.related.some((text) => text.includes('洪武二十五年') && text.includes('1392')), 'related events in a person drawer must show era and Gregorian dates together', zhuBiao.related);
 
+  await page.goto(pageUrl('people.html', '?person=%E4%BA%8E%E8%B0%A6'), { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('#drawer.open');
+  await page.click('#close');
+  await page.click('#peopleTableTab');
+  const yuQianTenures = await page.evaluate(() => {
+    const row = [...document.querySelectorAll('#rows tr')].find((candidate) => candidate.querySelector('.name')?.textContent.trim() === '于谦');
+    return [...(row?.querySelectorAll('.reignline') || [])].map((node) => node.textContent.replace(/\s+/g, ' ').trim());
+  });
+  check(
+    JSON.stringify(yuQianTenures) === JSON.stringify([
+      '永乐帝 · 1421—1424',
+      '洪熙帝 · 1424—1425',
+      '宣德帝 · 1425—1435',
+      '正统朝 · 英宗 · 1435—1449',
+      '景泰帝 · 1449—1457',
+      '天顺朝 · 英宗 · 1457—1457',
+    ]),
+    'key tenures must be rendered in chronological order across interrupted reigns',
+    yuQianTenures,
+  );
+
+  await page.goto(pageUrl('people.html'), { waitUntil: 'domcontentloaded' });
+  await page.click('#peopleTableTab');
+  const verifyAliasPortrait = async (query, expectedName) => {
+    await page.fill('#search', query);
+    const rows = page.locator('#rows tr[data-id]');
+    await rows.first().waitFor();
+    const result = await rows.evaluateAll((items) => items.map((row) => row.querySelector('.name')?.textContent.trim()));
+    check(JSON.stringify(result) === JSON.stringify([expectedName]), `${query} must resolve to ${expectedName} only`, result);
+    await rows.first().click();
+    await page.waitForSelector('#drawer.open');
+    const portrait = page.locator('#detail .portrait img');
+    await portrait.waitFor();
+    await page.waitForFunction(() => document.querySelector('#detail .portrait img')?.naturalWidth > 0);
+    const drawer = await page.evaluate(() => ({
+      name: document.querySelector('#detail h2')?.textContent.trim(),
+      label: document.querySelector('#detail .portrait-label')?.textContent.trim(),
+      loaded: document.querySelector('#detail .portrait img')?.naturalWidth > 0,
+    }));
+    check(drawer.name === expectedName && drawer.label === 'AI想象像' && drawer.loaded, `${expectedName} drawer must load its explicit AI portrait`, drawer);
+    await page.click('#close');
+  };
+  await verifyAliasPortrait('傅青主', '傅山');
+  await verifyAliasPortrait('扩廓帖木儿', '王保保');
+
   if (failures.length) throw new Error(`Reign-year page verification failed:\n- ${failures.join('\n- ')}`);
   console.log('Reign-year labels verified in event cards, event drawer, and person-story surfaces.');
 } finally {

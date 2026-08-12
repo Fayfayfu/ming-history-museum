@@ -1,14 +1,14 @@
 {
   "generatedAt": "2026-08-09T07:06:53.023Z",
   "downloaded": 84,
-  "generated": 73,
+  "generated": 75,
   "currentBatch": {
-    "id": 19,
-    "label": "第十九批 · 剩余重要皇嗣AI想象像",
-    "count": 20,
-    "selection": "补齐人物馆剩余20位重要皇嗣画像；全部明确标注AI想象像，史实只用于身份、时代和情境锚定，相貌与现场不作史实。"
+    "id": 20,
+    "label": "第二十批 · 傅山与王保保AI想象像",
+    "count": 2,
+    "selection": "为新增人物傅山、王保保补齐AI想象像；史实只用于身份、时代和情境锚定，相貌与现场不作史实。"
   },
-  "total": 157,
+  "total": 159,
   "people": {
     "朱元璋": {
       "status": "image",
@@ -2327,6 +2327,42 @@
       "height": 900,
       "objectPosition": "50% 17%",
       "note": "未找到来源链可靠的本人旧像。画面锚定仅表现1644年前的儿童身份，不采用后世案件的确定叙事；五官、年龄状态、服饰细节、陈设与具体时刻均为艺术想象。"
+    },
+    "傅山": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-20/2001_傅山_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-20/2001_傅山_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 20,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch20.md",
+      "evidence": [
+        "https://www.dpm.org.cn/lemmas/242778.html",
+        "https://www.nmtcm.cn/stars_detail/248.html"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 18%",
+      "note": "未核定可直接作为本人肖像的可靠旧像。画面以明清易代时期的山西士人、书画与医学实践为时代锚点；五官、神态、服饰细节、书斋陈设和具体时刻均为艺术想象。"
+    },
+    "王保保": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-20/2002_王保保_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-20/2002_王保保_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 20,
+      "generatedWith": "OpenAI image generation",
+      "promptFile": "data/portrait_prompts_batch20.md",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷124",
+        "https://www.shanghaimuseum.net/mu/asset1/20150521/ff20d3f6-0ba9-4e32-9d56-e5b9a210b7a9.pdf"
+      ],
+      "width": 720,
+      "height": 900,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源链可靠的本人旧像。画面以元末北方蒙古贵族统帅、军帐和实用甲胄为时代锚点；五官、神态、服饰细节、军帐陈设和具体时刻均为艺术想象。"
     }
   }
 }

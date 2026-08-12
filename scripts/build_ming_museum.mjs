@@ -11,6 +11,9 @@ import {PEOPLE_TIMELINE_VARIANTS,renderPeopleTimelineFormalPage,renderPeopleTime
 
 // Rebuild the research baseline first, then derive two focused exhibition halls.
 await import('./build_ming_html.mjs');
+// Recreate project-owned AI portraits from their archived PNG masters before
+// the museum asset tree is mirrored. This keeps a clean rebuild reproducible.
+await import('./process_ming_portrait_batch20.mjs');
 
 const root = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9';
 const museum = `${root}/明史数字博物馆`;

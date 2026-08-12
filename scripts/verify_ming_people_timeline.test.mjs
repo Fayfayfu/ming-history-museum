@@ -52,7 +52,7 @@ function assertVerifierRejects(mutate, messagePattern) {
   assert.match(output, messagePattern);
 }
 
-test('verifier accepts the curated 163-person timeline', () => {
+test('verifier accepts the curated 165-person timeline', () => {
   const result = runVerifier();
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 });
@@ -196,11 +196,31 @@ test('curated round-2 evidence mappings stay locked', () => {
   }
 });
 
-test('verifier rejects a self-consistent roster that is not exactly 163 people', () => {
+test('verifier rejects a self-consistent roster that is not exactly 165 people', () => {
   assertVerifierRejects(({ core, timelineData }) => {
     const removed = core.shift();
     timelineData.people = timelineData.people.filter((person) => person.name !== removed.name);
-  }, /exactly 163 people/);
+  }, /exactly 165 people/);
+});
+
+test('傅山 remains a sourced 1636 public-activity anchor under his formal name', () => {
+  const person = baseline.core.find((candidate) => candidate.name === '傅山');
+  const timeline = baseline.timelineData.people.find((candidate) => candidate.name === '傅山');
+  assert.deepEqual(
+    [person?.alt, person?.category, timeline?.timeline_year, timeline?.timeline_year_label,
+      timeline?.timeline_role, timeline?.timeline_source_refs],
+    ['字青主，号真山、朱衣道人', '在野人物', 1636, '1636', '明遗民、书画医家', ['DPM_FUSHAN', 'DPM_FUSHAN_1636']],
+  );
+});
+
+test('王保保 remains a sourced 1362 command anchor with his Mongol name visible', () => {
+  const person = baseline.core.find((candidate) => candidate.name === '王保保');
+  const timeline = baseline.timelineData.people.find((candidate) => candidate.name === '王保保');
+  assert.deepEqual(
+    [person?.alt, person?.category, timeline?.timeline_year, timeline?.timeline_year_label,
+      timeline?.timeline_role, timeline?.timeline_source_refs],
+    ['扩廓帖木儿', '政权人物', 1362, '1362', '北元名将', ['MS124']],
+  );
 });
 
 test('verifier rejects a self-consistent roster that is not exactly 16 emperors', () => {
