@@ -27,6 +27,38 @@ try {
   check(eventCards.e018.primary === '建文四年' && eventCards.e018.secondary === '1402年六月', 'event cards must follow the actual era rather than the later emperor label', eventCards.e018);
   check(eventCards.e076.primary === '万历四十八年' && eventCards.e076.secondary === '1620年', 'ambiguous accession years must use the curated card label', eventCards.e076);
 
+  const eventTypography = await page.evaluate(() => {
+    const card = document.querySelector('[data-event="e076"]');
+    const size = (selector) => Number.parseFloat(getComputedStyle(card.querySelector(selector)).fontSize);
+    const lineHeight = (selector) => Number.parseFloat(getComputedStyle(card.querySelector(selector)).lineHeight);
+    return {
+      dateSecondary: size('.eventdate span'),
+      meta: size('.eventmeta'),
+      brief: size('.eventbrief p'),
+      briefLineHeight: lineHeight('.eventbrief p'),
+      briefLabel: size('.eventbrief b'),
+      personLink: size('.personjump'),
+      institutionTag: size('.institutiontag'),
+      stageLabel: Number.parseFloat(getComputedStyle(document.querySelector('.stagechip b')).fontSize),
+      stageMeta: Number.parseFloat(getComputedStyle(document.querySelector('.stagechip span')).fontSize),
+      status: Number.parseFloat(getComputedStyle(document.querySelector('.event-status')).fontSize),
+    };
+  });
+  check(
+    eventTypography.dateSecondary >= 12
+      && eventTypography.meta >= 13
+      && eventTypography.brief >= 15
+      && eventTypography.briefLineHeight >= 24
+      && eventTypography.briefLabel >= 12
+      && eventTypography.personLink >= 13
+      && eventTypography.institutionTag >= 12
+      && eventTypography.stageLabel >= 14
+      && eventTypography.stageMeta >= 12
+      && eventTypography.status >= 13,
+    'event hall reading text must meet the approved readable type scale',
+    eventTypography,
+  );
+
   await page.click('[data-event="e076"]');
   const eventDrawerDate = await page.locator('.event-detail-date').textContent();
   check(eventDrawerDate.includes('万历四十八年／泰昌元年') && eventDrawerDate.includes('1620年'), 'event drawer must retain both the era date and Gregorian date', eventDrawerDate);
