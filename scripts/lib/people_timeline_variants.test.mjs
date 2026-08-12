@@ -4,6 +4,7 @@ import * as variantModule from './people_timeline_variants.mjs';
 import {
   PEOPLE_TIMELINE_VARIANTS,
   TIMELINE_VARIANT_CSS,
+  renderPeopleTimelineFormalPage,
   renderPeopleTimelineVariantPage,
   timelineVariantClientScript,
 } from './people_timeline_variants.mjs';
@@ -89,7 +90,13 @@ test('B2 is a framed local stage and leaves B isolated', () => {
 });
 
 test('all five preview pages are noindex while the formal source stays indexable', () => {
-  assert.doesNotMatch(base, /<meta name="robots"/);
+  const formal = renderPeopleTimelineFormalPage(timelineBase, 'b2');
+  assert.doesNotMatch(formal, /<meta name="robots"/);
+  assert.match(formal, /<title>人物馆｜步入大明数字历史博物馆<\/title>/);
+  assert.match(formal, /data-scroll-variant="b2"/);
+  assert.match(formal, /data-scroll-stage="framed"/);
+  assert.match(formal, /data-scroll-drag-surface/);
+  assert.match(formal, /data-b2-ambient/);
   for (const key of Object.keys(PEOPLE_TIMELINE_VARIANTS)) {
     const html = renderPeopleTimelineVariantPage(key === 'b2' ? timelineBase : base, key);
     assert.equal((html.match(/<meta name="robots" content="noindex,nofollow">/g) || []).length, 1, key);
@@ -166,6 +173,7 @@ test('B2 scopes darkness to the framed timeline without scaling portraits', () =
   assert.doesNotMatch(css, /radial-gradient\(circle at 12% 23%|radial-gradient\(circle at 67% 61%|radial-gradient\(circle at 38% 76%/);
   assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.b2-star\{animation:none/);
   assert.match(css, /#peopleTimelineView \.timeline-boundary[^\n]*#efb09a/);
+  assert.match(css, /\.timeline-person\.is-selected \.timeline-person-guide[^\n]*#efb09a/);
   assert.doesNotMatch(css, /body\[data-scroll-variant="b2"\]\[data-people-view="timeline"\]\{[^}]*background:/);
   assert.doesNotMatch(css, /scaleY|scale\(/);
 });

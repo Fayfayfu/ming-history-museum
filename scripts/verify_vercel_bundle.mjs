@@ -151,7 +151,7 @@ const audit = {
         && record.scrollVariant === expected.variant
         && record.robots === 'noindex,nofollow';
     })
-    && pages.find(record => record.file === 'people.html')?.scrollVariant === ''
+    && pages.find(record => record.file === 'people.html')?.scrollVariant === 'b2'
     && pages.find(record => record.file === 'people.html')?.robots === ''
     && yao.open && yao.loaded && yao.src?.endsWith('.webp')
     && yangJisheng.open && yangJisheng.name === '杨继盛' && yangJisheng.portraitLoaded

@@ -38,6 +38,7 @@ body[data-scroll-variant="b2"] .b2-star--1{animation-name:b2Twinkle1}body[data-s
 @media(prefers-reduced-motion:reduce){body[data-scroll-variant="b2"] .b2-star{animation:none;opacity:.16}}
 body[data-scroll-variant="b2"] #peopleTimelineView[data-dragging="true"]{cursor:grabbing;user-select:none}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-axis,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person-guide{background:rgba(238,230,211,.46)}
+body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person.is-selected .timeline-person-guide,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person:focus-within .timeline-person-guide{background:#efb09a}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-tick,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-lane-label,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person small{color:#cfc5b0}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-boundary,body[data-scroll-variant="b2"] #peopleTimelineView .timeline-boundary time{color:#efb09a}
 body[data-scroll-variant="b2"] #peopleTimelineView .timeline-person strong{color:#f5f0e3}
@@ -397,4 +398,22 @@ export function renderPeopleTimelineVariantPage(baseHtml, variant) {
   if (TIMELINE_VARIANT_CSS[variant]) html = requiredReplace(html, '</style>', `${TIMELINE_VARIANT_CSS[variant]}</style>`, `${variant} style injection`);
   if (['a', 'b', 'b2', 'c'].includes(variant)) html = requiredReplace(html, '</body>', `<script>${timelineVariantClientScript(variant)}</script></body>`, `${variant} client script`);
   return html;
+}
+
+export function renderPeopleTimelineFormalPage(baseHtml, variant = 'b2') {
+  const config = PEOPLE_TIMELINE_VARIANTS[variant];
+  if (!config) throw new Error('Unknown formal people timeline variant: ' + variant);
+  let html = renderPeopleTimelineVariantPage(baseHtml, variant);
+  html = requiredReplace(
+    html,
+    '<title>' + config.title + '</title>',
+    '<title>人物馆｜步入大明数字历史博物馆</title>',
+    'formal people page title',
+  );
+  return requiredReplace(
+    html,
+    '<meta name="robots" content="noindex,nofollow">',
+    '',
+    'formal people page robots marker',
+  );
 }

@@ -83,6 +83,12 @@ test('default verify gate runs data, all timeline test suites, legacy regression
   );
 });
 
+test('museum build promotes B2 to the formal people hall while keeping all preview backups', () => {
+  const buildSource = fs.readFileSync(path.join(repoRoot, 'scripts/build_ming_museum.mjs'), 'utf8');
+  assert.match(buildSource, /renderPeopleTimelineFormalPage\(peopleHallBaseHtml,\s*'b2'\)/);
+  assert.match(buildSource, /Object\.values\(PEOPLE_TIMELINE_VARIANTS\)/);
+});
+
 test('curated first-activity corrections and authority upgrades stay locked', () => {
   const expected = {
     郑和: [1401, '约1399—1402', '中', ['MS304']],

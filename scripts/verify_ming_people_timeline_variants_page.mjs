@@ -876,8 +876,8 @@ async function verifyA(page) {
   check(afterDrag.dragging === '', 'A pointerup must clear data-dragging', afterDrag);
 
   const peopleHtml = await fs.readFile(path.join(root, 'people.html'), 'utf8');
-  check(!peopleHtml.includes('data-scroll-variant="a"'), 'people.html must remain isolated from A variant');
-  check(!peopleHtml.includes('data-scroll-drag-surface'), 'people.html must not receive A drag surface');
+  check(!peopleHtml.includes('data-scroll-variant="a"'), 'formal people.html must remain isolated from A variant');
+  check(peopleHtml.includes('data-scroll-variant="b2"'), 'formal people.html must promote B2');
   verifiedVariants.push('a');
   return { beforeDrag, completeGeometry, afterDrag };
 }
@@ -1195,13 +1195,13 @@ async function verifyGeneratedRobotsMarkers() {
   const result = {
     previews,
     formalMarkerCount: (formal.match(/<meta name="robots"/g) || []).length,
-    formalVariantMarkers: (formal.match(/data-scroll-variant=/g) || []).length,
+    formalVariantMarkers: (formal.match(/<body class="people-page" data-scroll-variant="b2"/g) || []).length,
   };
   check(
     previews.every((entry) => entry.markerCount === 1 && entry.bodyVariantMarker)
       && result.formalMarkerCount === 0
-      && result.formalVariantMarkers === 0,
-    'all five generated previews must be noindex while formal people.html stays indexable and unversioned',
+      && result.formalVariantMarkers === 1,
+    'all five generated previews must be noindex while formal people.html stays indexable as B2',
     result,
   );
   return result;
@@ -1398,8 +1398,8 @@ try {
   check(bStageAfterDrawer.background.includes('radial-gradient') && bStageAfterDrawer.color === 'rgb(238, 230, 211)', 'B must restore its dark stage after drawer closes', bStageAfterDrawer);
 
   const peopleHtml = await fs.readFile(path.join(root, 'people.html'), 'utf8');
-  check(!peopleHtml.includes('data-scroll-variant="b"'), 'people.html must remain isolated from B variant');
-  check(!peopleHtml.includes('data-scroll-drag-surface'), 'people.html must not receive B drag surface');
+  check(!peopleHtml.includes('data-scroll-variant="b"'), 'formal people.html must remain isolated from B variant');
+  check(peopleHtml.includes('data-scroll-variant="b2"'), 'formal people.html must keep B2 semantics');
   if (!screenshotAlreadyExists) await page.locator('.people-timeline').screenshot({ path: screenshotPath });
   const c = await verifyC(browser);
   const cStorageFailure = await verifyCFailOpen(browser, () => {
