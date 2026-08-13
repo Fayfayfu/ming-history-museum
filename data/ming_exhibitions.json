@@ -166,7 +166,7 @@
       "people": [
         {"name":"郑和","role":"正使与船队统帅","prompt":"一名宫廷宦官如何组织跨洋外交与复杂船队？"},
         {"name":"朱棣","role":"永乐朝最高决策者","prompt":"远航怎样服务新政权的合法性与天下秩序？"},
-        {"name":"王景弘","role":"副使与长期航海指挥者","prompt":"为什么不能把七次远航写成郑和一人的传记？"},
+        {"name":"王景弘","role":"共同正使与航海指挥者","prompt":"为什么不能把七次远航写成郑和一人的传记？"},
         {"name":"朱瞻基","role":"第七次远航的决策者","prompt":"恢复航海之后，宣德朝为何没有让它继续制度化？"}
       ],
       "map": {
@@ -205,7 +205,8 @@
         {"title":"停止远航是否意味着明朝从此封闭海洋？","text":"国家主导的巨型使团此后没有持续，但沿海航运、私人贸易、走私和东亚—东南亚联系仍然存在。应区分“宝船工程终止”与“整个社会停止海洋活动”。","confidence":"高"}
       ],
       "sources": [
-        {"label":"上海中国航海博物馆：郑和船队七次下西洋","url":"https://www.wti.ac.cn/wti/zhls/7351.jhtml"},
+        {"label":"刘家港天妃宫石刻《通番事迹记》","url":"https://zh.wikisource.org/zh-hans/婁東劉家港天妃宮石刻通番事蹟記"},
+        {"label":"长乐《天妃之神灵应记》","url":"https://zh.wikisource.org/zh-hans/天妃之神靈應記"},
         {"label":"故宫博物院院刊：从陶瓷考古看郑和下西洋的性质","url":"https://www.dpm.org.cn/Uploads/File/2018/06/04/u5b15298872a40.pdf"},
         {"label":"国立故宫博物院：明人画麒麟沈度颂","url":"https://digitalarchive.npm.gov.tw/Collection/Detail/6015?dep=P"}
       ]

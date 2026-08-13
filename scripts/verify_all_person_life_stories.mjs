@@ -4,7 +4,7 @@ import path from 'node:path';
 
 const root=path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
 const pageUrl=name=>`file://${path.join(root,'people.html')}?person=${encodeURIComponent(name)}`;
-const samples=['夏原吉','石亨','刘瑾','魏忠贤','万贵妃','徐霞客','王保保','朱柏','宁国公主'];
+const samples=['商辂','石亨','刘瑾','魏忠贤','万贵妃','徐霞客','王保保','朱柏','宁国公主'];
 const errors=[];
 
 const [core,children,timeline,stories,pages1,pages2,emperorProfiles]=await Promise.all([
@@ -57,13 +57,16 @@ try{
   await page.goto(pageUrl('朱标'),{waitUntil:'networkidle'});
   const childStory=await page.evaluate(()=>({foundation:document.querySelectorAll('#detail .life-story-foundation').length,chapters:document.querySelectorAll('#detail .life-line .life-chapter').length}));
   if(childStory.foundation!==0||childStory.chapters<4)errors.push(`朱标已有的完整故事不应被基础传记覆盖：${JSON.stringify(childStory)}`);
-  await page.setViewportSize({width:390,height:844});
   await page.goto(pageUrl('夏原吉'),{waitUntil:'networkidle'});
+  const upgradedStory=await page.evaluate(()=>({foundation:document.querySelectorAll('#detail .life-story-foundation').length,chapters:document.querySelectorAll('#detail .life-line .life-chapter').length}));
+  if(upgradedStory.foundation!==0||upgradedStory.chapters!==5)errors.push(`夏原吉升级后的完整故事不应被基础传记覆盖：${JSON.stringify(upgradedStory)}`);
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(pageUrl('商辂'),{waitUntil:'networkidle'});
   const mobile=await page.evaluate(()=>({bodyWidth:document.body.scrollWidth,viewport:innerWidth,chapters:document.querySelectorAll('#detail .life-story-foundation .life-chapter').length}));
   if(mobile.bodyWidth>mobile.viewport||mobile.chapters!==4)errors.push(`基础传记移动端异常：${JSON.stringify(mobile)}`);
   await page.setViewportSize({width:1440,height:1000});
-  await page.goto(pageUrl('夏原吉'),{waitUntil:'networkidle'});
-  if(await page.locator('#detail .life-story-foundation').count())await page.locator('#detail .life-story-foundation').screenshot({path:'/tmp/li-shanchang-life-story.png'});
+  await page.goto(pageUrl('商辂'),{waitUntil:'networkidle'});
+  if(await page.locator('#detail .life-story-foundation').count())await page.locator('#detail .life-story-foundation').screenshot({path:'/tmp/shang-lu-life-story.png'});
 }finally{await browser.close()}
 
 if(errors.length){console.error(`人物一生故事验证失败（${errors.length}项）：`);errors.forEach(error=>console.error(`- ${error}`));process.exit(1)}
