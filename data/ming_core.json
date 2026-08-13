@@ -1784,17 +1784,17 @@
     "alt": "",
     "birth": 1574,
     "death": 1648,
-    "office": "四川总兵、忠贞侯",
+    "office": "都督佥事、四川总兵",
     "office_start": 1595,
     "office_end": 1648,
     "hometown": "四川忠州（今重庆忠县）",
     "summary": "率白杆兵援辽、勤王、平乱。",
     "evaluation": "组织与忠诚俱高，是少数拥有正式总兵职衔的女性军事统帅；资源始终有限。",
     "score": 90,
-    "confidence": "高",
-    "source1": "https://zh.wikipedia.org/wiki/%E7%A7%A6%E8%89%AF%E7%8E%89",
-    "source2": "https://ctext.org/wiki.pl?if=gb&res=410835",
-    "notes": "",
+    "confidence": "中",
+    "source1": "https://zh.wikisource.org/zh-hans/明史/卷270",
+    "source2": "https://upload.wikimedia.org/wikipedia/commons/9/9d/NLC403-312001078167-111091_%E8%A3%9C%E8%BC%AF%E7%9F%B3%E6%9F%B1%E5%BB%B3%E6%96%B0%E5%BF%97_%E6%B8%85%E9%81%9323%E5%B9%B4%281843%29_%E5%8D%B7%E5%85%AD.pdf",
+    "notes": "《明史》本传未载生卒年；1574—1648沿用地方材料形成的传统纪年，保持中置信度。",
     "domains": [
       "军事边疆"
     ]

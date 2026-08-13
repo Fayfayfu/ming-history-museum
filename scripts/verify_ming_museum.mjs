@@ -775,7 +775,8 @@ const personPageSpecs=[
   {name:'李时珍',slug:'li-shi-zhen',theme:'materia',chapters:4,featureItems:5,artCards:0,work:true,minSources:5,sourceTriggers:4},
   {name:'徐光启',slug:'xu-guang-qi',theme:'translation',chapters:4,featureItems:5,artCards:0,work:true,minSources:5,sourceTriggers:4},
   {name:'朱翊钧',slug:'zhu-yi-jun',theme:'reign',chapters:5,featureItems:6,artCards:0,work:false,minSources:5,sourceTriggers:5},
-  {name:'李自成',slug:'li-zi-cheng',theme:'uprising',chapters:5,featureItems:5,artCards:0,work:false,minSources:5,sourceTriggers:5}
+  {name:'李自成',slug:'li-zi-cheng',theme:'uprising',chapters:5,featureItems:5,artCards:0,work:false,minSources:5,sourceTriggers:5},
+  {name:'秦良玉',slug:'qin-liang-yu',theme:'military',chapters:6,featureItems:5,artCards:0,work:false,minSources:6,sourceTriggers:6,clear:true}
 ];
 const immersivePages=[];
 let sourceDialogAudit=null;
@@ -1194,7 +1195,7 @@ const mobileZhuDiPage=await page.evaluate(()=>({
   viewport:innerWidth
 }));
 const mobileBatch2Pages=[];
-for(const spec of personPageSpecs.slice(-5)){
+for(const spec of personPageSpecs.slice(-6)){
   await page.goto(url('people.html'),{waitUntil:'networkidle'});
   await Promise.all([
     page.waitForURL(new RegExp('people/'+spec.slug+'\\.html$')),
@@ -1362,7 +1363,7 @@ const thirdSliceDrawerPass=thirdSliceDrawerSamples.length===16&&thirdSliceDrawer
 });
 const fourthSliceDrawerPass=fourthSliceDrawerSamples.length===16&&fourthSliceDrawerSamples.every(x=>{
   if(x.name==='王守仁') return x.drawerName===x.name&&x.preview===1&&x.enterHref==='people/wang-shou-ren.html'&&x.historicalSlice===0&&x.genericCamera===0;
-  const pageSlug={李时珍:'li-shi-zhen',徐光启:'xu-guang-qi',郑和:'zheng-he'}[x.name];
+  const pageSlug={李时珍:'li-shi-zhen',徐光启:'xu-guang-qi',郑和:'zheng-he',秦良玉:'qin-liang-yu'}[x.name];
   if(pageSlug) return x.drawerName===x.name&&x.preview===1&&x.enterHref==='people/'+pageSlug+'.html'&&x.historicalSlice===0&&x.genericCamera===0;
   if(x.name==='徐达') return x.drawerName===x.name&&x.historicalSlice===1&&x.genericStory===0&&x.lifeChapters>=5&&['渡江','陈友谅','张士诚','大都','定西','1372'].every(text=>x.lifeStoryText.includes(text));
   return x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1;
@@ -1481,8 +1482,8 @@ audit.pass=audit.pass&&wangYangmingThoughtPass;
 audit.pass=audit.pass&&mobileWangYangmingPage.h1==='王守仁'&&mobileWangYangmingPage.chapters===5&&mobileWangYangmingPage.thoughtColumns===1&&mobileWangYangmingPage.afterlifeColumns===1&&mobileWangYangmingPage.sourceTriggers===5&&mobileWangYangmingPage.bodyWidth===mobileWangYangmingPage.viewport;
 audit.pass=audit.pass&&mobileZhuYuanzhangPage.h1==='朱元璋'&&mobileZhuYuanzhangPage.chapters===6&&mobileZhuYuanzhangPage.stateColumns===1&&mobileZhuYuanzhangPage.stateCosts===6&&mobileZhuYuanzhangPage.sourceTriggers===6&&mobileZhuYuanzhangPage.bodyWidth===mobileZhuYuanzhangPage.viewport;
 audit.pass=audit.pass&&mobileZhuDiPage.h1==='朱棣'&&mobileZhuDiPage.chapters===6&&mobileZhuDiPage.reachColumns===1&&mobileZhuDiPage.reachItems===6&&mobileZhuDiPage.sourceTriggers===6&&mobileZhuDiPage.bodyWidth===mobileZhuDiPage.viewport;
-audit.pass=audit.pass&&mobileBatch2Pages.length===5&&mobileBatch2Pages.every((item,index)=>{
-  const spec=personPageSpecs.slice(-5)[index];
+audit.pass=audit.pass&&mobileBatch2Pages.length===6&&mobileBatch2Pages.every((item,index)=>{
+  const spec=personPageSpecs.slice(-6)[index];
   return item.pathname.endsWith('/people/'+spec.slug+'.html')&&item.h1===spec.name&&item.chapters===spec.chapters&&item.featureColumns===1&&item.sourceTriggers===spec.sourceTriggers&&item.bodyWidth===item.viewport;
 });
 audit.pass=audit.pass&&fifthSliceDrawerPass;
