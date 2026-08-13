@@ -16,6 +16,10 @@ try{
       name:document.querySelector('#detail h2')?.textContent.trim()||'',
       facts:document.querySelectorAll('#detail .facts-founder').length,
       identity:document.querySelectorAll('#detail .founder-identity').length,
+      identityLabels:[...document.querySelectorAll('#detail .founder-identity-row span')].map(node=>node.textContent.trim()),
+      identityValues:[...document.querySelectorAll('#detail .founder-identity-row b')].map(node=>node.textContent.trim()),
+      domainFacts:document.querySelectorAll('#detail .founder-domain').length,
+      domains:[...document.querySelectorAll('#detail .founder-domain .domain-tag')].map(node=>node.textContent.trim()),
       royalColumns:document.querySelectorAll('#detail .founder-royal-column').length,
       assessmentCards:document.querySelectorAll('#detail .founder-assessment-card').length,
       notes:document.querySelectorAll('#detail .founder-basic-notes p').length,
@@ -37,6 +41,8 @@ try{
     samples.push(audit);
     if(audit.name!==name)errors.push(`${name} 抽屉未正确打开`);
     if(audit.facts!==1||audit.identity!==1||audit.royalColumns!==3||audit.assessmentCards!==2)errors.push(`${name} 基础信息结构不完整`);
+    if(audit.identityLabels.join('|')!=='身份 / 庙号|年号'||audit.identityValues.length!==2)errors.push(`${name} 身份格没有压缩为身份庙号、年号两行：${audit.identityLabels.join('/')||'无'}`);
+    if(audit.domainFacts!==1||audit.domains.length<2)errors.push(`${name} 历史领域未独立成格或领域不足：${audit.domains.join('/')||'无'}`);
     if(audit.notes<1||audit.scores!==6||audit.governance!==1||audit.governanceItems<1||audit.governanceItems>4)errors.push(`${name} 说明、评分或制度模块不完整`);
     if(audit.quickNodes!==6||audit.quickSummaries!==6||audit.reignYears!==6)errors.push(`${name} 人物速览不是六阶段双纪年`);
     if(audit.titleSizes.some(size=>size!=='16px')||audit.summarySizes.some(size=>size!=='14px'))errors.push(`${name} 人物速览字号不符合标准`);

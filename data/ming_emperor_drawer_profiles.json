@@ -1,6 +1,25 @@
 {
   "version": 1,
-  "scope": "除朱元璋外十五位明朝皇帝的人物抽屉资料；朱元璋沿用已验收的 ming_person_pages 资料",
+  "scope": "十六位明朝皇帝的身份称号、历史领域与人物抽屉资料；朱元璋的生平正文沿用已验收的 ming_person_pages 资料",
+  "tombSource": "https://www.dpm.org.cn/court/system/236402.html",
+  "identities": {
+    "朱元璋": {"templeName":"太祖","eraName":"洪武（通称洪武帝）","domains":["政治制度","军事边疆","社会经济"],"tomb":"明孝陵 · 南京","sources":["https://whc.unesco.org/en/list/1004"]},
+    "朱允炆": {"templeName":"惠宗（弘光追尊）","templeNote":"南明弘光朝追尊为惠宗。","eraName":"建文（通称建文帝）","domains":["政治制度","军事边疆"],"tomb":"陵寝不明","sources":["https://zh.wikisource.org/zh-hans/明季南略/卷06","https://www.dpm.org.cn/court/lineage/226245.html"]},
+    "朱棣": {"templeName":"成祖","eraName":"永乐（通称永乐帝）","domains":["政治制度","军事边疆","外交航海","思想教育"],"tomb":"长陵 · 北京昌平十三陵"},
+    "朱高炽": {"templeName":"仁宗","eraName":"洪熙（通称洪熙帝）","domains":["政治制度","社会经济"],"tomb":"献陵 · 北京昌平十三陵"},
+    "朱瞻基": {"templeName":"宣宗","eraName":"宣德（通称宣德帝）","domains":["政治制度","军事边疆","宫廷内廷","思想教育"],"tomb":"景陵 · 北京昌平十三陵"},
+    "朱祁镇": {"templeName":"英宗","eraName":"正统、天顺（两次在位）","domains":["政治制度","军事边疆","宫廷内廷"],"tomb":"裕陵 · 北京昌平十三陵"},
+    "朱祁钰": {"templeName":"代宗（弘光追尊）","templeNote":"南明弘光朝追尊为代宗。","eraName":"景泰（通称景泰帝）","domains":["政治制度","军事边疆"],"tomb":"景泰陵 · 北京西山","sources":["https://zh.wikisource.org/zh-hans/明季南略/卷06","https://www.beijing.gov.cn/gate/big5/www.beijing.gov.cn/ywdt/yaowen/202312/t20231209_3494321.html"]},
+    "朱见深": {"templeName":"宪宗","eraName":"成化（通称成化帝）","domains":["政治制度","宫廷内廷"],"tomb":"茂陵 · 北京昌平十三陵"},
+    "朱祐樘": {"templeName":"孝宗","eraName":"弘治（通称弘治帝）","domains":["政治制度","军事边疆","社会经济"],"tomb":"泰陵 · 北京昌平十三陵"},
+    "朱厚照": {"templeName":"武宗","eraName":"正德（通称正德帝）","domains":["政治制度","军事边疆","宫廷内廷"],"tomb":"康陵 · 北京昌平十三陵"},
+    "朱厚熜": {"templeName":"世宗","eraName":"嘉靖（通称嘉靖帝）","domains":["政治制度","军事边疆","宫廷内廷","思想教育"],"tomb":"永陵 · 北京昌平十三陵"},
+    "朱载坖": {"templeName":"穆宗","eraName":"隆庆（通称隆庆帝）","domains":["政治制度","外交航海","社会经济"],"tomb":"昭陵 · 北京昌平十三陵"},
+    "朱翊钧": {"templeName":"神宗","eraName":"万历（通称万历帝）","domains":["政治制度","军事边疆","社会经济","宫廷内廷"],"tomb":"定陵 · 北京昌平十三陵"},
+    "朱常洛": {"templeName":"光宗","eraName":"泰昌（通称泰昌帝）","domains":["政治制度","宫廷内廷"],"tomb":"庆陵 · 北京昌平十三陵"},
+    "朱由校": {"templeName":"熹宗","eraName":"天启（通称天启帝）","domains":["政治制度","军事边疆","宫廷内廷"],"tomb":"德陵 · 北京昌平十三陵"},
+    "朱由检": {"templeName":"思宗（弘光初定）","templeNote":"南明弘光朝初定庙号思宗，后又有改号。","eraName":"崇祯（通称崇祯帝）","domains":["政治制度","军事边疆","社会经济"],"tomb":"思陵 · 北京昌平十三陵","sources":["https://www.dpm.org.cn/court/lineage/226246.html","https://zh.wikisource.org/zh-hans/明季南略/卷06"]}
+  },
   "people": {
     "朱允炆": {
       "basicInfo": {"layout": "emperor-readable"},

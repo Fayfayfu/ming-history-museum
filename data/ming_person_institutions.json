@@ -4,12 +4,16 @@
     "scope": "仅收录人物馆已有正式人物卡，且人物与机构存在明确任职、提督、创设或直接制度塑造关系；不是机构历任人员全表。",
     "relation_types": {
       "任职": "人物在该机构拥有可核验的正式职衔或实际任职。",
+      "兼任": "人物以兼衔进入该机构，但主要职责可能在其他领域。",
+      "掌理": "人物奉命掌理该机构事务，不等于其全部活动均归属于该机构。",
       "提督": "人物奉命统领厂卫等特定机构。",
       "创设": "君主直接创设、恢复或重组该机构。",
       "制度塑造": "人物对机构权力结构有直接、可识别的制度影响。"
     }
   },
   "groups": [
+    {"label": "洪武中枢", "institution_ids": ["central-secretariat", "censorate-platform", "chief-military-commission", "five-commissions"]},
+    {"label": "文教", "institution_ids": ["hanlin-academy"]},
     {"label": "中枢与监察", "institution_ids": ["cabinet", "censorate"]},
     {"label": "六部", "institution_ids": ["ministry-personnel", "ministry-revenue", "ministry-rites", "ministry-war", "ministry-justice", "ministry-works"]},
     {"label": "内廷", "institution_ids": ["silijian"]},
@@ -17,7 +21,66 @@
   ],
   "institutions": [
     {
+      "id": "central-secretariat",
+      "graph_id": "central_secretariat",
+      "name": "中书省",
+      "description": "明初中央行政中枢，丞相统理政务；洪武十三年罢除，不能把相关人物关系延伸到1380年之后。",
+      "people": [
+        {"name": "李善长", "relation": "任职", "period": "洪武初（1368—1371）", "year": 1370, "confidence": "高", "note": "任中书左丞相，参与统理政务与洪武初制度建设。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷127"]},
+        {"name": "胡惟庸", "relation": "任职", "period": "1373—1380", "year": 1375, "confidence": "高", "note": "先后任中书省右、左丞相；1380年被诛后中书省随即罢除。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷308", "https://zh.wikisource.org/zh-hans/明史/卷72"]},
+        {"name": "徐达", "relation": "兼任", "period": "洪武元年至废省前（1368—1380）", "year": 1370, "confidence": "高", "note": "兼中书右丞相，主要职责仍是统军；《明史》明确指出其未专理中书省事务。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷125", "https://zh.wikisource.org/zh-hans/明史/卷127"]},
+        {"name": "常遇春", "relation": "兼任", "period": "洪武元年至二年（1368—1369）", "year": 1368, "confidence": "高", "note": "以中书平章政事录军国重事，同时承担主要军事指挥。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷125", "https://zh.wikisource.org/zh-hans/明史/卷115"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72", "https://www.dpm.org.cn/court/system/236406.html"]
+    },
+    {
+      "id": "censorate-platform",
+      "graph_id": "censorate_platform",
+      "name": "御史台",
+      "description": "洪武初中央监察机构，洪武十三年罢除；不能与其后的都察院视为名称始终不变的同一机构。",
+      "people": [
+        {"name": "刘基", "relation": "任职", "period": "吴元年至洪武初（1367—1371）", "year": 1368, "confidence": "高", "note": "任御史中丞，参与监察与律令议定。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73", "https://zh.wikisource.org/zh-hans/明史/卷128"]},
+        {"name": "邓愈", "relation": "任职", "period": "吴元年（1367）", "year": 1368, "confidence": "高", "note": "任御史大夫；该职与其后长期统军经历应分开理解。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73", "https://zh.wikisource.org/zh-hans/大明太祖高皇帝实录/卷029"]},
+        {"name": "汤和", "relation": "任职", "period": "吴元年（1367）", "year": 1368, "confidence": "高", "note": "任御史大夫；同时受命统军，不能把全部军事实践归入御史台。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73", "https://zh.wikisource.org/zh-hans/大明太祖高皇帝实录/卷029"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73", "https://www.dpm.org.cn/court/event/166625.html"]
+    },
+    {
+      "id": "chief-military-commission",
+      "graph_id": "chief_military_commission",
+      "name": "大都督府",
+      "description": "明初中央最高军府，洪武十三年改为五军都督府；只关联有明确都督府官衔或掌府记载的人物。",
+      "people": [
+        {"name": "李文忠", "relation": "任职", "period": "洪武三年至十三年改制前（1370—1380）", "year": 1375, "confidence": "高", "note": "授大都督府左都督，后又奉命掌大都督府。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷126"]},
+        {"name": "沐英", "relation": "任职", "period": "洪武前期（起止待考）", "year": 1375, "confidence": "高", "note": "由大都督府佥事进同知；具体升迁年份本页不强行补定。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷126"]},
+        {"name": "蓝玉", "relation": "任职", "period": "洪武初（约1368—1371）", "year": 1370, "confidence": "中", "note": "由管军镇抚积功至大都督府佥事；精确授职年份待进一步核对。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷132"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷76", "https://www.dpm.org.cn/court/event/166625.html"]
+    },
+    {
+      "id": "five-commissions",
+      "graph_id": "five_commissions",
+      "name": "五军都督府",
+      "description": "洪武十三年由大都督府改置，分掌军籍与军政；与兵部相互分掌军务。",
+      "people": [
+        {"name": "李文忠", "relation": "掌理", "period": "洪武十三年至十七年（1380—1384）", "year": 1382, "confidence": "中", "note": "大都督府改制后继续掌理军府事务；《明史》本传沿用“掌大都督府”表述，页面据制度改制作对应展示。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷126", "https://zh.wikisource.org/zh-hans/明史/卷76"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷76", "https://www.dpm.org.cn/court/system/236399.html"]
+    },
+    {
+      "id": "hanlin-academy",
+      "graph_id": "hanlin_academy",
+      "name": "翰林院",
+      "description": "掌制诰、史册、讲读与修史等文翰事务；人物关系只记录明确翰林官职。",
+      "people": [
+        {"name": "宋濂", "relation": "任职", "period": "洪武初至十年（1368—1377）", "year": 1370, "confidence": "高", "note": "累官翰林学士承旨、知制诰，并主持修史与文教事务。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷128"]},
+        {"name": "方孝孺", "relation": "任职", "period": "洪武二十五年至建文四年（1392—1402）", "year": 1395, "confidence": "高", "note": "任翰林侍讲，建文朝参与重要诏令与政务议论。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷141"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73", "https://www.dpm.org.cn/court/system/236391.html"]
+    },
+    {
       "id": "jinyiwei",
+      "graph_id": "embroidered_uniform_guard",
       "name": "锦衣卫",
       "description": "皇帝直属的侍卫、仪仗与侦缉体系。人物关联既包括创设、强化者，也包括掌卫并直接参与诏狱与重大政治案件者。",
       "people": [
@@ -33,6 +96,7 @@
     },
     {
       "id": "dongchang",
+      "graph_id": "eastern_depot",
       "name": "东厂",
       "description": "永乐朝创设、由宦官提督的侦缉机构；与锦衣卫既协作又相互牵制。",
       "people": [
@@ -43,6 +107,7 @@
     },
     {
       "id": "xichang",
+      "graph_id": "western_depot",
       "name": "西厂",
       "description": "成化朝两度设置的侦缉机构，存在时间较短，却因越权侦缉形成强烈政治影响。",
       "people": [
@@ -53,6 +118,7 @@
     },
     {
       "id": "silijian",
+      "graph_id": "directorate_ceremonial",
       "name": "司礼监",
       "description": "掌宫廷礼仪、文书与批红的重要内廷机构；掌印、秉笔等职位在中晚明能够深度介入政务流转。",
       "people": [
@@ -69,6 +135,7 @@
     },
     {
       "id": "cabinet",
+      "graph_id": "grand_secretariat",
       "name": "内阁",
       "description": "由翰林入直文渊阁发展而来的政务中枢。‘首辅’是实际政治称谓，不能简单等同现代内阁总理。",
       "people": [
@@ -100,6 +167,7 @@
     },
     {
       "id": "censorate",
+      "graph_id": "censorate",
       "name": "都察院",
       "description": "明代中央监察机关。都御史、御史既承担监察，也常以巡抚、总督等差遣处理地方与军事事务。",
       "people": [
@@ -117,6 +185,7 @@
     },
     {
       "id": "ministry-personnel",
+      "graph_id": "ministry_personnel",
       "name": "吏部",
       "description": "掌文官选授、考课、封勋等事务，六部中被视为尤重。人物关系只记录本馆人物可核实的正式任职。",
       "people": [
@@ -127,6 +196,7 @@
     },
     {
       "id": "ministry-revenue",
+      "graph_id": "ministry_revenue",
       "name": "户部",
       "description": "掌户籍、田赋、仓储、财政与漕粮等事务，是理解明代国家财政运转的核心机构。",
       "people": [
@@ -137,6 +207,7 @@
     },
     {
       "id": "ministry-rites",
+      "graph_id": "ministry_rites",
       "name": "礼部",
       "description": "掌礼制、祭祀、学校、科举、册封与朝贡等事务，既处理国内秩序，也承担部分对外礼仪。",
       "people": [
@@ -148,6 +219,7 @@
     },
     {
       "id": "ministry-war",
+      "graph_id": "ministry_war",
       "name": "兵部",
       "description": "掌武官选授、军令、边防与军籍等事务；尚书、侍郎与具体司官的权责层级并不相同。",
       "people": [
@@ -168,6 +240,7 @@
     },
     {
       "id": "ministry-justice",
+      "graph_id": "ministry_justice",
       "name": "刑部",
       "description": "掌刑名、复核与中央司法行政，并与都察院、大理寺共同构成明代三法司体系。",
       "people": [
@@ -178,6 +251,7 @@
     },
     {
       "id": "ministry-works",
+      "graph_id": "ministry_works",
       "name": "工部",
       "description": "掌营造、河防、水利、工程物料与官办手工业等事务，具体工程往往还涉及都察院及地方差遣。",
       "people": [

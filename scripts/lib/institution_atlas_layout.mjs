@@ -29,7 +29,7 @@ export const ATLAS_LAYOUT=Object.freeze({
 
 export function buildPeopleByInstitution(data){
   return Object.fromEntries(data.institutions.flatMap(item=>{
-    const graphId=INSTITUTION_ID_MAP[item.id];
+    const graphId=item.graph_id||INSTITUTION_ID_MAP[item.id];
     return graphId?[[graphId,item.people]]:[];
   }));
 }

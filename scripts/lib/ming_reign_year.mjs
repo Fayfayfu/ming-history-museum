@@ -79,9 +79,44 @@ function storyEraFor(year) {
   return mingEraYear(year);
 }
 
+const YUAN_LIFE_PERIODS = [
+  ['至大', 1308, 1311], ['皇庆', 1312, 1313], ['延祐', 1314, 1320], ['至治', 1321, 1323],
+  ['泰定', 1324, 1327], ['天历', 1329, 1329], ['至顺', 1330, 1332], ['元统', 1334, 1334],
+  ['至元', 1335, 1340], ['至正', 1341, 1367],
+];
+
+function lifeEraFor(year) {
+  if (year === 1328) return { text: '致和元年／天顺元年／天历元年', era: '致和／天顺／天历', ordinal: '元' };
+  if (year === 1333) return { text: '至顺四年／元统元年', era: '至顺／元统', ordinal: '四／元' };
+  const yuan = YUAN_LIFE_PERIODS.find(([, start, end]) => year >= start && year <= end);
+  if (yuan) {
+    const [era, start] = yuan;
+    const yearNumber = year - start + 1;
+    const ordinal = yearNumber === 1 ? '元' : chineseNumber(yearNumber);
+    return { text: `${era}${ordinal}年`, era, ordinal };
+  }
+  if (year >= 1645 && year <= 1661) {
+    const yearNumber = year - 1643;
+    const ordinal = chineseNumber(yearNumber);
+    return { text: `顺治${ordinal}年`, era: '顺治', ordinal };
+  }
+  if (year >= 1662 && year <= 1722) {
+    const yearNumber = year - 1661;
+    const ordinal = yearNumber === 1 ? '元' : chineseNumber(yearNumber);
+    return { text: `康熙${ordinal}年`, era: '康熙', ordinal };
+  }
+  return storyEraFor(year);
+}
+
+function lifeDynasty(era = '') {
+  if (YUAN_LIFE_PERIODS.some(([name]) => era.includes(name)) || /(致和|天历|元统)/.test(era)) return '元';
+  if (/(顺治|康熙)/.test(era)) return '清';
+  return '明';
+}
+
 function eraRangeText(startYear, endYear) {
-  const start = storyEraFor(startYear);
-  const end = storyEraFor(endYear);
+  const start = lifeEraFor(startYear);
+  const end = lifeEraFor(endYear);
   if (!start || !end) return '';
   return start.era === end.era && !start.era.includes('／')
     ? `${start.text}至${end.ordinal}年`
@@ -96,7 +131,7 @@ export function formatHistoricalYearLabel(value) {
   const first = years[0];
   const isDecade = /年代/.test(original);
   const last = isDecade ? years.at(-1) + 9 : years.at(-1);
-  const eraText = years.length > 1 || isDecade ? eraRangeText(first, last) : storyEraFor(first)?.text;
+  const eraText = years.length > 1 || isDecade ? eraRangeText(first, last) : lifeEraFor(first)?.text;
   if (!eraText) return original;
 
   const writtenLastYear = years.at(-1);
@@ -104,6 +139,29 @@ export function formatHistoricalYearLabel(value) {
   const suffix = isDecade ? '' : original.slice(lastYearIndex).replace(/^年/, '');
   const eraWithQualifier = suffix && !/^—/.test(suffix) ? `${eraText}${suffix}` : eraText;
   return `${eraWithQualifier} · ${original}`;
+}
+
+export function formatLifeEraLabel(value) {
+  const original = String(value || '').trim();
+  const years = [...original.matchAll(/\d{4}/g)].map((match) => Number(match[0]));
+  if (!years.length) return '年号待考';
+  const firstYear = years[0];
+  const lastYear = /年代/.test(original) ? years.at(-1) + 9 : years.at(-1);
+  const first = lifeEraFor(firstYear);
+  const last = lifeEraFor(lastYear);
+  if (!first && !last) return '年号待考';
+  if (!first || !last) {
+    const known = first || last;
+    return `${lifeDynasty(known.era)} · ${known.text}`;
+  }
+  const firstDynasty = lifeDynasty(first.era);
+  const lastDynasty = lifeDynasty(last.era);
+  const dynasty = firstDynasty === lastDynasty ? firstDynasty : `${firstDynasty}至${lastDynasty}`;
+  if (firstYear === lastYear) return `${dynasty} · ${first.text}`;
+  const eraText = first.era === last.era && !first.era.includes('／')
+    ? `${first.text}至${last.ordinal}年`
+    : `${first.text}至${last.text}`;
+  return `${dynasty} · ${eraText}`;
 }
 
 const enrichStory = (story = {}) => ({

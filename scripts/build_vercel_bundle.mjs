@@ -29,6 +29,9 @@ for (const file of htmlFiles) {
   for (const match of html.matchAll(rasterPattern)) referencedAssets.add(match[0]);
 }
 
+const fontRoot = path.join(source, 'assets', 'fonts');
+for (const file of await walk(fontRoot)) referencedAssets.add(path.relative(source, file));
+
 const missingAssets = [];
 for (const relative of referencedAssets) {
   try {
@@ -52,12 +55,13 @@ const assetMap = new Map();
 for (const relative of [...referencedAssets].sort()) {
   const input = path.join(source, relative);
   const extension = path.extname(relative).toLowerCase();
-  const outputRelative = extension === '.webp'
-    ? relative
-    : relative.slice(0, -extension.length) + '.webp';
+  const isRaster = ['.jpg', '.jpeg', '.png', '.webp'].includes(extension);
+  const outputRelative = isRaster && extension !== '.webp'
+    ? relative.slice(0, -extension.length) + '.webp'
+    : relative;
   const output = path.join(destination, outputRelative);
   await fs.mkdir(path.dirname(output), {recursive: true});
-  if (extension === '.webp') {
+  if (!isRaster || extension === '.webp') {
     await fs.copyFile(input, output);
   } else {
     await sharp(input)
@@ -92,7 +96,8 @@ let bytes = 0;
 for (const file of outputFiles) bytes += (await fs.stat(file)).size;
 console.log(JSON.stringify({
   pages: htmlFiles.length,
-  images: assetMap.size,
+  images: [...assetMap.keys()].filter(file => /\.(?:jpe?g|png|webp)$/i.test(file)).length,
+  fonts: [...assetMap.keys()].filter(file => /\.(?:woff2|txt|md)$/i.test(file)).length,
   files: outputFiles.length,
   bytes,
   megabytes: Number((bytes / 1024 / 1024).toFixed(2)),

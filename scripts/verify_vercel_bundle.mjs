@@ -4,7 +4,7 @@ import path from 'node:path';
 import {chromium} from 'playwright';
 
 const root = path.resolve(process.env.MING_DEPLOY_ROOT || 'dist');
-const types = {'.html':'text/html; charset=utf-8','.webp':'image/webp','.json':'application/json'};
+const types = {'.html':'text/html; charset=utf-8','.webp':'image/webp','.json':'application/json','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8','.md':'text/markdown; charset=utf-8'};
 const server = process.env.MING_DEPLOY_URL ? null : http.createServer(async (request, response) => {
   try {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -89,6 +89,13 @@ for (const file of files) {
   pages.at(-1).responseStatus = response?.status() || 0;
 }
 
+await page.goto(`${base}/people.html`, {waitUntil:'load', timeout:60000});
+await page.evaluate(async () => document.fonts.ready);
+const typography = await page.evaluate(() => ({
+  sans: document.fonts.check('15px "Ming Museum Sans"'),
+  marker: document.querySelector('style[data-museum-typography="scope-note-only"]') !== null,
+}));
+
 await page.goto(`${base}/institutions-palace.html`, {waitUntil:'domcontentloaded', timeout:60000});
 await page.waitForTimeout(80);
 const legacyInstitutionRedirect=page.url().endsWith('/institutions.html');
@@ -134,6 +141,7 @@ const audit = {
   mobile,
   legacyInstitutionRedirect,
   errors,
+  typography,
   pass: pages.length === files.length
     && pages.every(record => record.responseStatus === 200 && record.title && record.broken === 0 && record.bodyWidth === record.viewport)
     && pages.every(record => record.navLabels.includes('专题展'))
@@ -158,6 +166,7 @@ const audit = {
     && yangJisheng.portraitLabel === '18世纪清人绘像'
     && yangJisheng.chapters === 6 && yangJisheng.quoteLines === 2
     && mobile.bodyWidth === mobile.viewport
+    && typography.marker && typography.sans
     && errors.length === 0,
 };
 console.log(JSON.stringify(audit, null, 2));

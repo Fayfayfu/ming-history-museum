@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import {graphForExhibition,renderFullImpactGraph,validateImpactGraphData} from './lib/render_people_impact_graph.mjs';
 import {MUSEUM_NAV_CSS,renderMuseumNavigation} from './lib/museum_navigation.mjs';
+import {applyMuseumTypography} from './lib/museum_typography.mjs';
 
 await import('./build_ming_museum.mjs');
 
@@ -114,3 +115,5 @@ for(const file of ['index.html','people.html','events.html']){
 console.log(`wrote ${exhibitions.length} exhibitions and exhibitions.html`);
 await import('./build_ming_institutions.mjs');
 await import('./build_ming_institution_palace.mjs');
+const typographyPages=await applyMuseumTypography(root);
+console.log(`applied shared museum typography to ${typographyPages} pages`);

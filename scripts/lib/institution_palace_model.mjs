@@ -113,7 +113,7 @@ export function buildInstitutionPeople(personInstitutions,core,portraits,storyte
   };
   const result={};
   for(const institution of personInstitutions?.institutions||[]){
-    const graphId=INSTITUTION_ID_MAP[institution.id];
+    const graphId=institution.graph_id||INSTITUTION_ID_MAP[institution.id];
     if(!graphId)continue;
     result[graphId]=(institution.people||[]).map(link=>{
       const person=coreByName.get(link.name)||{};

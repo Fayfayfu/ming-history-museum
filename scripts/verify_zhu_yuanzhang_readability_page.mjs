@@ -16,6 +16,11 @@ try {
   await page.goto(`${url('people.html')}?person=${encodeURIComponent('朱元璋')}`, {waitUntil:'networkidle'});
   const card = await page.evaluate(() => ({
     open: document.querySelector('#drawer')?.classList.contains('open') || false,
+    sealText: document.querySelector('#detail .seal')?.childNodes[0]?.textContent.trim() || '',
+    confidenceText: document.querySelector('#detail .seal-confidence')?.textContent.trim() || '',
+    confidenceColor: getComputedStyle(document.querySelector('#detail .seal-confidence')).color,
+    confidenceFontSize: getComputedStyle(document.querySelector('#detail .seal-confidence')).fontSize,
+    sealColor: getComputedStyle(document.querySelector('#detail .seal')).color,
     leadFontSize: getComputedStyle(document.querySelector('#detail .profile-preview>p')).fontSize,
     nodes: document.querySelectorAll('#detail .profile-quick-node').length,
     summaries: [...document.querySelectorAll('#detail .profile-quick-summary')].map(node => node.textContent.trim()),
@@ -29,15 +34,11 @@ try {
     reignYearFontSizes: [...document.querySelectorAll('#detail .profile-quick-reign')].map(node => getComputedStyle(node).fontSize),
     evidenceLabels: document.querySelectorAll('#detail .chapter-source-note').length,
     founderFacts: document.querySelectorAll('#detail .facts-founder').length,
-    founderIdentityParts: [...document.querySelectorAll('#detail .founder-identity-line>*')].map(node => node.textContent.trim()),
-    founderIdentitySameLine: (() => {
-      const parts = [...document.querySelectorAll('#detail .founder-identity-line>*')];
-      if (parts.length !== 2) return false;
-      const first = parts[0].getBoundingClientRect();
-      const second = parts[1].getBoundingClientRect();
-      return second.left > first.right && Math.min(first.bottom, second.bottom) > Math.max(first.top, second.top);
-    })(),
-    founderIdentityDomains: [...document.querySelectorAll('#detail .founder-identity .domain-tag')].map(node => node.textContent.trim()),
+    founderIdentityLabels: [...document.querySelectorAll('#detail .founder-identity-row span')].map(node => node.textContent.trim()),
+    founderIdentityValues: [...document.querySelectorAll('#detail .founder-identity-row b')].map(node => node.textContent.trim()),
+    founderIdentityRowGap: getComputedStyle(document.querySelector('#detail .founder-identity')).rowGap,
+    founderIdentityRowsSingleLine: [...document.querySelectorAll('#detail .founder-identity-row b')].every(node => { const range=document.createRange(); range.selectNodeContents(node); return range.getClientRects().length===1; }),
+    founderIdentityDomains: [...document.querySelectorAll('#detail .founder-domain .domain-tag')].map(node => node.textContent.trim()),
     standaloneFounderDomains: document.querySelectorAll('#detail .founder-domain').length,
     royalRelations: document.querySelectorAll('#detail .founder-royal-relations').length,
     royalColumns: [...document.querySelectorAll('#detail .founder-royal-column')].map(node => node.textContent.trim()),
@@ -80,6 +81,8 @@ try {
     viewport: innerWidth
   }));
   if (!card.open) errors.push('朱元璋人物卡抽屉未打开');
+  if (card.sealText !== '皇帝' || card.confidenceText !== '高置信度') errors.push(`抽屉顶部类别与置信度标注错误：${card.sealText}/${card.confidenceText}`);
+  if (card.confidenceColor === card.sealColor || card.confidenceFontSize !== '9px') errors.push(`置信度标注应使用不抢眼的独立颜色和 9px 字号：${card.confidenceColor}/${card.confidenceFontSize}`);
   if (card.leadFontSize !== '15px') errors.push(`人物卡顶部概括应为 15px，实际为 ${card.leadFontSize}`);
   if (card.nodes !== 6 || card.summaries.length !== 6) errors.push(`人物卡应有六个阶段和六条摘要，实际为 ${card.nodes}/${card.summaries.length}`);
   if (card.titles.join('|') !== '在饥荒中失去家人|参加起义军|击败主要对手|建立明朝|废除丞相|继承安排留下危机') errors.push('人物卡六个直接标题不符合合同');
@@ -93,8 +96,9 @@ try {
   if (card.reignYears.length !== 6 || !card.reignYears[0]?.includes('至正四年') || !card.reignYears[4]?.includes('洪武十三年')) errors.push('人物卡双纪年不完整');
   if (card.evidenceLabels !== 0) errors.push('人物卡不应显示独立页证据浅注');
   if (card.founderFacts !== 1 || card.royalRelations !== 1) errors.push(`朱元璋应使用开国皇帝基本信息结构，实际为 ${card.founderFacts}/${card.royalRelations}`);
-  if (card.founderIdentityParts.join('|') !== '皇帝|明太祖（洪武帝）' || !card.founderIdentitySameLine) errors.push(`朱元璋身份应在一行显示“皇帝 明太祖（洪武帝）”，实际为 ${card.founderIdentityParts.join(' / ') || '无'}，同一行：${card.founderIdentitySameLine}`);
-  if (card.founderIdentityDomains.join('|') !== '政治制度' || card.standaloneFounderDomains !== 0) errors.push(`历史领域应合并到身份格并只显示“政治制度”，实际为 ${card.founderIdentityDomains.join('|') || '无'} / 独立格 ${card.standaloneFounderDomains}`);
+  if (card.founderIdentityLabels.join('|') !== '身份 / 庙号|年号' || card.founderIdentityValues.join('|') !== '皇帝 · 太祖|洪武（通称洪武帝）') errors.push(`朱元璋身份格应压缩为身份庙号、年号两行，实际为 ${card.founderIdentityLabels.join('/') || '无'}：${card.founderIdentityValues.join('/') || '无'}`);
+  if (parseFloat(card.founderIdentityRowGap) > 6 || !card.founderIdentityRowsSingleLine) errors.push(`朱元璋身份格行距或换行不符合紧凑两行标准：gap ${card.founderIdentityRowGap}，单行 ${card.founderIdentityRowsSingleLine}`);
+  if (card.standaloneFounderDomains !== 1 || card.founderIdentityDomains.length < 2 || !card.founderIdentityDomains.includes('政治制度') || !card.founderIdentityDomains.includes('军事边疆')) errors.push(`历史领域应独立成格并显示全部领域，实际为 ${card.founderIdentityDomains.join('|') || '无'} / 独立格 ${card.standaloneFounderDomains}`);
   if (card.royalColumns.length !== 3) errors.push(`皇室关系应为三栏，实际为 ${card.royalColumns.length}`);
   if (!card.royalColumns[0]?.includes('朱世珍') || !card.royalColumns[0]?.includes('陈氏') || !card.royalColumns[0]?.includes('濠州朱氏开国一系')) errors.push('家庭出身栏缺少父母或支系信息');
   if (!card.royalColumns[1]?.includes('皇子 26') || !card.royalColumns[1]?.includes('皇女 16') || !card.royalColumns[1]?.includes('合计 42') || !card.royalColumns[1]?.includes('本馆收录 6')) errors.push('子女栏数量或本馆收录边界不完整');
