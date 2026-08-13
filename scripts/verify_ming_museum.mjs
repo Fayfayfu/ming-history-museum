@@ -771,7 +771,7 @@ const personPageSpecs=[
   {name:'唐寅',slug:'tang-yin',theme:'artist',chapters:3,featureItems:0,artCards:2,work:false,minSources:3},
   {name:'戚继光',slug:'qi-ji-guang',theme:'military',chapters:3,featureItems:4,artCards:0,work:true,minSources:3},
   {name:'王守仁',slug:'wang-shou-ren',theme:'mind',chapters:5,featureItems:4,artCards:0,work:true,minSources:6,thought:true},
-  {name:'郑和',slug:'zheng-he',theme:'ocean',chapters:4,featureItems:6,artCards:0,work:false,minSources:5,sourceTriggers:4},
+  {name:'郑和',slug:'zheng-he',theme:'ocean',chapters:6,featureItems:6,artCards:0,work:false,minSources:5,sourceTriggers:6,clear:true},
   {name:'李时珍',slug:'li-shi-zhen',theme:'materia',chapters:4,featureItems:5,artCards:0,work:true,minSources:5,sourceTriggers:4},
   {name:'徐光启',slug:'xu-guang-qi',theme:'translation',chapters:4,featureItems:5,artCards:0,work:true,minSources:5,sourceTriggers:4},
   {name:'朱翊钧',slug:'zhu-yi-jun',theme:'reign',chapters:5,featureItems:6,artCards:0,work:false,minSources:5,sourceTriggers:5},
@@ -1337,7 +1337,7 @@ const yangJishengPass=yangJisheng.first==='杨继盛'&&yangJisheng.drawerName===
 const immersivePass=immersivePages.length===personPageSpecs.length&&immersivePages.every((x,i)=>{
   const spec=personPageSpecs[i];
   const expectedTriggers=spec.sourceTriggers??(spec.name==='王守仁'?5:(spec.name==='于谦'?3:0));
-  const evidencePass=spec.name==='朱元璋'
+  const evidencePass=spec.name==='朱元璋'||spec.clear
     ? x.evidence===0&&x.inferences===0&&x.sourceNotes===spec.chapters&&x.interpretationBoundaries===spec.chapters&&x.reignYears===spec.chapters
     : x.evidence===spec.chapters&&x.inferences===spec.chapters;
   return x.title.includes(spec.name)&&x.h1===spec.name&&x.theme===spec.theme&&x.portraitLoaded&&x.chapters===spec.chapters&&x.ageLabels.length===spec.chapters&&x.ageLabels.every(Boolean)&&evidencePass&&x.protocols===3&&x.historicalSlice===1&&x.sliceCoordinate&&x.sliceKnownUnknown===2&&x.sliceAction===1&&x.sliceConsequence===1&&x.sliceBoundary===1&&x.featureItems===spec.featureItems&&x.artCards===spec.artCards&&x.brokenArt===0&&x.work===spec.work&&x.sources>=spec.minSources&&x.sourceTriggers===expectedTriggers&&(!spec.thought||(x.thoughtProfile===1&&x.thoughtPractice===1&&x.thoughtAfterlife===3))&&(!spec.state||(x.stateProfile===1&&x.stateCosts===6))&&(!spec.reach||(x.reachProfile===1&&x.reachItems===6))&&x.finalQuestion&&x.peopleLink==='../people.html'&&x.nextLinks===2&&x.bodyWidth===x.viewport;

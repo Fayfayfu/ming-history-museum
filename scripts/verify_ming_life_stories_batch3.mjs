@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 const names=['杨溥','夏原吉','蹇义','郑和','王景弘'];
 const banned=new Set(['生卒与出身','进入历史现场','主要行动与位置','结局与历史影响']);
 const data=JSON.parse(await fs.readFile('data/ming_storytelling.json','utf8'));
+const personPages=JSON.parse(await fs.readFile('data/ming_person_pages_batch2.json','utf8'));
 const errors=[];
 const titles=[];
 
@@ -26,5 +27,12 @@ for(const name of names){
 const repeated=[...new Set(titles.filter((title,index)=>titles.indexOf(title)!==index))];
 if(repeated.length)errors.push(`批次内出现重复转折标题：${repeated.join('、')}`);
 
+const zhengHePage=personPages.people?.['郑和'];
+const zhengHeStory=data.people?.['郑和'];
+const normalizeYear=value=>String(value||'').replace(/^约/,'');
+if(zhengHePage?.scenes?.length!==6)errors.push('郑和：独立页应为六阶段');
+if(zhengHePage?.scenes?.some(scene=>!scene.reignYears||!scene.preview))errors.push('郑和：抽屉双纪年或摘要不完整');
+if(JSON.stringify((zhengHePage?.scenes||[]).map(scene=>normalizeYear(scene.year)))!==JSON.stringify((zhengHeStory?.chapters||[]).map(chapter=>normalizeYear(chapter.year))))errors.push('郑和：页面与第三批故事日期序列不一致');
+
 if(errors.length){console.error(`人物一生故事第三批未通过（${errors.length}项）：`);errors.forEach(error=>console.error(`- ${error}`));process.exit(1)}
-console.log(`人物一生故事第三批通过：${names.length}人均有专属主旨、完整主线、非模板转折、《明史》卷次定位和后续待核问题。`);
+console.log(`人物一生故事第三批通过：${names.length}人均有专属主旨、完整主线、非模板转折、《明史》卷次定位和后续待核问题；郑和页面与第三批故事六阶段日期序列一致。`);

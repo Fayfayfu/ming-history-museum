@@ -127,9 +127,10 @@ function pageHtml(name, page, index) {
   const hasPrimarySources = primarySources.some(Boolean);
   const chapters = page.scenes.map((scene,i)=>{
     const clear = page.readingMode === 'clear-biography';
+    const interpretationBoundary = scene.interpretationBoundary || scene.inference || '';
     const sourceButton = scene.primarySource ? `<button class="source-trigger" type="button" data-source-index="${i}" aria-haspopup="dialog"><strong>${clear?'查看原文':'查看《明史》相关原文'}</strong><span aria-hidden="true">→</span></button>` : '';
     const evidence = clear
-      ? `<div class="chapter-source-note"><div class="chapter-source-row"><span class="chapter-source-label">史料依据</span><span>${esc(scene.evidenceNote||scene.primarySource?.location||scene.evidence)}</span><span class="chapter-source-confidence">史实置信度${esc(scene.confidence)}</span>${sourceButton}</div>${scene.interpretationBoundary?`<p class="chapter-interpretation-boundary"><b>解释边界</b>　${esc(scene.interpretationBoundary)}</p>`:''}</div>`
+      ? `<div class="chapter-source-note"><div class="chapter-source-row"><span class="chapter-source-label">史料依据</span><span>${esc(scene.evidenceNote||scene.primarySource?.location||scene.evidence)}</span><span class="chapter-source-confidence">史实置信度${esc(scene.confidence)}</span>${sourceButton}</div>${interpretationBoundary?`<p class="chapter-interpretation-boundary"><b>解释边界</b>　${esc(interpretationBoundary)}</p>`:''}</div>`
       : `<div class="evidence"><b>FACT ANCHOR · 史实支点 <span class="confidence">${esc(scene.confidence)}</span></b><span>${esc(scene.evidence)}</span>${sourceButton}</div><div class="inference"><b>REASONED INFERENCE · 合理推演</b>${esc(scene.inference)}</div>`;
     return `<section class="chapter reveal"><aside class="chapter-side"><div class="chapter-side-inner"><div class="chapter-no">0${i+1}</div><div class="chapter-time">${esc(scene.year)}${scene.reignYears?`<span class="chapter-reign">${esc(scene.reignYears)}</span>`:''}<span class="chapter-age">${esc(scene.age)}</span></div></div></aside><div class="chapter-copy"><div class="eyebrow">${esc(scene.kicker)}</div><h2>${esc(scene.title)}</h2>${scene.body.map(p=>`<p>${esc(p)}</p>`).join('')}${evidence}</div></section>`;
   }).join('');
