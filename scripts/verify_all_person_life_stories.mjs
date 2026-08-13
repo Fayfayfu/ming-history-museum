@@ -33,19 +33,29 @@ try{
   const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
   for(const name of samples){
     await page.goto(pageUrl(name),{waitUntil:'networkidle'});
+    const hasFullStory=Boolean(stories.people?.[name]||fullProfiles[name]);
     const audit=await page.evaluate(()=>({
       heading:document.querySelector('#detail .life-story-foundation h4')?.textContent.trim()||'',
       kicker:document.querySelector('#detail .life-story-foundation .life-story-kicker')?.textContent.trim()||'',
-      chapters:[...document.querySelectorAll('#detail .life-story-foundation .life-chapter')].map(node=>({year:node.querySelector('.life-year > span')?.textContent.trim()||'',era:node.querySelector('.life-era')?.textContent.trim()||'',title:node.querySelector('h5')?.textContent.trim()||'',text:node.querySelector('p')?.textContent.trim()||''})),
+      foundation:document.querySelectorAll('#detail .life-story-foundation').length,
+      foundationChapters:[...document.querySelectorAll('#detail .life-story-foundation .life-chapter')].map(node=>({year:node.querySelector('.life-year > span')?.textContent.trim()||'',era:node.querySelector('.life-era')?.textContent.trim()||'',title:node.querySelector('h5')?.textContent.trim()||'',text:node.querySelector('p')?.textContent.trim()||''})),
+      fullChapters:[...document.querySelectorAll('#detail .life-line .life-chapter')].map(node=>({year:node.querySelector('.life-year > span')?.textContent.trim()||'',title:node.querySelector('h5')?.textContent.trim()||'',text:node.querySelector('p')?.textContent.trim()||''})),
+      interpretation:document.querySelector('#detail .interpretation p')?.textContent.trim()||'',
       evidenceHref:document.querySelector('#detail .life-story-foundation .life-story-source')?.getAttribute('href')||'',
       boundary:document.querySelector('#detail .life-story-foundation .life-story-boundary')?.textContent.trim()||'',
       bodyWidth:document.body.scrollWidth,
       viewport:innerWidth
     }));
-    if(audit.heading!==`${name}的一生`||!audit.kicker.includes('基础传记'))errors.push(`${name}: 缺少明确的一生故事标题或基础传记标识`);
-    if(audit.chapters.length!==4||audit.chapters.some(chapter=>!chapter.year||!chapter.era||!chapter.title||chapter.text.length<15))errors.push(`${name}: 四阶段生平骨架或年号不完整：${JSON.stringify(audit.chapters)}`);
-    if(!audit.evidenceHref)errors.push(`${name}: 首次公共活动阶段缺少时间轴史料入口`);
-    if(!audit.boundary.includes('不补写')||!audit.boundary.includes('心理'))errors.push(`${name}: 缺少基础传记证据边界`);
+    if(hasFullStory){
+      if(audit.foundation!==0||audit.fullChapters.length<4||audit.fullChapters.length>6)errors.push(`${name}: 专属故事结构异常`);
+      if(audit.fullChapters.some(chapter=>!chapter.year.includes('·')||!chapter.title||chapter.text.length<15))errors.push(`${name}: 专属故事双纪年或章节内容不完整`);
+      if(audit.interpretation.length<40)errors.push(`${name}: 专属故事缺少人物理解段`);
+    }else{
+      if(audit.heading!==`${name}的一生`||!audit.kicker.includes('基础传记'))errors.push(`${name}: 缺少明确的一生故事标题或基础传记标识`);
+      if(audit.foundationChapters.length!==4||audit.foundationChapters.some(chapter=>!chapter.year||!chapter.era||!chapter.title||chapter.text.length<15))errors.push(`${name}: 四阶段生平骨架或年号不完整：${JSON.stringify(audit.foundationChapters)}`);
+      if(!audit.evidenceHref)errors.push(`${name}: 首次公共活动阶段缺少时间轴史料入口`);
+      if(!audit.boundary.includes('不补写')||!audit.boundary.includes('心理'))errors.push(`${name}: 缺少基础传记证据边界`);
+    }
     if(audit.bodyWidth>audit.viewport)errors.push(`${name}: 桌面端横向溢出`);
   }
   await page.goto(pageUrl('胡惟庸'),{waitUntil:'networkidle'});
@@ -62,8 +72,8 @@ try{
   if(upgradedStory.foundation!==0||upgradedStory.chapters!==5)errors.push(`夏原吉升级后的完整故事不应被基础传记覆盖：${JSON.stringify(upgradedStory)}`);
   await page.setViewportSize({width:390,height:844});
   await page.goto(pageUrl('商辂'),{waitUntil:'networkidle'});
-  const mobile=await page.evaluate(()=>({bodyWidth:document.body.scrollWidth,viewport:innerWidth,chapters:document.querySelectorAll('#detail .life-story-foundation .life-chapter').length}));
-  if(mobile.bodyWidth>mobile.viewport||mobile.chapters!==4)errors.push(`基础传记移动端异常：${JSON.stringify(mobile)}`);
+  const mobile=await page.evaluate(()=>({bodyWidth:document.body.scrollWidth,viewport:innerWidth,foundation:document.querySelectorAll('#detail .life-story-foundation').length,chapters:document.querySelectorAll('#detail .life-line .life-chapter').length}));
+  if(mobile.bodyWidth>mobile.viewport||mobile.foundation!==0||mobile.chapters<4||mobile.chapters>6)errors.push(`专属故事移动端异常：${JSON.stringify(mobile)}`);
   await page.setViewportSize({width:1440,height:1000});
   await page.goto(pageUrl('商辂'),{waitUntil:'networkidle'});
   if(await page.locator('#detail .life-story-foundation').count())await page.locator('#detail .life-story-foundation').screenshot({path:'/tmp/shang-lu-life-story.png'});
