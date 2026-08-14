@@ -34,29 +34,67 @@
     "唐寅": {
       "layout": "album-gallery",
       "eyebrow": "从解元到以画谋生",
-      "intro": "唐寅的作品同时面对文人品评与真实市场。画里的隐居、观瀑和竹影，不只是风流才子的标签，也是一名职业创作者反复经营的视觉语言。",
+      "intro": "四件大都会艺术博物馆公版作品横跨绢本山水、墨竹、人物立轴与金笺书法。它们能显示唐寅的创作媒介、装裱与题写方式，不能逐件还原买主、价格或私人心理。",
       "works": [
         {
-          "title": "《诗画》卷（山水册页）",
-          "date": "明代",
-          "medium": "绢本设色，八开册页改装手卷",
+          "title": "明 唐寅 詩畫 卷",
+          "date": "Ming dynasty (1368–1644)",
+          "medium": "Eight album leaves mounted as a handscroll; ink and color on silk",
+          "dimensions": "Image (all leaves): 32.4 × 413.7 cm; overall with mounting: 33.2 × 778 cm",
           "image": "assets/works/tang-yin-landscapes.jpg",
+          "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP204676_CRD.jpg",
           "source": "https://www.metmuseum.org/art/collection/search/45773",
-          "collection": "大都会艺术博物馆",
+          "collection": "The Metropolitan Museum of Art",
           "license": "Public Domain",
+          "rightsEvidence": "馆藏页直接标示Public Domain；Met Open Access API objectID 45773返回isPublicDomain: true。",
+          "attribution": "Tang Yin",
           "confidence": "高",
-          "reading": "八幅册页后来被装成手卷。页面保留“连续翻看”的节奏，提醒我们今天看到的装裱形态也可能经历后世改变。"
+          "reading": "馆方目录把八幅绢本设色册页记录为后改装的手卷，并分别给出画心总长度与装裱后总长度。今天的连续观看次序含有后世装裱史，不能把现状当成作品最初唯一形态。"
         },
         {
-          "title": "《墨竹图》卷",
-          "date": "16世纪初",
-          "medium": "纸本水墨手卷",
+          "title": "明 唐寅 墨竹圖 卷",
+          "date": "early 16th century",
+          "medium": "Handscroll; ink on paper",
+          "dimensions": "Image: 29.1 × 150.2 cm; overall with mounting: 30.2 × 735.5 cm",
           "image": "assets/works/tang-yin-ink-bamboo.jpg",
+          "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP205421_CRD.jpg",
           "source": "https://www.metmuseum.org/art/collection/search/45756",
-          "collection": "大都会艺术博物馆",
+          "collection": "The Metropolitan Museum of Art",
           "license": "Public Domain",
+          "rightsEvidence": "馆藏页直接标示Public Domain；Met Open Access API objectID 45756返回isPublicDomain: true。",
+          "attribution": "Tang Yin",
           "confidence": "高",
-          "reading": "斜出的竹枝与画家自题诗处在同一画面里；这里的诗、书、画不是三件独立作品，而是一次完整表达。"
+          "reading": "这是一件纸本水墨手卷，馆方说明竹枝与画家题诗同处一卷。阅读重点是诗、书、画的同场关系，以及画心约一点五米与全卷装裱约七点三五米的尺度差，而不是把画面解释成私人心理自白。"
+        },
+        {
+          "title": "明 唐寅 葦渚醉漁圖 軸",
+          "date": "early 16th century",
+          "medium": "Hanging scroll; ink on paper",
+          "dimensions": "Image: 72.2 × 37 cm; overall with mounting: 164.5 × 53.3 cm",
+          "image": "assets/works/tang-yin-drunken-fisherman.jpg",
+          "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP-35892-002.jpg",
+          "source": "https://www.metmuseum.org/art/collection/search/45760",
+          "collection": "The Metropolitan Museum of Art",
+          "license": "Public Domain",
+          "rightsEvidence": "馆藏页直接标示Public Domain；Met Open Access API objectID 45760返回isPublicDomain: true。",
+          "attribution": "Tang Yin",
+          "confidence": "高",
+          "reading": "馆方把此件定为纸本水墨立轴，并将舟中熟睡的渔父与画旁诗联系起来。退隐学者属于馆方的图像学阅读，不证明唐寅本人完全退出公共生活；纵向画幅也形成与手卷不同的观看节奏。"
+        },
+        {
+          "title": "唐寅 行書 薛濤詩牋 冊頁",
+          "date": "Ming dynasty (1368–1644)",
+          "medium": "Album leaf; ink on gold-flecked paper",
+          "dimensions": "30.8 × 30.8 cm",
+          "image": "assets/works/tang-yin-calligraphy-xuetao.jpg",
+          "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP153912.jpg",
+          "source": "https://www.metmuseum.org/art/collection/search/53796",
+          "collection": "The Metropolitan Museum of Art",
+          "license": "Public Domain",
+          "rightsEvidence": "馆藏页直接标示Public Domain；Met Open Access API objectID 53796返回isPublicDomain: true。",
+          "attribution": "Tang Yin",
+          "confidence": "高",
+          "reading": "馆方将此件归为书法、金笺墨书册页，中文目录题名指明其为行书薛涛诗笺。它提醒读者，唐寅的职业身份不只由绘画构成，书法、用纸和册页尺度同样是可见材料；年代严格保留为明代范围。"
         }
       ]
     },

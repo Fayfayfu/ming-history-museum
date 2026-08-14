@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "person": "唐寅",
+  "generatedOn": "2026-08-14",
+  "scope": "唐寅的文化身份、科举断裂后的职业生存，以及可公开展示作品的馆藏与权利档案。作品字段与 data/ming_creative_works.json 兼容；本文件不是对所有传世作品的鉴定目录。",
+  "researchQuestions": [
+    "《明史》所记1498—1499年考试与科场案，能确定哪些事件，不能确定哪些个人责任？",
+    "仕途断裂后，诗、书、画、题跋与名声怎样构成可观察的职业生产，而不是后世传奇里的单一性格标签？",
+    "哪些唐寅作品具备直接馆藏页、明确开放图像与可供页面阅读的装裱、题跋或媒材信息？"
+  ],
+  "claims": [
+    {
+      "type": "事实",
+      "claim": "《明史》卷286只记唐寅字伯虎、一字子畏；吴县人及六如居士号由故宫博物院《事茗图》藏品页支持，不能回填进《明史》引文。",
+      "sources": ["ming-shi-286", "dpm-shi-ming"],
+      "locator": "《明史》卷286“唐寅，字伯虎，一字子畏”；故宫博物院《事茗图》页“唐寅”词条所列吴县籍贯与六如居士号",
+      "confidence": "高"
+    },
+    {
+      "type": "事实",
+      "claim": "《明史》记唐寅在弘治十一年乡试第一；故宫藏品页对应表述为29岁应天府公试中第一名“解元”。弘治十一年对应1498年。",
+      "sources": ["ming-shi-286", "dpm-shi-ming", "dpm-periodization"],
+      "locator": "《明史》卷286“举弘治十一年乡试第一”；故宫博物院《事茗图》页“唐寅”词条；《唐寅山水画的分期、分类及皴法之定名》摘要",
+      "confidence": "高"
+    },
+    {
+      "type": "事实与史料边界",
+      "claim": "《明史》原文为“敏政总裁会试。江阴富人徐经贿其家僮，得试题。事露，言者劾敏政，语连寅，下诏狱，谪为吏。”；故宫资料也确认唐寅在30岁会试后因舞弊案被斥为吏。正史可证其遭牵连与处分，不能仅凭该段判定唐寅参与泄题的具体方式或主观责任。",
+      "sources": ["ming-shi-286", "dpm-shi-ming", "dpm-periodization"],
+      "locator": "《明史》卷286“未几……谪为吏”；故宫博物院《事茗图》页“唐寅”词条；故宫研究论文摘要称1499年科场泄题案",
+      "confidence": "高"
+    },
+    {
+      "type": "事实",
+      "claim": "《明史》称唐寅“恥不就，归家益放浪”；故宫资料将其后果概括为绝意进取、以卖画为生。二者共同支持“仕途断裂后转入艺术谋生”的生平骨架。",
+      "sources": ["ming-shi-286", "dpm-shi-ming"],
+      "locator": "《明史》卷286“谪为吏。寅恥不就”；故宫博物院《事茗图》页“唐寅”词条",
+      "confidence": "高"
+    },
+    {
+      "type": "解释",
+      "claim": "把唐寅称为“职业画家”只能说明其以书画收入维持生活与名声的条件变化；现有本传、馆藏页和传世作品并不能逐件还原委托人、售价或客户关系。因此页面可讨论市场与身份张力，不能编造具体交易故事。",
+      "sources": ["ming-shi-286", "dpm-shi-ming", "met-landscapes", "met-ink-bamboo"],
+      "locator": "《明史》卷286“恥不就”；故宫博物院《事茗图》页“唐寅”词条；大都会两件手卷的作者、装裱与题跋说明",
+      "confidence": "中"
+    },
+    {
+      "type": "事实与史料边界",
+      "claim": "《明史》记宁王宸濠以厚币聘唐寅，唐寅察其“有异志”后佯狂使酒而归；故宫资料给出正德九年（1514）赴南昌半年余的时间与情节。1514年和停留时长未见《明史》该段，故作为补充材料保留中等置信度。",
+      "sources": ["ming-shi-286", "dpm-shi-ming"],
+      "locator": "《明史》卷286“宁王宸濠厚币聘之”；故宫博物院《事茗图》页“唐寅”词条",
+      "confidence": "中"
+    },
+    {
+      "type": "事实",
+      "claim": "故宫所藏《事茗图》卷有唐寅自题“日長何所事，茗碗自賚持。料得南窗下，清風滿鬢絲。吳趨唐寅。”，并钤“唐居士”；文徵明题“事茗”二字，陆粲在尾纸题识。此件可直接说明诗、书、画和后人题跋共同构成作品的可读层次。",
+      "sources": ["dpm-shi-ming"],
+      "locator": "故宫博物院《唐寅事茗图卷》正文第1—3段",
+      "confidence": "高"
+    },
+    {
+      "type": "事实",
+      "claim": "大都会艺术博物馆将《Landscapes》《Ink bamboo》《Drunken fisherman by a reed bank》《Calligraphy》四件定为唐寅作品，并在每件记录中标示Public Domain；其中前三件分别为册页改装手卷、墨竹手卷与渔父立轴，第四件为金笺书法册页。",
+      "sources": ["met-landscapes", "met-ink-bamboo", "met-drunken-fisherman", "met-calligraphy"],
+      "locator": "各馆藏页Artwork Details与Public Domain标识；Met Open Access API object IDs 45773、45756、45760、53796",
+      "confidence": "高"
+    },
+    {
+      "type": "史料边界",
+      "claim": "《明史》已提醒吴中放诞才子的传说“增益而附丽”。因此“江南第一风流才子”等晚近公众形象不能替代本传、题跋、作品归属和馆藏元数据；页面应以可追溯作品和可定位文本为主。",
+      "sources": ["ming-shi-286"],
+      "locator": "《明史》卷286“传说者增益而附丽之”",
+      "confidence": "高"
+    }
+  ],
+  "primaryText": {
+    "title": "《事茗图》画上自题",
+    "collection": "故宫博物院藏《唐寅事茗图》卷",
+    "excerpt": "日長何所事，茗碗自賚持。料得南窗下，清風滿鬢絲。吳趨唐寅。",
+    "source": "https://www.dpm.org.cn/collection/paint/234421.html?hl=%E5%94%90%E5%AF%85%E6%96%8B%E5%8D%B0",
+    "locator": "藏品页正文第3段“本幅中作者自题”",
+    "verificationStatus": "已由故宫博物院藏品页直接核验",
+    "integrationUse": true,
+    "confidence": "高",
+    "note": "该题诗与署名属于同一画幅的可定位题跋证据；用于说明诗、书、画的同场关系，不据诗句臆测唐寅的心理或日常生活。"
+  },
+  "artworks": [
+    {
+      "title": "Landscapes",
+      "catalogTitle": "明 唐寅 詩畫 卷",
+      "date": "Ming dynasty (1368–1644)",
+      "medium": "Eight album leaves mounted as a handscroll; ink and color on silk",
+      "dimensions": "Image (all leaves): 32.4 × 413.7 cm; overall with mounting: 33.2 × 778 cm",
+      "image": "assets/works/tang-yin-landscapes.jpg",
+      "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP204676_CRD.jpg",
+      "source": "https://www.metmuseum.org/art/collection/search/45773",
+      "collection": "The Metropolitan Museum of Art",
+      "license": "Public Domain",
+      "rightsEvidence": "馆藏页直接标示Public Domain；Met Open Access API objectID 45773返回isPublicDomain: true。",
+      "attribution": "Tang Yin",
+      "confidence": "高",
+      "reading": "馆方目录把八幅绢本设色册页记录为后改装的手卷，并分别给出画心总长度与装裱后总长度。展示时应让读者看见“八开册页”与“手卷”的双重形态：今天的连续观看次序含有后世装裱史，不能把现状当成作品最初唯一形态。"
+    },
+    {
+      "title": "Ink bamboo",
+      "catalogTitle": "明 唐寅 墨竹圖 卷",
+      "date": "early 16th century",
+      "medium": "Handscroll; ink on paper",
+      "dimensions": "Image: 29.1 × 150.2 cm; overall with mounting: 30.2 × 735.5 cm",
+      "image": "assets/works/tang-yin-ink-bamboo.jpg",
+      "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP205421_CRD.jpg",
+      "source": "https://www.metmuseum.org/art/collection/search/45756",
+      "collection": "The Metropolitan Museum of Art",
+      "license": "Public Domain",
+      "rightsEvidence": "馆藏页直接标示Public Domain；Met Open Access API objectID 45756返回isPublicDomain: true。",
+      "attribution": "Tang Yin",
+      "confidence": "高",
+      "reading": "这是一件纸本水墨手卷，馆方说明竹枝与画家题诗同处一卷，并给出诗意的英文译文。阅读重点应是诗、书、画在手卷中的同场关系，以及画心约1.5米与全卷装裱约7.35米的尺度差，而非把“月下竹影”直接解释为画家某一时刻的心理自白。"
+    },
+    {
+      "title": "Drunken fisherman by a reed bank",
+      "catalogTitle": "明 唐寅 葦渚醉漁圖 軸",
+      "date": "early 16th century",
+      "medium": "Hanging scroll; ink on paper",
+      "dimensions": "Image: 72.2 × 37 cm; overall with mounting: 164.5 × 53.3 cm",
+      "image": "assets/works/tang-yin-drunken-fisherman.jpg",
+      "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP-35892-002.jpg",
+      "source": "https://www.metmuseum.org/art/collection/search/45760",
+      "collection": "The Metropolitan Museum of Art",
+      "license": "Public Domain",
+      "rightsEvidence": "馆藏页直接标示Public Domain；Met Open Access API objectID 45760返回isPublicDomain: true。",
+      "attribution": "Tang Yin",
+      "confidence": "高",
+      "reading": "馆方把此件定为纸本水墨立轴，并将舟中熟睡的渔父与画旁诗联系起来；其说明把渔父解释为退隐学者的传统象征。页面应把这一点标作馆方的图像学阅读，而非证明唐寅本人完全退出公共生活；立轴的纵向画幅也提供了与前两件横向手卷不同的观看节奏。"
+    },
+    {
+      "title": "Calligraphy",
+      "catalogTitle": "唐寅 行書 薛濤詩牋 冊頁",
+      "date": "Ming dynasty (1368–1644)",
+      "medium": "Album leaf; ink on gold-flecked paper",
+      "dimensions": "30.8 × 30.8 cm",
+      "image": "assets/works/tang-yin-calligraphy-xuetao.jpg",
+      "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP153912.jpg",
+      "source": "https://www.metmuseum.org/art/collection/search/53796",
+      "collection": "The Metropolitan Museum of Art",
+      "license": "Public Domain",
+      "rightsEvidence": "馆藏页直接标示Public Domain；Met Open Access API objectID 53796返回isPublicDomain: true。",
+      "attribution": "Tang Yin",
+      "confidence": "高",
+      "reading": "馆方将此件归为书法、金笺墨书册页，中文目录题名指明其为行书薛涛诗笺。它使作品展厅不只由绘画构成：同一位作者的书法、用纸和册页尺度也属于其职业身份的可见材料。馆页未给出更窄的创作年份，故日期严格保留其“明代”范围。"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ming-shi-286",
+      "title": "《明史》卷286《文苑传二·唐寅》",
+      "kind": "正史（清代修纂）",
+      "institution": "维基文库四库全书本转录",
+      "url": "https://zh.wikisource.org/zh-hant/%E6%98%8E%E5%8F%B2/%E5%8D%B7286",
+      "locator": "唐寅段，紧接祝允明传后",
+      "use": "字号（仅字伯虎、一字子畏，不含吴县籍贯）、考试、科场案处分、宁王聘用、卒年年龄及传说边界的基础叙事",
+      "transcriptionStatus": "维基文库便利转录，非影印本；唐寅段已与故宫博物院人物资料交叉核对，尚未逐字校勘原刻影印页",
+      "confidence": "高"
+    },
+    {
+      "id": "dpm-shi-ming",
+      "title": "唐寅事茗图卷",
+      "kind": "博物馆藏品页与人物词条",
+      "institution": "故宫博物院",
+      "url": "https://www.dpm.org.cn/collection/paint/234421.html?hl=%E5%94%90%E5%AF%85%E6%96%8B%E5%8D%B0",
+      "locator": "正文“《事茗图》卷”及“唐寅”词条",
+      "use": "吴县籍贯、六如居士号、唐寅生平概述、题跋、作品媒材、传承与作者自题",
+      "confidence": "高"
+    },
+    {
+      "id": "dpm-periodization",
+      "title": "唐寅山水画的分期、分类及皴法之定名——以《骑驴归思图》为中心",
+      "kind": "故宫博物院研究文章",
+      "institution": "故宫博物院",
+      "url": "https://img.dpm.org.cn/Uploads/File/2021/12/21/u61c14481843d4.pdf",
+      "locator": "摘要中关于1498年应天乡试、1499年科场案及画风分期的表述",
+      "use": "独立交叉核对1498—1499年转折与画风分期；未将未定位页码的论断作为直接引文",
+      "confidence": "中"
+    },
+    {
+      "id": "met-landscapes",
+      "title": "Landscapes, Tang Yin, 1980.81",
+      "kind": "博物馆藏品页与Open Access API",
+      "institution": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/art/collection/search/45773",
+      "locator": "Artwork Details；Open Access API objectID 45773",
+      "use": "作品题名、材质、尺寸、归属与Public Domain图像",
+      "confidence": "高"
+    },
+    {
+      "id": "met-ink-bamboo",
+      "title": "Ink bamboo, Tang Yin, 1989.363.54",
+      "kind": "博物馆藏品页与Open Access API",
+      "institution": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/art/collection/search/45756",
+      "locator": "Artwork Details；Open Access API objectID 45756",
+      "use": "作品题名、早16世纪年代、材质、题诗说明与Public Domain图像",
+      "confidence": "高"
+    },
+    {
+      "id": "met-drunken-fisherman",
+      "title": "Drunken fisherman by a reed bank, Tang Yin, 1989.363.55",
+      "kind": "博物馆藏品页与Open Access API",
+      "institution": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/art/collection/search/45760",
+      "locator": "Artwork Details；Open Access API objectID 45760",
+      "use": "人物画题名、早16世纪年代、材质、馆方图像学说明与Public Domain图像",
+      "confidence": "高"
+    },
+    {
+      "id": "met-calligraphy",
+      "title": "Calligraphy, Tang Yin, 1989.363.58",
+      "kind": "博物馆藏品页与Open Access API",
+      "institution": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/art/collection/search/53796",
+      "locator": "Artwork Details；Open Access API objectID 53796",
+      "use": "书法册页的题名、材质、归属与Public Domain图像",
+      "confidence": "高"
+    }
+  ],
+  "boundaries": [
+    "《明史》卷286唐寅段开首只支持字伯虎、一字子畏，不支持“吴县人”；吴县籍贯与六如居士号由故宫博物院《事茗图》藏品页另行支持。",
+    "《明史》为清代修纂，本文件使用的维基文库链接是便利转录而非影印本；用其建立行动链时已与故宫人物资料交叉核对，但不能把其对“放浪”或“有异志”的评价自动等同于当事人全部动机。",
+    "1499年案可确认唐寅被牵连、下诏狱并谪为吏；泄题细节、个人责任和案中政治竞争仍须结合实录、奏疏与司法材料复核。",
+    "《上吴天官书》短引及早稻田所藏1801年刊本的对应影印页未完成独立核验，故本档已删除该引文与版本主张，不允许其支撑家庭、生计或其他额外生平事实。",
+    "“以画谋生”不等于每件作品的买主、价格和创作动机已知；职业市场的具体交易关系不作虚构。",
+    "四件作品均为大都会明确标示Public Domain的唐寅款；未纳入该馆标为Attributed to或After Tang Yin的作品，以避免把归属争议伪装为确定真迹。",
+    "唐寅卒年在不同机构目录中有1523与1524两种写法；本档不把其中任一作为作品断代的独立依据，需以项目人物卡的注释保留差异。"
+  ],
+  "assetVerification": {
+    "status": "已下载并通过Sharp复验",
+    "downloadedFrom": "Met Open Access API返回的primaryImage字段",
+    "rightsRule": "仅保留isPublicDomain: true且馆藏页明确标示Public Domain的四件作品",
+    "files": [
+      "assets/works/tang-yin-landscapes.jpg",
+      "assets/works/tang-yin-ink-bamboo.jpg",
+      "assets/works/tang-yin-drunken-fisherman.jpg",
+      "assets/works/tang-yin-calligraphy-xuetao.jpg"
+    ]
+  }
+}

@@ -1,0 +1,362 @@
+{
+  "person": "戚继光",
+  "focus": "把戚继光放在训练、编制、军纪、器械协同、后勤与制度条件之中阅读；东南抗倭与蓟镇边防不能混作一套固定战法。",
+  "method": {
+    "southern": [
+      "募兵：针对浙江卫所军不习战，请募金华、义乌三千人。",
+      "小单位编组：以哨、队及可分可合的行伍处理水田、田埂与狭路。",
+      "长短兵器协同：牌、筅、枪、刀与鸟铳按距离和位置配合，不把单一兵器写成制胜原因。",
+      "复杂地形：南方薮泽、水田、畦径限制大队驰逐，分合须服从中军与各队号令。"
+    ],
+    "northern": [
+      "蓟镇：隆庆二年受命总理蓟、昌、保练兵，训练对象、指挥关系和边防任务均不同于浙江。",
+      "车步骑协同：车、步、骑须预操行伍并以旗鼓、责成和位置关系维持合营。",
+      "火器与城防：以火器、拒马、长枪等分层应敌，并把敌台、车营纳入守备体系。",
+      "长期边防训练：训练依赖军饷、器械、募兵、将领节制和跨机构事权，而非一次阅兵。"
+    ]
+  },
+  "claims": [
+    {
+      "id": "qi-inherited-office",
+      "kind": "事实",
+      "claim": "戚继光出身登州卫世袭军官家庭，嘉靖年间继承职役后先备倭山东，继而任浙江都司佥事、参将，分守宁波、绍兴、台州。",
+      "sourceLabel": "《明史》卷212·戚继光传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷212",
+      "location": "卷212，戚继光传首段",
+      "excerpt": ["世登州卫指挥佥事", "嘉靖中嗣职……备倭山东。改佥浙江都司，充参将，分部宁、绍、台三郡。"],
+      "supports": "可确认其世职背景与从山东到浙江的任职链条。",
+      "boundary": "不能据此推定其早年即已形成后来全部练兵制度，亦不能补入传文未载的家庭细节。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-1557-zhejiang-setback",
+      "kind": "事实",
+      "claim": "嘉靖三十六年（1557），戚继光在乐清、瑞安、临海倭警中援军未及，随后参与岑港作战并一度被免官；平汪直余党后复官，改守台、金、严。",
+      "sourceLabel": "《明史》卷212·戚继光传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷212",
+      "location": "卷212，嘉靖三十六年条",
+      "excerpt": ["三十六年，倭犯乐清、瑞安、临海，继光援不及", "旋以平汪直功复官，改守台、金、严三郡。"],
+      "supports": "可确认1557年的失机、处分与复官任区调整。",
+      "boundary": "不能把一次处分直接解释为其后来改革的唯一动机。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-southern-recruitment",
+      "kind": "事实",
+      "claim": "在浙江，戚继光以卫所军不习战为由，请募金华、义乌三千人，教授击刺并使长短兵器递用；这是东南新军的人员与武器协同条件，不是北方车营编制。",
+      "environment": "东南沿海抗倭（浙江）",
+      "sourceLabel": "《明史》卷212·戚继光传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷212",
+      "location": "卷212，浙江练兵段",
+      "excerpt": ["见卫所军不习战", "请召募三千人，教以击刺法，长短兵迭用。"],
+      "supports": "可确认募兵、击刺训练和长短兵器配合均被正史放在浙江语境中。",
+      "boundary": "正史没有在此段提供完整队额、日课或每种兵器的精确配比。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-1561-taizhou",
+      "kind": "事实",
+      "claim": "嘉靖四十年（1561），戚继光在台州方向连续作战，正史概括为先后九战皆捷；该叙述可用来定位台州战事，不宜据此虚构每一战的战场细节。",
+      "sourceLabel": "《明史》卷212·戚继光传；故宫博物院《戚继光》",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷212",
+      "corroboratingUrl": "https://www.dpm.org.cn/court/figure/104028.html",
+      "location": "卷212，嘉靖四十年条；故宫页面第三段",
+      "excerpt": ["四十年，倭大掠桃渚、圻头", "先后九战皆捷。"],
+      "supports": "正史与故宫页面均将1561年台州作战列为关键节点。",
+      "boundary": "“九战九捷”是概括性叙述，不等于每战人员、损失与战术过程均已由同一材料逐一核清。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-1562-fujian",
+      "kind": "事实",
+      "claim": "嘉靖四十一年（1562），戚继光奉檄援闽，先后攻横屿、牛田并追至兴化；文本明确写到以草束填壕推进，说明水网、壕堑等地形与工程障碍进入作战过程。",
+      "sourceLabel": "《明史》卷212·戚继光传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷212",
+      "location": "卷212，嘉靖四十一年条",
+      "excerpt": ["人持草一束，填壕进。大破其巢", "连克六十营。"],
+      "supports": "可确认横屿、牛田、兴化行动链及填壕推进这一明确动作。",
+      "boundary": "不能据“草束填壕”推演出全军人人同一动作或完整的后勤供给量。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-1563-pinghai",
+      "kind": "事实",
+      "claim": "嘉靖四十二年四月（1563），戚继光率浙兵至福建平海，与谭纶、刘显、俞大猷所部合攻；戚继光任中军并先登，战后升都督同知并代俞大猷为总兵官。",
+      "sourceLabel": "《明史》卷212·戚继光传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷212",
+      "location": "卷212，嘉靖四十二年四月条",
+      "excerpt": ["四十二年四月，继光将浙兵至", "谭纶令将中军，显左，大猷右，合攻贼于平海。"],
+      "supports": "可确认平海行动是多支部队分工的合攻，而非单一“戚家军”独立作战。",
+      "boundary": "正史的功次与斩级属于该文本的记功叙述，不能单独转化为现代伤亡统计。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-southern-selection-book",
+      "kind": "作战组织证据",
+      "claim": "《纪效新书》卷首把“选兵、授器、束伍、教阅”连成同一制度序列：先选足兵员，再按长操格式逐名教习，最后合营演总阵。",
+      "environment": "东南沿海抗倭的练兵经验及其制度化表达",
+      "sourceLabel": "《纪效新书》十八卷本系统·卷首〈教阅说〉",
+      "url": "https://zh.wikisource.org/zh-hans/纪效新书/卷首",
+      "location": "十八卷本系统卷首〈教阅说〉；当前电子页未明示具体转录底本",
+      "excerpt": ["前兵既选充足，轮进教场", "周而复始。已完，通行合营演总阵一日。"],
+      "supports": "可确认训练并非只展示单兵技艺，而包括选兵、分项教授和合营检验。",
+      "boundary": "该段没有给出可外推至所有地区、所有年份的固定训练周期；不得与万历年间改订十四卷本的篇次无说明混用。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-southern-unit-cohesion-book",
+      "kind": "作战组织证据",
+      "claim": "《纪效新书》卷首反对临敌从各队抽取“选锋”，主张按原属官职和行伍调发，使平时教练责任能追到临战失律；它把编组稳定与问责相连。",
+      "environment": "东南沿海抗倭的调发与小单位编组",
+      "sourceLabel": "《纪效新书》十八卷本系统·卷首〈调发说〉",
+      "url": "https://zh.wikisource.org/zh-hans/纪效新书/卷首",
+      "location": "十八卷本系统卷首〈调发说〉；当前电子页未明示具体转录底本",
+      "excerpt": ["临敌易将之危，人心忽更，所属行伍分离", "但遇调遣，不必分其强弱，止将所部官职名书牌调发。"],
+      "supports": "可确认该书重视既有行伍、将兵关系和责任链的连续性。",
+      "boundary": "不能把这项原则写成所有明军都实际、持续执行的制度事实；不得与万历年间改订十四卷本的篇次无说明混用。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-southern-terrain-book",
+      "kind": "作战组织证据",
+      "claim": "《纪效新书》卷首以南方水田、畦径和狭路为前提，要求依道路分枝、由中军统进止大规、各部听本部号令；这为“复杂地形中的分合”提供直接文本依据。",
+      "environment": "东南沿海抗倭（田野、水网与狭路）",
+      "sourceLabel": "《纪效新书》十八卷本系统·卷首〈操分合说〉",
+      "url": "https://zh.wikisource.org/zh-hans/纪效新书/卷首",
+      "location": "十八卷本系统卷首〈操分合说〉；当前电子页未明示具体转录底本",
+      "excerpt": ["南服之地，水田畦径……三五人即塞", "进止大规，统于中军之总号令，各兵又听各部之令。"],
+      "supports": "可确认地形判断、分路行动和双层号令被明确关联。",
+      "boundary": "“鸳鸯阵”不能被简化成脱离地形与指挥条件即可复制的万能阵法；不得与万历年间改订十四卷本的篇次无说明混用。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-southern-command-arms-book",
+      "kind": "作战组织证据",
+      "claim": "《纪效新书》卷八以号令、刑赏和旗鼓组织营阵，并在对敌次序中安排鸟铳、射具、牌筅、枪刀及轮番接战，呈现的是多种器械、队形与号令的协同。",
+      "environment": "东南沿海抗倭的营阵与武器协同",
+      "sourceLabel": "《纪效新书》十八卷本系统·卷八〈操练营阵旗鼓篇〉",
+      "url": "https://zh.wikisource.org/zh-hans/纪效新书/卷八",
+      "location": "十八卷本系统卷八〈操练营阵旗鼓篇〉；当前电子页未明示具体转录底本",
+      "excerpt": ["号令既习，刑赏俱明", "鸟铳手在前打铳……牌筅枪刀之法，用时都如平日。"],
+      "supports": "可确认书中将号令、军纪、火器、长短兵器和轮换队形一并处理。",
+      "boundary": "文本提供训练与战法设计，不能单独证明每场战斗都按该顺序完整实施；不得与万历年间改订十四卷本的篇次无说明混用。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-1568-appointment-shilu",
+      "kind": "实录",
+      "claim": "隆庆二年五月辛亥（1568），《明穆宗实录》记谭纶奏议及兵部覆议，明确令戚继光以原职总理蓟、昌、保练兵，并规定三镇总、副、参、游等受节制者亦受其节制。",
+      "sourceLabel": "《明穆宗庄皇帝实录》卷20·隆庆二年五月辛亥",
+      "url": "https://www.shidianguji.com/book/LS0026/chapter/1k6tolyonkf0p",
+      "location": "卷20，隆庆二年五月辛亥",
+      "excerpt": ["请命继光仍以署都督同知总理蓟、昌、保定练兵事务", "得旨：继光以原职总理练兵事务。"],
+      "supports": "可直接确认1568年五月的任命、节制范围及敕书、关防等制度授权。",
+      "boundary": "任命文本不能独自证明所有下属对其命令的实际服从程度。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-1568-training-resources-shilu",
+      "kind": "实录",
+      "claim": "隆庆二年五月（1568）同条《明穆宗实录》把北方练兵的财政、募兵、军纪与火器条件写入奏议：三万人军费、吴越习战兵、鸟铳手及其衣鞋和日给银，均需中央与地方协同落实。",
+      "environment": "蓟镇北部边防",
+      "sourceLabel": "《明穆宗庄皇帝实录》卷20·隆庆二年五月辛亥",
+      "url": "https://www.shidianguji.com/book/LS0026/chapter/1k6tolyonkf0p",
+      "location": "卷20，隆庆二年五月辛亥",
+      "excerpt": ["非募吴越习战卒万二千人杂教之，事必无成", "欲练兵三万，必得鸟铳手三千人为冲锋。"],
+      "supports": "可确认北方训练方案不是只论战术，且以经费、募兵、待遇、枪手训练和行政授权为条件。",
+      "boundary": "这是一份奏议及批准过程，不能写成所有预算和名额均已无差别、即时到位。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-1565-wuping-shilu",
+      "kind": "实录",
+      "claim": "嘉靖四十四年四月己丑（1565），《明世宗实录》记吴平复叛、劫掠广东惠州、潮州及福建诏安、漳浦等处，福建总兵戚继光督兵袭击，吴平随后载辎重入海退保南澳；这是独立于隆庆二年任命条的直接战役记录。",
+      "environment": "闽粤协剿及吴平退保南澳的作战链",
+      "sourceLabel": "《明世宗肃皇帝实录》卷545·嘉靖四十四年四月己丑",
+      "url": "https://www.shidianguji.com/book/LS0026/chapter/1k6tol6wqm5my",
+      "corroboratingUrl": "https://www.hnass.cn/uploads/soft/20220330/1-2203301JH02Z.pdf",
+      "location": "卷545，嘉靖四十四年四月己丑，诏安贼首吴平复叛条",
+      "excerpt": ["福建总兵戚继光督兵袭之", "率众遁入海，保南澳。"],
+      "supports": "可直接确认吴平劫掠惠、潮及诏安、漳浦，戚继光督兵袭击，吴平随后退保南澳这一闽粤协剿作战链；湖南省社会科学院主办期刊论文对同一实录日期和条文作了引录，可交叉定位。",
+      "boundary": "此条不证明戚军已进入南澳交战，不能扩写成戚继光此后长期主持广东战争，亦不能把吴平最终结局全部归于这次袭击。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-northern-car-infantry-cavalry-book",
+      "kind": "作战组织证据",
+      "claim": "《练兵实纪》卷一规定车、步、骑“合为一营”，并要求预操行伍、车骑相识、以骑就车；这是蓟镇车步骑协同的直接组织文本。",
+      "environment": "蓟镇北部边防",
+      "sourceLabel": "《练兵实纪》卷一·合车步骑营",
+      "url": "https://zh.wikisource.org/zh-hans/练兵实纪/卷一",
+      "location": "卷一〈合车步骑营·车骑并营〉",
+      "excerpt": ["每步兵一枝，马兵一枝，合为一营", "各预操行伍，惯熟听合。"],
+      "supports": "可确认车步骑被设计为预先磨合的合营关系，而非临战临时拼合。",
+      "boundary": "该规范不能取代对某一具体营实际人数、车辆和战斗部署的逐案考证。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-northern-logistics-book",
+      "kind": "作战组织证据",
+      "claim": "《练兵实纪》卷一为辎重营预置煤炒、米、黑豆，要求建仓、分袋、夏季晒扬并按年限支用；后勤在书中是可预储、可清点的作战条件。",
+      "environment": "蓟镇北部边防",
+      "sourceLabel": "《练兵实纪》卷一·辎糇粮",
+      "url": "https://zh.wikisource.org/zh-hans/练兵实纪/卷一",
+      "location": "卷一〈辎糇粮〉",
+      "excerpt": ["平日于驻札处所建立仓厫一所", "盖恐一时有事装运不及也。"],
+      "supports": "可确认粮秣、仓储、保管和应急装运被列入练兵与行军制度。",
+      "boundary": "书中定额是制度设计，不能直接当作所有边营的真实库存。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-northern-accountability-book",
+      "kind": "作战组织证据",
+      "claim": "《练兵实纪》卷一的车步旗保结式要求上下级互保、对怯懦、冒名、逃走与临阵疏失具结；这显示军纪不仅是处罚口号，也被写入层级责任程序。",
+      "environment": "蓟镇北部边防",
+      "sourceLabel": "《练兵实纪》卷一·车步旗保结式",
+      "url": "https://zh.wikisource.org/zh-hans/练兵实纪/卷一",
+      "location": "卷一〈车步旗保结式〉",
+      "excerpt": ["自上而下，保无不堪", "如虚及有逃走，甘罪，结状是实。"],
+      "supports": "可确认书中有自上而下与自下而上的责任连结设计。",
+      "boundary": "不能由具结文本推出实际惩罚必然公平，或推出所有逃兵案件的裁处结果。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-northern-fortification-and-arms",
+      "kind": "事实",
+      "claim": "戚继光在蓟镇推动敌台、车营、拒马、火器、长枪和辎重营的配合；《明史》将其写成“火器先发—步军拒马与长枪—骑军追击”的分层次序。",
+      "environment": "蓟镇北部边防",
+      "sourceLabel": "《明史》卷212·戚继光传",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷212",
+      "location": "卷212，蓟镇敌台、车营段",
+      "excerpt": ["寇至，火器先发，稍近则步军持拒马器排列而前，间以长枪、筤筅", "寇奔，则骑军逐北。"],
+      "supports": "可确认北方守备中器械、兵种和辎重的协同次序，以及敌台建设计划。",
+      "boundary": "不能将正史的概括性流程写成每次蒙古来犯皆发生的逐秒战斗记录。",
+      "confidence": "高"
+    },
+    {
+      "id": "qi-removal-death-legacy",
+      "kind": "事实与解释边界",
+      "claim": "张居正去世后，戚继光被改调广东，后罢归而卒；《明史》同时指出其在镇十六年、继任者沿用成法后数十年无事。其卒年在机构页面标题与正文间有冲突，档案以公历1588年（万历十五年十二月）暂记，并保留待核。",
+      "sourceLabel": "《明史》卷212·戚继光传；故宫博物院《戚继光》；烟台市政府党史研究院页面",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷212",
+      "corroboratingUrl": "https://www.dpm.org.cn/court/figure/104028.html",
+      "additionalUrl": "https://dsyjy.yantai.gov.cn/art/2010/11/15/art_1324_377726.html",
+      "location": "卷212末段；故宫页面末段；烟台页面卒年条",
+      "excerpt": ["居正殁半岁……遽改之广东", "继之者，踵其成法，数十年得无事。"],
+      "supports": "可确认调广东、罢归卒、十六年蓟镇任期与成法延续的正史叙述；烟台页面给出万历十五年腊月初八对应1588年1月5日。",
+      "boundary": "《明史》此段未给卒年日；故宫页面标题标1528—1587而正文称万历十六年（1588）逝世，故不可把生卒日写作无争议的高置信度事实，也不能把“成法延续”化约为单一人物的永久制度成果。",
+      "confidence": "中"
+    },
+    {
+      "id": "qi-zhizhitang-catalog-and-text",
+      "kind": "文集证据",
+      "claim": "《止止堂集》存本可由国家图书馆古籍与特藏目录核验为明戚继光撰、王世贞序、万历间刻本；识典古籍所载《横槊稿上》可定位《三屯新城工成志喜》。该诗只能作为北方工程与书写活动的旁证。",
+      "sourceLabel": "国家图书馆古籍与特藏文献资源《止止堂集存横槊稿三卷》；《止止堂集·横槊稿上》",
+      "url": "https://rbook.ncl.edu.tw/NCLSearch/Search/SearchDetail?HasImage=&SourceID=1&item=62ed7c9f866d4f59a439c4d716344f78fDM1NjM4NA2.aUmgo8eK4mZ2uI_avI8C_APYeq5wvbBiRSS2jqdkWAg_&page=20&sourceWhereString=&whereString=IChDcmVhdGVyX05hbWUgbGlrZSAnJeeOi-S4luiyniUnIG9yIERvY3VtZW50X1dyaXRlciBsaWtlICcl546L5LiW6LKeJScgb3IgSm91cm5hbF9Xcml0ZXIgbGlrZSAnJeeOi-S4luiyniUnICkg0.giTfAojaEPHkMmkAu3d3vg2CeTGF0SVqRx2YcQesgRk_",
+      "corroboratingUrl": "https://www.shidianguji.com/zh/book/CADAL02064175/chapter/1laty1rbphyyn",
+      "location": "国家图书馆书目：题名、作者、版本；《横槊稿上》〈三屯新城工成志喜〉",
+      "excerpt": ["正题名：止止堂集存横槊稿三卷", "三忠气色壮三屯，灯火遥连十万村。"],
+      "supports": "可确认该文集的作者、存本与可定位诗题；诗文本身能呈现三屯新城完成的书写记录。",
+      "boundary": "诗句不能证明工程规模、实际工期、财政来源或民众态度；页面主轴仍应是两部训练书与可追溯制度条件。",
+      "confidence": "高"
+    }
+  ],
+  "sources": [
+    {
+      "label": "《明史》卷212·戚继光传",
+      "type": "正史传记",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷212",
+      "locator": "戚继光传全文，重点为浙江练兵、嘉靖四十至四十二年、隆庆二年与蓟镇末段",
+      "role": "六阶段生平、南北战场区分、敌台车营与去留背景的基础证据",
+      "confidence": "高"
+    },
+    {
+      "label": "《明穆宗庄皇帝实录》卷20",
+      "type": "实录",
+      "url": "https://www.shidianguji.com/book/LS0026/chapter/1k6tolyonkf0p",
+      "locator": "隆庆二年五月辛亥",
+      "role": "总理蓟昌保练兵任命、节制范围、火器手、募兵与经费条件",
+      "confidence": "高"
+    },
+    {
+      "label": "《明世宗肃皇帝实录》卷545",
+      "type": "实录",
+      "url": "https://www.shidianguji.com/book/LS0026/chapter/1k6tol6wqm5my",
+      "locator": "嘉靖四十四年四月己丑，吴平复叛、戚继光督兵袭击、吴平退保南澳条",
+      "role": "第二条独立直接实录证据；确认吴平劫掠惠潮及诏安漳浦、戚继光督兵袭击、吴平随后退保南澳的闽粤协剿作战链，不证明戚军已进入南澳交战",
+      "confidence": "高"
+    },
+    {
+      "label": "《纪效新书》（十八卷本系统）",
+      "type": "戚继光兵书",
+      "url": "https://zh.wikisource.org/zh-hans/纪效新书/卷首",
+      "locator": "十八卷本系统卷首〈教阅说〉〈调发说〉〈操分合说〉；卷八〈操练营阵旗鼓篇〉",
+      "editionBoundary": "当前维基文库目录与篇次属于卷首加十八卷的文本系统；未明示具体转录底本，不与万历年间改订十四卷本无说明混引。",
+      "role": "东南募兵、编组连续性、号令军纪、地形分合与武器协同的作战组织证据",
+      "confidence": "高"
+    },
+    {
+      "label": "《练兵实纪》",
+      "type": "戚继光兵书",
+      "url": "https://zh.wikisource.org/zh-hans/练兵实纪/卷一",
+      "locator": "卷一〈合车步骑营〉〈辎糇粮〉〈车步旗保结式〉",
+      "role": "蓟镇车步骑合营、辎重仓储与层级保结的作战组织证据",
+      "confidence": "高"
+    },
+    {
+      "label": "《止止堂集存横槊稿三卷》国家图书馆目录",
+      "type": "馆藏书目",
+      "url": "https://rbook.ncl.edu.tw/NCLSearch/Search/SearchDetail?HasImage=&SourceID=1&item=62ed7c9f866d4f59a439c4d716344f78fDM1NjM4NA2.aUmgo8eK4mZ2uI_avI8C_APYeq5wvbBiRSS2jqdkWAg_&page=20&sourceWhereString=&whereString=IChDcmVhdGVyX05hbWUgbGlrZSAnJeeOi-S4luiyniUnIG9yIERvY3VtZW50X1dyaXRlciBsaWtlICcl546L5LiW6LKeJScgb3IgSm91cm5hbF9Xcml0ZXIgbGlrZSAnJeeOi-S4luiyniUnICkg0.giTfAojaEPHkMmkAu3d3vg2CeTGF0SVqRx2YcQesgRk_",
+      "locator": "书目题名、作者姓名、王世贞序、明万历间刊本",
+      "role": "核验《止止堂集》存本与作者归属",
+      "confidence": "高"
+    },
+    {
+      "label": "《止止堂集·横槊稿上》",
+      "type": "戚继光文集文本",
+      "url": "https://www.shidianguji.com/zh/book/CADAL02064175/chapter/1laty1rbphyyn",
+      "locator": "〈三屯新城工成志喜〉",
+      "role": "可定位的诗题与文本，作为北方工程书写的辅助材料",
+      "confidence": "高"
+    },
+    {
+      "label": "故宫博物院《戚继光》",
+      "type": "博物馆人物页面",
+      "url": "https://www.dpm.org.cn/court/figure/104028.html",
+      "locator": "浙江练兵、台州、蓟镇、晚年段",
+      "role": "与正史交叉核对叙事节点；生卒标注存在内部冲突，未作唯一依据",
+      "confidence": "中"
+    },
+    {
+      "label": "烟台市政府党史研究院《抗倭民族英雄戚继光》",
+      "type": "地方政府史料介绍",
+      "url": "https://dsyjy.yantai.gov.cn/art/2010/11/15/art_1324_377726.html",
+      "locator": "万历十五年腊月初八卒年条",
+      "role": "用于交叉核对卒日的公历换算，不替代正史与实录",
+      "confidence": "中"
+    }
+  ],
+  "gaps": [
+    {
+      "issue": "《明世宗实录》嘉靖四十二年四月关于平海行动的稳定直达文本未在本次检索中取得可核读版本。",
+      "handling": "不以二手摘要伪作实录引文；平海事件暂以《明史》卷212直接叙述立论。",
+      "confidence": "已确认缺口"
+    },
+    {
+      "issue": "戚继光卒年在故宫页面标题（1528—1587）与正文（万历十六年〔1588〕）不一致，烟台政府页面记万历十五年腊月初八（1588年1月5日）。",
+      "handling": "页面叙事宜暂作“1588年初（万历十五年十二月）卒”，并在整合前以版本可靠的年谱、墓志或实录条目复核。",
+      "confidence": "中"
+    },
+    {
+      "issue": "《纪效新书》有十八卷本与万历年间改订十四卷本；当前维基文库链接的目录和篇次属于卷首加十八卷的系统，但电子页未明示具体转录底本。",
+      "handling": "本档案已在四条主张与来源对象中明确标作“十八卷本系统”，并逐条定位卷首或卷八；整合页面不得与十四卷本篇次无说明混引，也不得把后出删改倒灌到具体早年战役。",
+      "confidence": "高"
+    }
+  ],
+  "interpretive_boundaries": [
+    "“戚家军”是后世常用称谓；叙事必须落回招募、编组、训练、器械、给养和指挥链这些可检验条件，不能把胜利归为个人魅力。",
+    "《纪效新书》与《练兵实纪》应作为作战组织文本读取：前者主要支撑东南经验，后者主要支撑蓟镇北方体系；不得把二者拼成不受环境约束的一套万能方案。",
+    "正史、实录与兵书可确认制度设计、任命和部分行动；它们不能重建士兵的完整心理、每次实战的全程细节，或证明制度在各营无差别执行。",
+    "蓟镇长期稳定与戚继光的制度实践有关，也依赖谭纶、张居正等人的授权、军费、兵源与边地条件；不可归结为单一人物的个人功绩。"
+  ]
+}

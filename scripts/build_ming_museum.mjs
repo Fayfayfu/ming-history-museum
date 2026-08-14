@@ -55,7 +55,9 @@ const childCountFor = person => {
   return `子 ${records.filter(child=>child.sex==='男').length} · 女 ${records.filter(child=>child.sex==='女').length} · 合计 ${records.length} · 重要 ${important}`;
 };
 const fallbackPeopleRows = timelinePeople.map(person => {
-  const life = `${person.birth || '待考'}—${person.death || '待考'}`;
+  const birthDeath = person.display?.birthDeath || `${person.birth || '待考'}—${person.death || '待考'}`;
+  const life = person.display?.lifespan ? `${birthDeath} · ${person.display.lifespan}` : birthDeath;
+  const confidence = person.display?.confidence || person.confidence || person.timeline_year_confidence;
   const tenure = person.office || person.title || '待考';
   const description = [person.summary,person.evaluation].filter(Boolean).join(' ');
   const lineage = person.hometown || person.parent_name || '待考';
@@ -68,7 +70,7 @@ const fallbackPeopleRows = timelinePeople.map(person => {
     if (header === '生平事迹与史学评价') return description;
     if (/^(治国与制度|军事与危机|社会文化|长期遗产|责任与代价)/.test(header)) return '—';
     if (header.startsWith('加权总分')) return person.score ?? '—';
-    if (header === '置信度') return person.confidence || person.timeline_year_confidence;
+    if (header === '置信度') return confidence;
     if (header === '家乡 / 世系') return lineage;
     if (header.startsWith('本人子女数量')) return childCountFor(person);
     throw new Error(`Unsupported roster header: ${header}`);
