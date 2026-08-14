@@ -65,11 +65,12 @@ if(!errors.length){
     for(const name of names){
       await page.goto(hallUrl(name),{waitUntil:'networkidle'});
       const mobile=await page.evaluate(()=>({
-        nodes:document.querySelectorAll('#detail .profile-quick-node').length,
+        pathname:decodeURIComponent(location.pathname),
+        storyScenes:document.querySelectorAll('.story > .chapter').length,
         bodyWidth:document.body.scrollWidth,
         viewport:innerWidth
       }));
-      if(mobile.nodes<5||mobile.nodes>6||mobile.bodyWidth>mobile.viewport)errors.push(`${name}: 390px抽屉阶段或宽度异常`);
+      if(!/\/people\/.+\.html$/.test(mobile.pathname)||mobile.storyScenes<5||mobile.storyScenes>6||mobile.bodyWidth>mobile.viewport)errors.push(`${name}: 390px独立页跳转、阶段或宽度异常`);
     }
   }finally{
     await browser.close();
