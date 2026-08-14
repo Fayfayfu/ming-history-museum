@@ -11,6 +11,7 @@
     "audit:portraits": "node scripts/audit_ming_portrait_coverage.mjs",
     "verify:portraits": "node scripts/verify_ming_portrait_batch19.mjs",
     "verify:life-stories-batch5": "node scripts/verify_ming_life_stories_batch5.mjs",
+    "verify:life-stories-batch6": "node scripts/verify_ming_life_stories_batch6.mjs",
     "verify:people-timeline": "node scripts/verify_ming_people_timeline.mjs",
     "verify:people-timeline-unit": "node --test scripts/lib/people_timeline.test.mjs scripts/verify_ming_people_timeline.test.mjs",
     "verify:people-timeline-variants-unit": "node --test scripts/lib/people_timeline_variants.test.mjs",
