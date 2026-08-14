@@ -4,7 +4,7 @@
 
 **Goal:** 同步优化王守仁、张居正、李时珍、徐光启的基本人物卡、抽屉速览与独立页，使普通读者无需明史预备知识也能理解四人的关键经历、工作方法、历史影响和证据边界。
 
-**Architecture:** 保留现有数据驱动生成架构：基本信息继续来自 `ming_core.json`，抽屉专属故事来自 `ming_storytelling.json`，独立页分别来自两个 `ming_person_pages` 数据文件。先新增第五批专项发布门，再按“史料记录 → 基本卡 → 抽屉 → 独立页”顺序修改，最后使用现有构建器和浏览器回归验证三个阅读层级一致。
+**Architecture:** 保留现有数据驱动生成架构：基本信息继续来自 `ming_core.json`；四人已有独立页，因此抽屉速览和独立页共用两个 `ming_person_pages` 数据文件，速览读取 `heroQuestion`、`lead` 与 `scenes[].year/title/preview`，独立页读取同一场景的完整正文和证据字段。先新增第五批专项发布门，再按“史料记录 → 基本卡 → 共用人物页数据”顺序修改，最后使用现有构建器和浏览器回归验证三个阅读层级一致。
 
 **Tech Stack:** Node.js ES modules、JSON 数据文件、现有静态 HTML 构建器、Playwright/Google Chrome、Node `assert`/自定义验证脚本、npm scripts。
 
@@ -30,7 +30,7 @@
 - Modify: `package.json`
 
 **Interfaces:**
-- Consumes: `data/ming_core.json`、`data/ming_storytelling.json`、`data/ming_person_pages.json`、`data/ming_person_pages_batch2.json` 与生成后的 `people.html`、四个独立页。
+- Consumes: `data/ming_core.json`、`data/ming_person_pages.json`、`data/ming_person_pages_batch2.json` 与生成后的 `people.html`、四个独立页。
 - Produces: `npm run verify:life-stories-batch5`，在数据、文案层级、双纪年、入口或页面布局不满足合同时以退出码 1 失败。
 
 - [ ] **Step 1: 写入失败的专项数据验证器**
@@ -45,7 +45,6 @@ import {chromium} from 'playwright';
 const names=['王守仁','张居正','李时珍','徐光启'];
 const banned=['生卒与出身','进入历史现场','主要行动与位置','结局与历史影响'];
 const core=JSON.parse(await fs.readFile('data/ming_core.json','utf8'));
-const stories=JSON.parse(await fs.readFile('data/ming_storytelling.json','utf8')).people||{};
 const primary=JSON.parse(await fs.readFile('data/ming_person_pages.json','utf8')).people||{};
 const batch2=JSON.parse(await fs.readFile('data/ming_person_pages_batch2.json','utf8')).people||{};
 const pages={...primary,...batch2};
@@ -53,19 +52,18 @@ const errors=[];
 
 for(const name of names){
   const person=core.find(item=>item.name===name);
-  const story=stories[name];
   const profile=pages[name];
   if(!person)errors.push(`${name}: 人物主表缺失`);
   if((person?.summary||'').length<34)errors.push(`${name}: 主要作为仍过短`);
   if((person?.evaluation||'').length<38)errors.push(`${name}: 历史评价仍过短`);
   const sourceUrls=[person?.source1,person?.source2].filter(Boolean);
   if(sourceUrls.length<2||sourceUrls.some(url=>/wikipedia\.org|^https:\/\/ctext\.org\/?(?:zh)?$/.test(url)))errors.push(`${name}: 基本卡来源仍是百科或泛入口`);
-  if(!story||!Array.isArray(story.chapters)||story.chapters.length<5||story.chapters.length>6)errors.push(`${name}: 抽屉应有5至6个专属阶段`);
-  for(const chapter of story?.chapters||[]){
-    if(!chapter.year||!chapter.title||(chapter.text||'').length<48||!['fact','inference'].includes(chapter.layer))errors.push(`${name}: 抽屉阶段不完整`);
-    if(banned.includes(chapter.title))errors.push(`${name}: 使用禁用模板标题`);
-  }
   if(!profile||!Array.isArray(profile.scenes)||profile.scenes.length<5||profile.scenes.length>6)errors.push(`${name}: 独立页阶段不完整`);
+  for(const scene of profile?.scenes||[]){
+    if(!scene.year||!scene.title||(scene.preview||'').length<28)errors.push(`${name}: 抽屉速览字段不完整`);
+    if(!Array.isArray(scene.body)||scene.body.length<2||scene.body.some(text=>text.length<55)||!scene.evidence)errors.push(`${name}: 独立页场景不完整`);
+    if(banned.includes(scene.title))errors.push(`${name}: 使用禁用模板标题`);
+  }
   if((profile?.sources||[]).length<4)errors.push(`${name}: 独立页证据入口不足`);
 }
 ```
@@ -73,7 +71,7 @@ for(const name of names){
 在同一脚本加入四人的关键内容锁：
 
 ```js
-const joined=name=>JSON.stringify({core:core.find(item=>item.name===name),story:stories[name],page:pages[name]});
+const joined=name=>JSON.stringify({core:core.find(item=>item.name===name),page:pages[name]});
 if(!/龙场|知行合一|宁王/.test(joined('王守仁')))errors.push('王守仁: 思想、贬谪与军政行动未贯通');
 if(!/李太后|冯保|考成|清丈|夺情/.test(joined('张居正')))errors.push('张居正: 辅政结构与改革代价不完整');
 if(!/辨误|分类|本草纲目|现代临床/.test(joined('李时珍')))errors.push('李时珍: 编纂方法或现代医学边界不完整');
@@ -92,7 +90,7 @@ try{
   for(const name of names){
     await page.goto(`file://${path.join(root,'people.html')}?person=${encodeURIComponent(name)}`,{waitUntil:'networkidle'});
     const drawer=await page.evaluate(()=>({
-      chapters:[...document.querySelectorAll('#detail .life-line .life-chapter')].map(node=>node.querySelector('.life-year > span')?.textContent.trim()||''),
+      chapters:[...document.querySelectorAll('#detail .profile-quick-node')].map(node=>node.querySelector('.profile-quick-date b')?.textContent.trim()||''),
       enter:document.querySelector('#detail .profile-enter')?.getAttribute('href')||'',
       bodyWidth:document.body.scrollWidth,
       viewport:innerWidth
@@ -125,7 +123,7 @@ console.log('第五批四人人物卡、抽屉与独立页通过专项验证。'
 npm run verify:life-stories-batch5
 ```
 
-预期：FAIL，至少指出李时珍、徐光启缺少抽屉专属故事，张居正抽屉不足五段，四人的基本卡或来源尚未满足新合同。
+预期：FAIL，至少指出四人的 `scenes[].preview` 尚未全部达到新速览合同，张居正独立页不足五段，四人的基本卡或来源尚未满足新合同。
 
 - [ ] **Step 4: 提交失败发布门**
 
@@ -205,15 +203,16 @@ git commit -m "feat: refine fifth batch person summaries"
 
 ---
 
-### Task 3: 重写四人的人物抽屉速览
+### Task 3: 重写四人的人物抽屉速览字段
 
 **Files:**
-- Modify: `data/ming_storytelling.json`
+- Modify: `data/ming_person_pages.json`
+- Modify: `data/ming_person_pages_batch2.json`
 - Test: `scripts/verify_ming_life_stories_batch5.mjs`
 
 **Interfaces:**
 - Consumes: Task 2 的史料记录和基本卡结论。
-- Produces: `storytelling.people[name]`，包含 `hook`、`arc`、5—6 个 `chapters`、`reading`、`moment`、`sources`、`sourceBasis` 与 `followupQuestions`。
+- Produces: 四个人物页对象的 `heroQuestion`、`lead` 与 5—6 个 `scenes[].year/title/preview`；这些字段由 `profilePreviewHtml` 直接生成抽屉速览，并与独立页共用同一阶段。
 
 - [ ] **Step 1: 改写王守仁抽屉为六个具体转折**
 
@@ -226,7 +225,7 @@ git commit -m "feat: refine fifth batch person summaries"
 5. 1516—1519：南赣治理与宁王之乱。
 6. 1520—1529及身后：致良知、去世与后学分化。
 
-每段正文至少 48 字；龙场章节明确“思想转折可考，某一夜的精确顿悟现场不可考”；宁王章节不得写成心学自动产生战术。
+每段 `preview` 用一至两句说明发生了什么及其影响；龙场阶段明确“思想转折可考，某一夜的精确顿悟现场不可考”；宁王阶段不得写成心学自动产生战术。
 
 - [ ] **Step 2: 改写张居正抽屉为六个具体转折**
 
@@ -239,7 +238,7 @@ git commit -m "feat: refine fifth batch person summaries"
 5. 1577：夺情维持改革，也破坏共同政治规范。
 6. 1582—1584及身后：去世、清算与制度余波。
 
-必须用一句白话解释考成法和清丈，不将“一条鞭法”写成张居正某年一次发布并全国整齐完成的单项政策。
+必须在 `preview` 中用白话解释考成法和清丈，不将“一条鞭法”写成张居正某年一次发布并全国整齐完成的单项政策。
 
 - [ ] **Step 3: 新增李时珍抽屉六阶段故事**
 
@@ -252,7 +251,7 @@ git commit -m "feat: refine fifth batch person summaries"
 5. 1578—1593：定稿、求刊与生前未见正式刊行。
 6. 1596及身后：《本草纲目》刊行、传播与现代阅读边界。
 
-不得把传统药物记载写成现代疗效承诺；“27年”只有在起讫依据与项目现有数据一致时使用。
+不得把传统药物记载写成现代疗效承诺；“27年”只有在起讫依据与项目现有数据一致时使用。新增或改写的每个 `scene` 同时保留独立页所需字段，Task 4 再精修完整正文。
 
 - [ ] **Step 4: 新增徐光启抽屉六阶段故事**
 
@@ -265,7 +264,7 @@ git commit -m "feat: refine fifth batch person summaries"
 5. 1629—1633：日食推算争议与主持历局修历。
 6. 身后：《农政全书》整理刊行与知识遗产。
 
-不得将“西学”写成单向输入；必须出现翻译、测量、试验和组织执行四个动作。
+不得将“西学”写成单向输入；必须出现翻译、测量、试验和组织执行四个动作。新增或改写的每个 `scene` 同时保留独立页所需字段，Task 4 再精修完整正文。
 
 - [ ] **Step 5: 构建并运行专项验证**
 
@@ -276,12 +275,12 @@ npm run build:museum
 npm run verify:life-stories-batch5
 ```
 
-预期：数据层仍可能因独立页或基本卡长度锁而失败，但四人的抽屉必须通过 5—6 段、禁用标题、双纪年、桌面和移动宽度检查。
+预期：数据层仍可能因独立页正文或基本卡长度锁而失败，但四人的抽屉必须通过 5—6 段、禁用标题、双纪年、桌面和移动宽度检查。
 
 - [ ] **Step 6: 提交人物抽屉速览**
 
 ```bash
-git add data/ming_storytelling.json
+git add data/ming_person_pages.json data/ming_person_pages_batch2.json
 git commit -m "feat: rewrite fifth batch drawer stories"
 ```
 

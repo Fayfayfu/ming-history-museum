@@ -110,9 +110,9 @@
 ## 数据与生成
 
 - `data/ming_core.json`：更新四人的主要作为、历史评价、置信度说明与来源入口。
-- `data/ming_storytelling.json`：更新王守仁、张居正，并补入李时珍、徐光启的人物抽屉故事。
-- `data/ming_person_pages.json`：精修王守仁、张居正独立页。
-- `data/ming_person_pages_batch2.json`：精修李时珍、徐光启独立页。
+- `data/ming_person_pages.json`：同步精修王守仁、张居正的抽屉速览与独立页。
+- `data/ming_person_pages_batch2.json`：同步精修李时珍、徐光启的抽屉速览与独立页。
+- 四人已有独立页，人物抽屉直接复用人物页数据：`heroQuestion` 与 `lead` 生成速览头部，`scenes[].year/title/preview` 生成速览节点，同一 `scene` 的 `body/evidence/primarySource` 生成独立页正文。因此本批不另写 `data/ming_storytelling.json`，避免形成两套日期和叙事。
 - `data/research/`：新增第五批史料与改写记录，保存来源范围、争议点和后续多源问题。
 - 继续使用现有构建器、年号转换器和人物页渲染器，不新增页面组件。
 
@@ -137,4 +137,3 @@
 - 不修改朱元璋、朱棣文案。
 - 不合并或发布王守仁 Agent。
 - 不把传统医学内容转化为现实医疗建议。
-
