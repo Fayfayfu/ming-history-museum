@@ -12,6 +12,7 @@ const expectedFeature = {
   戚继光: 'training-system'
 };
 const routes = {于谦: 'yu-qian', 唐寅: 'tang-yin', 戚继光: 'qi-ji-guang'};
+const mobileFeatureSelector = {于谦: '.feature-crisis-decision', 唐寅: '.gallery', 戚继光: '.feature-training-system'};
 const errors = [];
 const assert = (condition, message) => { if (!condition) errors.push(message); };
 const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
@@ -36,6 +37,18 @@ function isDirectAuthority(url) {
   }
 }
 
+function chineseCharacterCount(text) {
+  return (String(text).match(/[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]/g) || []).length;
+}
+
+function hasExpectedArtworkImages(images, expectedCount) {
+  return expectedCount >= 4 && expectedCount <= 6 && images.length === expectedCount && images.every(Boolean);
+}
+
+if (chineseCharacterCount('甲乙abc') !== 2 || chineseCharacterCount('abc123') !== 0 || hasExpectedArtworkImages([], 4)) {
+  throw new Error('Batch 6 verifier self-check failed');
+}
+
 function assertScene(scene, name, banned) {
   assert(Boolean(scene?.year), `${name}: scene missing year`);
   assert(Boolean(scene?.reignYears), `${name}: scene missing reignYears`);
@@ -44,7 +57,7 @@ function assertScene(scene, name, banned) {
   assert(Boolean(scene?.title), `${name}: scene missing title`);
   assert(!banned.includes(scene?.title), `${name}: banned scene title`);
   assert((scene?.preview || '').length >= 28, `${name}: scene preview too short`);
-  assert(Array.isArray(scene?.body) && scene.body.length >= 2 && scene.body.every(paragraph => paragraph.length >= 55), `${name}: scene body incomplete`);
+  assert(Array.isArray(scene?.body) && scene.body.length >= 2 && scene.body.every(paragraph => chineseCharacterCount(paragraph) >= 55), `${name}: scene body incomplete`);
   assert(Boolean(scene?.evidenceNote), `${name}: scene missing evidenceNote`);
   assert(Boolean(scene?.confidence), `${name}: scene missing confidence`);
   const source = scene?.primarySource;
@@ -63,16 +76,17 @@ for (const name of names) {
     errors.push(`${name}: missing core card`);
     continue;
   }
-  assert(card.summary.length >= 34, `${name}: summary too short`);
-  assert(card.evaluation.length >= 38, `${name}: evaluation too short`);
+  assert((card.summary || '').length >= 34, `${name}: summary too short`);
+  assert((card.evaluation || '').length >= 38, `${name}: evaluation too short`);
   assert([card.source1, card.source2].every(isDirectAuthority), `${name}: weak card source`);
   if (!page) {
     errors.push(`${name}: missing person page`);
     continue;
   }
   assert(page.readingMode === 'clear-biography', `${name}: not clear biography`);
-  assert(page.scenes.length >= 5 && page.scenes.length <= 6, `${name}: wrong scene count`);
-  page.scenes.forEach(scene => assertScene(scene, name, bannedTitles));
+  const scenes = Array.isArray(page.scenes) ? page.scenes : [];
+  assert(scenes.length >= 5 && scenes.length <= 6, `${name}: wrong scene count`);
+  scenes.forEach(scene => assertScene(scene, name, bannedTitles));
   assert(page.feature?.type === expectedFeature[name], `${name}: wrong exhibition focus`);
 }
 
@@ -116,18 +130,18 @@ if (!errors.length) {
     await page.setViewportSize({width: 390, height: 844});
     for (const name of names) {
       await page.goto(hallUrl(name), {waitUntil: 'networkidle'});
-      const mobile = await page.evaluate(() => ({
+      const mobile = await page.evaluate(featureSelector => ({
         pathname: decodeURIComponent(location.pathname),
         chapters: document.querySelectorAll('.story > .chapter').length,
-        feature: document.querySelector('.feature') !== null,
+        feature: document.querySelector(featureSelector) !== null,
         artworkImages: [...document.querySelectorAll('.art-card img')].map(image => image.complete && image.naturalWidth > 0),
         bodyWidth: document.body.scrollWidth,
         viewport: innerWidth
-      }));
+      }), mobileFeatureSelector[name]);
       assert(mobile.pathname.endsWith(`/people/${routes[name]}.html`), `${name}: mobile route did not redirect`);
       assert(mobile.chapters >= 5 && mobile.chapters <= 6, `${name}: mobile chapter count`);
       assert(mobile.feature, `${name}: mobile feature missing`);
-      if (name === '唐寅') assert(mobile.artworkImages.every(Boolean), '唐寅: artwork image failed to load');
+      if (name === '唐寅') assert(hasExpectedArtworkImages(mobile.artworkImages, creative.people?.唐寅?.works?.length ?? 0), '唐寅: artwork image count or load failed');
       assert(mobile.bodyWidth === mobile.viewport, `${name}: mobile horizontal overflow`);
     }
   } finally {
