@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "title": "第五批人物文案史料记录",
+    "version": "2026-08-14",
+    "scope": ["王守仁", "张居正", "李时珍", "徐光启"],
+    "method": "先以《明史》本传核定基础行动链，再用人物著作或权威机构材料补强核心命题。本批不进行《明实录》、全部奏疏和地方志的全面对读。"
+  },
+  "people": {
+    "王守仁": {
+      "primary_question": "他的学问怎样经受贬谪、地方治理与战争的检验？",
+      "verified_facts": [
+        {"claim": "弘治十二年中进士，进入刑部等官署。", "source": "《明史》卷195·王守仁传", "url": "https://zh.wikisource.org/zh-hans/明史/卷195", "confidence": "高"},
+        {"claim": "正德元年因营救戴铣等人遭廷杖四十，谪贵州龙场驿丞。", "source": "《明史》卷195·王守仁传", "url": "https://zh.wikisource.org/zh-hans/明史/卷195", "confidence": "高"},
+        {"claim": "正德十四年组织地方力量平定宁王之乱，正史概括为三十五日。", "source": "《明史》卷195·王守仁传", "url": "https://zh.wikisource.org/zh-hans/明史/卷195", "confidence": "高"},
+        {"claim": "《传习录》把知行合一表述为针对道德上知而不行的工夫论，而非取消一般知识学习。", "source": "《传习录》卷上·徐爱录", "url": "https://zh.wikisource.org/wiki/傳習錄/卷上", "confidence": "高"}
+      ],
+      "interpretive_boundaries": [
+        "龙场思想转折可考，但某一夜的环境、对白和完整心理过程不可复原。",
+        "平定宁王之乱显示军事与组织能力，不能写成心学命题直接自动产生战术。",
+        "王守仁去世后的阳明后学发生分化，不能把所有后学主张都归给本人。"
+      ],
+      "followup_questions": [
+        "《明武宗实录》如何记录宁王之乱的地方官员、军队与报功过程？",
+        "王守仁自述、黄绾年谱和钱德洪年谱对龙场思想转折的表述怎样不同？"
+      ]
+    },
+    "张居正": {
+      "primary_question": "他怎样让帝国重新按期限办事，改革又为何与个人权威一起遭到反攻？",
+      "verified_facts": [
+        {"claim": "嘉靖二十六年中进士，后入内阁；隆庆六年万历帝即位后成为首辅。", "source": "《明史》卷213·张居正传", "url": "https://zh.wikisource.org/zh-hans/明史/卷213", "confidence": "高"},
+        {"claim": "考成法把应办事务、期限与复核责任连接起来，用于约束部院和地方执行。", "source": "《明史》卷213及张居正改革资料", "url": "https://www.dpm.org.cn/court/figure/104014.html", "confidence": "高"},
+        {"claim": "万历六年推动丈量天下田亩，以重新核对土地、业主与赋额；地方执行存在差异。", "source": "故宫博物院张居正研究资料", "url": "https://www.dpm.org.cn/Uploads/File/pdf/04/ff/14/04ff144f1c0323a6e0397a6f6c0cadf6.pdf", "confidence": "高"},
+        {"claim": "万历五年父丧后夺情留任；去世后被追夺、籍家，政治联盟迅速瓦解。", "source": "《明史》卷213·张居正传", "url": "https://zh.wikisource.org/zh-hans/明史/卷213", "confidence": "高"}
+      ],
+      "interpretive_boundaries": [
+        "李太后、冯保与张居正构成执行联盟是结构解释，不等于存在共同设计改革体系的单一会议。",
+        "考成、清丈和赋役改革相互关联，但不是同一年一次颁布、全国同步完成的单一政策。",
+        "夺情反对者既包含政治竞争，也包含对共同礼制规范的真实坚持，不能全部简化为既得利益。"
+      ],
+      "followup_questions": [
+        "《明神宗实录》怎样记录考成、清丈从中央命令到地方复奏的过程？",
+        "不同地区赋役册与地方志能否显示改革执行的地区差异？"
+      ]
+    },
+    "李时珍": {
+      "primary_question": "旧本草中的名称、形态和药效彼此冲突时，他怎样决定保存、纠正和重新分类？",
+      "verified_facts": [
+        {"claim": "李时珍为蕲州人，长期阅读医书；更具体的家庭和科举细节主要来自后出材料。", "source": "《明史》卷299·李时珍传", "url": "https://zh.wikisource.org/zh-hans/明史/卷299", "confidence": "高"},
+        {"claim": "他明确指出旧本草存在一物分为数条、二物混为一品等问题，并以博采和辨误重编。", "source": "《明史》卷299·李时珍传", "url": "https://zh.wikisource.org/zh-hans/明史/卷299", "confidence": "高"},
+        {"claim": "《本草纲目》三易其稿，以正名为纲、解释为目，建立统一的条目阅读次序。", "source": "《明史》卷299与《本草纲目》", "url": "https://zh.wikisource.org/zh-hans/本草綱目", "confidence": "高"},
+        {"claim": "书稿在李时珍去世后刊行并广泛传播，现入选联合国教科文组织世界记忆名录。", "source": "UNESCO Memory of the World", "url": "https://www.unesco.org/en/memory-world/ben-cao-gang-mu-bencaogangmu-compendium-materia-medica?hub=1081", "confidence": "高"}
+      ],
+      "interpretive_boundaries": [
+        "楚王府及太医院相关经历可写，但不应成为解释其全部知识来源的中心。",
+        "访问、采集与实物观察是编纂方法的一部分，具体每条知识来自哪次行程往往不可确定。",
+        "传统药效记录具有文献史价值，不能直接转换为现代临床有效性或现实用药建议。"
+      ],
+      "followup_questions": [
+        "顾景星《李时珍传》与《明史》本传在家庭、科举和任职细节上有哪些差异？",
+        "金陵本、江西本等早期版本怎样呈现刊刻、校勘和传播过程？"
+      ]
+    },
+    "徐光启": {
+      "primary_question": "翻译、测量、农业、火器和历法为什么会在同一个人的工作中连在一起？",
+      "verified_facts": [
+        {"claim": "万历二十五年乡试第一，万历三十二年中进士；长期关注兵机、屯田、盐策与水利。", "source": "《明史》卷251·徐光启传", "url": "https://zh.wikisource.org/zh-hans/明史/卷251", "confidence": "高"},
+        {"claim": "从利玛窦学习天文、历算与火器，并参与翻译《几何原本》。", "source": "《明史》卷251及故宫《几何原本》藏品资料", "url": "https://www.dpm.org.cn/ancient/mingqing/142246.html", "confidence": "高"},
+        {"claim": "辽东危机后请求增铸西洋大炮，同时面对训练、运输和兵部协调等组织问题。", "source": "《明史》卷251·徐光启传", "url": "https://zh.wikisource.org/zh-hans/明史/卷251", "confidence": "高"},
+        {"claim": "崇祯朝因历法推算误差主持历局修历，强调历久必差、需要及时修正。", "source": "《明史》卷251及故宫《崇祯历书》资料", "url": "https://www.dpm.org.cn/lemmas/240416.html", "confidence": "高"}
+      ],
+      "interpretive_boundaries": [
+        "“科学家”是现代概括，页面应说明其具体工作而不是以标签代替。",
+        "翻译是共同重建术语和证明方法，不宜写成欧洲知识向中国的单向搬运。",
+        "技术方案能否落地取决于财政、训练、制造和政治信任，不能只用技术先进解释成败。"
+      ],
+      "followup_questions": [
+        "《徐光启集》中的练兵、火器和农政奏疏怎样呈现方案的财政条件？",
+        "历局成果从《崇祯历书》到清初《时宪历》的制度转换经历了哪些改写？"
+      ]
+    }
+  }
+}
