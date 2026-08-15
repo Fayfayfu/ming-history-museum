@@ -2363,6 +2363,85 @@
       "height": 900,
       "objectPosition": "50% 17%",
       "note": "未找到来源链可靠的本人旧像。画面以元末北方蒙古贵族统帅、军帐和实用甲胄为时代锚点；五官、神态、服饰细节、军帐陈设和具体时刻均为艺术想象。"
+    },
+    "杨慎": {
+      "status": "image",
+      "file": "assets/portraits/batch-21/杨慎.webp",
+      "page": "https://commons.wikimedia.org/wiki/File:%E6%A5%8A%E6%85%8E.jpg",
+      "commons": "https://commons.wikimedia.org/wiki/File:%E6%A5%8A%E6%85%8E.jpg",
+      "fileName": "楊慎.jpg",
+      "width": 436,
+      "height": 596,
+      "license": "Public Domain Mark 1.0",
+      "portraitKind": "1810年后世人物画",
+      "confidence": "身份中；相貌低",
+      "batch": 7,
+      "note": "钱杜1810年《杨升庵小像》局部，清代绢本设色，距杨慎去世约250年。可作为可追溯的后世纪念性图像，不主张复原其真实相貌。"
+    },
+    "杨博": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-21/杨博.webp",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 7,
+      "generatedWith": "OpenAI image generation",
+      "evidence": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7214"],
+      "width": 1086,
+      "height": 1448,
+      "objectPosition": "50% 17%",
+      "note": "未找到来源、年代与许可可同时核验的可靠旧像。画面仅以16世纪明代边臣、宣大边镇、粮车与边务场景为时代锚点；五官、神态、服饰细节与具体时刻均为艺术想象。"
+    },
+    "俺答": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-21/俺答.webp",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 7,
+      "generatedWith": "OpenAI image generation",
+      "evidence": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7327","https://www.dpm.org.cn/lemmas/243967.html?hl=%E4%BF%BA%E7%AD%94%E6%B1%97"],
+      "width": 1086,
+      "height": 1448,
+      "objectPosition": "50% 18%",
+      "note": "未找到人物归属、年代与权利状态可同时核验的传世肖像。画面仅参考16世纪土默特蒙古的时代、草原营地与互市场景；五官、服饰细节和归化城远景均为艺术想象。"
+    },
+    "王崇古": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-21/王崇古.webp",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 7,
+      "generatedWith": "OpenAI image generation",
+      "evidence": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7222"],
+      "width": 1086,
+      "height": 1448,
+      "objectPosition": "50% 17%",
+      "note": "未找到可核验的馆藏传世像。画面以明代边防总督、空白边防图与关市贸易为时代锚点；五官、神态、服饰细节与具体地点均为艺术想象。"
+    },
+    "赵南星": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-21/赵南星.webp",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 7,
+      "generatedWith": "OpenAI image generation",
+      "evidence": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7243","https://www.chnmuseum.cn/zp/zpml/csp/202008/t20200826_247326.shtml"],
+      "width": 1086,
+      "height": 1448,
+      "objectPosition": "50% 18%",
+      "note": "未找到年代、人物归属与许可都可核验的传世肖像。画面仅以天启初年吏部尚书、官署与文书为时代锚点；五官、神态、服饰细节与具体时刻均为艺术想象。赵南星本人墨迹可作为作品证据，不作为肖像。"
+    },
+    "熊廷弼": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-21/熊廷弼.webp",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 7,
+      "generatedWith": "OpenAI image generation",
+      "evidence": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7259","https://www.dpm.org.cn/lemmas/241475.html"],
+      "width": 1086,
+      "height": 1448,
+      "objectPosition": "50% 18%",
+      "note": "未找到年代、人物归属与许可可同时核验的传世肖像。画面仅以辽东经略、冬季城防、军械与空白城防图为时代锚点；五官、神态、服饰细节和具体时刻均为艺术想象。"
     }
   }
 }

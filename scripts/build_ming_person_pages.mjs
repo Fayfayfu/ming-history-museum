@@ -4,7 +4,14 @@ import {MUSEUM_NAV_CSS,renderMuseumNavigation} from './lib/museum_navigation.mjs
 const root = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆';
 const primaryPages = JSON.parse(await fs.readFile('data/ming_person_pages.json', 'utf8'));
 const batch2Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch2.json', 'utf8'));
-const pages = {people:{...(primaryPages.people || {}), ...(batch2Pages.people || {})}};
+const batch7Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch7.json', 'utf8'));
+const batch7Part2Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch7_part2.json', 'utf8'));
+const batch7Part3Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch7_part3.json', 'utf8'));
+const batch7Part4Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch7_part4.json', 'utf8'));
+const batch8Part1Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch8_part1.json', 'utf8'));
+const batch8Part2Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch8_part2.json', 'utf8'));
+const batch8Part3Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch8_part3.json', 'utf8'));
+const pages = {people:{...(primaryPages.people || {}), ...(batch2Pages.people || {}), ...(batch7Pages.people || {}), ...(batch7Part2Pages.people || {}), ...(batch7Part3Pages.people || batch7Part3Pages), ...(batch7Part4Pages.people || {}), ...(batch8Part1Pages.people || batch8Part1Pages), ...(batch8Part2Pages.people || batch8Part2Pages), ...(batch8Part3Pages.people || batch8Part3Pages)}};
 const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
 const creative = JSON.parse(await fs.readFile('data/ming_creative_works.json', 'utf8'));
 const storytelling = JSON.parse(await fs.readFile('data/ming_storytelling.json', 'utf8'));
@@ -105,6 +112,7 @@ function renderHistoricalSlice(name) {
 
 export function renderFeature(page, name) {
   const f = page.feature;
+  if (!f) return '';
   if (f.type === 'crisis-decision') {
     return `<section class="feature feature-crisis-decision reveal"><header class="section-head"><div><div class="eyebrow">${esc(f.eyebrow)}</div><h2>${esc(f.title)}</h2></div><p>${esc(f.intro)}</p></header><ol class="decision-chain">${f.items.map((item, i) =>
       `<li class="decision-step" data-index="0${i + 1}"><b>${esc(item.label)}</b><p>${esc(item.text)}</p></li>`

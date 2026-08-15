@@ -74,7 +74,8 @@
       "description": "掌制诰、史册、讲读与修史等文翰事务；人物关系只记录明确翰林官职。",
       "people": [
         {"name": "宋濂", "relation": "任职", "period": "洪武初至十年（1368—1377）", "year": 1370, "confidence": "高", "note": "累官翰林学士承旨、知制诰，并主持修史与文教事务。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷128"]},
-        {"name": "方孝孺", "relation": "任职", "period": "洪武二十五年至建文四年（1392—1402）", "year": 1395, "confidence": "高", "note": "任翰林侍讲，建文朝参与重要诏令与政务议论。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷141"]}
+        {"name": "方孝孺", "relation": "任职", "period": "洪武二十五年至建文四年（1392—1402）", "year": 1395, "confidence": "高", "note": "任翰林侍讲，建文朝参与重要诏令与政务议论。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷141"]},
+        {"name": "杨慎", "relation": "任职", "period": "1511—1524", "year": 1511, "confidence": "高", "note": "殿试第一后授翰林修撰；嘉靖初充经筵讲官，后因大礼议谪戍。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7192"]}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73", "https://www.dpm.org.cn/court/system/236391.html"]
     },
@@ -179,7 +180,8 @@
         {"name": "潘季驯", "relation": "任职", "note": "以右都御史等衔总理河道。"},
         {"name": "胡宗宪", "relation": "任职", "note": "以都御史衔总督东南军务。"},
         {"name": "袁崇焕", "relation": "任职", "note": "以右副都御史等衔督理辽东。"},
-        {"name": "卢象升", "relation": "任职", "note": "以右副都御史等衔总督军务。"}
+        {"name": "卢象升", "relation": "任职", "note": "以右副都御史等衔总督军务。"},
+        {"name": "熊廷弼", "relation": "任职", "period": "1608—1622", "year": 1619, "confidence": "高", "note": "巡按辽东，后以都察院右佥都御史等衔经略辽东；其经略权并不等同于单独统率全部辽东军政。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7259"]}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73"]
     },
@@ -190,7 +192,9 @@
       "description": "掌文官选授、考课、封勋等事务，六部中被视为尤重。人物关系只记录本馆人物可核实的正式任职。",
       "people": [
         {"name": "蹇义", "relation": "任职", "note": "历任吏部侍郎、吏部尚书，长期主持文官铨选。"},
-        {"name": "顾宪成", "relation": "任职", "note": "任吏部文选司郎中，因推举与执政意见相左被革职。"}
+        {"name": "顾宪成", "relation": "任职", "note": "任吏部文选司郎中，因推举与执政意见相左被革职。"},
+        {"name": "赵南星", "relation": "任职", "period": "1623—1624", "year": 1623, "confidence": "高", "note": "天启朝任吏部尚书，主持京察与铨选；后遭魏忠贤集团排逐。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7243"]},
+        {"name": "杨博", "relation": "任职", "period": "1566—1574", "year": 1566, "confidence": "高", "note": "嘉靖四十五年改任吏部尚书，后继续参与中枢用人与政务协调。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7214"]}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72", "https://zh.wikisource.org/zh-hans/明史/卷149", "https://zh.wikisource.org/zh-hans/明史/卷231"]
     },
@@ -213,7 +217,8 @@
       "people": [
         {"name": "张璁", "relation": "任职", "note": "大礼议后任礼部尚书，并以礼制议论进入权力中枢。"},
         {"name": "徐光启", "relation": "任职", "note": "崇祯朝任礼部尚书，并主持历法修订相关工作。"},
-        {"name": "黄道周", "relation": "任职", "note": "南明隆武朝任礼部尚书，后兼大学士。"}
+        {"name": "黄道周", "relation": "任职", "note": "南明隆武朝任礼部尚书，后兼大学士。"},
+        {"name": "俺答", "relation": "封贡往来", "period": "1571年后", "year": 1571, "confidence": "高", "note": "隆庆五年受封顺义王并进入贡市秩序；礼部承担册封与朝贡礼仪，但这不等于俺答是明朝官员。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7327", "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7222"]}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72", "https://zh.wikisource.org/zh-hans/明史/卷196", "https://zh.wikisource.org/zh-hans/明史/卷251", "https://zh.wikisource.org/zh-hans/明史/卷255"]
     },
@@ -235,6 +240,9 @@
         {"name": "宋应昌", "relation": "任职", "note": "以兵部右侍郎经略援朝军务。"},
         {"name": "卢象升", "relation": "任职", "note": "崇祯朝任兵部尚书。"},
         {"name": "孙传庭", "relation": "任职", "note": "崇祯末任兵部尚书。"}
+        ,{"name": "杨博", "relation": "任职", "period": "嘉靖至隆庆间", "year": 1556, "confidence": "高", "note": "历任兵部尚书并长期处理蓟辽、宣大等军务；其边政不限于兵部一处。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7214"]}
+        ,{"name": "王崇古", "relation": "任职", "period": "1570—1574", "year": 1571, "confidence": "高", "note": "封贡议成后加兵部尚书，仍总督宣大山西军务。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7222"]}
+        ,{"name": "熊廷弼", "relation": "任职", "period": "1619—1622", "year": 1621, "confidence": "高", "note": "以兵部右侍郎、后兵部尚书等衔经略辽东；经略职责还牵涉地方督抚与军饷。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7259"]}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72"]
     },

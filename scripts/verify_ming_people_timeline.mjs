@@ -50,7 +50,8 @@ const years = people.map((person) => person.timeline_year);
 const approximate = people.filter((person) => /^约/.test(person.timeline_year_label)).length;
 const failures = [];
 
-if (people.length !== 165) failures.push(`timeline must contain exactly 165 people; got ${people.length}`);
+const expectedPeopleCount = new Set([...core.map(person => person.name), ...children.map(person => person.name)]).size;
+if (people.length !== expectedPeopleCount) failures.push(`timeline must contain exactly ${expectedPeopleCount} people; got ${people.length}`);
 
 const emperors = people.filter((person) => person.timeline_size === 'emperor');
 if (emperors.length !== 16) {

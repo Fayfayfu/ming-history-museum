@@ -34,7 +34,14 @@ const historicalSlices = addHistoricalSliceEraDates({
 const creativeWorks = JSON.parse(await fs.readFile('data/ming_creative_works.json', 'utf8'));
 const primaryPersonPages = JSON.parse(await fs.readFile('data/ming_person_pages.json', 'utf8'));
 const batch2PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch2.json', 'utf8'));
-const personPages = {people:{...(primaryPersonPages.people || {}), ...(batch2PersonPages.people || {})}};
+const batch7PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch7.json', 'utf8'));
+const batch7Part2PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch7_part2.json', 'utf8'));
+const batch7Part3PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch7_part3.json', 'utf8'));
+const batch7Part4PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch7_part4.json', 'utf8'));
+const batch8Part1PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch8_part1.json', 'utf8'));
+const batch8Part2PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch8_part2.json', 'utf8'));
+const batch8Part3PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch8_part3.json', 'utf8'));
+const personPages = {people:{...(primaryPersonPages.people || {}), ...(batch2PersonPages.people || {}), ...(batch7PersonPages.people || {}), ...(batch7Part2PersonPages.people || {}), ...(batch7Part3PersonPages.people || batch7Part3PersonPages), ...(batch7Part4PersonPages.people || {}), ...(batch8Part1PersonPages.people || batch8Part1PersonPages), ...(batch8Part2PersonPages.people || batch8Part2PersonPages), ...(batch8Part3PersonPages.people || batch8Part3PersonPages)}};
 const emperorDrawerProfiles = JSON.parse(await fs.readFile('data/ming_emperor_drawer_profiles.json', 'utf8'));
 let portraits = {downloaded: 0, total: 0, people: {}};
 try { portraits = JSON.parse(await fs.readFile('data/ming_portraits.json', 'utf8')); } catch {}
@@ -399,7 +406,7 @@ function openDetail(p){
   showDrawerAt(restoreScrollTop);
 }
 function closeDetail(){document.getElementById('drawer').classList.remove('open')}
-const counts=Object.fromEntries(cats.slice(1).map(c=>[c,all.filter(p=>p.category===c).length]));document.getElementById('stats').innerHTML=[['不重复人物',all.length],['皇帝',counts.皇帝],['重要子嗣关系',raw.children.length],['后妃与内廷女性',counts['后妃与内廷女性']],['文臣',counts.文臣],['武官',counts.武官],['宦官',counts.宦官],['域外人物',counts.域外人物],['政权人物',counts.政权人物],['在野人物',counts.在野人物],['故事覆盖',all.length]].map(x=>'<div class="stat"><span>'+x[0]+'</span><strong>'+x[1]+'</strong></div>').join('');
+const counts=Object.fromEntries(cats.slice(1).map(c=>[c,all.filter(p=>p.category===c).length]));const independentPageCount=Object.keys(raw.personPages?.people||{}).filter(name=>all.some(person=>person.name===name)).length;document.getElementById('stats').innerHTML=[['不重复人物',all.length],['皇帝',counts.皇帝],['重要子嗣关系',raw.children.length],['后妃与内廷女性',counts['后妃与内廷女性']],['文臣',counts.文臣],['武官',counts.武官],['宦官',counts.宦官],['域外人物',counts.域外人物],['政权人物',counts.政权人物],['在野人物',counts.在野人物],['独立页面人物',independentPageCount]].map(x=>'<div class="stat"><span>'+x[0]+'</span><strong>'+x[1]+'</strong></div>').join('');
 document.getElementById('chips').innerHTML=cats.map(c=>'<button class="chip '+(c==='全部'?'active':'')+'" data-cat="'+c+'">'+c+'</button>').join('');document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{state.category=b.dataset.cat;render()});
 const emperorCore=emperorOrder.map(n=>core.find(p=>p.name===n)).filter(Boolean);document.getElementById('emperors').innerHTML=emperorCore.map(p=>'<button class="emperor" data-name="'+p.name+'"><b>'+p.alt+'</b><span>'+p.name+' · '+String(p.office_start).replace(';',' / ')+'</span></button>').join('');document.querySelectorAll('.emperor').forEach(b=>b.onclick=()=>{state.parent=b.dataset.name;state.event='';state.category='全部';state.domain='';state.institution='';document.getElementById('personEvent').value='';document.getElementById('domain').value='';document.getElementById('institution').value='';syncPeopleQuery('',null);render();const timeline=document.querySelector('.timeline'),nav=document.querySelector('.museum-nav');window.scrollTo({top:window.scrollY+timeline.getBoundingClientRect().top-nav.getBoundingClientRect().height,behavior:'smooth'})});
 document.getElementById('personEvent').innerHTML+=eventStages.map(stage=>'<optgroup label="'+esc(stage.label+' · '+stage.range)+'">'+events.filter(e=>e.stage===stage.id).map(e=>'<option value="'+esc(e.id)+'">'+esc(e.eraYear+' · '+e.date+' · '+e.title+'（本馆 '+peopleForEvent(e).length+' 人）')+'</option>').join('')+'</optgroup>').join('');
