@@ -410,6 +410,28 @@
   },
   {
     "category": "文臣",
+    "name": "汪广洋",
+    "alt": "汪朝宗",
+    "birth": "待考",
+    "death": 1379,
+    "office": "中书省右丞相、忠勤伯",
+    "office_start": 1371,
+    "office_end": 1379,
+    "hometown": "高邮，流寓太平（今安徽当涂一带）",
+    "summary": "从元帅府文书与行省事务进入明初中枢；两度任中书省右丞相，见证废相前中书省的权力困境。",
+    "evaluation": "治理山东新附地区的政绩可确认；在杨宪、胡惟庸相继主政的中书省中多取持重自守，最终仍以“朋欺”等官方指控被杀。指控与其实际责任必须分开。",
+    "score": 66,
+    "confidence": "中",
+    "source1": "https://zh.wikisource.org/zh-hans/明史/卷127",
+    "source2": "https://zh.wikisource.org/zh-hans/明史/卷109",
+    "notes": "生年不详。洪武四年（1371）李善长致仕后升右丞相，洪武十年（1377）再任，洪武十二年（1379）贬广南途中被杀。《明史》所载其“曲庇”“不发奸”等为处置理由，不能直接当作现代意义上的责任定论。",
+    "domains": [
+      "政治制度",
+      "社会经济"
+    ]
+  },
+  {
+    "category": "文臣",
     "name": "刘基",
     "alt": "刘伯温",
     "birth": 1311,
@@ -651,6 +673,29 @@
   },
   {
     "category": "文臣",
+    "name": "徐有贞",
+    "alt": "徐珵",
+    "birth": 1407,
+    "death": 1472,
+    "office": "华盖殿大学士、兵部尚书、武功伯",
+    "office_start": 1457,
+    "office_end": 1457,
+    "hometown": "南直隶吴县（今江苏苏州）",
+    "summary": "曾参与沙湾治河，土木之变后主张南迁；1457年与石亨、曹吉祥等参与夺门，英宗复位后短暂进入中枢。",
+    "evaluation": "河工与书法成就可单独评价；其参与夺门并在于谦、王文被处死的政治过程中发挥关键作用，构成难以回避的政治代价。政变并非其一人发动，不能把完整决策链归为单人。",
+    "score": 57,
+    "confidence": "高",
+    "source1": "https://zh.wikisource.org/zh-hans/明史/卷171",
+    "source2": "https://www.dpm.org.cn/lemmas/242997.html",
+    "notes": "初名徐珵，后改徐有贞。1433年进士；1452年主持沙湾治河。1457年参与夺门后加兵部尚书、兼华盖殿大学士，旋因与石亨、曹吉祥冲突流徙。故宫资料确认其1407—1472年及书法史地位。",
+    "domains": [
+      "政治制度",
+      "社会经济",
+      "文化艺术"
+    ]
+  },
+  {
+    "category": "文臣",
     "name": "李贤",
     "alt": "",
     "birth": 1408,
@@ -799,6 +844,29 @@
     "notes": "",
     "domains": [
       "政治制度"
+    ]
+  },
+  {
+    "category": "文臣",
+    "name": "杨一清",
+    "alt": "杨应宁",
+    "birth": 1454,
+    "death": 1530,
+    "office": "三边总制、兵部尚书、内阁首辅",
+    "office_start": 1502,
+    "office_end": 1530,
+    "hometown": "祖籍云南安宁；随父居巴陵，后家丹徒",
+    "summary": "三度总制延绥、宁夏、甘肃等边镇，试图把军纪、城堡、马政与供给放进同一套边防治理；嘉靖初入阁并任首辅。",
+    "evaluation": "边政经验和整军能力突出，参与促成刘瑾伏诛；但嘉靖初的合作与党争很快反转，晚年因受贿指控落职。应区分其被指控、据此受处分，与具体责任是否坐实。",
+    "score": 82,
+    "confidence": "高",
+    "source1": "https://zh.wikisource.org/zh-hans/明史/卷198",
+    "source2": "https://newarchive.ihp.sinica.edu.tw/sncaccgi/sncacFtp?ACTION=TQ%2CsncacFtpqf%2CSN%3D011922%2C2nd%2Csearch_simple",
+    "notes": "成化八年（1472）进士。1502年督陕西马政后转入三边治理；1510年安化王事变中与张永合作促成刘瑾伏诛。嘉靖五年（1526）再入阁，约嘉靖六年至八年居首。私下对话与受贿案的完整因果均需保留史料边界。",
+    "domains": [
+      "政治制度",
+      "军事边疆",
+      "社会经济"
     ]
   },
   {
@@ -1020,6 +1088,29 @@
     "domains": [
       "政治制度",
       "社会经济"
+    ]
+  },
+  {
+    "category": "文臣",
+    "name": "王锡爵",
+    "alt": "王荆石",
+    "birth": 1534,
+    "death": 1611,
+    "office": "礼部尚书、内阁首辅",
+    "office_start": 1584,
+    "office_end": 1594,
+    "hometown": "南直隶太仓（今江苏太仓）",
+    "summary": "张居正身后入阁，1593年任首辅；一面主张节省织造、陶器和贡金，一面卷入皇长子册立与“三王并封”的国本争议。",
+    "evaluation": "能够看到万历中枢并非只处理党争，也要面对财政、灾赈与礼制；他在三王并封诏旨中的政治判断严重受批评，但不能把这场继承冲突归因于一人。",
+    "score": 68,
+    "confidence": "高",
+    "source1": "https://zh.wikisource.org/zh-hans/明史/卷218",
+    "source2": "https://rarebookdl.ihp.sinica.edu.tw/fsnpeople/Search/person.jsp?PrintList=3099&isOpen=false",
+    "notes": "1534—1611。1584年以礼部尚书兼文渊阁大学士入阁，1593—1594年居首。关于“三王并封”，可确认其参与拟旨并因此受物议；他是迎合上意还是主动谋划，仍需将时人归责与具体决策链分开。",
+    "domains": [
+      "政治制度",
+      "社会经济",
+      "文化艺术"
     ]
   },
   {
@@ -1312,7 +1403,7 @@
     "alt": "",
     "birth": 1332,
     "death": 1385,
-    "office": "中山王、征虏大将军",
+    "office": "中山王、征虏大将军、中书省右丞相（兼）",
     "office_start": 1353,
     "office_end": 1385,
     "hometown": "濠州钟离（今安徽凤阳）",
@@ -1322,7 +1413,7 @@
     "confidence": "高",
     "source1": "https://zh.wikipedia.org/wiki/%E5%BE%90%E8%BE%BE",
     "source2": "https://ctext.org/wiki.pl?if=gb&res=410835",
-    "notes": "",
+    "notes": "洪武初兼中书省右丞相，但主要职责仍为统军；《明史》称其“未专理省事”，不应把他写成中书省的日常主持者。",
     "domains": [
       "军事边疆"
     ]

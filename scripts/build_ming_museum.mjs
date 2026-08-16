@@ -15,6 +15,7 @@ await import('./build_ming_html.mjs');
 // the museum asset tree is mirrored. This keeps a clean rebuild reproducible.
 await import('./process_ming_portrait_batch20.mjs');
 await import('./process_ming_portrait_batch21.mjs');
+await import('./process_ming_portrait_batch22.mjs');
 
 const root = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9';
 const museum = `${root}/明史数字博物馆`;

@@ -27,6 +27,7 @@
       "description": "明初中央行政中枢，丞相统理政务；洪武十三年罢除，不能把相关人物关系延伸到1380年之后。",
       "people": [
         {"name": "李善长", "relation": "任职", "period": "洪武初（1368—1371）", "year": 1370, "confidence": "高", "note": "任中书左丞相，参与统理政务与洪武初制度建设。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷127"]},
+        {"name": "汪广洋", "relation": "任职", "period": "洪武四年至十二年（1371—1379；两度任右丞相）", "year": 1371, "confidence": "高", "note": "李善长致仕后升中书省右丞相，1377年再任；其被责“朋欺”等是洪武朝处置理由，不等于已证明全部具体责任。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷127", "https://zh.wikisource.org/zh-hans/明史/卷109"]},
         {"name": "胡惟庸", "relation": "任职", "period": "1373—1380", "year": 1375, "confidence": "高", "note": "先后任中书省右、左丞相；1380年被诛后中书省随即罢除。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷308", "https://zh.wikisource.org/zh-hans/明史/卷72"]},
         {"name": "徐达", "relation": "兼任", "period": "洪武元年至废省前（1368—1380）", "year": 1370, "confidence": "高", "note": "兼中书右丞相，主要职责仍是统军；《明史》明确指出其未专理中书省事务。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷125", "https://zh.wikisource.org/zh-hans/明史/卷127"]},
         {"name": "常遇春", "relation": "兼任", "period": "洪武元年至二年（1368—1369）", "year": 1368, "confidence": "高", "note": "以中书平章政事录军国重事，同时承担主要军事指挥。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷125", "https://zh.wikisource.org/zh-hans/明史/卷115"]}
@@ -161,6 +162,9 @@
         {"name": "沈一贯", "relation": "任职", "note": "万历后期首辅。"},
         {"name": "沈鲤", "relation": "任职", "note": "万历朝阁臣。"},
         {"name": "叶向高", "relation": "任职", "note": "万历、天启两度入阁。"},
+        {"name": "徐有贞", "relation": "任职", "period": "天顺元年（1457）", "year": 1457, "confidence": "高", "note": "英宗复位后兼华盖殿大学士、掌文渊阁事；其入阁与夺门政变相连，任期很短。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷171", "https://zh.wikisource.org/zh-hans/明史/卷12"]},
+        {"name": "杨一清", "relation": "任职", "period": "嘉靖五年至八年（1526—1529）", "year": 1526, "confidence": "高", "note": "嘉靖五年再入阁，费宏去后居首；“首辅”是排名称谓，不是正式官名。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷198"]},
+        {"name": "王锡爵", "relation": "任职", "period": "万历十二年至二十二年（1584—1594）", "year": 1593, "confidence": "高", "note": "1584年入阁，1593年居首，次年去职；任内所涉国本争议不宜化约为单一人物责任。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷218"]},
         {"name": "徐光启", "relation": "任职", "note": "崇祯朝入阁。"},
         {"name": "黄道周", "relation": "任职", "note": "南明隆武朝任武英殿大学士。"}
       ],
@@ -216,6 +220,7 @@
       "description": "掌礼制、祭祀、学校、科举、册封与朝贡等事务，既处理国内秩序，也承担部分对外礼仪。",
       "people": [
         {"name": "张璁", "relation": "任职", "note": "大礼议后任礼部尚书，并以礼制议论进入权力中枢。"},
+        {"name": "王锡爵", "relation": "任职", "period": "万历六年至十二年（1578—1584）", "year": 1584, "confidence": "高", "note": "历礼部侍郎、礼部尚书，后以礼部尚书兼文渊阁大学士入阁；国本争议同时具有礼制与继承政治两层。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷218"]},
         {"name": "徐光启", "relation": "任职", "note": "崇祯朝任礼部尚书，并主持历法修订相关工作。"},
         {"name": "黄道周", "relation": "任职", "note": "南明隆武朝任礼部尚书，后兼大学士。"},
         {"name": "俺答", "relation": "封贡往来", "period": "1571年后", "year": 1571, "confidence": "高", "note": "隆庆五年受封顺义王并进入贡市秩序；礼部承担册封与朝贡礼仪，但这不等于俺答是明朝官员。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7327", "https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7222"]}
@@ -229,6 +234,8 @@
       "description": "掌武官选授、军令、边防与军籍等事务；尚书、侍郎与具体司官的权责层级并不相同。",
       "people": [
         {"name": "于谦", "relation": "任职", "note": "北京保卫战时任兵部尚书。"},
+        {"name": "徐有贞", "relation": "任职", "period": "天顺元年（1457）", "year": 1457, "confidence": "高", "note": "夺门后加兵部尚书；此前以治河和都察院差遣为主，不能将全部经历归入兵部。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷171"]},
+        {"name": "杨一清", "relation": "任职", "period": "嘉靖三年至八年（1525—1529）", "year": 1526, "confidence": "高", "note": "嘉靖初改兵部尚书、总制陕西三边；其边政还依赖都察院差遣与边镇协作。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷198"]},
         {"name": "刘大夏", "relation": "任职", "note": "弘治朝任兵部尚书。"},
         {"name": "王守仁", "relation": "任职", "note": "晚年任南京兵部尚书。"},
         {"name": "杨继盛", "relation": "任职", "note": "终官兵部武选司员外郎。"},

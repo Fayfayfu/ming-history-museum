@@ -2430,6 +2430,58 @@
       "objectPosition": "50% 18%",
       "note": "未找到年代、人物归属与许可都可核验的传世肖像。画面仅以天启初年吏部尚书、官署与文书为时代锚点；五官、神态、服饰细节与具体时刻均为艺术想象。赵南星本人墨迹可作为作品证据，不作为肖像。"
     },
+    "汪广洋": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-22/汪广洋_AI想象像.webp",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 10,
+      "generatedWith": "OpenAI image generation",
+      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷127"],
+      "width": 1122,
+      "height": 1402,
+      "objectPosition": "50% 18%",
+      "note": "未找到可核验的传世像。画面仅以1370年代中书省文臣、文书与官服为时代锚点；五官、神态、背景与服饰细节均为艺术想象。"
+    },
+    "徐有贞": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-22/徐有贞_AI想象像.webp",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 10,
+      "generatedWith": "OpenAI image generation",
+      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷171", "https://www.dpm.org.cn/lemmas/242997.html"],
+      "width": 1122,
+      "height": 1402,
+      "objectPosition": "50% 18%",
+      "note": "未找到可核验的传世像。画面仅以15世纪中期文臣、河工与内阁文书为时代锚点；五官、神态、背景与服饰细节均为艺术想象。"
+    },
+    "杨一清": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-22/杨一清_AI想象像.webp",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 10,
+      "generatedWith": "OpenAI image generation",
+      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷198"],
+      "width": 1122,
+      "height": 1402,
+      "objectPosition": "50% 18%",
+      "note": "未找到可核验的传世像。画面仅以嘉靖初边臣、内阁大学士与北方边镇文书为时代锚点；五官、神态、背景与服饰细节均为艺术想象。"
+    },
+    "王锡爵": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-22/王锡爵_AI想象像.webp",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 10,
+      "generatedWith": "OpenAI image generation",
+      "evidence": ["https://zh.wikisource.org/zh-hans/明史/卷218"],
+      "width": 1122,
+      "height": 1402,
+      "objectPosition": "50% 18%",
+      "note": "未找到可核验的传世像。画面仅以万历中期礼部尚书、内阁首辅与文书环境为时代锚点；五官、神态、背景与服饰细节均为艺术想象。"
+    },
     "熊廷弼": {
       "status": "imagined",
       "file": "assets/portraits/batch-21/熊廷弼.webp",

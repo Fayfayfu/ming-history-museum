@@ -12,3 +12,5 @@ outputs/*/*预览*.png
 outputs/*/*.xlsx
 outputs/*/*.xlsx.*
 outputs/*/.~*
+.vercel
+.env*

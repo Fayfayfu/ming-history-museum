@@ -274,6 +274,11 @@
       "url": "https://zh.wikisource.org/wiki/明史/卷132",
       "kind": "正史"
     },
+    "MS171": {
+      "label": "《明史》卷171",
+      "url": "https://zh.wikisource.org/wiki/明史/卷171",
+      "kind": "正史"
+    },
     "MS173": {
       "label": "《明史》卷173",
       "url": "https://zh.wikisource.org/wiki/明史/卷173",
@@ -838,6 +843,19 @@
       "timeline_size": "standard"
     },
     {
+      "name": "汪广洋",
+      "source": "core",
+      "timeline_year": 1368,
+      "timeline_year_label": "1368",
+      "timeline_year_basis": "洪武元年治山东行省，开始承担可明确纪年的明初行政职责",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS127"
+      ],
+      "timeline_role": "中书省右丞相",
+      "timeline_size": "standard"
+    },
+    {
       "name": "胡惟庸",
       "source": "core",
       "timeline_year": 1355,
@@ -995,6 +1013,19 @@
       "timeline_size": "featured"
     },
     {
+      "name": "徐有贞",
+      "source": "core",
+      "timeline_year": 1433,
+      "timeline_year_label": "1433",
+      "timeline_year_basis": "宣德八年中进士，选庶吉士，进入仕途",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS171"
+      ],
+      "timeline_role": "夺门政变参与者",
+      "timeline_size": "standard"
+    },
+    {
       "name": "李贤",
       "source": "core",
       "timeline_year": 1433,
@@ -1087,6 +1118,19 @@
         "MS190"
       ],
       "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "杨一清",
+      "source": "core",
+      "timeline_year": 1472,
+      "timeline_year_label": "1472",
+      "timeline_year_basis": "成化八年中进士，授中书舍人",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS198"
+      ],
+      "timeline_role": "三边总制、内阁首辅",
       "timeline_size": "standard"
     },
     {
@@ -1214,6 +1258,19 @@
       "timeline_year": 1556,
       "timeline_year_label": "1556",
       "timeline_year_basis": "嘉靖三十五年中进士，选庶吉士",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "MS218"
+      ],
+      "timeline_role": "内阁首辅",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "王锡爵",
+      "source": "core",
+      "timeline_year": 1562,
+      "timeline_year_label": "1562",
+      "timeline_year_basis": "嘉靖四十一年会试第一、殿试二甲第一，授编修",
       "timeline_year_confidence": "高",
       "timeline_source_refs": [
         "MS218"
