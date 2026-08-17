@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import {renderCompactImpactGraph,validateImpactGraphData} from './lib/render_people_impact_graph.mjs';
 import {addHistoricalSliceEraDates,addMingEraDates,addStorytellingEraDates,formatLifeEraLabel} from './lib/ming_reign_year.mjs';
+import {buildPeopleOnDemandData,emitPeopleOnDemandData} from './lib/people_on_demand_data.mjs';
 
 const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
 const children = JSON.parse(await fs.readFile('data/ming_children_important.json', 'utf8'));
@@ -88,6 +89,17 @@ for (const person of [...core, ...children]) {
 const data = JSON.stringify({core, children, childCounts, imperialLineages, portraits, eventData, eventImpactHtmlById, institutionData, peopleTimeline, lifeEraLabels, storytelling, historicalSlices, creativeWorks, personPages, emperorDrawerProfiles}).replaceAll('</script>', '<\\/script>');
 const outDir = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9';
 await fs.mkdir(outDir, {recursive:true});
+await emitPeopleOnDemandData(outDir, buildPeopleOnDemandData({
+  core,
+  eventData,
+  institutionData,
+  portraits,
+  storytelling,
+  historicalSlices,
+  creativeWorks,
+  personPages,
+  emperorDrawerProfiles,
+}));
 
 const storyStyle = `<style>
 .portrait{position:relative}.portrait-imagined img{filter:saturate(.68) sepia(.12) contrast(.98)}.portrait-label{position:absolute;right:2px;bottom:2px;z-index:2;max-width:calc(100% - 4px);padding:3px 4px;background:rgba(30,26,19,.86);color:#f4ecd9;font:700 7px/1 ui-monospace,monospace;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.detail-title .portrait-label{right:5px;bottom:5px;max-width:calc(100% - 10px);padding:5px 7px;font-size:8px}.panel{width:min(820px,96vw)}

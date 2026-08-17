@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildPeopleOnDemandData } from './people_on_demand_data.mjs';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { buildPeopleOnDemandData, emitPeopleOnDemandData } from './people_on_demand_data.mjs';
 
 const fixture = {
   core: [{
@@ -87,6 +90,46 @@ test('maps all source IDs to exactly one detail', () => {
   assert.equal(result.eventsIndex.events[0].cause, undefined);
   assert.equal(result.eventDetails.get('hongwu-founding').id, 'hongwu-founding');
   assert.equal(result.eventDetails.get('hongwu-founding').cause, '完整事件文本不应进入索引。');
+});
+
+test('gives each index record a matching detail path', () => {
+  const result = buildPeopleOnDemandData(fixture);
+
+  for (const entry of result.peopleIndex.people) {
+    assert.equal(result.peopleDetails.get(entry.id).id, entry.id);
+    assert.match(entry.detailUrl, /^assets\/data\/people-details\/[a-z0-9-]+\.json$/);
+  }
+});
+
+test('emits deterministic index and detail shards while removing only stale JSON details', async () => {
+  const outDir = await fs.mkdtemp(path.join(os.tmpdir(), 'people-on-demand-data-'));
+  const dataRoot = path.join(outDir, 'assets', 'data');
+  const peopleDetails = path.join(dataRoot, 'people-details');
+  const eventDetails = path.join(dataRoot, 'event-details');
+  try {
+    await fs.mkdir(peopleDetails, { recursive: true });
+    await fs.mkdir(eventDetails, { recursive: true });
+    await fs.writeFile(path.join(peopleDetails, 'stale.json'), '{}');
+    await fs.writeFile(path.join(eventDetails, 'stale.json'), '{}');
+    await fs.writeFile(path.join(peopleDetails, 'keep.txt'), 'preserve');
+
+    const result = buildPeopleOnDemandData(fixture);
+    await emitPeopleOnDemandData(outDir, result);
+
+    assert.deepEqual(
+      JSON.parse(await fs.readFile(path.join(dataRoot, 'people-index.json'), 'utf8')),
+      result.peopleIndex,
+    );
+    assert.deepEqual(
+      JSON.parse(await fs.readFile(path.join(dataRoot, 'event-details', 'hongwu-founding.json'), 'utf8')),
+      result.eventDetails.get('hongwu-founding'),
+    );
+    await assert.rejects(fs.access(path.join(peopleDetails, 'stale.json')));
+    await assert.rejects(fs.access(path.join(eventDetails, 'stale.json')));
+    assert.equal(await fs.readFile(path.join(peopleDetails, 'keep.txt'), 'utf8'), 'preserve');
+  } finally {
+    await fs.rm(outDir, { recursive: true, force: true });
+  }
 });
 
 test('deeply isolates every returned index and detail object from source data', () => {

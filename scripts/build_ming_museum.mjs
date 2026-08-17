@@ -109,6 +109,9 @@ await fs.mkdir(museum, {recursive:true});
 // removed or superseded originals from leaking into later deployment bundles.
 await fs.rm(`${museum}/assets`, {recursive:true, force:true});
 await fs.cp(`${root}/assets`, `${museum}/assets`, {recursive:true,force:true});
+await Promise.all(['people-index.json', 'events-index.json'].map((filename) =>
+  fs.access(`${museum}/assets/data/${filename}`),
+));
 
 const nav = active => renderMuseumNavigation(active);
 

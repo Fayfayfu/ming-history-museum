@@ -1,3 +1,6 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
 const clone = (value) => structuredClone(value);
 const peopleFor = (source) => source?.people || {};
 
@@ -112,4 +115,36 @@ export function buildPeopleOnDemandData(input) {
     },
     eventDetails: new Map(events.map(({ id, event }) => [id, { ...clone(event), id }])),
   };
+}
+
+async function removeStaleJsonFiles(detailDir) {
+  let entries;
+  try {
+    entries = await fs.readdir(detailDir, { withFileTypes: true });
+  } catch (error) {
+    if (error.code === 'ENOENT') return;
+    throw error;
+  }
+  await Promise.all(entries
+    .filter((entry) => entry.isFile() && entry.name.endsWith('.json'))
+    .map((entry) => fs.unlink(path.join(detailDir, entry.name))));
+}
+
+export async function emitPeopleOnDemandData(outDir, data) {
+  const dataRoot = path.join(outDir, 'assets', 'data');
+  const peopleDetailDir = path.join(dataRoot, 'people-details');
+  const eventDetailDir = path.join(dataRoot, 'event-details');
+  await fs.mkdir(peopleDetailDir, { recursive: true });
+  await fs.mkdir(eventDetailDir, { recursive: true });
+  await removeStaleJsonFiles(peopleDetailDir);
+  await removeStaleJsonFiles(eventDetailDir);
+
+  await fs.writeFile(path.join(dataRoot, 'people-index.json'), JSON.stringify(data.peopleIndex));
+  await fs.writeFile(path.join(dataRoot, 'events-index.json'), JSON.stringify(data.eventsIndex));
+  for (const [id, detail] of data.peopleDetails) {
+    await fs.writeFile(path.join(peopleDetailDir, `${id}.json`), JSON.stringify(detail));
+  }
+  for (const [id, detail] of data.eventDetails) {
+    await fs.writeFile(path.join(eventDetailDir, `${id}.json`), JSON.stringify(detail));
+  }
 }
