@@ -131,7 +131,20 @@ async function removeStaleJsonFiles(detailDir) {
     .map((entry) => fs.unlink(path.join(detailDir, entry.name))));
 }
 
+function validatedDetailId(id, detail, label) {
+  const shardId = requiredId(id, label);
+  const detailId = requiredId(detail?.id, `${label} detail`);
+  if (detailId !== shardId) throw new Error(`Mismatched ${label} detail ID: ${detailId}`);
+  return shardId;
+}
+
+function validatedDetailEntries(details, label) {
+  return [...details].map(([id, detail]) => [validatedDetailId(id, detail, label), detail]);
+}
+
 export async function emitPeopleOnDemandData(outDir, data) {
+  const peopleDetails = validatedDetailEntries(data.peopleDetails, 'person');
+  const eventDetails = validatedDetailEntries(data.eventDetails, 'event');
   const dataRoot = path.join(outDir, 'assets', 'data');
   const peopleDetailDir = path.join(dataRoot, 'people-details');
   const eventDetailDir = path.join(dataRoot, 'event-details');
@@ -142,10 +155,12 @@ export async function emitPeopleOnDemandData(outDir, data) {
 
   await fs.writeFile(path.join(dataRoot, 'people-index.json'), JSON.stringify(data.peopleIndex));
   await fs.writeFile(path.join(dataRoot, 'events-index.json'), JSON.stringify(data.eventsIndex));
-  for (const [id, detail] of data.peopleDetails) {
-    await fs.writeFile(path.join(peopleDetailDir, `${id}.json`), JSON.stringify(detail));
+  for (const [id, detail] of peopleDetails) {
+    const shardId = validatedDetailId(id, detail, 'person');
+    await fs.writeFile(path.join(peopleDetailDir, `${shardId}.json`), JSON.stringify(detail));
   }
-  for (const [id, detail] of data.eventDetails) {
-    await fs.writeFile(path.join(eventDetailDir, `${id}.json`), JSON.stringify(detail));
+  for (const [id, detail] of eventDetails) {
+    const shardId = validatedDetailId(id, detail, 'event');
+    await fs.writeFile(path.join(eventDetailDir, `${shardId}.json`), JSON.stringify(detail));
   }
 }

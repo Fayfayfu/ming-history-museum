@@ -195,3 +195,44 @@ test('rejects unsafe people and event IDs before constructing shard paths', () =
     );
   }
 });
+
+test('rejects forged emitter detail IDs without writing outside known detail directories', async () => {
+  const outDir = await fs.mkdtemp(path.join(os.tmpdir(), 'people-on-demand-emitter-'));
+  const dataRoot = path.join(outDir, 'assets', 'data');
+  try {
+    await assert.rejects(
+      emitPeopleOnDemandData(outDir, {
+        peopleIndex: { version: 1, people: [] },
+        eventsIndex: { version: 1, stages: [], events: [] },
+        peopleDetails: new Map([['../escaped', { id: '../escaped' }]]),
+        eventDetails: new Map(),
+      }),
+      /invalid person id/i,
+    );
+    await assert.rejects(fs.access(path.join(dataRoot, 'escaped.json')));
+
+    await assert.rejects(
+      emitPeopleOnDemandData(outDir, {
+        peopleIndex: { version: 1, people: [] },
+        eventsIndex: { version: 1, stages: [], events: [] },
+        peopleDetails: new Map([['safe-person', { id: '../escaped' }]]),
+        eventDetails: new Map(),
+      }),
+      /invalid person detail id/i,
+    );
+    await assert.rejects(fs.access(path.join(dataRoot, 'escaped.json')));
+
+    await assert.rejects(
+      emitPeopleOnDemandData(outDir, {
+        peopleIndex: { version: 1, people: [] },
+        eventsIndex: { version: 1, stages: [], events: [] },
+        peopleDetails: new Map(),
+        eventDetails: new Map([['safe-event', { id: '../escaped' }]]),
+      }),
+      /invalid event detail id/i,
+    );
+    await assert.rejects(fs.access(path.join(dataRoot, 'escaped.json')));
+  } finally {
+    await fs.rm(outDir, { recursive: true, force: true });
+  }
+});
