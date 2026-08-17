@@ -124,6 +124,18 @@ test('emits deterministic index and detail shards while removing only stale JSON
       JSON.parse(await fs.readFile(path.join(dataRoot, 'event-details', 'hongwu-founding.json'), 'utf8')),
       result.eventDetails.get('hongwu-founding'),
     );
+    for (const [entries, detailDir, detailUrlPrefix] of [
+      [result.peopleIndex.people, peopleDetails, 'assets/data/people-details/'],
+      [result.eventsIndex.events, eventDetails, 'assets/data/event-details/'],
+    ]) {
+      for (const entry of entries) {
+        assert.ok(entry.detailUrl.startsWith(detailUrlPrefix));
+        const shardPath = path.resolve(outDir, entry.detailUrl);
+        assert.equal(path.dirname(shardPath), path.resolve(detailDir));
+        const detail = JSON.parse(await fs.readFile(shardPath, 'utf8'));
+        assert.equal(detail.id, entry.id);
+      }
+    }
     await assert.rejects(fs.access(path.join(peopleDetails, 'stale.json')));
     await assert.rejects(fs.access(path.join(eventDetails, 'stale.json')));
     assert.equal(await fs.readFile(path.join(peopleDetails, 'keep.txt'), 'utf8'), 'preserve');
@@ -166,4 +178,20 @@ test('rejects missing and duplicate people and event IDs', () => {
     () => buildPeopleOnDemandData({ ...fixture, eventData: { ...fixture.eventData, events: [{ ...fixture.eventData.events[0] }, { ...fixture.eventData.events[0] }] } }),
     /duplicate event id: hongwu-founding/i,
   );
+});
+
+test('rejects unsafe people and event IDs before constructing shard paths', () => {
+  for (const id of ['../escape', 'a/b', 'space id', 'Uppercase']) {
+    assert.throws(
+      () => buildPeopleOnDemandData({ ...fixture, core: [{ ...fixture.core[0], id }] }),
+      /invalid person id/i,
+    );
+    assert.throws(
+      () => buildPeopleOnDemandData({
+        ...fixture,
+        eventData: { ...fixture.eventData, events: [{ ...fixture.eventData.events[0], id }] },
+      }),
+      /invalid event id/i,
+    );
+  }
 });

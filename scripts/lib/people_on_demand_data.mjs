@@ -24,6 +24,7 @@ function drawerProfileFor(source, name) {
 
 function requiredId(id, label) {
   if (typeof id !== 'string' || !id.trim()) throw new Error(`Missing ${label} ID`);
+  if (!/^[a-z0-9-]+$/.test(id)) throw new Error(`Invalid ${label} ID: ${id}`);
   return id;
 }
 
