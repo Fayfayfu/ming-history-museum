@@ -3,8 +3,9 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 
 const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
+const baseUrl = process.env.MING_TIMELINE_BASE_URL?.replace(/\/$/, '');
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const url = (file) => `file://${path.join(root, file)}`;
+const url = (file) => baseUrl ? `${baseUrl}/${file}` : `file://${path.join(root, file)}`;
 const failures = [];
 const pageErrors = [];
 const check = (condition, message, details) => {
