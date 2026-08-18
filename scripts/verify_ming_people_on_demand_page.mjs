@@ -184,6 +184,45 @@ try {
   await waitForPerson(retryPage, '朱元璋');
   check(failedOnce, 'retry scenario must intercept exactly the first detail request');
 
+  const bootRetryPage = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  let bootIndexFailedOnce = false;
+  const failedIndexPattern = '**/assets/data/events-index.json';
+  await bootRetryPage.route(failedIndexPattern, async (route) => {
+    if (!bootIndexFailedOnce) {
+      bootIndexFailedOnce = true;
+      await route.abort('failed');
+      return;
+    }
+    await route.continue();
+  });
+  await bootRetryPage.goto(
+    `${baseUrl}/people.html?person=${encodeURIComponent('朱元璋')}`,
+    { waitUntil: 'domcontentloaded' },
+  );
+  await bootRetryPage.waitForSelector('#indexStatus:not([hidden]) [data-index-retry]', { timeout: 3000 });
+  check(
+    await bootRetryPage.locator('#indexStatus').isVisible()
+      && (await bootRetryPage.locator('#indexStatus').textContent()).includes('索引未能载入'),
+    'failed index boot must expose a visible shared retry status in either hall',
+  );
+  await bootRetryPage.unroute(failedIndexPattern);
+  await bootRetryPage.locator('#indexStatus [data-index-retry]').click();
+  await bootRetryPage.waitForSelector('#detail .profile-preview');
+  check(
+    await bootRetryPage.locator('#drawer.open #detail h2').textContent().then((text) => text.trim()) === '朱元璋',
+    'index retry must preserve and fulfill the original ?person= deep-link intent',
+  );
+  check(await bootRetryPage.locator('#indexStatus').isHidden(), 'successful index retry must clear the bootstrap error state');
+  await closeDrawer(bootRetryPage);
+  await openRoster(bootRetryPage);
+  await bootRetryPage.waitForSelector('#eventstream .eventcard[data-event="e001"]', { state: 'attached' });
+  check(
+    await bootRetryPage.locator('#rows tr[data-id="zhu-yuan-zhang"]').count() === 1,
+    'index retry must restore the people rows selected by the preserved deep link',
+  );
+  check(await bootRetryPage.locator('#eventstream .eventcard').count() >= 90, 'index retry must restore event cards');
+  check(bootIndexFailedOnce, 'bootstrap retry scenario must abort exactly one initial index request');
+
   const deepPerson = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await deepPerson.goto(`${baseUrl}/people.html?person=${encodeURIComponent('朱元璋')}`, { waitUntil: 'domcontentloaded' });
   await deepPerson.waitForSelector('#detail .profile-preview');
@@ -266,6 +305,7 @@ try {
     person: '朱元璋',
     event: 'e001',
     retry: { failedOnce, rowsPreserved: retryRowsBefore },
+    bootstrapRetry: { failedOnce: bootIndexFailedOnce, rows: await bootRetryPage.locator('#rows tr[data-id]').count() },
     deepLinks: ['person', 'event'],
     scroll: { firstScroll, samePersonScroll, differentPersonScroll },
     races: { personRaceWinner: personRaceWinner.trim(), eventRaceWinner: eventRaceWinner.trim() },
