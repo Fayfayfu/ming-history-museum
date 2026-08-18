@@ -89,3 +89,11 @@ High for the deterministic data and syntax/unit checks, and high that the new mu
 - `node --check scripts/verify_ming_on_demand_contracts.mjs` and `node --check scripts/verify_ming_on_demand_contracts.test.mjs` — exited 0.
 - `node --test scripts/verify_ming_people_timeline.test.mjs` — exited 0 (17/17).
 - The permission-enabled `node --test scripts/verify_ming_on_demand_contracts.test.mjs` and `node scripts/verify_ming_museum.mjs` invocations again reached the local browser phase, but this execution surface returned only `TAP version 13` (or no output) and no child exit code after approximately 30 seconds. No Chromium mutation or aggregate success is claimed from those interrupted invocations.
+
+## Review round 6: table-view readiness and aggregate gate
+
+- Enabled people-page scopes now use the actual `#peopleTableTab` control, require `#peopleTableView` to be open, and only then wait for visible roster rows. The archive keeps its separate JavaScript-disabled static path. Profile readiness uses attached state because link extraction is the contract, not drawer visibility.
+- Added `verify:people-on-demand-contracts` and appended it to `npm run verify`; future aggregate verification cannot bypass this Chromium mutation gate.
+- Split the five mutations into independently runnable node tests. In a loopback-enabled Chromium environment the following focused runs completed with exit 0 and their required diagnostic assertion: mismatched stats (3.47s), invalid archive noscript target (1.55s), broken institution mapping (3.41s), and removed event linkage (3.30s).
+- Clean stats scope completed with exit 0 and reported 175 people plus 36 independent pages after activating the visible table view.
+- The focused invalid individual-page-link test was invoked repeatedly after the attached-readiness correction, but this execution surface again returned only initial `TAP version 13` without a final child result. The full browser suite was invoked after the readiness repair but likewise did not return a final status here; these two results remain unconfirmed.

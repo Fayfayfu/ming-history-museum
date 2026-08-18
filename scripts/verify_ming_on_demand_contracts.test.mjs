@@ -46,30 +46,38 @@ test('current on-demand UI contract verifier accepts the generated museum', () =
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 });
 
-test('on-demand contract gates reject copied-output regressions', (t) => {
+test('on-demand contract rejects mismatched stats in copied output', (t) => {
   const statsRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/people-index.json'), (index) => { index.people.pop(); }));
   t.after(() => fs.rmSync(statsRoot, { recursive: true, force: true }));
   assertRejected(runContractVerifier(statsRoot, 'stats'), 'mismatched stats', 'current stats mismatch');
+});
 
+test('on-demand archive contract rejects an invalid noscript target', (t) => {
   const archiveRoot = fixture((root) => {
     const page = path.join(root, 'people.html');
     fs.writeFileSync(page, fs.readFileSync(page, 'utf8').replace('people-archive.html', 'missing-archive.html'));
   });
   t.after(() => fs.rmSync(archiveRoot, { recursive: true, force: true }));
   assertRejected(runContractVerifier(archiveRoot, 'archive'), 'removed archive noscript link', 'archive noscript link invalid');
+});
 
+test('on-demand contract rejects an invalid individual-page link', (t) => {
   const linksRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/people-index.json'), (index) => {
     index.people.find((person) => person.name === '朱元璋').personPageSlug = 'not-a-real-person';
   }));
   t.after(() => fs.rmSync(linksRoot, { recursive: true, force: true }));
   assertRejected(runContractVerifier(linksRoot, 'links'), 'invalid individual-page link', 'missing individual-page file for 朱元璋');
+});
 
+test('on-demand contract rejects a broken institution option mapping', (t) => {
   const institutionsRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/people-index.json'), (index) => {
     index.people.find((person) => person.name === '张居正').institutions[0].name = '内阁损坏';
   }));
   t.after(() => fs.rmSync(institutionsRoot, { recursive: true, force: true }));
   assertRejected(runContractVerifier(institutionsRoot, 'institutions'), 'broken institution mapping', 'institution options are not complete and sorted');
+});
 
+test('on-demand contract rejects a removed event linkage', (t) => {
   const eventsRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/event-details/e035.json'), (event) => { event.people = []; }));
   t.after(() => fs.rmSync(eventsRoot, { recursive: true, force: true }));
   assertRejected(runContractVerifier(eventsRoot, 'event'), 'removed event linkage', 'event linkage control missing for e035');

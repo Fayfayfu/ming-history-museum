@@ -11,6 +11,12 @@ const requiredPreviewPeople = ['朱元璋','朱棣','朱祁镇','朱由检','朱
 const fail = (message) => { throw new Error(`On-demand UI contract verification failed: ${message}`); };
 const scope = process.env.MING_ON_DEMAND_CONTRACT_SCOPE || 'all';
 if (!['all', 'stats', 'archive', 'links', 'institutions', 'event'].includes(scope)) fail(`unknown scope: ${scope}`);
+async function activatePeopleTable(page) {
+  await page.waitForSelector('#peopleTableTab');
+  if (await page.locator('#peopleTableTab').getAttribute('aria-selected') !== 'true') await page.locator('#peopleTableTab').click();
+  await page.waitForSelector('#peopleTableView:not([hidden])');
+  await page.waitForSelector('#rows tr[data-id]', { state: 'visible' });
+}
 
 const server = http.createServer(async (request, response) => {
   try {
@@ -45,7 +51,7 @@ try {
     console.log(JSON.stringify({ status: 'ok', archive }));
   } else {
   await page.goto(`${base}/people.html`, { waitUntil: 'domcontentloaded' });
-  await page.waitForSelector('#rows tr[data-id]');
+  await activatePeopleTable(page);
   const stats = await page.evaluate(() => Object.fromEntries([...document.querySelectorAll('#stats .stat')].map((stat) => [stat.querySelector('span')?.textContent.trim(), stat.querySelector('strong')?.textContent.trim()])));
   if (scope === 'all' || scope === 'stats') {
     if (stats['不重复人物'] !== '175' || !Number.isInteger(+stats['独立页面人物']) || +stats['独立页面人物'] <= 0) {
@@ -63,9 +69,11 @@ try {
     }
   }
 
-  if (scope === 'all' || scope === 'links') for (const name of requiredPreviewPeople) {
+  const previewPeople = scope === 'links' ? requiredPreviewPeople.slice(0, 1) : requiredPreviewPeople;
+  if (scope === 'all' || scope === 'links') for (const name of previewPeople) {
     await page.goto(`${base}/people.html?person=${encodeURIComponent(name)}`, { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('#detail .profile-preview');
+    await activatePeopleTable(page);
+    await page.waitForSelector('#detail .profile-preview', { state: 'attached' });
     const href = await page.locator('#detail .profile-enter').getAttribute('href');
     if (!href || !/^people\/[a-z0-9-]+\.html$/.test(href)) fail(`invalid individual-page link for ${name}: ${href || '<missing>'}`);
     await fs.access(path.join(root, href)).catch(() => fail(`missing individual-page file for ${name}: ${href}`));
@@ -80,6 +88,7 @@ try {
   if (await eventPeopleControl.count() !== 1) fail('event linkage control missing for e035');
   await eventPeopleControl.click();
   await page.waitForURL((url) => url.pathname.endsWith('/people.html') && url.searchParams.get('event') === 'e035');
+  await activatePeopleTable(page);
   await page.waitForFunction(() => document.querySelectorAll('#rows tr[data-detail-id]').length === 4);
   eventRows = await page.locator('#rows tr[data-detail-id]').evaluateAll((rows) => ({
     selected: document.querySelector('#personEvent')?.value || '',
@@ -91,7 +100,7 @@ try {
     fail(`event linkage failed: ${JSON.stringify(eventRows)}`);
   }
   }
-  console.log(JSON.stringify({ status: 'ok', stats, institutions: options.length, previews: requiredPreviewPeople.length, event: eventRows }));
+  console.log(JSON.stringify({ status: 'ok', stats, institutions: options.length, previews: previewPeople.length, event: eventRows }));
   }
 } finally {
   await browser?.close();
