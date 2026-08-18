@@ -1,9 +1,23 @@
 import {chromium} from 'playwright';
+import http from 'node:http';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 
 const root=path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
-const url=file=>'file://'+path.join(root,file);
+const server=http.createServer(async(request,response)=>{
+  let file;
+  let body;
+  try{
+    const pathname=decodeURIComponent(new URL(request.url||'/', 'http://127.0.0.1').pathname);
+    file=path.resolve(root, `.${pathname==='/'?'/index.html':pathname}`);
+    if(file!==root&&!file.startsWith(`${root}${path.sep}`))throw new Error('invalid path');
+    body=await fs.readFile(file);
+  }catch{response.writeHead(404).end('Not found');return}
+  const type={'.html':'text/html; charset=utf-8','.json':'application/json; charset=utf-8','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml'}[path.extname(file).toLowerCase()]||'application/octet-stream';
+  response.writeHead(200,{'content-type':type}).end(body);
+});
+await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',resolve)});
+const url=file=>`http://127.0.0.1:${server.address().port}/${file}`;
 const browser=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
 const errors=[];
@@ -68,7 +82,7 @@ const people=await page.evaluate(()=>({
   eventDisplay:getComputedStyle(document.querySelector('.eventlab')).display,
   timelineDisplay:getComputedStyle(document.querySelector('#peopleTimelineView')).display,
   tableDisplay:getComputedStyle(document.querySelector('.tablewrap')).display,
-  totalRows:JSON.parse(document.querySelector('#dataset').textContent).core.length+JSON.parse(document.querySelector('#dataset').textContent).children.length-document.querySelectorAll('#rows tr[data-id]').length,
+  totalRows:document.querySelectorAll('[data-timeline-person]').length,
   visibleRows:document.querySelectorAll('#rows tr[data-id]').length,
   search:document.querySelector('#search').value,
   first:document.querySelector('#rows .name')?.textContent.trim(),
@@ -1521,4 +1535,5 @@ audit.pass=audit.pass&&sourceProviderPass&&tangDisplayPass;
 await fs.writeFile(path.join(root,'自动化验收报告.json'),JSON.stringify(audit,null,2));
 console.log('VERIFY_SUMMARY '+JSON.stringify({baseCheckGroups,tangYin,independentFilter,domainFilter,storyCoverage,externalCategoryPass,addedPersonCardPass,addedPersonPortraitPass,institutionFilterPass,addedExhibitionLinksPass,pass:audit.pass}));
 await browser.close();
+await new Promise(resolve=>server.close(resolve));
 if(!audit.pass)process.exit(1);

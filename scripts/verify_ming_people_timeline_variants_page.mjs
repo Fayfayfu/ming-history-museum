@@ -499,7 +499,7 @@ async function verifyB2(browser, page, currentPage) {
     'B2 stage must preserve native horizontal touch scrolling',
     geometry,
   );
-  check(geometry.personCount === 165 && geometry.hiddenPeople.length === 0, 'B2 must fully show every avatar, name, and identity within the stage', geometry);
+  check(geometry.personCount === 175 && geometry.hiddenPeople.length === 0, 'B2 must fully show every avatar, name, and identity within the stage', geometry);
   check(geometry.bottomSamples.length === 3 && geometry.bottomSamples.every((person) => person.avatar && person.nameLabel && person.identity), 'B2 bottom people must remain fully visible', geometry.bottomSamples);
   check([controls.initial, controls.scrolled].every((audit) => !audit.tabsIntersectStage && audit.personOverlaps.length === 0), 'B2 tabs must not overlap the stage or any avatar, name, or identity at either scroll position', controls);
   check([controls.initial, controls.scrolled].every((audit) => audit.tabsAboveStage && audit.stageUsesModuleWidth && audit.tabsAreHorizontal), 'B2 tabs must sit horizontally above a full-width timeline stage', controls);
@@ -706,7 +706,7 @@ async function captureCompleteModuleGeometry(page) {
 function checkCompleteModuleGeometry(label, geometry) {
   check(geometry.module?.height > 0 && geometry.module.height <= 1000, `${label} complete .people-timeline border box must be at most 1000px`, geometry);
   check(geometry.stage?.width > 0 && geometry.stage.height > 0 && geometry.stageDisplay !== 'none' && geometry.stageVisibility === 'visible' && geometry.stageOpacity === '1' && geometry.stageScrollHeight <= geometry.stageClientHeight && geometry.stageOverflowY === 'hidden', `${label} must expose a nonzero visible full canvas without vertical scrolling`, geometry);
-  check(geometry.peopleCount === 165 && geometry.hiddenPeople.length === 0, `${label} must keep all 165 avatars, names, and identities vertically visible`, geometry);
+  check(geometry.peopleCount === 175 && geometry.hiddenPeople.length === 0, `${label} must keep all 175 avatars, names, and identities vertically visible`, geometry);
   check(Math.abs(geometry.portraitWidth - geometry.portraitHeight) <= 1 && geometry.canvasTransform === 'none', `${label} must retain circular portraits without canvas scaling`, geometry);
   check(!geometry.tabsIntersectStage, `${label} tabs must not overlay timeline content`, geometry);
   check(geometry.bodyScrollWidth === geometry.viewportWidth, `${label} must not create page-level horizontal overflow`, geometry);
@@ -777,7 +777,7 @@ async function verifyResponsiveAndNoJs(browser) {
         if (key !== 'current') checkCompleteModuleGeometry(`${key} ${width}px`, geometry);
         else {
           check(geometry.stage?.width > 0 && geometry.stage.height > 0 && geometry.stageVisibility === 'visible' && geometry.stageOpacity === '1', `current ${width}px stage must be visibly measurable`, geometry);
-          check(geometry.peopleCount === 165 && geometry.hiddenPeople.length === 0 && geometry.bodyScrollWidth === width, `current ${width}px must retain all people and contain page width`, geometry);
+          check(geometry.peopleCount === 175 && geometry.hiddenPeople.length === 0 && geometry.bodyScrollWidth === width, `current ${width}px must retain all people and contain page width`, geometry);
         }
         check(
           zeroHit.expectedPerson && zeroHit.expectedPerson === zeroHit.actualPerson

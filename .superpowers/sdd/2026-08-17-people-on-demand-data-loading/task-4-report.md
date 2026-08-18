@@ -2,7 +2,7 @@
 
 ## Status
 
-Complete. The approved 430 KiB threshold preserves the static timeline and the accessible no-JavaScript fallback while still removing duplicate generated table rows.
+Complete after review round 1. The approved 430 KiB threshold preserves the static timeline while a dedicated no-JavaScript archive restores complete static roster access without duplicating the table on the homepage.
 
 Commit message: `test: verify on-demand people data delivery`.
 
@@ -12,7 +12,8 @@ Commit message: `test: verify on-demand people data delivery`.
   - Uses the museum output by default and `dist` with `--deploy`.
   - Checks JSON parsing, source-record ID/count parity, duplicate IDs, index/detail ID and path parity, detail-directory cardinality, local image references, required deep-link/filter fields, forbidden inline data declarations, and the strict `< 430 KiB` `people.html` budget.
 - Added `verify:people-on-demand-data` and `verify:people-on-demand-page` scripts, and appended both to `npm run verify` without removing existing commands.
-- Removed the generated 165-row table-data fallback and replaced it with one accessible no-JavaScript notice row.
+- Replaced the homepage's duplicated generated roster with a `<noscript>` link to a new pre-generated `people-archive.html`.
+  - The archive has all 175 source-roster records and all 15 readable roster columns, contains no script tags, and links back to the interactive hall.
 - Corrected batch-22 portrait output to the source asset tree that `build:museum` mirrors; the previous target was deleted by that mirror step and left four referenced portraits broken.
 
 ## Measured result
@@ -20,26 +21,30 @@ Commit message: `test: verify on-demand people data delivery`.
 | Build state | `people.html` bytes |
 | --- | ---: |
 | Before removing table fallback | 506,374 |
-| After removing table fallback | 418,157 |
+| After moving complete roster to `people-archive.html` | 418,399 |
 | Required strict maximum | less than 440,320 |
 
-The approved threshold is deliberately below 430 KiB, not at-or-below: the verifier uses a strict byte comparison. The 418,157-byte build passes with 22,163 bytes of remaining headroom.
+The approved threshold is deliberately below 430 KiB, not at-or-below: the verifier uses a strict byte comparison. The 418,399-byte build passes with 21,921 bytes of remaining headroom.
 
 ## Scope decision
 
-The static 165-person historical timeline and no-JavaScript fallback remain in production. The removed generated table rows were redundant with the indexed JavaScript roster and accounted for 88,217 bytes. The approved 430 KiB limit reflects this accessibility-preserving architecture.
+The static 175-person historical timeline remains on the homepage. The complete 175-row static roster is now emitted once as `people-archive.html`; homepage `<noscript>` content explicitly directs no-JavaScript visitors there. The 175-person contract is locked from the actual source roster (151 core plus 24 non-emperor important-child records), while the 16-emperor/category invariants and mutation-test failure ordering remain gated.
 
 ## Verification run
 
 - `npm run build:museum` — passed.
-- `npm run verify:people-on-demand-data` — passed after the approved 430 KiB threshold update.
+- Fresh build proof: removed generated `outputs/.../assets/portraits/batch-22/`, then `npm run build:museum` regenerated all four WebPs from tracked PNG inputs.
+- `npm run verify:people-on-demand-data` — passed: 418,399-byte homepage, 175 index/shards/archive rows, 95 event shards, 187 local image references.
 - `npm run verify:people-on-demand-page` — passed.
-- `npm run verify` — started and reached the existing timeline-unit suite; it remains blocked by pre-existing 165-versus-175 roster assertions unrelated to Task 4. The Task 4 aggregate-command assertion was updated to cover the two new gates.
+- `npm run verify:people-timeline` — passed.
+- `npm run verify:people-timeline-unit` — passed (34/34).
+- Focused browser check with JavaScript disabled — passed: archive has 175 rows, 15 headers, and zero scripts.
+- `npm run verify` — rerun after the 175 contract repair; timeline and unit stages passed. The local runner stopped the long legacy browser regression before it emitted a final status, so a normal unrestricted CI/local terminal should rerun the aggregate command before release.
 - `git diff --check` — passed.
 
 ## Confidence
 
-High: output byte measurement, source/shard checks, and browser regression all passed.
+High for build, data/shard, source-roster, and focused browser evidence; medium for aggregate completion because this runner did not return a final status from its long legacy browser phase.
 
 ## Deliberately unstaged build output
 

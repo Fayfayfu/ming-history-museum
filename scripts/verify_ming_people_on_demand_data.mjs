@@ -103,14 +103,19 @@ async function jsonShardNames(directory) {
   return entries.filter((entry) => entry.isFile() && entry.name.endsWith('.json')).map((entry) => entry.name).sort();
 }
 
-const [peopleHtml, eventsHtml, peopleIndex, eventsIndex] = await Promise.all([
+const [peopleHtml, peopleArchiveHtml, eventsHtml, peopleIndex, eventsIndex] = await Promise.all([
   readText(path.join(root, 'people.html')),
+  readText(path.join(root, 'people-archive.html')),
   readText(path.join(root, 'events.html')),
   readJson(path.join(dataRoot, 'people-index.json')),
   readJson(path.join(dataRoot, 'events-index.json')),
 ]);
 
 assert(Buffer.byteLength(peopleHtml) < 430 * 1024, `people.html must be below 430 KiB (got ${Buffer.byteLength(peopleHtml)} bytes)`);
+assert(
+  /<noscript>[\s\S]*?href="people-archive\.html"/.test(peopleHtml),
+  'people.html must link to people-archive.html inside noscript content',
+);
 for (const [name, html] of [['people.html', peopleHtml], ['events.html', eventsHtml]]) {
   for (const forbidden of ['"personPages"', '"historicalSlices"', '"storytelling"', '"creativeWorks"']) {
     assert(!html.includes(forbidden), `${name} contains forbidden inline payload key ${forbidden}`);
@@ -135,6 +140,14 @@ for (const event of eventsIndex.events) {
 
 const personIds = uniqueIds(peopleIndex.people, 'person index');
 const eventIds = uniqueIds(eventsIndex.events, 'event index');
+const archiveRows = [...peopleArchiveHtml.matchAll(/<tr\s+data-id="([^"]+)"/g)].map((match) => match[1]);
+assert(!/<script\b/i.test(peopleArchiveHtml), 'people-archive.html must not require JavaScript');
+assert((peopleArchiveHtml.match(/<th\b/g) || []).length === 15, 'people-archive.html must retain all 15 roster columns');
+assert(archiveRows.length === personIds.size, `people-archive.html record count differs from people index (${archiveRows.length} vs ${personIds.size})`);
+assert(new Set(archiveRows).size === archiveRows.length, 'people-archive.html contains duplicate roster record IDs');
+for (const requiredName of ['朱元璋', '于谦', '傅山', '王保保']) {
+  assert(archiveRows.includes(requiredName), `people-archive.html is missing required readable record ${requiredName}`);
+}
 const [core, importantChildren, eventSource] = await Promise.all([
   readJson(path.resolve('data/ming_core.json')),
   readJson(path.resolve('data/ming_children_important.json')),
@@ -181,7 +194,7 @@ console.log(JSON.stringify({
   mode: deploy ? 'deploy' : 'output',
   root,
   peopleHtmlBytes: Buffer.byteLength(peopleHtml),
-  people: { index: personIds.size, shards: personShardNames.length },
+  people: { index: personIds.size, shards: personShardNames.length, archiveRows: archiveRows.length },
   events: { index: eventIds.size, shards: eventShardNames.length },
   imageReferences,
 }));

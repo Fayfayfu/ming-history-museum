@@ -52,7 +52,7 @@ function assertVerifierRejects(mutate, messagePattern) {
   assert.match(output, messagePattern);
 }
 
-test('verifier accepts the curated 165-person timeline', () => {
+test('verifier accepts the curated 175-person timeline', () => {
   const result = runVerifier();
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 });
@@ -198,11 +198,11 @@ test('curated round-2 evidence mappings stay locked', () => {
   }
 });
 
-test('verifier rejects a self-consistent roster that is not exactly 165 people', () => {
+test('verifier rejects a self-consistent roster that is not exactly 175 people', () => {
   assertVerifierRejects(({ core, timelineData }) => {
     const removed = core.shift();
     timelineData.people = timelineData.people.filter((person) => person.name !== removed.name);
-  }, /exactly 165 people/);
+  }, /exactly 175 people/);
 });
 
 test('傅山 remains a sourced 1636 public-activity anchor under his formal name', () => {

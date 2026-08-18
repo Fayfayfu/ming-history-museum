@@ -39,6 +39,42 @@ const escapeHallHtml = value => String(value ?? '')
   .replace(/"/g,'&quot;')
   .replace(/'/g,'&#39;');
 const noScriptRosterRow = '<tr class="people-noscript"><td colspan="15">人物总表需要 JavaScript 载入轻量索引数据。请在支持 JavaScript 的浏览器中打开；人物独立页和馆内其他展厅仍可直接访问。</td></tr>';
+const rosterHeaderHtml = baseline.match(/<table class="roster">[\s\S]*?<thead><tr>([\s\S]*?)<\/tr><\/thead>/)?.[1] || '';
+const rosterHeaders = [...rosterHeaderHtml.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/g)].map(([,header]) => header
+  .replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
+  .replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/\s+/g,' ').trim());
+if (rosterHeaders.length !== 15) throw new Error(`Expected 15 roster headers, found ${rosterHeaders.length}`);
+const childCountFor = person => {
+  if (person.category !== '皇帝') return '—';
+  const key = canonicalName(person.name);
+  const records = allChildren.filter(child => canonicalName(child.parent).includes(key));
+  const important = importantChildren.filter(child => canonicalName(child.parent).includes(key)).length;
+  return `子 ${records.filter(child=>child.sex==='男').length} · 女 ${records.filter(child=>child.sex==='女').length} · 合计 ${records.length} · 重要 ${important}`;
+};
+const archivePeopleRows = timelinePeople.map(person => {
+  const birthDeath = person.display?.birthDeath || `${person.birth || '待考'}—${person.death || '待考'}`;
+  const life = person.display?.lifespan ? `${birthDeath} · ${person.display.lifespan}` : birthDeath;
+  const confidence = person.display?.confidence || person.confidence || person.timeline_year_confidence;
+  const tenure = person.office || person.title || '待考';
+  const description = [person.summary,person.evaluation].filter(Boolean).join(' ');
+  const lineage = person.hometown || person.parent_name || '待考';
+  const cellForHeader = header => {
+    if (header === '时间锚点') return person.timeline_year_label;
+    if (header === '人物') return person.name;
+    if (header === '身份') return person.category;
+    if (header.startsWith('生卒 / 寿命')) return life;
+    if (header.startsWith('关键任期')) return tenure;
+    if (header === '生平事迹与史学评价') return description;
+    if (/^(治国与制度|军事与危机|社会文化|长期遗产|责任与代价)/.test(header)) return '—';
+    if (header.startsWith('加权总分')) return person.score ?? '—';
+    if (header === '置信度') return confidence;
+    if (header === '家乡 / 世系') return lineage;
+    if (header.startsWith('本人子女数量')) return childCountFor(person);
+    throw new Error(`Unsupported roster header: ${header}`);
+  };
+  const cells = rosterHeaders.map(cellForHeader);
+  return `<tr data-id="${escapeHallHtml(person.name)}">${cells.map((cell,index)=>`<td${index===1?' class="name"':''}>${escapeHallHtml(cell)}</td>`).join('')}</tr>`;
+}).join('');
 const timelinePortraitFor = name => {
   const registered = portraits.people?.[name];
   if (['image','imagined'].includes(registered?.status) && registered?.file) {
@@ -73,6 +109,7 @@ await Promise.all(['people-index.json', 'events-index.json'].map((filename) =>
 ));
 
 const nav = active => renderMuseumNavigation(active);
+const peopleArchiveHtml = () => `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物静态名录｜步入大明数字历史博物馆</title><style>:root{--ink:#211d17;--paper:#f4ecd9;--line:#b8a98e;--red:#9c2f23}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Songti SC","STSong",serif}header,main,footer{max-width:1540px;margin:auto;padding-left:clamp(18px,4vw,70px);padding-right:clamp(18px,4vw,70px)}header{padding-top:52px;padding-bottom:30px;border-bottom:4px solid var(--red)}h1{margin:0;font-size:clamp(40px,7vw,78px);line-height:1}p{max-width:840px;line-height:1.8}a{color:#7d241b}.tablewrap{overflow:auto;padding:34px 0 54px}.roster{width:100%;min-width:1720px;border-collapse:collapse;font-size:13px;line-height:1.6}.roster th,.roster td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;text-align:left}.roster th{position:sticky;top:0;background:#e7dbc2;color:#6d2119;white-space:nowrap}.roster .name{font-weight:800;white-space:nowrap}footer{padding-top:22px;padding-bottom:32px;border-top:1px solid var(--line);font-size:12px;color:#665d50}</style></head><body><header><p>步入大明 · 无 JavaScript 静态访问</p><h1>人物完整名录</h1><p>本页预生成全部 ${timelinePeople.length} 位人物记录，不依赖 JavaScript。需要筛选、时间长卷或人物抽屉时，可返回 <a href="people.html">交互人物馆</a>。</p></header><main><div class="tablewrap"><table class="roster"><thead><tr>${rosterHeaderHtml}</tr></thead><tbody id="rows">${archivePeopleRows}</tbody></table></div></main><footer>人物静态名录 · ${timelinePeople.length} 位记录 · 研究型阅读入口</footer></body></html>`;
 
 const hallCSS = `
 .skip{position:fixed;left:12px;top:-70px;z-index:100;background:#fff;color:#181713;padding:10px 14px}.skip:focus{top:12px}
@@ -106,6 +143,7 @@ function baseHall(kind) {
     html = html
       .replace('</style>', `${hallCSS}${PEOPLE_TIMELINE_CSS}</style>`)
       .replace('</head>', `<noscript><style>.people-view-tabs,#peopleTimelineView{display:none!important}.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method{display:revert!important}</style></noscript></head>`)
+      .replace('<main class="shell" id="main">', '<noscript><section class="hall-note"><b>无 JavaScript 静态名录：</b>本页的筛选与抽屉需要 JavaScript；请打开 <a href="people-archive.html">完整人物名录（175 位）</a> 直接阅读全部记录。</section></noscript><main class="shell" id="main">')
       .replace('<section class="timeline">', `${peopleTimelineHtml}<section class="timeline">`)
       .replace('<button id="peopleTableTab" type="button" role="tab" aria-selected="false" data-people-view="table">', '<button id="peopleTableTab" type="button" role="tab" aria-selected="false" aria-controls="peopleTableView" data-people-view="table">')
       .replace('<section class="tablewrap">', '<section class="tablewrap" id="peopleTableView" role="tabpanel" aria-labelledby="peopleTableTab">')
@@ -144,6 +182,7 @@ for (const config of Object.values(PEOPLE_TIMELINE_VARIANTS)) {
   await fs.writeFile(`${museum}/${config.filename}`, renderPeopleTimelineVariantPage(peopleHallBaseHtml, config.key), 'utf8');
 }
 await fs.writeFile(`${museum}/events.html`, baseHall('events'), 'utf8');
+await fs.writeFile(`${museum}/people-archive.html`, peopleArchiveHtml(), 'utf8');
 
 const stageCards = events.stages.map((stage,index)=>{
   const count=events.events.filter(e=>e.stage===stage.id).length;
