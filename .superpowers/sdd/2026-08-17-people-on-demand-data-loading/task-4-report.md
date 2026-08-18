@@ -56,3 +56,12 @@ High for build, data/shard, source-roster, and focused browser evidence; medium 
 - Added a timeline-verifier test that locks the derived source count at 175 and asserts the museum audit uses the derived gate rather than the removed `165` literal. A roster/story-marker mismatch still makes the audit fail.
 - `node --test scripts/verify_ming_people_timeline.test.mjs` exited 0 (17/17).
 - `npm run verify` exited 1 at the legacy museum audit. The generated audit now confirms the repaired coverage (`rows: 175`, `markers: 175`); remaining existing false checks are `secondSliceDrawerPass`, `thirdSliceDrawerPass`, and `institutionFilterPass`. They are outside this narrow row-count fix.
+
+## Review round 3: current on-demand UI audit contracts
+
+- Updated the legacy story probe to read the current `不重复人物` total stat (175) and to require the current `独立页面人物` stat to be present and positive; it no longer searches for the removed `故事覆盖` stat.
+- Replaced stale emperor-empty-link expectations with valid current `people/<slug>.html` links, and verifies each linked individual page exists. Non-preview historical-slice assertions remain unchanged.
+- Replaced stale institution `optgroup` ordering with the current complete, Chinese-sorted flat options; every tested option must select and return its expected people.
+- Replaced the legacy literal table-mode event assertion with on-demand state/linkage checks: `?event=e035`, selected event field, title, four expected names, and four loaded `data-detail-id` rows.
+- `node --check scripts/verify_ming_museum.mjs` exited 0; `node --test scripts/verify_ming_people_timeline.test.mjs` exited 0 (18/18), including source checks for all four updated contracts.
+- A new `npm run verify` invocation passed the timeline, timeline-unit (36/36), variant-unit (15/15), and reign-year unit stages, but this environment stopped before the long legacy browser audit produced a final exit code or a refreshed audit report. Final aggregate exit code: **not returned by this execution environment**.

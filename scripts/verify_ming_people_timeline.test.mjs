@@ -74,6 +74,21 @@ test('museum story coverage derives its roster gate from the source roster', () 
   assert.doesNotMatch(museumVerifier, /storyCoverage\.rows===165/);
 });
 
+test('museum verifier keeps current on-demand UI contracts observable', () => {
+  const museumVerifier = fs.readFileSync(path.join(repoRoot, 'scripts/verify_ming_museum.mjs'), 'utf8');
+  const peopleBuilder = fs.readFileSync(path.join(repoRoot, 'scripts/build_ming_html.mjs'), 'utf8');
+
+  assert.match(peopleBuilder, /\['不重复人物',all\.length\]/);
+  assert.match(peopleBuilder, /\['独立页面人物',independentPageCount\]/);
+  assert.match(museumVerifier, /storyCoverage\.statLabel===String\(storyCoverage\.rows\)/);
+  assert.match(museumVerifier, /individualPageLinksMissing\.length===0/);
+  assert.match(museumVerifier, /await fs\.access\(path\.join\(root,sample\.enterHref\)\)/);
+  assert.match(museumVerifier, /expectedInstitutionOptions=.*\.sort\(/);
+  assert.match(museumVerifier, /institutionGroups\.length===0/);
+  assert.match(museumVerifier, /eventPeopleFilterPass=.*loadedDetailIds/);
+  assert.doesNotMatch(museumVerifier, /eventPeopleFilter\.peopleView==='table'/);
+});
+
 test('default verify gate runs data, all timeline test suites, legacy regression, and every timeline page verifier', () => {
   assert.equal(
     packageJson.scripts['verify:people-timeline-unit'],
