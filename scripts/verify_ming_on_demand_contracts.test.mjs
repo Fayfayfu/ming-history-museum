@@ -9,21 +9,12 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = fileURLToPath(new URL('../', import.meta.url));
 const outputRoot = path.join(repoRoot, 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
 const verifierPath = path.join(repoRoot, 'scripts/verify_ming_on_demand_contracts.mjs');
-const dataVerifierPath = path.join(repoRoot, 'scripts/verify_ming_people_on_demand_data.mjs');
 
 function runContractVerifier(root = outputRoot, scope = 'all') {
   return spawnSync(process.execPath, [verifierPath], {
     cwd: repoRoot,
     encoding: 'utf8',
     env: { ...process.env, MING_ON_DEMAND_CONTRACT_ROOT: root, MING_ON_DEMAND_CONTRACT_SCOPE: scope },
-  });
-}
-
-function runDataVerifier(root) {
-  return spawnSync(process.execPath, [dataVerifierPath], {
-    cwd: repoRoot,
-    encoding: 'utf8',
-    env: { ...process.env, MING_PEOPLE_ON_DEMAND_ROOT: root },
   });
 }
 
@@ -44,8 +35,10 @@ function mutateJson(file, mutate) {
   fs.writeFileSync(file, `${JSON.stringify(parsed, null, 2)}\n`);
 }
 
-function assertRejected(result, reason) {
+function assertRejected(result, reason, marker) {
+  assert.equal(result.error, undefined, `${reason} verifier could not start: ${result.error}`);
   assert.notEqual(result.status, 0, `${reason} mutation unexpectedly passed\n${result.stdout}\n${result.stderr}`);
+  assert.match(result.stderr, new RegExp(marker), `${reason} did not fail at its contract gate\n${result.stdout}\n${result.stderr}`);
 }
 
 test('current on-demand UI contract verifier accepts the generated museum', () => {
@@ -56,28 +49,28 @@ test('current on-demand UI contract verifier accepts the generated museum', () =
 test('on-demand contract gates reject copied-output regressions', (t) => {
   const statsRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/people-index.json'), (index) => { index.people.pop(); }));
   t.after(() => fs.rmSync(statsRoot, { recursive: true, force: true }));
-  assertRejected(runContractVerifier(statsRoot, 'stats'), 'mismatched stats');
+  assertRejected(runContractVerifier(statsRoot, 'stats'), 'mismatched stats', 'current stats mismatch');
 
   const archiveRoot = fixture((root) => {
     const page = path.join(root, 'people.html');
     fs.writeFileSync(page, fs.readFileSync(page, 'utf8').replace('people-archive.html', 'missing-archive.html'));
   });
   t.after(() => fs.rmSync(archiveRoot, { recursive: true, force: true }));
-  assertRejected(runDataVerifier(archiveRoot), 'removed archive noscript link');
+  assertRejected(runContractVerifier(archiveRoot, 'archive'), 'removed archive noscript link', 'archive noscript link invalid');
 
   const linksRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/people-index.json'), (index) => {
     index.people.find((person) => person.name === '朱元璋').personPageSlug = 'not-a-real-person';
   }));
   t.after(() => fs.rmSync(linksRoot, { recursive: true, force: true }));
-  assertRejected(runContractVerifier(linksRoot, 'links'), 'invalid individual-page link');
+  assertRejected(runContractVerifier(linksRoot, 'links'), 'invalid individual-page link', 'missing individual-page file for 朱元璋');
 
   const institutionsRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/people-index.json'), (index) => {
     index.people.find((person) => person.name === '张居正').institutions[0].name = '内阁损坏';
   }));
   t.after(() => fs.rmSync(institutionsRoot, { recursive: true, force: true }));
-  assertRejected(runContractVerifier(institutionsRoot, 'institutions'), 'broken institution mapping');
+  assertRejected(runContractVerifier(institutionsRoot, 'institutions'), 'broken institution mapping', 'institution options are not complete and sorted');
 
   const eventsRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/event-details/e035.json'), (event) => { event.people = []; }));
   t.after(() => fs.rmSync(eventsRoot, { recursive: true, force: true }));
-  assertRejected(runContractVerifier(eventsRoot, 'event'), 'removed event linkage');
+  assertRejected(runContractVerifier(eventsRoot, 'event'), 'removed event linkage', 'event linkage control missing for e035');
 });

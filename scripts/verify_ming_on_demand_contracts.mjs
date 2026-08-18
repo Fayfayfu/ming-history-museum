@@ -29,7 +29,21 @@ const base = `http://127.0.0.1:${server.address().port}`;
 let browser;
 try {
   browser = await chromium.launch({ headless: true, executablePath: chrome });
-  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, javaScriptEnabled: scope !== 'archive' });
+  if (scope === 'archive') {
+    await page.goto(`${base}/people.html`, { waitUntil: 'domcontentloaded' });
+    const archiveHref = await page.locator('noscript a').getAttribute('href');
+    if (archiveHref !== 'people-archive.html') fail(`archive noscript link invalid: ${archiveHref || '<missing>'}`);
+    await page.goto(`${base}/${archiveHref}`, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('tbody tr[data-id]');
+    const archive = await page.evaluate(() => ({
+      rows: document.querySelectorAll('tbody tr[data-id]').length,
+      headers: document.querySelectorAll('th').length,
+      scripts: document.querySelectorAll('script').length,
+    }));
+    if (archive.rows !== 175 || archive.headers !== 15 || archive.scripts !== 0) fail(`archive static roster mismatch: ${JSON.stringify(archive)}`);
+    console.log(JSON.stringify({ status: 'ok', archive }));
+  } else {
   await page.goto(`${base}/people.html`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('#rows tr[data-id]');
   const stats = await page.evaluate(() => Object.fromEntries([...document.querySelectorAll('#stats .stat')].map((stat) => [stat.querySelector('span')?.textContent.trim(), stat.querySelector('strong')?.textContent.trim()])));
@@ -61,8 +75,10 @@ try {
   if (scope === 'all' || scope === 'event') {
   await page.goto(`${base}/events.html?q=${encodeURIComponent('北京保卫战')}`, { waitUntil: 'domcontentloaded' });
   await page.locator('.eventcard').first().click();
-  await page.waitForSelector('#detail [data-event-people="e035"]');
-  await page.locator('#detail [data-event-people="e035"]').click();
+  await page.waitForFunction(() => document.querySelector('#detail h2')?.textContent.includes('北京保卫战'));
+  const eventPeopleControl = page.locator('#detail [data-event-people="e035"]');
+  if (await eventPeopleControl.count() !== 1) fail('event linkage control missing for e035');
+  await eventPeopleControl.click();
   await page.waitForURL((url) => url.pathname.endsWith('/people.html') && url.searchParams.get('event') === 'e035');
   await page.waitForFunction(() => document.querySelectorAll('#rows tr[data-detail-id]').length === 4);
   eventRows = await page.locator('#rows tr[data-detail-id]').evaluateAll((rows) => ({
@@ -76,6 +92,7 @@ try {
   }
   }
   console.log(JSON.stringify({ status: 'ok', stats, institutions: options.length, previews: requiredPreviewPeople.length, event: eventRows }));
+  }
 } finally {
   await browser?.close();
   await new Promise((resolve) => server.close(resolve));

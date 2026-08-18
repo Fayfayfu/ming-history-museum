@@ -80,3 +80,12 @@ High for build, data/shard, source-roster, and focused browser evidence; medium 
 ## Confidence
 
 High for the deterministic data and syntax/unit checks, and high that the new mutation fixtures exercise real generated-page/data behavior rather than source text. Medium for full browser and aggregate completion because this runner suppresses their final process statuses.
+
+## Review round 5: mutation diagnostic tightening
+
+- The archive regression is now a Chromium no-JavaScript contract: with JavaScript disabled it reads the homepage `<noscript>` link, opens the linked archive, and requires exactly 175 rows, 15 headers, and zero script elements.
+- Each copied-output mutation now requires its own exact contract diagnostic in stderr, not merely a nonzero child status: `current stats mismatch`, `archive noscript link invalid`, `missing individual-page file for 朱元璋`, `institution options are not complete and sorted`, or `event linkage control missing for e035`.
+- The test also requires `spawnSync` itself to start successfully. A loopback/server or Chromium launch failure has no mutation-specific diagnostic, therefore fails the test rather than creating a false positive.
+- `node --check scripts/verify_ming_on_demand_contracts.mjs` and `node --check scripts/verify_ming_on_demand_contracts.test.mjs` — exited 0.
+- `node --test scripts/verify_ming_people_timeline.test.mjs` — exited 0 (17/17).
+- The permission-enabled `node --test scripts/verify_ming_on_demand_contracts.test.mjs` and `node scripts/verify_ming_museum.mjs` invocations again reached the local browser phase, but this execution surface returned only `TAP version 13` (or no output) and no child exit code after approximately 30 seconds. No Chromium mutation or aggregate success is claimed from those interrupted invocations.
