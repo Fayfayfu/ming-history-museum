@@ -28,11 +28,73 @@ function requiredId(id, label) {
   return id;
 }
 
-function stablePeople(core) {
+const personIdentityReplacements = new Map([
+  ['熾', '炽'], ['鎮', '镇'], ['鈺', '钰'], ['見', '见'], ['載', '载'],
+  ['鈞', '钧'], ['檢', '检'], ['權', '权'], ['標', '标'], ['潤', '润'],
+]);
+
+export function normalizePersonIdentity(value) {
+  const identity = String(value || '')
+    .normalize('NFKC')
+    .replace(/\s+/g, '')
+    .toLocaleLowerCase('en-US');
+  if (!identity) throw new Error('Missing person identity name');
+  return [...identity].map((character) => personIdentityReplacements.get(character) || character).join('');
+}
+
+function encodedIdentitySlug(identity) {
+  const chunks = [];
+  let ascii = '';
+  const flushAscii = () => {
+    if (!ascii) return;
+    chunks.push(ascii.replace(/^-+|-+$/g, '').replace(/-+/g, '-'));
+    ascii = '';
+  };
+  for (const character of identity) {
+    if (/^[a-z0-9-]$/.test(character)) {
+      ascii += character;
+      continue;
+    }
+    flushAscii();
+    chunks.push(`u${character.codePointAt(0).toString(16)}`);
+  }
+  flushAscii();
+  const encoded = chunks.filter(Boolean).join('-');
+  if (!encoded) throw new Error(`Cannot derive person ID from identity: ${identity}`);
+  return requiredId(`person-${encoded}`, 'person');
+}
+
+function personPageSlugsByIdentity(personPages) {
+  const slugs = new Map();
+  for (const [name, page] of Object.entries(peopleFor(personPages))) {
+    if (!page?.slug) continue;
+    const identity = normalizePersonIdentity(name);
+    const slug = requiredId(page.slug, 'person page');
+    if (slugs.has(identity) && slugs.get(identity) !== slug) {
+      throw new Error(`Duplicate person page identity: ${identity}`);
+    }
+    slugs.set(identity, slug);
+  }
+  return slugs;
+}
+
+function stablePeople(core, personPages) {
   const ids = new Set();
-  return core.map((person, index) => {
+  const identities = new Set();
+  const independentSlugs = personPageSlugsByIdentity(personPages);
+  return core.map((person) => {
+    const identity = normalizePersonIdentity(person?.name || person?.title);
+    if (identities.has(identity)) throw new Error(`Duplicate normalized person identity: ${identity}`);
+    identities.add(identity);
     const hasExplicitId = Object.hasOwn(person, 'id');
-    const id = hasExplicitId ? requiredId(person.id, 'person') : `c${index}`;
+    if (hasExplicitId && !String(person.id || '').trim()) requiredId(person.id, 'person');
+    const explicitId = hasExplicitId ? requiredId(person.id, 'person') : '';
+    if (/^[ck]\d+$/.test(explicitId)) throw new Error(`Ordinal person ID is not stable: ${explicitId}`);
+    const independentSlug = independentSlugs.get(identity) || '';
+    if (explicitId && independentSlug && explicitId !== independentSlug) {
+      throw new Error(`Person ID must reuse independent-page slug for ${identity}: ${independentSlug}`);
+    }
+    const id = independentSlug || explicitId || encodedIdentitySlug(identity);
     if (ids.has(id)) throw new Error(`Duplicate person ID: ${id}`);
     ids.add(id);
     return { id, person };
@@ -83,7 +145,7 @@ function buildEventIndexEntry(id, event) {
 }
 
 export function buildPeopleOnDemandData(input) {
-  const people = stablePeople(input.core || []);
+  const people = stablePeople(input.core || [], input.personPages);
   const events = stableEvents(input.eventData?.events || []);
   const portraits = input.portraits?.people || input.portraits || {};
   const institutionIds = institutionIdsByPerson(input.institutionData);

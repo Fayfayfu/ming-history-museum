@@ -168,14 +168,31 @@ const [core, importantChildren, eventSource] = await Promise.all([
   readJson(path.resolve('data/ming_events.json')),
 ]);
 const emperorNames = new Set(core.filter((person) => person.category === '皇帝').map((person) => normalized(person.name)));
-const expectedPersonIds = new Set([
-  ...core.map((_, index) => `c${index}`),
-  ...importantChildren.map((person, index) => ({ person, index }))
-    .filter(({ person }) => !emperorNames.has(normalized(person.name || person.title)))
-    .map(({ index }) => `k${index}`),
-]);
+const expectedPeople = [
+  ...core,
+  ...importantChildren.filter((person) => !emperorNames.has(normalized(person.name || person.title))),
+];
+const expectedPeopleByIdentity = new Map();
+for (const person of expectedPeople) {
+  const name = person.name || person.title;
+  const identity = normalized(name);
+  assert(identity, 'source person is missing a normalized identity');
+  assert(!expectedPeopleByIdentity.has(identity), `duplicate normalized source person identity ${identity}`);
+  expectedPeopleByIdentity.set(identity, name);
+}
 const expectedEventIds = new Set((eventSource.events || []).map((event) => event.id));
-assert(personIds.size === expectedPersonIds.size && [...expectedPersonIds].every((id) => personIds.has(id)), `person shard source-record count/IDs differ (expected ${expectedPersonIds.size}, got ${personIds.size})`);
+const peopleByIdentity = new Map();
+for (const entry of peopleIndex.people) {
+  const identity = normalized(entry.name);
+  assert(!/^[ck]\d+$/.test(entry.id), `person ${entry.name} uses unstable ordinal ID ${entry.id}`);
+  assert(!peopleByIdentity.has(identity), `people index contains duplicate normalized identity ${identity}`);
+  peopleByIdentity.set(identity, entry);
+}
+assert(
+  peopleByIdentity.size === expectedPeopleByIdentity.size
+    && [...expectedPeopleByIdentity.keys()].every((identity) => peopleByIdentity.has(identity)),
+  `person shard source-record identities differ (expected ${expectedPeopleByIdentity.size}, got ${peopleByIdentity.size})`,
+);
 assert(eventIds.size === expectedEventIds.size && [...expectedEventIds].every((id) => eventIds.has(id)), `event shard source-record count/IDs differ (expected ${expectedEventIds.size}, got ${eventIds.size})`);
 
 const personDetails = [];
@@ -183,6 +200,13 @@ for (const entry of peopleIndex.people) {
   const file = detailPath(entry, 'people-details', 'person');
   const detail = await readJson(file);
   assert(detail.id === entry.id, `person detail ID mismatch in ${relative(file)} (expected ${entry.id}, got ${detail.id})`);
+  assert(normalized(detail.drawer?.person?.name || detail.drawer?.person?.title) === normalized(entry.name), `person detail identity mismatch in ${relative(file)}`);
+  if (detail.drawer?.personPage?.slug) {
+    assert(entry.id === detail.drawer.personPage.slug, `person ${entry.name} must reuse independent-page slug ${detail.drawer.personPage.slug}`);
+  } else {
+    assert(entry.id.startsWith('person-'), `person ${entry.name} without an independent page must use a semantic derived ID`);
+  }
+  assert(entry.rowId === entry.id, `person ${entry.name} rowId must reuse its stable person ID`);
   personDetails.push(detail);
 }
 const eventDetails = [];

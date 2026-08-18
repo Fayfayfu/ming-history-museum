@@ -62,9 +62,14 @@ test('on-demand archive contract rejects an invalid noscript target', (t) => {
 });
 
 test('on-demand contract rejects an invalid individual-page link from the loaded detail', (t) => {
-  const linksRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/people-details/c0.json'), (detail) => {
-    detail.drawer.personPage.slug = 'not-a-real-person';
-  }));
+  const linksRoot = fixture((root) => {
+    const index = JSON.parse(fs.readFileSync(path.join(root, 'assets/data/people-index.json'), 'utf8'));
+    const person = index.people.find((entry) => entry.name === '朱元璋');
+    assert.ok(person?.detailUrl, '朱元璋 detail URL must exist in the fixture index');
+    mutateJson(path.join(root, person.detailUrl), (detail) => {
+      detail.drawer.personPage.slug = 'not-a-real-person';
+    });
+  });
   t.after(() => fs.rmSync(linksRoot, { recursive: true, force: true }));
   assertRejected(runContractVerifier(linksRoot, 'links'), 'invalid individual-page link', 'missing individual-page file for 朱元璋');
 });

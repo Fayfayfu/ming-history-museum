@@ -89,7 +89,10 @@ const baseUrl = `http://127.0.0.1:${address.port}`;
 
 async function waitForPerson(page, name) {
   await page.waitForFunction(
-    (expected) => document.querySelector('#detail h2')?.textContent.trim() === expected,
+    (expected) => (
+      document.querySelector('#detail h2')?.textContent.trim() === expected
+      && document.querySelector('#detail .facts')
+    ),
     name,
   );
 }
@@ -246,7 +249,7 @@ try {
   });
   await closeDrawer(scrollPage);
   await scrollPage.locator('#rows tr[data-id="zhu-yuan-zhang"]').click();
-  await scrollPage.waitForFunction(() => document.querySelector('#drawer .panel')?.scrollTop >= 500);
+  await waitForPerson(scrollPage, '朱元璋');
   const samePersonScroll = await scrollPage.locator('#drawer .panel').evaluate((panel) => panel.scrollTop);
   await closeDrawer(scrollPage);
   await scrollPage.locator('#search').fill('\u6731\u5141\u7086');
@@ -267,7 +270,7 @@ try {
   const racePage = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   const raceDiagnostics = [];
   racePage.on('console', (message) => raceDiagnostics.push(`${message.type()}: ${message.text()}`));
-  await racePage.route('**/assets/data/people-details/c0.json', async (route) => {
+  await racePage.route('**/assets/data/people-details/zhu-yuan-zhang.json', async (route) => {
     await new Promise((resolve) => setTimeout(resolve, 650));
     await route.continue();
   });

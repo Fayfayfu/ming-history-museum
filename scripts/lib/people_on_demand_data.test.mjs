@@ -52,18 +52,18 @@ const fixture = {
 
 test('keeps narrative fields out of people index', () => {
   const result = buildPeopleOnDemandData(fixture);
-  const entry = result.peopleIndex.people.find((person) => person.id === 'c0');
+  const entry = result.peopleIndex.people.find((person) => person.id === 'zhu-yuan-zhang');
 
   assert.deepEqual(entry, {
-    id: 'c0', name: '朱元璋', category: '皇帝', office: '明太祖',
+    id: 'zhu-yuan-zhang', name: '朱元璋', category: '皇帝', office: '明太祖',
     birth: 1328, death: 1398, domains: ['政治制度'], institutionIds: ['central-secretariat', 'censorate-platform'],
     portrait: { file: 'assets/portraits/zhu.jpg', kind: 'sourced' },
-    detailUrl: 'assets/data/people-details/c0.json',
+    detailUrl: 'assets/data/people-details/zhu-yuan-zhang.json',
   });
   assert.equal('scenes' in entry, false);
   assert.equal('historicalSlices' in entry, false);
-  assert.ok(result.peopleDetails.get('c0').drawer);
-  assert.equal(result.peopleDetails.get('c0').id, 'c0');
+  assert.ok(result.peopleDetails.get('zhu-yuan-zhang').drawer);
+  assert.equal(result.peopleDetails.get('zhu-yuan-zhang').id, 'zhu-yuan-zhang');
   assert.deepEqual(result.peopleIndex, { version: 1, people: result.peopleIndex.people });
   assert.equal(result.eventsIndex.version, 1);
   assert.deepEqual(result.eventsIndex.stages, fixture.eventData.stages);
@@ -72,11 +72,12 @@ test('keeps narrative fields out of people index', () => {
 test('derives every institution association and retains both drawer profile shapes', () => {
   const emperor = buildPeopleOnDemandData(fixture);
   assert.deepEqual(emperor.peopleIndex.people[0].institutionIds, ['central-secretariat', 'censorate-platform']);
-  assert.deepEqual(emperor.peopleDetails.get('c0').drawer.emperorDrawerProfile, { templeName: '太祖', eraName: '洪武' });
+  assert.deepEqual(emperor.peopleDetails.get('zhu-yuan-zhang').drawer.emperorDrawerProfile, { templeName: '太祖', eraName: '洪武' });
 
   const nonEmperor = buildPeopleOnDemandData({
     ...fixture,
     core: [{ ...fixture.core[0], id: 'civil-minister', category: '文臣' }],
+    personPages: { people: {} },
     emperorDrawerProfiles: { people: { 朱元璋: { lead: '非皇帝人物抽屉资料' } } },
   });
   assert.deepEqual(nonEmperor.peopleDetails.get('civil-minister').drawer.emperorDrawerProfile, { lead: '非皇帝人物抽屉资料' });
@@ -85,7 +86,7 @@ test('derives every institution association and retains both drawer profile shap
 test('maps all source IDs to exactly one detail', () => {
   const result = buildPeopleOnDemandData(fixture);
 
-  assert.deepEqual([...result.peopleDetails.keys()].sort(), ['c0']);
+  assert.deepEqual([...result.peopleDetails.keys()].sort(), ['zhu-yuan-zhang']);
   assert.deepEqual([...result.eventDetails.keys()].sort(), fixture.eventData.events.map((event) => event.id).sort());
   assert.equal(result.eventsIndex.events[0].cause, undefined);
   assert.equal(result.eventDetails.get('hongwu-founding').id, 'hongwu-founding');
@@ -153,10 +154,10 @@ test('deeply isolates every returned index and detail object from source data', 
   result.peopleIndex.people[0].portrait.file = 'changed.jpg';
   result.eventsIndex.stages[0].label = 'changed';
   result.eventsIndex.events[0].people.push('徐达');
-  result.peopleDetails.get('c0').drawer.person.scenes[0].text = 'changed';
-  result.peopleDetails.get('c0').drawer.storytelling.scenes[0].title = 'changed';
-  result.peopleDetails.get('c0').drawer.creativeWorks.works[0].title = 'changed';
-  result.peopleDetails.get('c0').drawer.emperorDrawerProfile.templeName = 'changed';
+  result.peopleDetails.get('zhu-yuan-zhang').drawer.person.scenes[0].text = 'changed';
+  result.peopleDetails.get('zhu-yuan-zhang').drawer.storytelling.scenes[0].title = 'changed';
+  result.peopleDetails.get('zhu-yuan-zhang').drawer.creativeWorks.works[0].title = 'changed';
+  result.peopleDetails.get('zhu-yuan-zhang').drawer.emperorDrawerProfile.templeName = 'changed';
   result.eventDetails.get('hongwu-founding').cause = 'changed';
   assert.deepEqual(fixture, source);
 });
@@ -167,7 +168,7 @@ test('rejects missing and duplicate people and event IDs', () => {
     /missing person id/i,
   );
   assert.throws(
-    () => buildPeopleOnDemandData({ ...fixture, core: [{ ...fixture.core[0], id: 'same' }, { ...fixture.core[0], id: 'same', name: '朱棣' }] }),
+    () => buildPeopleOnDemandData({ ...fixture, personPages: { people: {} }, core: [{ ...fixture.core[0], id: 'same' }, { ...fixture.core[0], id: 'same', name: '朱棣' }] }),
     /duplicate person id: same/i,
   );
   assert.throws(
@@ -192,6 +193,43 @@ test('rejects unsafe people and event IDs before constructing shard paths', () =
         eventData: { ...fixture.eventData, events: [{ ...fixture.eventData.events[0], id }] },
       }),
       /invalid event id/i,
+    );
+  }
+});
+
+test('keeps existing name-to-ID mappings stable across reorder and insertion', () => {
+  const sourcePeople = [
+    { name: '朱元璋', category: '皇帝', office: '明太祖' },
+    { name: '徐达', category: '武官', office: '魏国公' },
+  ];
+  const personPages = { people: { 朱元璋: { slug: 'zhu-yuan-zhang' } } };
+  const baseline = buildPeopleOnDemandData({ core: sourcePeople, personPages });
+  const mutated = buildPeopleOnDemandData({
+    core: [sourcePeople[1], { name: '常遇春', category: '武官', office: '鄂国公' }, sourcePeople[0]],
+    personPages,
+  });
+  const idsByName = (result) => Object.fromEntries(result.peopleIndex.people.map(({ name, id }) => [name, id]));
+
+  assert.deepEqual(idsByName(baseline), {
+    朱元璋: 'zhu-yuan-zhang',
+    徐达: 'person-u5f90-u8fbe',
+  });
+  assert.deepEqual(idsByName(mutated), {
+    徐达: 'person-u5f90-u8fbe',
+    常遇春: 'person-u5e38-u9047-u6625',
+    朱元璋: 'zhu-yuan-zhang',
+  });
+});
+
+test('rejects duplicate normalized identities and ordinal person IDs', () => {
+  assert.throws(
+    () => buildPeopleOnDemandData({ core: [{ name: '徐 达' }, { name: '徐达' }] }),
+    /duplicate normalized person identity: 徐达/i,
+  );
+  for (const id of ['c0', 'c175', 'k0', 'k42']) {
+    assert.throws(
+      () => buildPeopleOnDemandData({ core: [{ name: '徐达', id }] }),
+      /ordinal person id is not stable/i,
     );
   }
 });

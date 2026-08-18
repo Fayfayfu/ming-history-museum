@@ -89,9 +89,8 @@ for (const person of [...core, ...children]) {
 const outDir = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9';
 await fs.mkdir(outDir, {recursive:true});
 const emperorNames = new Set(core.filter(person=>person.category==='皇帝').map(person=>normalize(person.name)));
-const childSourceRecords = children.map((person,index)=>({
+const childSourceRecords = children.map((person)=>({
   ...person,
-  id:`k${index}`,
   name:person.name||person.title||'未命名',
   category:'皇室子女',
   domains:['宫廷内廷'],
@@ -106,7 +105,7 @@ const childSourceRecords = children.map((person,index)=>({
   notes:[person.primary_source,person.notes].filter(Boolean).join('；'),
 })).filter(person=>!emperorNames.has(normalize(person.name)));
 const buildPeople = [
-  ...core.map((person,index)=>({...person,id:`c${index}`})),
+  ...core,
   ...childSourceRecords,
 ];
 const institutionLinksByName = new Map();
@@ -129,7 +128,7 @@ const onDemandData = buildPeopleOnDemandData({
   emperorDrawerProfiles,
 });
 onDemandData.peopleIndex.people=onDemandData.peopleIndex.people.map(entry=>{
-  const person=buildPeople.find(item=>item.id===entry.id);
+  const person=buildPeople.find(item=>normalize(item.name)===normalize(entry.name));
   const lineage=person.category==='皇帝'?imperialLineages.people?.[person.name]||null:null;
   const counts=childCounts[person.name]||null;
   const page=personPageByName[person.name]||null;
@@ -185,7 +184,7 @@ onDemandData.eventsIndex.events=onDemandData.eventsIndex.events.map(entry=>{
   return {...entry,eraYear:event.eraYear,cause:event.cause,impact:event.impact};
 });
 for(const [id,detail] of onDemandData.peopleDetails){
-  const person=buildPeople.find(item=>item.id===id);
+  const person=detail.drawer.person;
   const timeline=peopleTimelineByName.get(normalize(person.name))||null;
   const sourceRef=timeline?.timeline_source_refs?.[0];
   Object.assign(detail.drawer,{

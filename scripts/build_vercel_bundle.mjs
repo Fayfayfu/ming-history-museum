@@ -106,9 +106,13 @@ for (const sourceFile of dataFiles) {
 await fs.writeFile(path.join(destination, 'vercel.json'), JSON.stringify({
   headers: [
     {
-      source: '/assets/(.*)',
-      headers: [{key: 'Cache-Control', value: 'public, max-age=31536000, immutable'}],
+      source: '/assets/data/(.*)',
+      headers: [{key: 'Cache-Control', value: 'public, max-age=0, must-revalidate'}],
     },
+    ...['exhibitions', 'portraits', 'works', 'fonts'].map(directory => ({
+      source: `/assets/${directory}/(.*)`,
+      headers: [{key: 'Cache-Control', value: 'public, max-age=31536000, immutable'}],
+    })),
   ],
 }, null, 2) + '\n');
 

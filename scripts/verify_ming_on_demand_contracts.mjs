@@ -72,8 +72,11 @@ try {
   const previewPeople = scope === 'links' ? requiredPreviewPeople.slice(0, 1) : requiredPreviewPeople;
   if (scope === 'all' || scope === 'links') for (const name of previewPeople) {
     await page.goto(`${base}/people.html?person=${encodeURIComponent(name)}`, { waitUntil: 'domcontentloaded' });
-    await activatePeopleTable(page);
-    await page.waitForSelector('#detail .profile-preview', { state: 'attached' });
+    await page.waitForFunction((expectedName) => (
+      document.querySelector('#drawer')?.classList.contains('open')
+      && document.querySelector('#detail h2')?.textContent.trim() === expectedName
+      && document.querySelector('#detail .profile-enter')
+    ), name);
     const href = await page.locator('#detail .profile-enter').getAttribute('href');
     if (!href || !/^people\/[a-z0-9-]+\.html$/.test(href)) fail(`invalid individual-page link for ${name}: ${href || '<missing>'}`);
     await fs.access(path.join(root, href)).catch(() => fail(`missing individual-page file for ${name}: ${href}`));
