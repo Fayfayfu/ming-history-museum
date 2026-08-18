@@ -65,3 +65,18 @@ High for build, data/shard, source-roster, and focused browser evidence; medium 
 - Replaced the legacy literal table-mode event assertion with on-demand state/linkage checks: `?event=e035`, selected event field, title, four expected names, and four loaded `data-detail-id` rows.
 - `node --check scripts/verify_ming_museum.mjs` exited 0; `node --test scripts/verify_ming_people_timeline.test.mjs` exited 0 (18/18), including source checks for all four updated contracts.
 - A new `npm run verify` invocation passed the timeline, timeline-unit (36/36), variant-unit (15/15), and reign-year unit stages, but this environment stopped before the long legacy browser audit produced a final exit code or a refreshed audit report. Final aggregate exit code: **not returned by this execution environment**.
+
+## Review round 4: async event detail and behavioral mutation gates
+
+- Repaired the legacy museum probe for `北京保卫战`: after clicking the event card it now explicitly waits for both rendered `.personjump` controls and `.sources a` links before reading the event detail. The audit therefore no longer snapshots the pre-fetch empty drawer.
+- Replaced the round-3 source-regex-only contract test with `verify_ming_on_demand_contracts.mjs` and its node test. It drives the generated pages in Chromium and checks the 175 stat, current institution controls, individual-page links, and the `e035` event-to-people route.
+- The mutation suite creates temporary copied output/data fixtures and asserts a nonzero verifier result for each regression: mismatched stats, invalid `<noscript>` archive link, invalid individual-page slug, broken institution mapping, and removed `e035` people linkage. Immutable portrait and individual-page trees are symlinked from the generated output; only the fixture data/pages are mutated.
+- `node --check scripts/verify_ming_on_demand_contracts.mjs` — exited 0.
+- `node --test scripts/verify_ming_people_timeline.test.mjs` — exited 0 (17/17).
+- `npm run verify:people-on-demand-data` — exited 0: 418,399-byte homepage; 175 index/shards/archive rows; 95 event shards; 187 image references.
+- `node --test scripts/verify_ming_on_demand_contracts.test.mjs`, focused `MING_ON_DEMAND_CONTRACT_SCOPE=stats node scripts/verify_ming_on_demand_contracts.mjs`, and `node scripts/verify_ming_museum.mjs` were each started with the local browser runner. This environment returned only the initial `TAP version 13` (or no process output) after roughly 30 seconds and did not return an exit code; no pass is claimed for those browser commands.
+- `npm run verify` has not yet yielded a final exit code in this execution environment for the same long browser-runner reason. The independently completed non-browser gate above is green; aggregate browser completion remains **unconfirmed here**.
+
+## Confidence
+
+High for the deterministic data and syntax/unit checks, and high that the new mutation fixtures exercise real generated-page/data behavior rather than source text. Medium for full browser and aggregate completion because this runner suppresses their final process statuses.

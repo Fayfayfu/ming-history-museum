@@ -1044,6 +1044,8 @@ const events=await page.evaluate(()=>({
 await page.goto(url('events.html?q='+encodeURIComponent('北京保卫战')),{waitUntil:'networkidle'});
 const queryCount=await page.locator('.eventcard').count();
 await page.locator('.eventcard').first().click();
+await page.waitForSelector('#detail .personjump', {state:'attached'});
+await page.waitForSelector('#detail .sources a', {state:'attached'});
 const eventDetail=await page.evaluate(()=>({title:document.querySelector('#detail h2')?.textContent.trim(),people:document.querySelectorAll('#detail .personjump').length,sources:document.querySelectorAll('#detail .sources a').length}));
 await page.locator('#detail [data-event-people="e035"]').scrollIntoViewIfNeeded();
 await page.waitForTimeout(350);
