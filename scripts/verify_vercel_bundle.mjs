@@ -101,6 +101,10 @@ await page.waitForTimeout(80);
 const legacyInstitutionRedirect=page.url().endsWith('/institutions.html');
 
 await page.goto(`${base}/people.html?person=${encodeURIComponent('姚广孝')}`, {waitUntil:'domcontentloaded', timeout:60000});
+await page.waitForFunction(() => (
+  document.querySelector('#drawer')?.classList.contains('open')
+  && document.querySelector('#detail h2')?.textContent.trim() === '姚广孝'
+), {timeout: 60000});
 const yao = await page.evaluate(() => ({
   open: document.querySelector('#drawer')?.classList.contains('open'),
   src: document.querySelector('#detail .portrait img')?.getAttribute('src'),
@@ -108,6 +112,10 @@ const yao = await page.evaluate(() => ({
 }));
 
 await page.goto(`${base}/people.html?person=${encodeURIComponent('杨继盛')}`, {waitUntil:'domcontentloaded', timeout:60000});
+await page.waitForFunction(() => (
+  document.querySelector('#drawer')?.classList.contains('open')
+  && document.querySelector('#detail h2')?.textContent.trim() === '杨继盛'
+), {timeout: 60000});
 const yangJisheng = await page.evaluate(async () => {
   const image = document.querySelector('#detail .portrait img');
   if (image && !image.complete) await new Promise(resolve => {

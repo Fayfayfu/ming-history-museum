@@ -20,6 +20,7 @@ const requiredEventFields = ['id', 'year', 'date', 'eraYear', 'title', 'stage', 
 
 const fail = (message) => { throw new Error(`People on-demand data verification failed: ${message}`); };
 const relative = (file) => path.relative(root, file).split(path.sep).join('/');
+const exists = async (file) => fs.access(file).then(() => true).catch(() => false);
 const readText = async (file) => {
   try {
     return await fs.readFile(file, 'utf8');
@@ -103,6 +104,10 @@ async function jsonShardNames(directory) {
   return entries.filter((entry) => entry.isFile() && entry.name.endsWith('.json')).map((entry) => entry.name).sort();
 }
 
+if (deploy) {
+  assert(await exists(path.join(dataRoot, 'people-index.json')), 'missing deployed assets/data/people-index.json');
+}
+
 const [peopleHtml, peopleArchiveHtml, eventsHtml, peopleIndex, eventsIndex] = await Promise.all([
   readText(path.join(root, 'people.html')),
   readText(path.join(root, 'people-archive.html')),
@@ -110,6 +115,15 @@ const [peopleHtml, peopleArchiveHtml, eventsHtml, peopleIndex, eventsIndex] = aw
   readJson(path.join(dataRoot, 'people-index.json')),
   readJson(path.join(dataRoot, 'events-index.json')),
 ]);
+
+if (deploy) {
+  for (const entry of peopleIndex.people) {
+    assert(await exists(path.join(root, entry.detailUrl)), `missing deployed ${entry.detailUrl}`);
+  }
+  for (const entry of eventsIndex.events) {
+    assert(await exists(path.join(root, entry.detailUrl)), `missing deployed ${entry.detailUrl}`);
+  }
+}
 
 assert(Buffer.byteLength(peopleHtml) < 430 * 1024, `people.html must be below 430 KiB (got ${Buffer.byteLength(peopleHtml)} bytes)`);
 assert(
