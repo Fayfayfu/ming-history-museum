@@ -23,6 +23,37 @@ const failures = [];
 const check = (condition, message, details) => {
   if (!condition) failures.push(`${message}${details ? `: ${JSON.stringify(details)}` : ''}`);
 };
+const peopleIndexPath = path.join(root, 'assets/data/people-index.json');
+const peopleIndexBuffer = await fs.readFile(peopleIndexPath);
+const peopleIndexArtifact = JSON.parse(peopleIndexBuffer);
+const allowedPersonIndexKeys = new Set([
+  'alt', 'birth', 'category', 'childCounts', 'confidence', 'creativeWorkCount', 'death', 'detailUrl',
+  'display', 'domains', 'evaluation', 'hometown', 'id', 'institutionIds', 'institutions', 'lineageLines',
+  'mother', 'name', 'office', 'office_end', 'office_start', 'order', 'parent', 'personPageSlug', 'portrait',
+  'rowId', 'score', 'sex', 'summary', 'year',
+]);
+const allowedPortraitKeys = new Set([
+  'file', 'objectPosition', 'portraitKind', 'portraitTransform', 'status', 'transformOrigin',
+]);
+const forbiddenIndexKeys = new Set([
+  'commons', 'emperorIdentity', 'evidence', 'fileName', 'height', 'historicalSlice', 'lifeEraLabels',
+  'lineage', 'note', 'notes', 'page', 'source1', 'source2', 'timeline', 'width', 'works',
+]);
+const unexpectedIndexFields = [];
+for (const person of peopleIndexArtifact.people || []) {
+  for (const key of Object.keys(person)) {
+    if (!allowedPersonIndexKeys.has(key) || forbiddenIndexKeys.has(key)) unexpectedIndexFields.push(`${person.id}.${key}`);
+  }
+  for (const key of Object.keys(person.portrait || {})) {
+    if (!allowedPortraitKeys.has(key) || forbiddenIndexKeys.has(key)) unexpectedIndexFields.push(`${person.id}.portrait.${key}`);
+  }
+}
+check(unexpectedIndexFields.length === 0, 'final people index must contain only declared list fields', unexpectedIndexFields.slice(0, 20));
+check(
+  peopleIndexBuffer.byteLength < 240 * 1024,
+  'final people index must stay below the 240 KiB boot budget',
+  { bytes: peopleIndexBuffer.byteLength },
+);
 
 function safeFilePath(requestUrl) {
   const pathname = decodeURIComponent(new URL(requestUrl, 'http://127.0.0.1').pathname);
@@ -180,9 +211,10 @@ try {
   const samePersonScroll = await scrollPage.locator('#drawer .panel').evaluate((panel) => panel.scrollTop);
   await closeDrawer(scrollPage);
   await scrollPage.locator('#search').fill('\u6731\u5141\u7086');
-  const otherRow = scrollPage.locator('#rows tr[data-id]').filter({ hasText: '\u6731\u5141\u7086' }).first();
+  const otherRow = scrollPage.locator('#rows tr[data-id="zhu-yunwen"]');
   await otherRow.click();
-  await waitForPerson(scrollPage, '\u6731\u5141\u7086');
+  await scrollPage.waitForTimeout(1000);
+  const differentPersonName = (await scrollPage.locator('#detail h2').textContent()).trim();
   const differentPersonScroll = await scrollPage.locator('#drawer .panel').evaluate((panel) => panel.scrollTop);
   check(firstScroll >= 500, 'scroll test must move the first person detail away from the top', { firstScroll });
   check(
@@ -190,7 +222,40 @@ try {
     'cached current person must retain the stored drawer scroll',
     { firstScroll, samePersonScroll },
   );
+  check(differentPersonName === '\u6731\u5141\u7086', 'a different person must render after closing the cached drawer', { differentPersonName });
   check(differentPersonScroll === 0, 'a different person must reset the drawer to the top', { differentPersonScroll });
+
+  const racePage = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const raceDiagnostics = [];
+  racePage.on('console', (message) => raceDiagnostics.push(`${message.type()}: ${message.text()}`));
+  await racePage.route('**/assets/data/people-details/c0.json', async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 650));
+    await route.continue();
+  });
+  await racePage.goto(`${baseUrl}/people.html`, { waitUntil: 'domcontentloaded' });
+  await openRoster(racePage);
+  await racePage.waitForSelector('#rows tr[data-id="zhu-yuan-zhang"]');
+  await racePage.locator('#rows tr[data-id="zhu-yuan-zhang"]').click();
+  await closeDrawer(racePage);
+  await racePage.locator('#search').fill('\u6731\u5141\u7086');
+  await racePage.locator('#rows tr[data-id="zhu-yunwen"]').click();
+  await racePage.waitForTimeout(1400);
+  const personRaceWinner = await racePage.locator('#detail h2').textContent();
+  check(personRaceWinner.trim() === '\u6731\u5141\u7086', 'late person A response must not overwrite person B', { personRaceWinner, raceDiagnostics });
+
+  await racePage.route('**/assets/data/event-details/e001.json', async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 650));
+    await route.continue();
+  });
+  await racePage.goto(`${baseUrl}/events.html`, { waitUntil: 'domcontentloaded' });
+  await racePage.waitForSelector('#eventstream .eventcard[data-event="e001"]');
+  const secondEventTitle = (await racePage.locator('#eventstream .eventcard[data-event="e002"] h3').textContent()).trim();
+  await racePage.locator('#eventstream .eventcard[data-event="e001"]').click();
+  await closeDrawer(racePage);
+  await racePage.locator('#eventstream .eventcard[data-event="e002"]').click();
+  await racePage.waitForTimeout(1400);
+  const eventRaceWinner = await racePage.locator('#detail h2').textContent();
+  check(eventRaceWinner.trim() === secondEventTitle, 'late event A response must not overwrite event B', { eventRaceWinner, secondEventTitle, raceDiagnostics });
 
   if (failures.length) {
     throw new Error(`People on-demand page verification failed:\n- ${failures.join('\n- ')}`);
@@ -203,6 +268,8 @@ try {
     retry: { failedOnce, rowsPreserved: retryRowsBefore },
     deepLinks: ['person', 'event'],
     scroll: { firstScroll, samePersonScroll, differentPersonScroll },
+    races: { personRaceWinner: personRaceWinner.trim(), eventRaceWinner: eventRaceWinner.trim() },
+    peopleIndexBytes: peopleIndexBuffer.byteLength,
   }));
 } finally {
   await browser?.close();

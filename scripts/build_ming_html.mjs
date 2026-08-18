@@ -135,22 +135,47 @@ onDemandData.peopleIndex.people=onDemandData.peopleIndex.people.map(entry=>{
   const page=personPageByName[person.name]||null;
   const creative=creativeWorks.people?.[person.name]||null;
   const identity=person.category==='皇帝'?emperorDrawerProfiles.identities?.[person.name]||null:null;
+  const portrait=entry.portrait?Object.fromEntries([
+    ['status',entry.portrait.status],['file',entry.portrait.file],['portraitKind',entry.portrait.portraitKind],
+    ['objectPosition',entry.portrait.objectPosition],['portraitTransform',entry.portrait.portraitTransform],
+    ['transformOrigin',entry.portrait.transformOrigin],
+  ].filter(([,value])=>value)):null;
+  const lineageLines=(lineage?.relations||[]).filter(item=>['父','祖父兼前任','前任','复辟前任','帝系起点'].includes(item.label)).slice(0,3).map(item=>item.label+'：'+item.value);
+  const display=person.display?Object.fromEntries([
+    ['birthDeath',person.display.birthDeath],['lifespan',person.display.lifespan],
+    ['confidence',person.display.confidence],['periodEnd',person.display.periodEnd],
+  ].filter(([,value])=>value!==undefined)):undefined;
   return {
-    ...entry,
-    ...person,
     id:entry.id,
     rowId:page?.slug||entry.id,
+    name:person.name,
+    category:person.category,
+    office:person.office,
+    alt:person.alt||[person.title,person.importance_reason].filter(Boolean).join(' · '),
+    birth:person.birth,
+    death:person.death,
     year:Number.isFinite(+person.sort_year)?+person.sort_year:(Number.isFinite(+person.birth)?+person.birth:9999),
+    office_start:person.office_start,
+    office_end:person.office_end,
+    hometown:person.hometown,
+    summary:person.summary,
+    evaluation:person.evaluation,
+    score:person.score,
+    confidence:person.confidence,
     domains:identity?.domains||entry.domains||[],
-    institutions:(institutionLinksByName.get(person.name)||[]).map(({sources,...item})=>item),
-    lineage,
-    childCounts:counts,
-    timeline:peopleTimelineByName.get(normalize(person.name))||null,
-    lifeEraLabels:lifeEraLabels[person.name]||[],
+    institutionIds:entry.institutionIds||[],
+    institutions:(institutionLinksByName.get(person.name)||[]).map(item=>({name:item.name,graphId:item.graphId,relation:item.relation,period:item.period,year:item.year})),
+    portrait,
+    detailUrl:entry.detailUrl,
+    parent:person.parent,
+    mother:person.mother,
+    sex:person.sex,
+    order:person.order,
+    display,
+    childCounts:counts?{total:counts.total,sons:counts.sons,daughters:counts.daughters,important:counts.important}:null,
+    lineageLines,
     personPageSlug:page?.slug||'',
     creativeWorkCount:creative?(creative.works||[]).length+(creative.text?1:0):0,
-    emperorIdentity:identity,
-    detailUrl:entry.detailUrl,
   };
 });
 onDemandData.peopleIndex.importantChildrenCount=children.length;
@@ -164,6 +189,7 @@ for(const [id,detail] of onDemandData.peopleDetails){
   const timeline=peopleTimelineByName.get(normalize(person.name))||null;
   const sourceRef=timeline?.timeline_source_refs?.[0];
   Object.assign(detail.drawer,{
+    portrait:portraits.people?.[person.name]||null,
     drawerProfile:emperorDrawerProfiles.people?.[person.name]||personPageByName[person.name]||null,
     institutions:institutionLinksByName.get(person.name)||[],
     lineage:person.category==='皇帝'?imperialLineages.people?.[person.name]||null:null,
@@ -298,15 +324,15 @@ ${storyStyle}
 <script>
 const personDetailCache=new Map();
 const eventDetailCache=new Map();
-let peopleById=new Map(),eventsById=new Map(),lastDetailRequest=null;
+let peopleById=new Map(),eventsById=new Map(),lastDetailRequest=null,detailRequestToken=0;
 let core=[],children=[],all=[],allRecords=[],events=[],eventStages=[],eventSources={},eventCategories=[],domains=[],emperorPeriods=[];
 let state={category:'全部',domain:'',institution:'',q:'',parent:'',event:'',confidence:'',sort:'time'};
 let eventState={stage:'',category:'',q:''};
 async function fetchJson(url){const response=await fetch(url);if(!response.ok)throw new Error('HTTP '+response.status);return response.json()}
 async function loadPeopleIndex(){return fetchJson('assets/data/people-index.json')}
 async function loadEventsIndex(){return fetchJson('assets/data/events-index.json')}
-async function loadPersonDetail(id){if(personDetailCache.has(id))return personDetailCache.get(id);const entry=peopleById.get(id);if(!entry)throw new Error('未找到人物索引：'+id);const detail=await fetchJson(entry.detailUrl);if(detail.id!==id)throw new Error('人物详情 ID 不匹配');personDetailCache.set(id,detail);return detail}
-async function loadEventDetail(id){if(eventDetailCache.has(id))return eventDetailCache.get(id);const entry=eventsById.get(id);if(!entry)throw new Error('未找到事件索引：'+id);const detail=await fetchJson(entry.detailUrl);if(detail.id!==id)throw new Error('事件详情 ID 不匹配');eventDetailCache.set(id,detail);return detail}
+async function loadPersonDetail(id){if(personDetailCache.has(id))return personDetailCache.get(id);const entry=peopleById.get(id);if(!entry)throw new Error('未找到人物索引：'+id);const detail=await fetchJson(entry.detailUrl);if(detail.id!==id)throw new Error('人物详情 ID 不匹配');return detail}
+async function loadEventDetail(id){if(eventDetailCache.has(id))return eventDetailCache.get(id);const entry=eventsById.get(id);if(!entry)throw new Error('未找到事件索引：'+id);const detail=await fetchJson(entry.detailUrl);if(detail.id!==id)throw new Error('事件详情 ID 不匹配');return detail}
 const emperorOrder=['朱元璋','朱允炆','朱棣','朱高炽','朱瞻基','朱祁镇','朱祁钰','朱见深','朱祐樘','朱厚照','朱厚熜','朱载坖','朱翊钧','朱常洛','朱由校','朱由检'];
 const emperorAlias={'明太祖朱元璋':'朱元璋','建文帝朱允炆':'朱允炆','明成祖朱棣':'朱棣','明仁宗朱高熾':'朱高炽','明宣宗朱瞻基':'朱瞻基','明英宗朱祁鎮':'朱祁镇','景泰帝朱祁鈺':'朱祁钰','明憲宗朱見深':'朱见深','明孝宗 朱祐樘':'朱祐樘','明孝宗朱祐樘':'朱祐樘','明武宗朱厚照':'朱厚照','明世宗朱厚熜':'朱厚熜','明穆宗朱載坖':'朱载坖','明神宗朱翊鈞':'朱翊钧','明光宗朱常洛':'朱常洛','明熹宗朱由校':'朱由校','崇祯帝朱由檢':'朱由检'};
 const num=v=>Number.isFinite(+v)?+v:null;const life=(b,d)=>num(b)&&num(d)?(num(d)-num(b))+'岁':'待考';
@@ -411,7 +437,7 @@ function narrativeHtml(p){return '<div class="narrative"><span><b>事迹</b> '+e
 function domainHtml(p){return '<div class="domain-tags">'+(p.domains||[]).map(d=>'<span class="domain-tag">'+esc(d)+'</span>').join('')+'</div>'}
 function institutionHtml(p){const links=p.institutions||[];if(!links.length)return '';const prefix=document.body.classList.contains('people-page')?'':'明史数字博物馆/';return '<div class="domain-tags">'+links.map(item=>item.graphId?'<a class="domain-tag institution-link" href="'+prefix+'institutions.html?institution='+encodeURIComponent(item.graphId)+'&year='+encodeURIComponent(num(item.year)||num(p.office_start)||num(p.birth)||1600)+'" title="'+esc([item.period,item.note].filter(Boolean).join(' · '))+'">'+esc(item.name)+' · '+esc(item.relation)+' ↗</a>':'<span class="domain-tag" title="'+esc(item.note||'')+'">'+esc(item.name)+' · '+esc(item.relation)+'</span>').join('')+'</div>'}
 function childCountHtml(p){return p.category==='皇帝'?'<b>子 '+p.sonsTotal+' · 女 '+p.daughtersTotal+'</b><br><span class="year">合计 '+p.childrenTotal+' · 重要 '+p.childrenImportant+'</span>':'<span class="year">—</span>'}
-function lineageHtml(p){const relations=p.lineage?.relations||[];const preferred=['父','祖父兼前任','前任','复辟前任','帝系起点'];const lines=preferred.map(label=>relations.find(item=>item.label===label)).filter(Boolean).slice(0,3).map(item=>item.label+'：'+item.value);if(!lines.length&&p.lineageParent)lines.push('父：'+p.lineageParent);return esc(p.hometown||'待考')+lines.map(line=>'<br><span class="year">'+esc(line)+'</span>').join('')}
+function lineageHtml(p){const relations=p.lineage?.relations||[];const preferred=['父','祖父兼前任','前任','复辟前任','帝系起点'];const lines=relations.length?preferred.map(label=>relations.find(item=>item.label===label)).filter(Boolean).slice(0,3).map(item=>item.label+'：'+item.value):[...(p.lineageLines||[])];if(!lines.length&&p.lineageParent)lines.push('父：'+p.lineageParent);return esc(p.hometown||'待考')+lines.map(line=>'<br><span class="year">'+esc(line)+'</span>').join('')}
 function relationFactHtml(p){const lineage=p.lineage;const lines=lineage?.relations?.map(item=>[item.label,item.value])||(p.lineageParent?[['父',p.lineageParent],...(p.lineageMother?[['母',p.lineageMother]]:[])]:[]);if(!lines.length)return '';const rich=Boolean(lineage);return '<div class="fact lineage-fact '+(rich?'rich':'')+'"><span>帝系关系'+(lineage?.confidence?' · '+esc(lineage.confidence)+'置信度':'')+'</span><div class="lineage-list">'+lines.map(([label,value])=>'<b>'+esc(label)+'：'+esc(value)+'</b>').join('')+(lineage?.branch?'<b>支系：'+esc(lineage.branch)+'</b>':'')+(lineage?.succession?'<b class="succession">入继：'+esc(lineage.succession)+'</b>':'')+'</div>'+(lineage?.boundary?'<p class="year lineage-boundary">证据边界：'+esc(lineage.boundary)+'</p>':'')+'</div>'}
 function personIdentityFactHtml(p){const labels={'文臣':'身份 / 职务','武官':'身份 / 职务','宦官':'身份 / 职务','后妃与内廷女性':'身份 / 称号','皇室子女':'身份 / 封号','在野人物':'身份 / 主要身份','政权人物':'身份 / 职务','域外人物':'身份 / 身份'};const categoryPrefix=['文臣','武官','宦官'].includes(p.category)?p.category+' · ':'';const value=categoryPrefix+(p.office||'待考');return '<div class="fact person-identity"><span>'+esc(labels[p.category]||'身份')+'</span><b title="'+esc(value)+'">'+esc(value)+'</b></div>'}
 function personLocationFactHtml(p){return '<div class="fact person-location"><span>籍贯</span><b>'+esc(p.hometown||'待考')+'</b></div>'}
@@ -447,11 +473,11 @@ function focusEventPeople(id){const event=eventRecord(id);if(!event)return;if(do
 function eventFiltered(){const q=eventState.q.trim().toLowerCase();return events.filter(e=>(!eventState.stage||e.stage===eventState.stage)&&(!eventState.category||e.category===eventState.category)&&(!q||Object.values(e).flat().join(' ').toLowerCase().includes(q))).sort((a,b)=>(a.year-b.year)||a.id.localeCompare(b.id))}
 function renderStageChips(){document.getElementById('stagechips').innerHTML=eventStages.map(s=>{const count=events.filter(e=>e.stage===s.id).length;return '<button class="stagechip '+(eventState.stage===s.id?'active':'')+'" data-stage="'+s.id+'" title="'+esc(s.thesis)+'"><b>'+esc(s.label)+'</b><span>'+esc(s.range)+' · '+count+'件</span></button>'}).join('');document.querySelectorAll('.stagechip').forEach(b=>b.onclick=()=>{eventState.stage=eventState.stage===b.dataset.stage?'':b.dataset.stage;renderEvents()})}
 function renderEvents(){const rows=eventFiltered();const stage=eventStages.find(s=>s.id===eventState.stage);document.getElementById('eventViewTitle').textContent=stage?stage.label+' · '+stage.thesis:'全部阶段 · 从建国到南明终局';document.getElementById('eventCount').textContent='显示 '+rows.length+' / '+events.length+' 件';document.getElementById('eventstream').innerHTML=rows.length?rows.map(e=>'<article class="eventcard" role="button" tabindex="0" data-event="'+e.id+'"><div class="eventdate"><strong>'+esc(e.eraYear)+'</strong><span>'+esc(e.date)+'</span></div><i class="eventdot" aria-hidden="true"></i><div class="eventbody"><div class="eventtop"><span class="eventkind kind-'+esc(e.category)+'">'+esc(e.category)+'</span><h3>'+esc(e.title)+'</h3></div><div class="eventmeta">'+[e.emperor,e.location,e.confidence+'置信度'].filter(Boolean).map(esc).join(' · ')+'</div><div class="eventbrief"><p><b>起因</b> '+esc(e.cause)+'</p><p><b>长期影响</b> '+esc(e.impact)+'</p></div>'+eventPeopleHtml(e)+'</div></article>').join(''):'<div class="eventempty">没有符合条件的事件。</div>';document.querySelectorAll('.eventcard').forEach(card=>{card.onclick=()=>openEventDetail(events.find(e=>e.id===card.dataset.event));card.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&e.target===card){e.preventDefault();openEventDetail(events.find(x=>x.id===card.dataset.event))}}});document.querySelectorAll('#eventstream .personjump').forEach(b=>b.onclick=e=>{e.stopPropagation();focusPerson(b.dataset.person)});renderStageChips()}
-async function openEventDetail(entry){if(!entry)return;const cached=eventDetailCache.has(entry.id);const restoreScrollTop=drawerScrollTarget('event:'+entry.id);lastDetailRequest={kind:'event',id:entry.id};if(!cached)showDetailLoading(entry.title);try{const e=await loadEventDetail(entry.id);const stage=eventStages.find(s=>s.id===e.stage);const sources=(e.evidence||[]).map(key=>eventSources[key]).filter(Boolean);document.getElementById('detail').innerHTML='<div class="seal">重大事件<span class="seal-confidence">'+esc(e.confidence||'未知')+'置信度</span></div><div class="event-detail-title"><div class="event-detail-date">'+esc(e.eraDate)+' · '+esc(e.date)+' · '+esc(e.category)+'</div><h2>'+esc(e.title)+'</h2><div class="identity">'+esc(stage?.label||'')+' · '+esc(e.emperor||'帝系待定')+'</div></div><div class="facts"><div class="fact"><span>历史阶段</span><b>'+esc(stage?.range||'—')+'</b></div><div class="fact"><span>发生地点</span><b>'+esc(e.location||'待考')+'</b></div><div class="fact"><span>事件类型</span><b>'+esc(e.category)+'</b></div><div class="fact"><span>证据置信度</span><b>'+esc(e.confidence||'未知')+'</b></div></div><h4>起因</h4><p class="event-detail-copy">'+esc(e.cause)+'</p><h4>经过</h4><p class="event-detail-copy">'+esc(e.course)+'</p><h4>直接结果</h4><p class="event-detail-copy">'+esc(e.result)+'</p><h4>长期影响</h4><p class="event-detail-copy">'+esc(e.impact)+'</p><h4>相关人物与制度</h4>'+eventPeopleHtml(e,true)+eventPeopleCtaHtml(e)+eventImpactGraphHtml(e)+'<h4>证据入口</h4><div class="sources">'+sources.map(s=>'<a href="'+esc(s.url)+'" target="_blank" rel="noreferrer">'+esc(s.label)+' · '+esc(s.kind)+'</a>').join('')+'</div><div class="note">阶段划分和长期影响属于结构化研究判断，不等于史学界存在唯一解释；可从上列史料与研究入口继续核验。</div>';showDrawerAt(cached?restoreScrollTop:0);document.querySelectorAll('#detail .personjump').forEach(b=>b.onclick=()=>focusPerson(b.dataset.person));document.querySelectorAll('#detail [data-event-people]').forEach(b=>b.onclick=()=>focusEventPeople(b.dataset.eventPeople))}catch(error){showDetailFailure(error)}}
+async function openEventDetail(entry){if(!entry)return;const requestToken=++detailRequestToken;const cached=eventDetailCache.has(entry.id);const restoreScrollTop=drawerScrollTarget('event:'+entry.id);lastDetailRequest={kind:'event',id:entry.id};if(!cached)showDetailLoading(entry.title);try{const e=await loadEventDetail(entry.id);if(requestToken!==detailRequestToken)return;eventDetailCache.set(entry.id,e);const stage=eventStages.find(s=>s.id===e.stage);const sources=(e.evidence||[]).map(key=>eventSources[key]).filter(Boolean);document.getElementById('detail').innerHTML='<div class="seal">重大事件<span class="seal-confidence">'+esc(e.confidence||'未知')+'置信度</span></div><div class="event-detail-title"><div class="event-detail-date">'+esc(e.eraDate)+' · '+esc(e.date)+' · '+esc(e.category)+'</div><h2>'+esc(e.title)+'</h2><div class="identity">'+esc(stage?.label||'')+' · '+esc(e.emperor||'帝系待定')+'</div></div><div class="facts"><div class="fact"><span>历史阶段</span><b>'+esc(stage?.range||'—')+'</b></div><div class="fact"><span>发生地点</span><b>'+esc(e.location||'待考')+'</b></div><div class="fact"><span>事件类型</span><b>'+esc(e.category)+'</b></div><div class="fact"><span>证据置信度</span><b>'+esc(e.confidence||'未知')+'</b></div></div><h4>起因</h4><p class="event-detail-copy">'+esc(e.cause)+'</p><h4>经过</h4><p class="event-detail-copy">'+esc(e.course)+'</p><h4>直接结果</h4><p class="event-detail-copy">'+esc(e.result)+'</p><h4>长期影响</h4><p class="event-detail-copy">'+esc(e.impact)+'</p><h4>相关人物与制度</h4>'+eventPeopleHtml(e,true)+eventPeopleCtaHtml(e)+eventImpactGraphHtml(e)+'<h4>证据入口</h4><div class="sources">'+sources.map(s=>'<a href="'+esc(s.url)+'" target="_blank" rel="noreferrer">'+esc(s.label)+' · '+esc(s.kind)+'</a>').join('')+'</div><div class="note">阶段划分和长期影响属于结构化研究判断，不等于史学界存在唯一解释；可从上列史料与研究入口继续核验。</div>';showDrawerAt(cached?restoreScrollTop:0);document.querySelectorAll('#detail .personjump').forEach(b=>b.onclick=()=>focusPerson(b.dataset.person));document.querySelectorAll('#detail [data-event-people]').forEach(b=>b.onclick=()=>focusEventPeople(b.dataset.eventPeople))}catch(error){if(requestToken===detailRequestToken)showDetailFailure(error)}}
 function render(){const base=currentBase();const rows=filtered();const selectedEvent=eventRecord(state.event);document.getElementById('count').textContent=selectedEvent?'显示 '+rows.length+' / '+base.length+' 位本馆相关人物':'显示 '+rows.length+' / '+base.length+' 条当前视图记录';const selectedEmperor=state.parent?core.find(p=>p.name===state.parent):null;document.getElementById('viewTitle').textContent=selectedEvent?(selectedEvent.title+' · 相关人物'):selectedEmperor?(selectedEmperor.alt+' · 皇帝、子嗣与任内人物'):state.institution?(state.institution+' · 关联人物'):(state.category==='全部'?'人物总表':state.category+' · 筛选视图');document.getElementById('rows').innerHTML=rows.length?rows.map(p=>'<tr data-id="'+esc(p.rowId||p.id)+'" data-detail-id="'+esc(p.id)+'"><td class="year">'+esc(p.year===9999?'年代待考':p.year)+'</td><td><div class="personcell">'+portraitHtml(p)+'<div><span class="name">'+esc(p.name)+'</span>'+(p.alt?'<span class="alt">'+esc(p.alt)+'</span>':'')+'<span class="story-ready">'+(personPageMeta(p)?'独立人物页 ↗':'故事可读 ↗')+'</span>'+creativeBadgeHtml(p)+'</div></div></td><td><span class="badge '+badgeClass[p.category]+'">'+esc(p.category)+'</span><br><span class="year">'+esc(p.office||'—')+'</span>'+domainHtml(p)+institutionHtml(p)+'</td><td>'+esc(p.display?.birthDeath||p.birth+'—'+p.death)+'<br><span class="year">'+esc(p.display?.lifespan||life(p.birth,p.death))+'</span></td><td>'+tenureHtml(p)+'</td><td>'+narrativeHtml(p)+'</td><td>'+scoreHtml(p.weightedScore)+'</td><td>'+metricHtml(p,'governance')+'</td><td>'+metricHtml(p,'military')+'</td><td>'+metricHtml(p,'society')+'</td><td>'+metricHtml(p,'legacy')+'</td><td>'+metricHtml(p,'responsibility')+'</td><td><span class="confidence conf-'+esc(p.confidence)+'">'+esc(p.display?.confidence||p.confidence||'未知')+'</span></td><td>'+lineageHtml(p)+'</td><td>'+childCountHtml(p)+'</td></tr>').join(''):'<tr><td colspan="15" class="empty">没有符合条件的记录。</td></tr>';document.querySelectorAll('#rows tr[data-detail-id]').forEach(tr=>tr.onclick=()=>{const p=peopleById.get(tr.dataset.detailId);if(personPageMeta(p)&&matchMedia('(max-width:720px)').matches)location.href=personPageHref(p);else openDetail(p)});document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.dataset.cat===state.category))}
 function scoreSummaryHtml(p){const total=p.weightedScore!=null?p.weightedScore.toFixed(1):'不评分';const items=[['加权总分','100%',total,'score-summary-total'],['治国制度','30%',p.scoreDetails?.governance??'—',''],['军事危机','20%',p.scoreDetails?.military??'—',''],['社会文化','20%',p.scoreDetails?.society??'—',''],['长期遗产','20%',p.scoreDetails?.legacy??'—',''],['责任代价','10%',p.scoreDetails?.responsibility??'—','']];return '<div class="fact score-summary"><div class="score-summary-grid">'+items.map(item=>'<div class="score-summary-item '+item[3]+'"><span>'+item[0]+(item[1]?' · '+item[1]:'')+'</span><b>'+item[2]+'</b></div>').join('')+'</div></div>'}
-function hydratePerson(entry,detail){const drawer=detail.drawer||{};const cc=drawer.childCounts||entry.childCounts||{};const lineage=drawer.lineage||entry.lineage||null;return withBreakdown({...entry,...drawer.person,id:entry.id,rowId:entry.rowId,portrait:entry.portrait,domains:entry.domains,lineage,institutions:drawer.institutions||entry.institutions||[],timeline:drawer.timeline||entry.timeline,lifeEraLabels:drawer.lifeEraLabels||entry.lifeEraLabels,personPageSlug:entry.personPageSlug,creativeWorkCount:entry.creativeWorkCount,emperorIdentity:entry.emperorIdentity,childrenTotal:entry.category==='皇帝'?cc.total:'',sonsTotal:entry.category==='皇帝'?cc.sons:'',daughtersTotal:entry.category==='皇帝'?cc.daughters:'',childrenImportant:entry.category==='皇帝'?cc.important:'',lineageParent:lineage?.relations?.find(item=>item.label==='父')?.value||'',lineageMother:lineage?.relations?.find(item=>item.label==='母')?.value||''})}
-async function openDetail(entry){if(!entry)return;const cached=personDetailCache.has(entry.id);const restoreScrollTop=drawerScrollTarget('person:'+entry.id);lastDetailRequest={kind:'person',id:entry.id};if(!cached)showDetailLoading(entry.name);try{const detail=await loadPersonDetail(entry.id);renderPersonDetail(hydratePerson(entry,detail),cached?restoreScrollTop:0)}catch(error){showDetailFailure(error)}}
+function hydratePerson(entry,detail){const drawer=detail.drawer||{};const cc=drawer.childCounts||entry.childCounts||{};const lineage=drawer.lineage||null;return withBreakdown({...entry,...drawer.person,id:entry.id,rowId:entry.rowId,portrait:drawer.portrait||entry.portrait,domains:entry.domains,lineage,institutions:drawer.institutions||entry.institutions||[],timeline:drawer.timeline||null,lifeEraLabels:drawer.lifeEraLabels||[],personPageSlug:entry.personPageSlug,creativeWorkCount:entry.creativeWorkCount,childrenTotal:entry.category==='皇帝'?cc.total:'',sonsTotal:entry.category==='皇帝'?cc.sons:'',daughtersTotal:entry.category==='皇帝'?cc.daughters:'',childrenImportant:entry.category==='皇帝'?cc.important:'',lineageParent:lineage?.relations?.find(item=>item.label==='父')?.value||'',lineageMother:lineage?.relations?.find(item=>item.label==='母')?.value||''})}
+async function openDetail(entry){if(!entry)return;const requestToken=++detailRequestToken;const cached=personDetailCache.has(entry.id);const restoreScrollTop=drawerScrollTarget('person:'+entry.id);lastDetailRequest={kind:'person',id:entry.id};if(!cached)showDetailLoading(entry.name);try{const detail=await loadPersonDetail(entry.id);if(requestToken!==detailRequestToken)return;personDetailCache.set(entry.id,detail);renderPersonDetail(hydratePerson(entry,detail),cached?restoreScrollTop:0)}catch(error){if(requestToken===detailRequestToken)showDetailFailure(error)}}
 function renderPersonDetail(p,restoreScrollTop){
   const story=storyMeta(p);
   const creative=creativeMeta(p);
@@ -489,7 +515,7 @@ function renderPersonDetail(p,restoreScrollTop){
   document.getElementById('detail').innerHTML='<div class="seal">'+esc(p.category)+'<span class="seal-confidence">'+esc(confidenceDisplay)+'置信度</span></div><div class="detail-title">'+portraitHtml(p,true)+'<div><h2>'+esc(p.name)+'</h2><div class="identity">'+esc(p.alt||p.office||'')+'</div>'+portraitNoteHtml(p)+'</div></div>'+factsBlock+storyBlock+governanceBlock+(readableEmperor?'':assessmentBlock)+(p.notes?'<div class="note">'+esc(p.notes)+'</div>':'')+relatedEventsHtml(p)+'<h4>证据入口</h4><div class="sources">'+portraitSourceHtml(p)+sourceUrls.map((u,i)=>'<a href="'+esc(u)+'" target="_blank" rel="noreferrer">来源 '+(i+1)+' · '+esc(u)+'</a>').join('')+'</div>';
   showDrawerAt(restoreScrollTop);
 }
-function closeDetail(){document.getElementById('drawer').classList.remove('open')}
+function closeDetail(){detailRequestToken++;document.getElementById('drawer').classList.remove('open')}
 async function initializePage(){
 const [peopleIndex,eventsIndex]=await Promise.all([loadPeopleIndex(),loadEventsIndex()]);
 peopleById=new Map(peopleIndex.people.map(person=>[person.id,withBreakdown(person)]));
