@@ -2,7 +2,7 @@
 
 ## Status
 
-**Focused verification PASS (high confidence).** C1, I1, I2, and M1 are implemented. No product content was changed and no deployment was performed.
+**Aggregate verification PASS (high confidence).** C1, I1, I2, and M1 are implemented. No product content was changed and no deployment was performed.
 
 ## Fixes
 
@@ -42,9 +42,10 @@ Generated result: 175 unique person IDs, 0 ordinal IDs, 36 reused independent-pa
 - `npm run build:museum` — passed.
 - `npm run build:deploy` — passed; 542 files, 36.18 MiB.
 - `npm run verify:deploy` — passed with `cachePolicy.dataRules=1`, the exact revalidation value, `broadImmutable=false`, both on-demand portraits loaded, and `pass=true`.
+- `npm run verify` — passed with exit code 0, including all 175-person timeline checks, all browser-page variants, reign-year rendering, on-demand data/page checks, and all six clean/mutation contract cases.
 - `git diff --check` — passed.
 
-The aggregate `npm run verify` is intentionally run after this focused checkpoint commit; its final result will be appended here.
+The timeline, timeline-variant, timeline-double-click, and reign-year browser verifiers now serve the generated museum over loopback HTTP and wait for hydrated on-demand content. This prevents `file://` fetch failures from mistaking loading placeholders for completed drawers.
 
 ## Concerns
 

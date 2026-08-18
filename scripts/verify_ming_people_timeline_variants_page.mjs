@@ -27,10 +27,15 @@ const contentTypeFor = (file) => ({
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
   '.webp': 'image/webp',
 })[path.extname(file)] || 'application/octet-stream';
+const servedUrl = (file) => {
+  if (!cServerLifecycle.port) throw new Error('variant verifier server is not running');
+  return `http://127.0.0.1:${cServerLifecycle.port}/${file}`;
+};
 
 async function startCServer() {
   const server = http.createServer(async (request, response) => {
@@ -53,9 +58,9 @@ async function startCServer() {
   });
   const address = server.address();
   if (!address || typeof address === 'string') throw new Error('C verifier server did not receive a TCP port');
-  cPageUrl = `http://127.0.0.1:${address.port}/people-timeline-c.html`;
   cServerLifecycle.started = true;
   cServerLifecycle.port = address.port;
+  cPageUrl = servedUrl('people-timeline-c.html');
   cStage(`server:start:${address.port}`);
   return server;
 }
@@ -422,7 +427,7 @@ async function captureB2ControlAudit(page) {
 }
 
 async function verifyB2(browser, page, currentPage) {
-  await page.goto(`file://${path.join(root, 'people-timeline-b2.html')}`, { waitUntil: 'domcontentloaded' });
+  await page.goto(servedUrl('people-timeline-b2.html'), { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('[data-scroll-stage="framed"] [data-scroll-drag-surface]');
   const pagePalette = await capturePageStyles(page);
   const currentTimeline = await capturePageStyles(currentPage);
@@ -512,7 +517,7 @@ async function verifyB2(browser, page, currentPage) {
   const reducedPage = await browser.newPage({ reducedMotion: 'reduce', viewport: { width: 1440, height: 1000 } });
   let reducedAmbience;
   try {
-    await reducedPage.goto(`file://${path.join(root, 'people-timeline-b2.html')}`, { waitUntil: 'domcontentloaded' });
+    await reducedPage.goto(servedUrl('people-timeline-b2.html'), { waitUntil: 'domcontentloaded' });
     reducedAmbience = await captureB2Ambience(reducedPage);
   } finally {
     await reducedPage.close();
@@ -638,7 +643,7 @@ async function verifyB2(browser, page, currentPage) {
   let noJs;
   try {
     const noJsPage = await noJsContext.newPage();
-    await noJsPage.goto(`file://${path.join(root, 'people-timeline-b2.html')}`, { waitUntil: 'load' });
+    await noJsPage.goto(servedUrl('people-timeline-b2.html'), { waitUntil: 'load' });
     noJs = await noJsPage.evaluate(() => ({ tableVisible: getComputedStyle(document.querySelector('.tablewrap')).display !== 'none', scrollVisible: getComputedStyle(document.querySelector('#peopleTimelineView')).display !== 'none' }));
   } finally {
     await noJsContext.close();
@@ -764,7 +769,7 @@ async function verifyResponsiveAndNoJs(browser) {
     for (const [key, file] of files) {
       for (const width of [1440, 768, 390]) {
         await page.setViewportSize({ width, height: 1000 });
-        await page.goto(`file://${path.join(root, file)}`, { waitUntil: 'domcontentloaded' });
+        await page.goto(servedUrl(file), { waitUntil: 'domcontentloaded' });
         if (key === 'c') {
           const skip = page.locator('[data-scroll-skip]');
           if (await skip.isVisible()) await skip.click();
@@ -800,7 +805,7 @@ async function verifyResponsiveAndNoJs(browser) {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
     try {
       const noJsPage = await context.newPage();
-      await noJsPage.goto(`file://${path.join(root, file)}`, { waitUntil: 'load' });
+      await noJsPage.goto(servedUrl(file), { waitUntil: 'load' });
       const audit = await noJsPage.evaluate(() => {
         const read = (selector) => {
           const element = document.querySelector(selector);
@@ -832,7 +837,7 @@ async function verifyResponsiveAndNoJs(browser) {
 }
 
 async function verifyA(page) {
-  await page.goto(`file://${path.join(root, 'people-timeline-a.html')}`, { waitUntil: 'domcontentloaded' });
+  await page.goto(servedUrl('people-timeline-a.html'), { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('[data-scroll-drag-surface]');
   const beforeDrag = await page.evaluate(() => {
     const surface = document.querySelector('[data-scroll-drag-surface]');
@@ -1216,7 +1221,7 @@ try {
   browser = await chromium.launch({ headless: true, executablePath: chrome });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const a = await verifyA(page);
-  await page.goto(`file://${path.join(root, 'people-timeline-b.html')}`, { waitUntil: 'domcontentloaded' });
+  await page.goto(servedUrl('people-timeline-b.html'), { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('[data-scroll-drag-surface]');
   await page.waitForSelector('.stat strong');
   verifiedVariants.push('b');
@@ -1312,7 +1317,7 @@ try {
   );
 
   const currentPage = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
-  await currentPage.goto(`file://${path.join(root, 'people-timeline-current.html')}`, { waitUntil: 'domcontentloaded' });
+  await currentPage.goto(servedUrl('people-timeline-current.html'), { waitUntil: 'domcontentloaded' });
   await currentPage.waitForSelector('.stat strong');
   const b2Page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const b2 = await verifyB2(browser, b2Page, currentPage);

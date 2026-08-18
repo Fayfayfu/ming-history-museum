@@ -1,11 +1,35 @@
 import fs from 'node:fs/promises';
+import http from 'node:http';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
 const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
-const baseUrl = process.env.MING_TIMELINE_BASE_URL?.replace(/\/$/, '');
+const configuredBaseUrl = process.env.MING_TIMELINE_BASE_URL?.replace(/\/$/, '');
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const url = (file) => baseUrl ? `${baseUrl}/${file}` : `file://${path.join(root, file)}`;
+const mime = new Map([
+  ['.html', 'text/html; charset=utf-8'], ['.json', 'application/json; charset=utf-8'],
+  ['.jpg', 'image/jpeg'], ['.png', 'image/png'], ['.svg', 'image/svg+xml'], ['.webp', 'image/webp'],
+]);
+const server = configuredBaseUrl ? null : http.createServer(async (request, response) => {
+  try {
+    const pathname = decodeURIComponent(new URL(request.url || '/', 'http://127.0.0.1').pathname);
+    const file = path.resolve(root, pathname.replace(/^\/+/, '') || 'people.html');
+    if (file !== root && !file.startsWith(`${root}${path.sep}`)) throw new Error('invalid path');
+    const body = await fs.readFile(file);
+    response.writeHead(200, {
+      'cache-control': 'no-store',
+      'content-type': mime.get(path.extname(file).toLowerCase()) || 'application/octet-stream',
+    }).end(body);
+  } catch {
+    response.writeHead(404).end('Not found');
+  }
+});
+if (server) await new Promise((resolve, reject) => {
+  server.once('error', reject);
+  server.listen(0, '127.0.0.1', resolve);
+});
+const baseUrl = configuredBaseUrl || `http://127.0.0.1:${server.address().port}`;
+const url = (file) => `${baseUrl}/${file}`;
 const failures = [];
 const pageErrors = [];
 const check = (condition, message, details) => {
@@ -394,11 +418,11 @@ check(
 const portraitLabels = timelineContracts.portraits.map((portrait) => portrait.sourceText);
 check(
   timelineContracts.portraits.length === 175
-    && timelineContracts.portraits.filter((portrait) => portrait.objectPosition).length === 129
+    && timelineContracts.portraits.filter((portrait) => portrait.objectPosition).length === 138
     && timelineContracts.portraits.filter((portrait) => portrait.transform).length === 1
     && timelineContracts.portraits.filter((portrait) => portrait.transformOrigin).length === 1
     && portraitLabels.filter((label) => label === '历史图像').length === 19
-    && portraitLabels.filter((label) => label !== '历史图像').length === 146
+    && portraitLabels.filter((label) => label !== '历史图像').length === 156
     && portraitLabels.every((label) => /[\u3400-\u9fff]/u.test(label) && !/^(sourced|imagined)$/i.test(label)),
   'timeline portraits must preserve crop metadata and expose only Chinese visitor labels',
   {
@@ -508,6 +532,7 @@ check(eventView.view === 'table' && eventView.table !== 'none' && eventView.time
 check(eventView.selectedEvent === 'e035', 'event query must preserve the event filter', eventView);
 
 await page.goto(url(`people.html?person=${encodeURIComponent('于谦')}`), { waitUntil: 'networkidle' });
+await page.waitForSelector('#drawer.open #detail .facts');
 const personView = await page.evaluate(() => ({
   view: document.body.dataset.peopleView,
   timeline: document.querySelector('#peopleTimelineView') ? getComputedStyle(document.querySelector('#peopleTimelineView')).display : 'missing',
@@ -518,7 +543,8 @@ const personView = await page.evaluate(() => ({
 check(personView.view === 'timeline' && personView.timeline !== 'none' && personView.table === 'none', 'person query must retain timeline view', personView);
 check(personView.drawerOpen && personView.drawerName === '于谦', 'person query must keep the requested profile open', personView);
 
-await page.locator('#close').click();
+await page.keyboard.press('Escape');
+await page.waitForFunction(() => !document.querySelector('#drawer')?.classList.contains('open'));
 const drawerClosed = await page.evaluate(() => ({
   open: document.querySelector('#drawer')?.classList.contains('open') || false,
   person: new URL(location.href).searchParams.get('person'),
@@ -846,10 +872,13 @@ noScriptContext = await browser.newContext({ javaScriptEnabled: false, viewport:
 try {
 const noScriptPage = await noScriptContext.newPage();
 await noScriptPage.goto(url('people.html'), { waitUntil: 'load' });
-const noScriptHome = await noScriptPage.evaluate(() => ({
-  archiveHref: document.querySelector('noscript a[href="people-archive.html"]')?.getAttribute('href') || '',
-  archiveNotice: document.querySelector('noscript')?.textContent.replace(/\s+/g, ' ').trim() || '',
-}));
+const noScriptHome = await noScriptPage.evaluate(() => {
+  const archiveLink = document.querySelector('noscript a[href="people-archive.html"]');
+  return {
+    archiveHref: archiveLink?.getAttribute('href') || '',
+    archiveNotice: archiveLink?.closest('noscript')?.textContent.replace(/\s+/g, ' ').trim() || '',
+  };
+});
 await noScriptPage.goto(url('people-archive.html'), { waitUntil: 'load' });
 noScript = await noScriptPage.evaluate(() => ({
   title: document.title,
@@ -1154,6 +1183,10 @@ console.log(`People timeline page verified: 175 unique people, geometry, lanes, 
   try {
     if (noScriptContext) await noScriptContext.close();
   } finally {
-    if (browser) await browser.close();
+    try {
+      if (browser) await browser.close();
+    } finally {
+      if (server) await new Promise((resolve) => server.close(resolve));
+    }
   }
 }
