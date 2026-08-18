@@ -61,9 +61,9 @@ test('on-demand archive contract rejects an invalid noscript target', (t) => {
   assertRejected(runContractVerifier(archiveRoot, 'archive'), 'removed archive noscript link', 'archive noscript link invalid');
 });
 
-test('on-demand contract rejects an invalid individual-page link', (t) => {
-  const linksRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/people-index.json'), (index) => {
-    index.people.find((person) => person.name === '朱元璋').personPageSlug = 'not-a-real-person';
+test('on-demand contract rejects an invalid individual-page link from the loaded detail', (t) => {
+  const linksRoot = fixture((root) => mutateJson(path.join(root, 'assets/data/people-details/c0.json'), (detail) => {
+    detail.drawer.personPage.slug = 'not-a-real-person';
   }));
   t.after(() => fs.rmSync(linksRoot, { recursive: true, force: true }));
   assertRejected(runContractVerifier(linksRoot, 'links'), 'invalid individual-page link', 'missing individual-page file for 朱元璋');

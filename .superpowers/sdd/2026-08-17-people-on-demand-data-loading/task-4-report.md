@@ -97,3 +97,9 @@ High for the deterministic data and syntax/unit checks, and high that the new mu
 - Split the five mutations into independently runnable node tests. In a loopback-enabled Chromium environment the following focused runs completed with exit 0 and their required diagnostic assertion: mismatched stats (3.47s), invalid archive noscript target (1.55s), broken institution mapping (3.41s), and removed event linkage (3.30s).
 - Clean stats scope completed with exit 0 and reported 175 people plus 36 independent pages after activating the visible table view.
 - The focused invalid individual-page-link test was invoked repeatedly after the attached-readiness correction, but this execution surface again returned only initial `TAP version 13` without a final child result. The full browser suite was invoked after the readiness repair but likewise did not return a final status here; these two results remain unconfirmed.
+
+## Review round 7: detail-driven individual-page mutation
+
+- Corrected the individual-page fixture to mutate `assets/data/people-details/c0.json`, specifically the loaded `drawer.personPage.slug` for 朱元璋. This is the value the production client prefers after detail hydration; changing only `people-index.json` was non-causal.
+- The unchanged clean-baseline test continues to invoke the generated museum contract before every mutation case. The individual mutation requires the exact `missing individual-page file for 朱元璋` stderr marker.
+- The permission-enabled focused detail mutation was invoked. This runner returned only its initial TAP header before suppressing its final child result, so no completed exit status is claimed here.
