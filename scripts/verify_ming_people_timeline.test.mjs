@@ -72,6 +72,8 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'npm run verify:people-timeline-variants-page',
     'npm run verify:people-timeline-doubleclick-page',
     'node scripts/verify_ming_reign_year_page.mjs',
+    'npm run verify:people-on-demand-data',
+    'npm run verify:people-on-demand-page',
   ]);
   assert.equal(
     packageJson.scripts['verify:people-timeline-variants-page'],

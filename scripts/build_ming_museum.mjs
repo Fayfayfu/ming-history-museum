@@ -38,48 +38,7 @@ const escapeHallHtml = value => String(value ?? '')
   .replace(/>/g,'&gt;')
   .replace(/"/g,'&quot;')
   .replace(/'/g,'&#39;');
-const rosterHeaderHtml = baseline.match(/<table class="roster">[\s\S]*?<thead><tr>([\s\S]*?)<\/tr><\/thead>/)?.[1] || '';
-const rosterHeaders = [...rosterHeaderHtml.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/g)].map(([,header]) => header
-  .replace(/<[^>]+>/g,'')
-  .replace(/&amp;/g,'&')
-  .replace(/&lt;/g,'<')
-  .replace(/&gt;/g,'>')
-  .replace(/&quot;/g,'"')
-  .replace(/&#39;/g,"'")
-  .replace(/\s+/g,' ')
-  .trim());
-if (rosterHeaders.length !== 15) throw new Error(`Expected 15 roster headers, found ${rosterHeaders.length}`);
-const childCountFor = person => {
-  if (person.category !== '皇帝') return '—';
-  const key = canonicalName(person.name);
-  const records = allChildren.filter(child => canonicalName(child.parent).includes(key));
-  const important = importantChildren.filter(child => canonicalName(child.parent).includes(key)).length;
-  return `子 ${records.filter(child=>child.sex==='男').length} · 女 ${records.filter(child=>child.sex==='女').length} · 合计 ${records.length} · 重要 ${important}`;
-};
-const fallbackPeopleRows = timelinePeople.map(person => {
-  const birthDeath = person.display?.birthDeath || `${person.birth || '待考'}—${person.death || '待考'}`;
-  const life = person.display?.lifespan ? `${birthDeath} · ${person.display.lifespan}` : birthDeath;
-  const confidence = person.display?.confidence || person.confidence || person.timeline_year_confidence;
-  const tenure = person.office || person.title || '待考';
-  const description = [person.summary,person.evaluation].filter(Boolean).join(' ');
-  const lineage = person.hometown || person.parent_name || '待考';
-  const cellForHeader = header => {
-    if (header === '时间锚点') return person.timeline_year_label;
-    if (header === '人物') return person.name;
-    if (header === '身份') return person.category;
-    if (header.startsWith('生卒 / 寿命')) return life;
-    if (header.startsWith('关键任期')) return tenure;
-    if (header === '生平事迹与史学评价') return description;
-    if (/^(治国与制度|军事与危机|社会文化|长期遗产|责任与代价)/.test(header)) return '—';
-    if (header.startsWith('加权总分')) return person.score ?? '—';
-    if (header === '置信度') return confidence;
-    if (header === '家乡 / 世系') return lineage;
-    if (header.startsWith('本人子女数量')) return childCountFor(person);
-    throw new Error(`Unsupported roster header: ${header}`);
-  };
-  const cells = rosterHeaders.map(cellForHeader);
-  return `<tr data-id="${escapeHallHtml(person.name)}">${cells.map((cell,index)=>`<td${index===1?' class="name"':''}>${escapeHallHtml(cell)}</td>`).join('')}</tr>`;
-}).join('');
+const noScriptRosterRow = '<tr class="people-noscript"><td colspan="15">人物总表需要 JavaScript 载入轻量索引数据。请在支持 JavaScript 的浏览器中打开；人物独立页和馆内其他展厅仍可直接访问。</td></tr>';
 const timelinePortraitFor = name => {
   const registered = portraits.people?.[name];
   if (['image','imagined'].includes(registered?.status) && registered?.file) {
@@ -150,7 +109,7 @@ function baseHall(kind) {
       .replace('<section class="timeline">', `${peopleTimelineHtml}<section class="timeline">`)
       .replace('<button id="peopleTableTab" type="button" role="tab" aria-selected="false" data-people-view="table">', '<button id="peopleTableTab" type="button" role="tab" aria-selected="false" aria-controls="peopleTableView" data-people-view="table">')
       .replace('<section class="tablewrap">', '<section class="tablewrap" id="peopleTableView" role="tabpanel" aria-labelledby="peopleTableTab">')
-      .replace('<tbody id="rows"></tbody>', `<tbody id="rows">${fallbackPeopleRows}</tbody>`)
+      .replace('<tbody id="rows"></tbody>', `<tbody id="rows">${noScriptRosterRow}</tbody>`)
       .replace('<title>明史人物谱与大事年表｜1368—1662</title>', '<title>人物馆｜步入大明数字历史博物馆</title>')
       .replace('Ming Biographical Register · Research Baseline 04', 'PEOPLE GALLERY · RESEARCH COLLECTION')
       .replace('<h1>明史人物谱<small>1368—1662</small></h1>', '<h1>人物馆<small>1368—1644</small></h1>')
