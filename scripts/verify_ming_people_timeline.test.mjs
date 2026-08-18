@@ -57,6 +57,23 @@ test('verifier accepts the curated 175-person timeline', () => {
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 });
 
+test('museum story coverage derives its roster gate from the source roster', () => {
+  const canonical = (value) => String(value || '')
+    .replaceAll('熾', '炽').replaceAll('鎮', '镇').replaceAll('鈺', '钰')
+    .replaceAll('見', '见').replaceAll('載', '载').replaceAll('鈞', '钧')
+    .replaceAll('檢', '检').replace(/\s+/g, '');
+  const sourceCount = new Set([
+    ...baseline.core.map((person) => canonical(person.name)),
+    ...baseline.children.map((person) => canonical(person.name || person.title)),
+  ]).size;
+  const museumVerifier = fs.readFileSync(path.join(repoRoot, 'scripts/verify_ming_museum.mjs'), 'utf8');
+
+  assert.equal(sourceCount, 175);
+  assert.match(museumVerifier, /const expectedFormalRosterCount=new Set\(/);
+  assert.match(museumVerifier, /storyCoverage\.rows===expectedFormalRosterCount/);
+  assert.doesNotMatch(museumVerifier, /storyCoverage\.rows===165/);
+});
+
 test('default verify gate runs data, all timeline test suites, legacy regression, and every timeline page verifier', () => {
   assert.equal(
     packageJson.scripts['verify:people-timeline-unit'],

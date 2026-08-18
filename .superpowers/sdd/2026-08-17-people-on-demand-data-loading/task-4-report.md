@@ -49,3 +49,10 @@ High for build, data/shard, source-roster, and focused browser evidence; medium 
 ## Deliberately unstaged build output
 
 `outputs/.../assets/portraits/batch-22/*.webp` is regenerated from tracked source PNGs by `build:museum` and was not committed as a build artifact.
+
+## Review round 2: source-derived legacy story coverage
+
+- Replaced the legacy `storyCoverage.rows === 165` checks in `verify_ming_museum.mjs` with `expectedFormalRosterCount`, derived from the current core and important-child source records after the same name normalization used by the build.
+- Added a timeline-verifier test that locks the derived source count at 175 and asserts the museum audit uses the derived gate rather than the removed `165` literal. A roster/story-marker mismatch still makes the audit fail.
+- `node --test scripts/verify_ming_people_timeline.test.mjs` exited 0 (17/17).
+- `npm run verify` exited 1 at the legacy museum audit. The generated audit now confirms the repaired coverage (`rows: 175`, `markers: 175`); remaining existing false checks are `secondSliceDrawerPass`, `thirdSliceDrawerPass`, and `institutionFilterPass`. They are outside this narrow row-count fix.
