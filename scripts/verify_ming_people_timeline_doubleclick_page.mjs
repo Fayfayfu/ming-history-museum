@@ -1,8 +1,10 @@
+import fs from 'node:fs/promises';
+import http from 'node:http';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
 const root = path.resolve(process.env.MING_TIMELINE_ROOT || 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
-const baseUrl = process.env.MING_TIMELINE_BASE_URL?.replace(/\/$/, '');
+const configuredBaseUrl = process.env.MING_TIMELINE_BASE_URL?.replace(/\/$/, '');
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const mutateB2UrlForTest = process.env.MING_TIMELINE_TEST_MUTATE_B2_URL === '1';
 const files = [
@@ -17,7 +19,30 @@ const failures = [];
 const check = (condition, message, details) => {
   if (!condition) failures.push(`${message}${details ? `: ${JSON.stringify(details)}` : ''}`);
 };
-const url = (file) => baseUrl ? `${baseUrl}/${file}` : `file://${path.join(root, file)}`;
+const mime = new Map([
+  ['.html', 'text/html; charset=utf-8'], ['.json', 'application/json; charset=utf-8'],
+  ['.jpg', 'image/jpeg'], ['.png', 'image/png'], ['.svg', 'image/svg+xml'], ['.webp', 'image/webp'],
+]);
+const server = configuredBaseUrl ? null : http.createServer(async (request, response) => {
+  try {
+    const pathname = decodeURIComponent(new URL(request.url || '/', 'http://127.0.0.1').pathname);
+    const file = path.resolve(root, pathname.replace(/^\/+/, '') || 'people.html');
+    if (file !== root && !file.startsWith(`${root}${path.sep}`)) throw new Error('invalid path');
+    const body = await fs.readFile(file);
+    response.writeHead(200, {
+      'cache-control': 'no-store',
+      'content-type': mime.get(path.extname(file).toLowerCase()) || 'application/octet-stream',
+    }).end(body);
+  } catch {
+    response.writeHead(404).end('Not found');
+  }
+});
+if (server) await new Promise((resolve, reject) => {
+  server.once('error', reject);
+  server.listen(0, '127.0.0.1', resolve);
+});
+const baseUrl = configuredBaseUrl || `http://127.0.0.1:${server.address().port}`;
+const url = (file) => `${baseUrl}/${file}`;
 
 async function openRitualIfPresent(page) {
   const skip = page.locator('[data-scroll-skip]');
@@ -57,7 +82,7 @@ async function moveTimelineToMiddle(page) {
 
 async function closeDrawer(page) {
   if (!await page.locator('#drawer.open').count()) return;
-  await page.locator('#close').click();
+  await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.querySelector('#drawer')?.classList.contains('open'));
 }
 
@@ -81,7 +106,7 @@ async function verifyDesktopPage(page, file) {
   if (mutateB2UrlForTest && file === 'people-timeline-b2.html') {
     await page.evaluate((person) => history.replaceState(null, '', `people-timeline-b.html?person=${encodeURIComponent(person)}`), name);
   }
-  await page.waitForTimeout(100);
+  await page.waitForSelector('#drawer.open #detail .facts');
   const afterDoubleClick = await page.evaluate(() => {
     const locationUrl = new URL(location.href);
     return {
@@ -184,5 +209,9 @@ try {
   if (failures.length) throw new Error(`Timeline double-click verification failed:\n- ${failures.join('\n- ')}`);
   console.log(JSON.stringify({ status: 'ok', pages, keyboard, mobile }));
 } finally {
-  await browser?.close();
+  try {
+    await browser?.close();
+  } finally {
+    if (server) await new Promise((resolve) => server.close(resolve));
+  }
 }

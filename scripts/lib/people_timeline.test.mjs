@@ -20,10 +20,10 @@ test('canonicalPersonName normalizes traditional variants used by the two datase
   assert.equal(canonicalPersonName(' 朱載坖 '), '朱载坖');
 });
 
-test('uniquePeopleRoster keeps 165 formal people and removes duplicate child records', () => {
+test('uniquePeopleRoster keeps 175 formal people and removes duplicate child records', () => {
   const roster = uniquePeopleRoster(core, children);
-  assert.equal(roster.length, 165);
-  assert.equal(new Set(roster.map((person) => canonicalPersonName(person.name))).size, 165);
+  assert.equal(roster.length, 175);
+  assert.equal(new Set(roster.map((person) => canonicalPersonName(person.name))).size, 175);
   assert.equal(roster.find((person) => person.name === '朱棣').source, 'core');
   assert.equal(roster.find((person) => person.name === '傅山').alt, '字青主，号真山、朱衣道人');
   assert.equal(roster.find((person) => person.name === '王保保').alt, '扩廓帖木儿');
@@ -134,8 +134,8 @@ test('layout keeps real timeline data on the strict year scale', async () => {
   const repeated = layoutPeopleTimeline(people);
   const names = new Set(layout.nodes.map((node) => canonicalPersonName(node.name)));
 
-  assert.equal(layout.nodes.length, 165);
-  assert.equal(names.size, 165);
+  assert.equal(layout.nodes.length, 175);
+  assert.equal(names.size, 175);
   const fuShan = layout.nodes.find((node) => node.name === '傅山');
   assert.equal(fuShan.timeline_year, 1636);
   assert.equal(fuShan.lane.id, 'independent');
@@ -211,10 +211,10 @@ test('renderer outputs every semantic lane and never writes 最近皇帝', async
   const html = renderPeopleTimeline({ people, layout, portraitFor: () => null });
 
   assert.match(html, /id="peopleTimelineView"/);
-  assert.equal((html.match(/data-timeline-person=/g) || []).length, 165);
+  assert.equal((html.match(/data-timeline-person=/g) || []).length, 175);
   const personArticles = html.match(/<article class="timeline-person[^>]*>/g) || [];
   const allowedLanes = new Set(['women', 'children', 'emperor', 'eunuch', 'officials', 'independent', 'external']);
-  assert.equal(personArticles.length, 165);
+  assert.equal(personArticles.length, 175);
   assert.match(html, /data-timeline-person="傅山"/);
   assert.match(html, /data-timeline-fallback>傅<\/span>/);
   assert.match(html, /data-timeline-person="王保保"/);
@@ -238,15 +238,15 @@ test('renderer outputs every semantic lane and never writes 最近皇帝', async
   );
 });
 
-test('renderer gives all 165 people escaped basis text and one non-blocking axis guide', async () => {
+test('renderer gives all 175 people escaped basis text and one non-blocking axis guide', async () => {
   const timelineData = JSON.parse(await fs.readFile('data/ming_people_timeline.json', 'utf8'));
   const people = validatePeopleTimelineData({ core, children, timelineData });
   const layout = layoutPeopleTimeline(people);
   const html = renderPeopleTimeline({ people, layout, portraitFor: () => null });
 
-  assert.equal((html.match(/data-timeline-guide=/g) || []).length, 165);
-  assert.equal((html.match(/class="timeline-person-basis"/g) || []).length, 165);
-  assert.equal((html.match(/data-side="(?:top|bottom)"/g) || []).length, 165);
+  assert.equal((html.match(/data-timeline-guide=/g) || []).length, 175);
+  assert.equal((html.match(/class="timeline-person-basis"/g) || []).length, 175);
+  assert.equal((html.match(/data-side="(?:top|bottom)"/g) || []).length, 175);
   assert.match(html, /永乐十九年中进士，进入仕途/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person-guide\{[^}]*pointer-events:none/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person\.is-selected \.timeline-person-guide/);

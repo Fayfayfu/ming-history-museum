@@ -4,6 +4,17 @@ import path from 'node:path';
 import {chromium} from 'playwright';
 
 const root = path.resolve(process.env.MING_DEPLOY_ROOT || 'dist');
+const expectedDataCacheControl = 'public, max-age=0, must-revalidate';
+const vercelConfig = JSON.parse(await fs.readFile(path.join(root, 'vercel.json'), 'utf8'));
+const dataCacheRules = (vercelConfig.headers || []).filter((rule) => rule.source === '/assets/data/(.*)');
+const cachePolicy = {
+  dataRules: dataCacheRules.length,
+  value: dataCacheRules[0]?.headers?.find((header) => header.key.toLowerCase() === 'cache-control')?.value || '',
+  broadImmutable: (vercelConfig.headers || []).some((rule) => (
+    rule.source === '/assets/(.*)'
+    && rule.headers?.some((header) => header.key.toLowerCase() === 'cache-control' && /immutable/i.test(header.value))
+  )),
+};
 const types = {'.html':'text/html; charset=utf-8','.webp':'image/webp','.json':'application/json','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8','.md':'text/markdown; charset=utf-8'};
 const server = process.env.MING_DEPLOY_URL ? null : http.createServer(async (request, response) => {
   try {
@@ -101,13 +112,28 @@ await page.waitForTimeout(80);
 const legacyInstitutionRedirect=page.url().endsWith('/institutions.html');
 
 await page.goto(`${base}/people.html?person=${encodeURIComponent('姚广孝')}`, {waitUntil:'domcontentloaded', timeout:60000});
-const yao = await page.evaluate(() => ({
-  open: document.querySelector('#drawer')?.classList.contains('open'),
-  src: document.querySelector('#detail .portrait img')?.getAttribute('src'),
-  loaded: Boolean(document.querySelector('#detail .portrait img')?.naturalWidth),
-}));
+await page.waitForFunction(() => (
+  document.querySelector('#drawer')?.classList.contains('open')
+  && document.querySelector('#detail h2')?.textContent.trim() === '姚广孝'
+), {timeout: 60000});
+const yao = await page.evaluate(async () => {
+  const image = document.querySelector('#detail .portrait img');
+  if (image && !image.complete) await new Promise(resolve => {
+    image.addEventListener('load', resolve, {once:true});
+    image.addEventListener('error', resolve, {once:true});
+  });
+  return {
+    open: document.querySelector('#drawer')?.classList.contains('open'),
+    src: image?.getAttribute('src'),
+    loaded: Boolean(image?.naturalWidth),
+  };
+});
 
 await page.goto(`${base}/people.html?person=${encodeURIComponent('杨继盛')}`, {waitUntil:'domcontentloaded', timeout:60000});
+await page.waitForFunction(() => (
+  document.querySelector('#drawer')?.classList.contains('open')
+  && document.querySelector('#detail h2')?.textContent.trim() === '杨继盛'
+), {timeout: 60000});
 const yangJisheng = await page.evaluate(async () => {
   const image = document.querySelector('#detail .portrait img');
   if (image && !image.complete) await new Promise(resolve => {
@@ -142,6 +168,7 @@ const audit = {
   legacyInstitutionRedirect,
   errors,
   typography,
+  cachePolicy,
   pass: pages.length === files.length
     && pages.every(record => record.responseStatus === 200 && record.title && record.broken === 0 && record.bodyWidth === record.viewport)
     && pages.every(record => record.navLabels.includes('专题展'))
@@ -167,6 +194,7 @@ const audit = {
     && yangJisheng.chapters === 6 && yangJisheng.quoteLines === 2
     && mobile.bodyWidth === mobile.viewport
     && typography.marker && typography.sans
+    && cachePolicy.dataRules === 1 && cachePolicy.value === expectedDataCacheControl && !cachePolicy.broadImmutable
     && errors.length === 0,
 };
 console.log(JSON.stringify(audit, null, 2));

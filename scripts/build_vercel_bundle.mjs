@@ -22,11 +22,17 @@ const walk = async directory => {
 const htmlFiles = (await walk(source)).filter(file => file.endsWith('.html'));
 const htmlByFile = new Map();
 const referencedAssets = new Set();
+const dataRoot = path.join(source, 'assets', 'data');
+const dataFiles = (await walk(dataRoot)).filter(file => file.endsWith('.json'));
 
 for (const file of htmlFiles) {
   const html = await fs.readFile(file, 'utf8');
   htmlByFile.set(file, html);
   for (const match of html.matchAll(rasterPattern)) referencedAssets.add(match[0]);
+}
+for (const file of dataFiles) {
+  const json = await fs.readFile(file, 'utf8');
+  for (const match of json.matchAll(rasterPattern)) referencedAssets.add(match[0]);
 }
 
 const fontRoot = path.join(source, 'assets', 'fonts');
@@ -82,12 +88,31 @@ for (const [file, originalHtml] of htmlByFile) {
   await fs.writeFile(output, html, 'utf8');
 }
 
+// The people and events pages fetch their indexes and detail shards at runtime.
+// They are not referenced by static HTML asset URLs, so preserve the generated
+// data subtree explicitly in the deployment bundle.
+await fs.cp(
+  dataRoot,
+  path.join(destination, 'assets', 'data'),
+  {recursive: true},
+);
+for (const sourceFile of dataFiles) {
+  const output = path.join(destination, path.relative(source, sourceFile));
+  let json = await fs.readFile(output, 'utf8');
+  for (const [from, to] of assetMap) json = json.replaceAll(from, to);
+  await fs.writeFile(output, json, 'utf8');
+}
+
 await fs.writeFile(path.join(destination, 'vercel.json'), JSON.stringify({
   headers: [
     {
-      source: '/assets/(.*)',
-      headers: [{key: 'Cache-Control', value: 'public, max-age=31536000, immutable'}],
+      source: '/assets/data/(.*)',
+      headers: [{key: 'Cache-Control', value: 'public, max-age=0, must-revalidate'}],
     },
+    ...['exhibitions', 'portraits', 'works', 'fonts'].map(directory => ({
+      source: `/assets/${directory}/(.*)`,
+      headers: [{key: 'Cache-Control', value: 'public, max-age=31536000, immutable'}],
+    })),
   ],
 }, null, 2) + '\n');
 

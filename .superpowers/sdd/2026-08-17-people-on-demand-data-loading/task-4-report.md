@@ -1,0 +1,105 @@
+# Task 4 report: on-demand data integrity and homepage weight
+
+## Status
+
+Complete after review round 1. The approved 430 KiB threshold preserves the static timeline while a dedicated no-JavaScript archive restores complete static roster access without duplicating the table on the homepage.
+
+Commit message: `test: verify on-demand people data delivery`.
+
+## Implemented locally
+
+- Added `scripts/verify_ming_people_on_demand_data.mjs`.
+  - Uses the museum output by default and `dist` with `--deploy`.
+  - Checks JSON parsing, source-record ID/count parity, duplicate IDs, index/detail ID and path parity, detail-directory cardinality, local image references, required deep-link/filter fields, forbidden inline data declarations, and the strict `< 430 KiB` `people.html` budget.
+- Added `verify:people-on-demand-data` and `verify:people-on-demand-page` scripts, and appended both to `npm run verify` without removing existing commands.
+- Replaced the homepage's duplicated generated roster with a `<noscript>` link to a new pre-generated `people-archive.html`.
+  - The archive has all 175 source-roster records and all 15 readable roster columns, contains no script tags, and links back to the interactive hall.
+- Corrected batch-22 portrait output to the source asset tree that `build:museum` mirrors; the previous target was deleted by that mirror step and left four referenced portraits broken.
+
+## Measured result
+
+| Build state | `people.html` bytes |
+| --- | ---: |
+| Before removing table fallback | 506,374 |
+| After moving complete roster to `people-archive.html` | 418,399 |
+| Required strict maximum | less than 440,320 |
+
+The approved threshold is deliberately below 430 KiB, not at-or-below: the verifier uses a strict byte comparison. The 418,399-byte build passes with 21,921 bytes of remaining headroom.
+
+## Scope decision
+
+The static 175-person historical timeline remains on the homepage. The complete 175-row static roster is now emitted once as `people-archive.html`; homepage `<noscript>` content explicitly directs no-JavaScript visitors there. The 175-person contract is locked from the actual source roster (151 core plus 24 non-emperor important-child records), while the 16-emperor/category invariants and mutation-test failure ordering remain gated.
+
+## Verification run
+
+- `npm run build:museum` — passed.
+- Fresh build proof: removed generated `outputs/.../assets/portraits/batch-22/`, then `npm run build:museum` regenerated all four WebPs from tracked PNG inputs.
+- `npm run verify:people-on-demand-data` — passed: 418,399-byte homepage, 175 index/shards/archive rows, 95 event shards, 187 local image references.
+- `npm run verify:people-on-demand-page` — passed.
+- `npm run verify:people-timeline` — passed.
+- `npm run verify:people-timeline-unit` — passed (34/34).
+- Focused browser check with JavaScript disabled — passed: archive has 175 rows, 15 headers, and zero scripts.
+- `npm run verify` — rerun after the 175 contract repair; timeline and unit stages passed. The local runner stopped the long legacy browser regression before it emitted a final status, so a normal unrestricted CI/local terminal should rerun the aggregate command before release.
+- `git diff --check` — passed.
+
+## Confidence
+
+High for build, data/shard, source-roster, and focused browser evidence; medium for aggregate completion because this runner did not return a final status from its long legacy browser phase.
+
+## Deliberately unstaged build output
+
+`outputs/.../assets/portraits/batch-22/*.webp` is regenerated from tracked source PNGs by `build:museum` and was not committed as a build artifact.
+
+## Review round 2: source-derived legacy story coverage
+
+- Replaced the legacy `storyCoverage.rows === 165` checks in `verify_ming_museum.mjs` with `expectedFormalRosterCount`, derived from the current core and important-child source records after the same name normalization used by the build.
+- Added a timeline-verifier test that locks the derived source count at 175 and asserts the museum audit uses the derived gate rather than the removed `165` literal. A roster/story-marker mismatch still makes the audit fail.
+- `node --test scripts/verify_ming_people_timeline.test.mjs` exited 0 (17/17).
+- `npm run verify` exited 1 at the legacy museum audit. The generated audit now confirms the repaired coverage (`rows: 175`, `markers: 175`); remaining existing false checks are `secondSliceDrawerPass`, `thirdSliceDrawerPass`, and `institutionFilterPass`. They are outside this narrow row-count fix.
+
+## Review round 3: current on-demand UI audit contracts
+
+- Updated the legacy story probe to read the current `不重复人物` total stat (175) and to require the current `独立页面人物` stat to be present and positive; it no longer searches for the removed `故事覆盖` stat.
+- Replaced stale emperor-empty-link expectations with valid current `people/<slug>.html` links, and verifies each linked individual page exists. Non-preview historical-slice assertions remain unchanged.
+- Replaced stale institution `optgroup` ordering with the current complete, Chinese-sorted flat options; every tested option must select and return its expected people.
+- Replaced the legacy literal table-mode event assertion with on-demand state/linkage checks: `?event=e035`, selected event field, title, four expected names, and four loaded `data-detail-id` rows.
+- `node --check scripts/verify_ming_museum.mjs` exited 0; `node --test scripts/verify_ming_people_timeline.test.mjs` exited 0 (18/18), including source checks for all four updated contracts.
+- A new `npm run verify` invocation passed the timeline, timeline-unit (36/36), variant-unit (15/15), and reign-year unit stages, but this environment stopped before the long legacy browser audit produced a final exit code or a refreshed audit report. Final aggregate exit code: **not returned by this execution environment**.
+
+## Review round 4: async event detail and behavioral mutation gates
+
+- Repaired the legacy museum probe for `北京保卫战`: after clicking the event card it now explicitly waits for both rendered `.personjump` controls and `.sources a` links before reading the event detail. The audit therefore no longer snapshots the pre-fetch empty drawer.
+- Replaced the round-3 source-regex-only contract test with `verify_ming_on_demand_contracts.mjs` and its node test. It drives the generated pages in Chromium and checks the 175 stat, current institution controls, individual-page links, and the `e035` event-to-people route.
+- The mutation suite creates temporary copied output/data fixtures and asserts a nonzero verifier result for each regression: mismatched stats, invalid `<noscript>` archive link, invalid individual-page slug, broken institution mapping, and removed `e035` people linkage. Immutable portrait and individual-page trees are symlinked from the generated output; only the fixture data/pages are mutated.
+- `node --check scripts/verify_ming_on_demand_contracts.mjs` — exited 0.
+- `node --test scripts/verify_ming_people_timeline.test.mjs` — exited 0 (17/17).
+- `npm run verify:people-on-demand-data` — exited 0: 418,399-byte homepage; 175 index/shards/archive rows; 95 event shards; 187 image references.
+- `node --test scripts/verify_ming_on_demand_contracts.test.mjs`, focused `MING_ON_DEMAND_CONTRACT_SCOPE=stats node scripts/verify_ming_on_demand_contracts.mjs`, and `node scripts/verify_ming_museum.mjs` were each started with the local browser runner. This environment returned only the initial `TAP version 13` (or no process output) after roughly 30 seconds and did not return an exit code; no pass is claimed for those browser commands.
+- `npm run verify` has not yet yielded a final exit code in this execution environment for the same long browser-runner reason. The independently completed non-browser gate above is green; aggregate browser completion remains **unconfirmed here**.
+
+## Confidence
+
+High for the deterministic data and syntax/unit checks, and high that the new mutation fixtures exercise real generated-page/data behavior rather than source text. Medium for full browser and aggregate completion because this runner suppresses their final process statuses.
+
+## Review round 5: mutation diagnostic tightening
+
+- The archive regression is now a Chromium no-JavaScript contract: with JavaScript disabled it reads the homepage `<noscript>` link, opens the linked archive, and requires exactly 175 rows, 15 headers, and zero script elements.
+- Each copied-output mutation now requires its own exact contract diagnostic in stderr, not merely a nonzero child status: `current stats mismatch`, `archive noscript link invalid`, `missing individual-page file for 朱元璋`, `institution options are not complete and sorted`, or `event linkage control missing for e035`.
+- The test also requires `spawnSync` itself to start successfully. A loopback/server or Chromium launch failure has no mutation-specific diagnostic, therefore fails the test rather than creating a false positive.
+- `node --check scripts/verify_ming_on_demand_contracts.mjs` and `node --check scripts/verify_ming_on_demand_contracts.test.mjs` — exited 0.
+- `node --test scripts/verify_ming_people_timeline.test.mjs` — exited 0 (17/17).
+- The permission-enabled `node --test scripts/verify_ming_on_demand_contracts.test.mjs` and `node scripts/verify_ming_museum.mjs` invocations again reached the local browser phase, but this execution surface returned only `TAP version 13` (or no output) and no child exit code after approximately 30 seconds. No Chromium mutation or aggregate success is claimed from those interrupted invocations.
+
+## Review round 6: table-view readiness and aggregate gate
+
+- Enabled people-page scopes now use the actual `#peopleTableTab` control, require `#peopleTableView` to be open, and only then wait for visible roster rows. The archive keeps its separate JavaScript-disabled static path. Profile readiness uses attached state because link extraction is the contract, not drawer visibility.
+- Added `verify:people-on-demand-contracts` and appended it to `npm run verify`; future aggregate verification cannot bypass this Chromium mutation gate.
+- Split the five mutations into independently runnable node tests. In a loopback-enabled Chromium environment the following focused runs completed with exit 0 and their required diagnostic assertion: mismatched stats (3.47s), invalid archive noscript target (1.55s), broken institution mapping (3.41s), and removed event linkage (3.30s).
+- Clean stats scope completed with exit 0 and reported 175 people plus 36 independent pages after activating the visible table view.
+- The focused invalid individual-page-link test was invoked repeatedly after the attached-readiness correction, but this execution surface again returned only initial `TAP version 13` without a final child result. The full browser suite was invoked after the readiness repair but likewise did not return a final status here; these two results remain unconfirmed.
+
+## Review round 7: detail-driven individual-page mutation
+
+- Corrected the individual-page fixture to mutate `assets/data/people-details/c0.json`, specifically the loaded `drawer.personPage.slug` for 朱元璋. This is the value the production client prefers after detail hydration; changing only `people-index.json` was non-causal.
+- The unchanged clean-baseline test continues to invoke the generated museum contract before every mutation case. The individual mutation requires the exact `missing individual-page file for 朱元璋` stderr marker.
+- The permission-enabled focused detail mutation was invoked. This runner returned only its initial TAP header before suppressing its final child result, so no completed exit status is claimed here.

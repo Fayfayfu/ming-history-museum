@@ -52,9 +52,26 @@ function assertVerifierRejects(mutate, messagePattern) {
   assert.match(output, messagePattern);
 }
 
-test('verifier accepts the curated 165-person timeline', () => {
+test('verifier accepts the curated 175-person timeline', () => {
   const result = runVerifier();
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+});
+
+test('museum story coverage derives its roster gate from the source roster', () => {
+  const canonical = (value) => String(value || '')
+    .replaceAll('熾', '炽').replaceAll('鎮', '镇').replaceAll('鈺', '钰')
+    .replaceAll('見', '见').replaceAll('載', '载').replaceAll('鈞', '钧')
+    .replaceAll('檢', '检').replace(/\s+/g, '');
+  const sourceCount = new Set([
+    ...baseline.core.map((person) => canonical(person.name)),
+    ...baseline.children.map((person) => canonical(person.name || person.title)),
+  ]).size;
+  const museumVerifier = fs.readFileSync(path.join(repoRoot, 'scripts/verify_ming_museum.mjs'), 'utf8');
+
+  assert.equal(sourceCount, 175);
+  assert.match(museumVerifier, /const expectedFormalRosterCount=new Set\(/);
+  assert.match(museumVerifier, /storyCoverage\.rows===expectedFormalRosterCount/);
+  assert.doesNotMatch(museumVerifier, /storyCoverage\.rows===165/);
 });
 
 test('default verify gate runs data, all timeline test suites, legacy regression, and every timeline page verifier', () => {
@@ -72,7 +89,14 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'npm run verify:people-timeline-variants-page',
     'npm run verify:people-timeline-doubleclick-page',
     'node scripts/verify_ming_reign_year_page.mjs',
+    'npm run verify:people-on-demand-data',
+    'npm run verify:people-on-demand-page',
+    'npm run verify:people-on-demand-contracts',
   ]);
+  assert.equal(
+    packageJson.scripts['verify:people-on-demand-contracts'],
+    'node --test scripts/verify_ming_on_demand_contracts.test.mjs',
+  );
   assert.equal(
     packageJson.scripts['verify:people-timeline-variants-page'],
     'node scripts/verify_ming_people_timeline_variants_page.mjs',
@@ -196,11 +220,11 @@ test('curated round-2 evidence mappings stay locked', () => {
   }
 });
 
-test('verifier rejects a self-consistent roster that is not exactly 165 people', () => {
+test('verifier rejects a self-consistent roster that is not exactly 175 people', () => {
   assertVerifierRejects(({ core, timelineData }) => {
     const removed = core.shift();
     timelineData.people = timelineData.people.filter((person) => person.name !== removed.name);
-  }, /exactly 165 people/);
+  }, /exactly 175 people/);
 });
 
 test('傅山 remains a sourced 1636 public-activity anchor under his formal name', () => {

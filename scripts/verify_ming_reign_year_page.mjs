@@ -1,9 +1,34 @@
+import fs from 'node:fs/promises';
+import http from 'node:http';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
 const outputRoot = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆');
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const pageUrl = (file, query = '') => `file://${path.join(outputRoot, file)}${query}`;
+const mime = new Map([
+  ['.html', 'text/html; charset=utf-8'], ['.json', 'application/json; charset=utf-8'],
+  ['.jpg', 'image/jpeg'], ['.png', 'image/png'], ['.svg', 'image/svg+xml'], ['.webp', 'image/webp'],
+]);
+const server = http.createServer(async (request, response) => {
+  try {
+    const pathname = decodeURIComponent(new URL(request.url || '/', 'http://127.0.0.1').pathname);
+    const file = path.resolve(outputRoot, pathname.replace(/^\/+/, '') || 'people.html');
+    if (file !== outputRoot && !file.startsWith(`${outputRoot}${path.sep}`)) throw new Error('invalid path');
+    const body = await fs.readFile(file);
+    response.writeHead(200, {
+      'cache-control': 'no-store',
+      'content-type': mime.get(path.extname(file).toLowerCase()) || 'application/octet-stream',
+    }).end(body);
+  } catch {
+    response.writeHead(404).end('Not found');
+  }
+});
+await new Promise((resolve, reject) => {
+  server.once('error', reject);
+  server.listen(0, '127.0.0.1', resolve);
+});
+const baseUrl = `http://127.0.0.1:${server.address().port}`;
+const pageUrl = (file, query = '') => `${baseUrl}/${file}${query}`;
 const failures = [];
 const check = (condition, message, details) => {
   if (!condition) failures.push(`${message}: ${JSON.stringify(details)}`);
@@ -13,6 +38,7 @@ const browser = await chromium.launch({ headless: true, executablePath: chrome }
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await page.goto(pageUrl('events.html'), { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('[data-event="e076"]');
 
   const eventCards = await page.evaluate(() => Object.fromEntries(
     ['e001', 'e018', 'e076'].map((id) => {
@@ -60,11 +86,12 @@ try {
   );
 
   await page.click('[data-event="e076"]');
+  await page.waitForSelector('#drawer.open .event-detail-copy');
   const eventDrawerDate = await page.locator('.event-detail-date').textContent();
   check(eventDrawerDate.includes('万历四十八年／泰昌元年') && eventDrawerDate.includes('1620年'), 'event drawer must retain both the era date and Gregorian date', eventDrawerDate);
 
   await page.goto(pageUrl('people.html', '?person=%E6%9C%B1%E6%A0%87'), { waitUntil: 'domcontentloaded' });
-  await page.waitForSelector('#drawer.open');
+  await page.waitForSelector('#drawer.open #detail .facts');
   const zhuBiao = await page.evaluate(() => ({
     slice: document.querySelector('.history-slice-coord')?.textContent.replace(/\s+/g, ' ').trim() || '',
     chapters: [...document.querySelectorAll('.life-year span')].map((node) => node.textContent.replace(/\s+/g, ' ').trim()),
@@ -76,8 +103,9 @@ try {
   check(zhuBiao.related.some((text) => text.includes('洪武二十五年') && text.includes('1392')), 'related events in a person drawer must show era and Gregorian dates together', zhuBiao.related);
 
   await page.goto(pageUrl('people.html', '?person=%E4%BA%8E%E8%B0%A6'), { waitUntil: 'domcontentloaded' });
-  await page.waitForSelector('#drawer.open');
-  await page.click('#close');
+  await page.waitForSelector('#drawer.open #detail .facts');
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('#drawer')?.classList.contains('open'));
   await page.click('#peopleTableTab');
   const yuQianTenures = await page.evaluate(() => {
     const row = [...document.querySelectorAll('#rows tr')].find((candidate) => candidate.querySelector('.name')?.textContent.trim() === '于谦');
@@ -105,7 +133,7 @@ try {
     const result = await rows.evaluateAll((items) => items.map((row) => row.querySelector('.name')?.textContent.trim()));
     check(JSON.stringify(result) === JSON.stringify([expectedName]), `${query} must resolve to ${expectedName} only`, result);
     await rows.first().click();
-    await page.waitForSelector('#drawer.open');
+    await page.waitForSelector('#drawer.open #detail .facts');
     const portrait = page.locator('#detail .portrait img');
     await portrait.waitFor();
     await page.waitForFunction(() => document.querySelector('#detail .portrait img')?.naturalWidth > 0);
@@ -115,7 +143,8 @@ try {
       loaded: document.querySelector('#detail .portrait img')?.naturalWidth > 0,
     }));
     check(drawer.name === expectedName && drawer.label === 'AI想象像' && drawer.loaded, `${expectedName} drawer must load its explicit AI portrait`, drawer);
-    await page.click('#close');
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => !document.querySelector('#drawer')?.classList.contains('open'));
   };
   await verifyAliasPortrait('傅青主', '傅山');
   await verifyAliasPortrait('扩廓帖木儿', '王保保');
@@ -123,5 +152,9 @@ try {
   if (failures.length) throw new Error(`Reign-year page verification failed:\n- ${failures.join('\n- ')}`);
   console.log('Reign-year labels verified in event cards, event drawer, and person-story surfaces.');
 } finally {
-  await browser.close();
+  try {
+    await browser.close();
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
 }

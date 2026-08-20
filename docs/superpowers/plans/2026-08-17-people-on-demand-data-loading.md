@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 人物馆首页首屏加载索引，人物与事件抽屉按需获取静态 JSON，使构建后的 `people.html` 小于 300 KB。
+**Goal:** 人物馆首页首屏加载索引，人物与事件抽屉按需获取静态 JSON，使构建后的 `people.html` 小于 430 KB。
 
 **Architecture:** 现有构建器仍汇总同一批数据源，但只把列表字段写入两个索引；抽屉所需长文本写成按稳定 ID 命名的详情 JSON。首页启动时请求索引，点击人物或事件时请求详情并缓存。独立人物页的生成和 URL 不变。
 
@@ -12,7 +12,7 @@
 
 - 不改独立人物页的生成、文案与 URL；不引入后端。
 - 首页经 HTTP(S) `fetch()` 加载；`file://` 不支持人物抽屉预览。
-- `people.html` 小于 300 KB，且不内嵌人物场景、史料、事件正文或作品长文。
+- `people.html` 小于 430 KB，且不内嵌人物场景、史料、事件正文或作品长文；保留静态时间轴。无 JavaScript 回退为首页 `<noscript>` 中的 `people-archive.html` 链接，后者预生成完整人物名录。
 - 首屏列表、筛选、搜索、统计和 URL 查询只依赖索引。
 - 加载失败必须显示重试入口；同人物保持阅读位置，新人物回到抽屉顶部。
 - 索引每个引用必须指向存在、可解析且 ID 一致的详情 JSON。
@@ -22,7 +22,7 @@
 ## File Structure
 
 - Modify `scripts/build_ming_html.mjs`：数据拆分、JSON 输出、异步首页脚本。
-- Modify `scripts/build_ming_museum.mjs`：保持构建顺序与数据输出。
+- Modify `scripts/build_ming_museum.mjs`：保持构建顺序与数据输出，并预生成 `people-archive.html` 完整静态名录。
 - Create `scripts/lib/people_on_demand_data.mjs`：纯函数 `buildPeopleOnDemandData(input)`。
 - Create `scripts/lib/people_on_demand_data.test.mjs`：拆分 schema 单元测试。
 - Create `scripts/verify_ming_people_on_demand_data.mjs`：输出体积、JSON、引用、禁嵌字段门禁。
@@ -176,7 +176,7 @@ Use indexes for lists and details for drawer text. Render a loading state before
 - [ ] **Step 1: Write failing output assertions**
 
 ```js
-assert.ok(Buffer.byteLength(peopleHtml) < 300 * 1024, 'people.html must be below 300 KB');
+assert.ok(Buffer.byteLength(peopleHtml) < 430 * 1024, 'people.html must be below 430 KB');
 assert.equal(peopleHtml.includes('"personPages"'), false);
 assert.equal(peopleHtml.includes('"historicalSlices"'), false);
 for (const entry of peopleIndex.people) {
