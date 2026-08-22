@@ -86,6 +86,7 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'node --test scripts/lib/ming_reign_year.test.mjs',
     'node scripts/verify_ming_museum.mjs',
     'npm run verify:people-timeline-page',
+    'npm run verify:people-default-view',
     'npm run verify:people-timeline-variants-page',
     'npm run verify:people-timeline-doubleclick-page',
     'node scripts/verify_ming_reign_year_page.mjs',

@@ -371,10 +371,10 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
   const boundaries = layout.boundaries.map((boundary) => `<span class="timeline-boundary" style="--boundary-x:${boundary.x}px"><time datetime="${boundary.year}">${boundary.year}</time></span>`).join('');
   const peopleMarkup = layout.nodes.map((node) => personMarkup(node, portraitFor, layout.axisY)).join('');
 
-  return `<section class="people-timeline" aria-label="明朝人物时间长卷">
+  return `<section class="people-timeline" aria-label="人物馆浏览方式与明朝人物时间长卷">
   <div class="people-view-tabs" role="tablist" aria-label="人物浏览方式">
-    <button id="peopleTimelineTab" type="button" role="tab" aria-selected="true" aria-controls="peopleTimelineView" data-people-view="timeline">历史长卷</button>
-    <button id="peopleTableTab" type="button" role="tab" aria-selected="false" data-people-view="table">人物总表</button>
+    <button id="peopleTableTab" type="button" role="tab" aria-selected="true" data-people-view="table"><span>人物总表</span></button>
+    <button id="peopleTimelineTab" type="button" role="tab" aria-selected="false" aria-controls="peopleTimelineView" data-people-view="timeline"><span>历史长卷</span></button>
   </div>
   <section id="peopleTimelineView" class="people-timeline-viewport" role="tabpanel" aria-labelledby="peopleTimelineTab">
     <div class="people-timeline-canvas" style="--timeline-width:${layout.width}px;--timeline-height:${layout.height}px;--timeline-axis-y:${layout.axisY}px">
@@ -389,10 +389,14 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
 }
 
 export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0;isolation:isolate;color:#171815;font-family:ui-serif,"Noto Serif SC",serif}
-.people-view-tabs{display:flex;gap:8px;margin-bottom:12px}
-.people-view-tabs button{border:1px solid #8f8876;background:#f5f0e3;color:#171815;padding:7px 12px;cursor:pointer}
-.people-view-tabs button[aria-selected="true"]{background:#171815;color:#f5f0e3}
+.people-view-tabs{display:flex;align-items:stretch;gap:10px;margin:4px 0 16px}
+.people-view-tabs button{position:relative;display:flex;gap:8px;align-items:center;min-height:40px;border:1px solid #8f8876;background:#f5f0e3;color:#171815;padding:8px 14px;text-align:left;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+.people-view-tabs button>span{font:700 15px/1.1 ui-serif,"Noto Serif SC",serif}
+.people-view-tabs button:hover,.people-view-tabs button:focus-visible{z-index:1;transform:translateY(-1px);border-color:#8e3022;box-shadow:0 5px 14px rgba(50,38,20,.16);outline:none}
+.people-view-tabs button[aria-selected="true"]{background:#171815;color:#f5f0e3;border-color:#171815}
+.people-page[data-people-view="table"] #peopleTimelineView{display:none}
 .people-page>.shell>.timeline[hidden],.people-page>.shell>.toolbar[hidden],.people-page>.shell>.statusline[hidden],.people-page>.shell>.tablewrap[hidden],.people-page>.shell>.method[hidden]{display:none!important}
+@media(max-width:560px){.people-view-tabs{gap:7px}.people-view-tabs button{min-height:40px;padding:7px 10px}.people-view-tabs button>span{font-size:14px}}
 .people-timeline-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-gutter:stable;border:1px solid #c7bea9;background:#f5f0e3}
 .people-timeline-canvas{position:relative;width:var(--timeline-width);height:var(--timeline-height);min-width:6500px}
 .timeline-axis{position:absolute;left:0;right:0;top:var(--timeline-axis-y);height:1px;background:#8f8876}
@@ -556,6 +560,6 @@ export function peopleTimelineClientScript() {
         if(source)source.hidden=true;
       },{once:true});
     });
-    setPeopleView(new URLSearchParams(location.search).has('event')?'table':'timeline');
+    setPeopleView('table');
   })();`;
 }

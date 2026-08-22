@@ -185,7 +185,8 @@
         {"name": "胡宗宪", "relation": "任职", "note": "以都御史衔总督东南军务。"},
         {"name": "袁崇焕", "relation": "任职", "note": "以右副都御史等衔督理辽东。"},
         {"name": "卢象升", "relation": "任职", "note": "以右副都御史等衔总督军务。"},
-        {"name": "熊廷弼", "relation": "任职", "period": "1608—1622", "year": 1619, "confidence": "高", "note": "巡按辽东，后以都察院右佥都御史等衔经略辽东；其经略权并不等同于单独统率全部辽东军政。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7259"]}
+        {"name": "熊廷弼", "relation": "任职", "period": "1608—1622", "year": 1619, "confidence": "高", "note": "巡按辽东，后以都察院右佥都御史等衔经略辽东；其经略权并不等同于单独统率全部辽东军政。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7259"]},
+        {"name": "洪承畴", "relation": "任职", "period": "崇祯二年至十五年（1629—1642）", "year": 1639, "confidence": "高", "note": "以都御史衔先后巡抚延绥、总督三边与蓟辽军务；这是明代文官差遣督师，不是武官职系。", "sources": ["https://zh.wikisource.org/zh-hans/清史稿/卷237"]}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73"]
     },
@@ -250,6 +251,7 @@
         ,{"name": "杨博", "relation": "任职", "period": "嘉靖至隆庆间", "year": 1556, "confidence": "高", "note": "历任兵部尚书并长期处理蓟辽、宣大等军务；其边政不限于兵部一处。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7214"]}
         ,{"name": "王崇古", "relation": "任职", "period": "1570—1574", "year": 1571, "confidence": "高", "note": "封贡议成后加兵部尚书，仍总督宣大山西军务。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7222"]}
         ,{"name": "熊廷弼", "relation": "任职", "period": "1619—1622", "year": 1621, "confidence": "高", "note": "以兵部右侍郎、后兵部尚书等衔经略辽东；经略职责还牵涉地方督抚与军饷。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7259"]}
+        ,{"name": "洪承畴", "relation": "任职", "period": "崇祯年间（1628—1642）", "year": 1638, "confidence": "高", "note": "因三边及剿抚军务累加兵部尚书，后总督蓟辽；1642年被俘降清后的同名衔属清朝官制，不计入明代兵部任期。", "sources": ["https://zh.wikisource.org/zh-hans/清史稿/卷237"]}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72"]
     },

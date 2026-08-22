@@ -302,8 +302,10 @@ test('renderer uses final view wording and includes normalized category in every
   ];
   const html = renderPeopleTimeline({ people, layout: layoutPeopleTimeline(people) });
 
-  assert.match(html, />历史长卷<\/button>/);
-  assert.match(html, />人物总表<\/button>/);
+  assert.ok(html.indexOf('id="peopleTableTab"') < html.indexOf('id="peopleTimelineTab"'));
+  assert.match(html, /id="peopleTableTab"[^>]*aria-selected="true"[^>]*><span>人物总表<\/span><\/button>/);
+  assert.match(html, /id="peopleTimelineTab"[^>]*aria-selected="false"[^>]*><span>历史长卷<\/span><\/button>/);
+  assert.doesNotMatch(html, /people-view-tab-hint|沿年代展开|检索与定位人物|↗/);
   assert.doesNotMatch(html, />时间长卷<\/button>|>人物表格<\/button>/);
   assert.match(html, /data-category-label="皇子女"/);
   assert.match(html, /aria-label="甲皇子，皇子女，亲王，1421进入历史叙事，高置信度"/);
@@ -375,6 +377,8 @@ test('renderer only connects ARIA tabs to panels it renders and uses CSS selecti
   assert.doesNotMatch(html, /peopleTableView/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person-open\{display:none/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person\.is-selected [^{]*\.timeline-person-open[^}]*\{display:block/);
+  assert.doesNotMatch(PEOPLE_TIMELINE_CSS, /#peopleTimelineTab\{min-width:/);
+  assert.match(peopleTimelineClientScript(), /setPeopleView\('table'\)/);
 });
 
 test('shared timeline client script delegates avatar double-clicks to the existing profile opener', () => {

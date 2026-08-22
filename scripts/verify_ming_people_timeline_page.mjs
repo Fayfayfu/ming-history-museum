@@ -84,14 +84,14 @@ const initial = await page.evaluate(() => {
     emperorAxisButtons: document.querySelectorAll('#emperors .emperor').length,
   };
 });
-check(initial.view === 'timeline', 'people.html must default to timeline view', initial);
-check(initial.timeline !== 'none' && initial.timeline !== 'missing', 'timeline must be visible by default', initial);
-check(initial.table === 'none', 'table must be hidden by default', initial);
-check(initial.timelineSelected === 'true' && initial.timelineTabIndex === '0', 'timeline tab must be selected and keyboard reachable', initial);
-check(initial.tableSelected === 'false' && initial.tableTabIndex === '-1', 'table tab must be unselected', initial);
+check(initial.view === 'table', 'people.html must default to roster view', initial);
+check(initial.timeline === 'none', 'timeline must be hidden by default', initial);
+check(initial.table !== 'none' && initial.table !== 'missing', 'roster must be visible by default', initial);
+check(initial.timelineSelected === 'false' && initial.timelineTabIndex === '-1', 'timeline tab must begin unselected', initial);
+check(initial.tableSelected === 'true' && initial.tableTabIndex === '0', 'roster tab must be selected and keyboard reachable', initial);
 check(initial.timelineControls === 'peopleTimelineView' && initial.tableControls === 'peopleTableView' && initial.controlledPanelsExist, 'tabs must control existing panels', initial);
 check(initial.timelineLabelled === 'peopleTimelineTab' && initial.tableLabelled === 'peopleTableTab', 'panels must reference their real tabs', initial);
-check(initial.timelineText === '历史长卷' && initial.tableText === '人物总表', 'people view tabs must use the approved visitor wording', initial);
+check(initial.timelineText === '历史长卷' && initial.tableText === '人物总表', 'people view tabs must keep concise visitor labels', initial);
 check(
   initial.scopePlacement.mastCount === 0
     && initial.scopePlacement.footerCount === 1
@@ -103,12 +103,14 @@ check(
 );
 check(
   initial.legacySections.length === 5
-    && initial.legacySections.every((section) => section.hidden && section.display === 'none'),
-  'timeline view must hide every legacy table section including the roster title and current-view count',
+    && initial.legacySections.every((section) => !section.hidden && section.display !== 'none'),
+  'roster view must show every legacy table section including the roster title and current-view count',
   initial.legacySections,
 );
 check(initial.emperorFilterSelects === 0 && initial.emperorAxisButtons === 16, 'the imperial lineage must be the sole emperor-selection control', initial);
 
+await page.locator('#peopleTimelineTab').click();
+await page.waitForFunction(() => document.body.dataset.peopleView === 'timeline');
 await page.waitForFunction(() => {
   const viewport = document.querySelector('.people-timeline-viewport');
   const viewportRect = viewport?.getBoundingClientRect();
@@ -502,9 +504,9 @@ checkKeyboardView(await keyboardSnapshot(), 'table', 'peopleTableTab', 'ArrowRig
 await page.keyboard.press('ArrowLeft');
 checkKeyboardView(await keyboardSnapshot(), 'timeline', 'peopleTimelineTab', 'ArrowLeft');
 await page.keyboard.press('End');
-checkKeyboardView(await keyboardSnapshot(), 'table', 'peopleTableTab', 'End');
+checkKeyboardView(await keyboardSnapshot(), 'timeline', 'peopleTimelineTab', 'End');
 await page.keyboard.press('Home');
-checkKeyboardView(await keyboardSnapshot(), 'timeline', 'peopleTimelineTab', 'Home');
+checkKeyboardView(await keyboardSnapshot(), 'table', 'peopleTableTab', 'Home');
 
 const tableButton = page.locator('button[data-people-view="table"]');
 if (await tableButton.count()) await tableButton.click();
@@ -540,7 +542,7 @@ const personView = await page.evaluate(() => ({
   drawerOpen: document.querySelector('#drawer')?.classList.contains('open') || false,
   drawerName: document.querySelector('#detail h2')?.textContent.trim() || '',
 }));
-check(personView.view === 'timeline' && personView.timeline !== 'none' && personView.table === 'none', 'person query must retain timeline view', personView);
+check(personView.view === 'table' && personView.timeline === 'none' && personView.table !== 'none', 'person query must open from the roster view', personView);
 check(personView.drawerOpen && personView.drawerName === '于谦', 'person query must keep the requested profile open', personView);
 
 await page.keyboard.press('Escape');

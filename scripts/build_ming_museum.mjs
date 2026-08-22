@@ -136,7 +136,7 @@ function moveHallScopeToFooter(html, kind) {
 function baseHall(kind) {
   let html = baseline
     .replace('<body>', kind === 'people'
-      ? `<body class="people-page" data-people-view="timeline">${nav(kind)}`
+      ? `<body class="people-page" data-people-view="table">${nav(kind)}`
       : `<body class="events-page">${nav(kind)}`)
     .replace('<main class="shell">', '<main class="shell" id="main">');
   if (kind === 'people') {
@@ -145,7 +145,7 @@ function baseHall(kind) {
       .replace('</head>', `<noscript><style>.people-view-tabs,#peopleTimelineView{display:none!important}.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method{display:revert!important}</style></noscript></head>`)
       .replace('<main class="shell" id="main">', '<noscript><section class="hall-note"><b>无 JavaScript 静态名录：</b>本页的筛选与抽屉需要 JavaScript；请打开 <a href="people-archive.html">完整人物名录（175 位）</a> 直接阅读全部记录。</section></noscript><main class="shell" id="main">')
       .replace('<section class="timeline">', `${peopleTimelineHtml}<section class="timeline">`)
-      .replace('<button id="peopleTableTab" type="button" role="tab" aria-selected="false" data-people-view="table">', '<button id="peopleTableTab" type="button" role="tab" aria-selected="false" aria-controls="peopleTableView" data-people-view="table">')
+      .replace('<button id="peopleTableTab" type="button" role="tab" aria-selected="true" data-people-view="table">', '<button id="peopleTableTab" type="button" role="tab" aria-selected="true" aria-controls="peopleTableView" data-people-view="table">')
       .replace('<section class="tablewrap">', '<section class="tablewrap" id="peopleTableView" role="tabpanel" aria-labelledby="peopleTableTab">')
       .replace('<tbody id="rows"></tbody>', `<tbody id="rows">${noScriptRosterRow}</tbody>`)
       .replace('<title>明史人物谱与大事年表｜1368—1662</title>', '<title>人物馆｜步入大明数字历史博物馆</title>')
