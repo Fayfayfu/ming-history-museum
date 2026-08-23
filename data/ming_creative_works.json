@@ -11,6 +11,7 @@
           "title": "《溪山秋色图》卷",
           "date": "约1490—1500年",
           "medium": "纸本水墨手卷",
+          "display": "panorama",
           "image": "assets/works/shen-zhou-autumn-colors.jpg",
           "source": "https://www.metmuseum.org/art/collection/search/45683",
           "collection": "大都会艺术博物馆",
@@ -22,6 +23,7 @@
           "title": "《夜雨泊舟图》轴",
           "date": "1477年",
           "medium": "纸本水墨立轴",
+          "display": "portrait",
           "image": "assets/works/shen-zhou-rainy-night.jpg",
           "source": "https://www.metmuseum.org/art/collection/search/49549",
           "collection": "大都会艺术博物馆",
@@ -41,6 +43,7 @@
           "date": "Ming dynasty (1368–1644)",
           "medium": "Eight album leaves mounted as a handscroll; ink and color on silk",
           "dimensions": "Image (all leaves): 32.4 × 413.7 cm; overall with mounting: 33.2 × 778 cm",
+          "display": "landscape",
           "image": "assets/works/tang-yin-landscapes.jpg",
           "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP204676_CRD.jpg",
           "source": "https://www.metmuseum.org/art/collection/search/45773",
@@ -56,6 +59,7 @@
           "date": "early 16th century",
           "medium": "Handscroll; ink on paper",
           "dimensions": "Image: 29.1 × 150.2 cm; overall with mounting: 30.2 × 735.5 cm",
+          "display": "landscape",
           "image": "assets/works/tang-yin-ink-bamboo.jpg",
           "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP205421_CRD.jpg",
           "source": "https://www.metmuseum.org/art/collection/search/45756",
@@ -71,6 +75,7 @@
           "date": "early 16th century",
           "medium": "Hanging scroll; ink on paper",
           "dimensions": "Image: 72.2 × 37 cm; overall with mounting: 164.5 × 53.3 cm",
+          "display": "portrait",
           "image": "assets/works/tang-yin-drunken-fisherman.jpg",
           "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP-35892-002.jpg",
           "source": "https://www.metmuseum.org/art/collection/search/45760",
@@ -86,6 +91,7 @@
           "date": "Ming dynasty (1368–1644)",
           "medium": "Album leaf; ink on gold-flecked paper",
           "dimensions": "30.8 × 30.8 cm",
+          "display": "landscape",
           "image": "assets/works/tang-yin-calligraphy-xuetao.jpg",
           "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP153912.jpg",
           "source": "https://www.metmuseum.org/art/collection/search/53796",
@@ -101,12 +107,13 @@
     "仇英": {
       "layout": "panorama-gallery",
       "eyebrow": "职业画家的长卷剧场",
-      "intro": "仇英擅长把人物、建筑、器物和故事组织成密集而精确的长卷。请横向拖动：真正的主角不是某一个人，而是画面中持续发生的生活。",
+      "intro": "仇英擅长把人物、建筑、器物和故事组织成密集而精确的长卷。先从总览辨认全卷结构，再进入大图用4倍或8倍查看局部：真正的主角不是某一个人，而是画面中持续发生的生活。",
       "works": [
         {
           "title": "《汉宫春晓图》卷",
           "date": "16世纪",
           "medium": "绢本设色手卷",
+          "display": "panorama",
           "image": "assets/works/qiu-ying-han-palace.jpg",
           "source": "https://digitalarchive.npm.gov.tw/Collection/Detail/3672?dep=P",
           "collection": "台北故宫博物院",
@@ -118,6 +125,7 @@
           "title": "《春夜宴桃李园图》卷",
           "date": "明代",
           "medium": "绢本设色手卷",
+          "display": "landscape",
           "image": "assets/works/qiu-ying-night-banquet.jpg",
           "source": "https://digitalarchive.npm.gov.tw/Collection/Detail/5567?dep=P",
           "collection": "台北故宫博物院",
@@ -136,6 +144,7 @@
           "title": "《水墨葡萄图》轴",
           "date": "明代",
           "medium": "纸本墨笔，165.4×64.5厘米",
+          "display": "portrait",
           "image": "assets/works/xu-wei-grapes.jpg",
           "source": "https://www.dpm.org.cn/collection/paint/231318.html",
           "imageSource": "https://commons.wikimedia.org/wiki/File:Xu_Wei_Grapes.jpg",
@@ -143,6 +152,21 @@
           "license": "作品公版；数字图像来源见链接",
           "confidence": "高",
           "reading": "故宫博物院指出，画家以近似草书的笔法写葡萄，墨色淋漓；题诗也见于《徐文长集三》卷十一。"
+        },
+        {
+          "title": "《花竹图》轴",
+          "date": "明代",
+          "medium": "纸本水墨立轴，337.6×103.5厘米",
+          "display": "portrait",
+          "image": "assets/works/xu-wei-flowers-bamboo.jpg",
+          "imageSource": "https://digitalarchive.npm.gov.tw/opendata/Pub/Detail/3608?dep=P&mode=full",
+          "source": "https://digitalarchive.npm.gov.tw/Collection/Detail/3608?dep=P",
+          "collection": "台北故宫博物院",
+          "license": "中阶图像 CC BY 4.0",
+          "rightsEvidence": "台北故宫开放资料页标明低阶图像CC0、中阶图像CC BY 4.0；页面按中阶图像条件署名。",
+          "attribution": "徐渭",
+          "confidence": "高",
+          "reading": "馆藏记录列出牡丹、兰、菊、竹等十六种花木，并保存徐渭自题。它呈现的是一轴内部连续变化的墨法与题写，不应被裁成若干孤立花卉图标。"
         }
       ],
       "text": {
@@ -165,12 +189,28 @@
           "title": "传马守真《兰石图》轴",
           "date": "题1572年",
           "medium": "纸本水墨立轴",
+          "display": "portrait",
           "image": "assets/works/ma-shouzhen-orchid-rock.jpg",
           "source": "https://www.metmuseum.org/art/collection/search/48932",
           "collection": "大都会艺术博物馆",
           "license": "Public Domain",
           "confidence": "中",
           "reading": "大都会艺术博物馆明确使用“传马守真”而非确定作者；页面保留这一归属等级，不用名人标签抹去鉴定问题。"
+        },
+        {
+          "title": "《兰花图》",
+          "date": "1604年",
+          "medium": "纸本水墨",
+          "display": "landscape",
+          "image": "assets/works/ma-shouzhen-orchids-1604.jpg",
+          "imageSource": "https://deliver.odai.yale.edu/content/id/ffae3f3c-0832-4abb-912f-639ff726f29e/format/3",
+          "source": "https://artgallery.yale.edu/collections/objects/57361",
+          "collection": "耶鲁大学美术馆",
+          "license": "Public Domain",
+          "rightsEvidence": "耶鲁大学美术馆藏品记录将数字图像标为Public Domain。",
+          "attribution": "马守真",
+          "confidence": "高",
+          "reading": "这件1604年作品以横向纸面展开数丛墨兰。与大都会所藏“传马守真”立轴并置，可以同时看见画幅方向的差异，以及确定归属与传称归属不能混写。"
         }
       ],
       "text": {
@@ -183,6 +223,40 @@
         "confidence": "中",
         "note": "上海博物馆《马守真、薛素素兰花图卷》页面录作“马湘兰咏兰”；诗与本页所示大都会藏画并非同一件作品。"
       }
+    },
+    "文徵明": {
+      "layout": "scroll-gallery",
+      "eyebrow": "一场茶会如何变成共同作品",
+      "intro": "《惠山茶会图》保存的不只是山水，也包括一次出游、参与者、题序与后纸诗文。作品是文徵明地方文化网络的实物证据。",
+      "works": [
+        {
+          "title": "《楼居图》轴",
+          "date": "1543年",
+          "medium": "纸本水墨设色立轴，95.3×45.7厘米",
+          "display": "portrait",
+          "image": "assets/works/wen-zhengming-living-aloft.jpg",
+          "source": "https://www.metmuseum.org/art/collection/search/39536",
+          "collection": "大都会艺术博物馆",
+          "license": "Public Domain",
+          "confidence": "高",
+          "reading": "文徵明为七十岁退休而尚未筑成理想居所的友人刘麟作画。它呈现的是赠答中的退居想象，不是刘麟住宅的建筑测绘。"
+        },
+        {
+          "title": "《拙政园图》册",
+          "date": "1551年",
+          "medium": "纸本水墨，八开册页",
+          "display": "landscape",
+          "image": "assets/works/wen-zhengming-inept-administrator.jpg",
+          "imageSource": "https://images.metmuseum.org/CRDImages/as/original/DP235628_CRD.jpg",
+          "source": "https://www.metmuseum.org/art/collection/search/39654",
+          "collection": "大都会艺术博物馆",
+          "license": "Public Domain",
+          "rightsEvidence": "大都会艺术博物馆藏品页标示Public Domain；Open Access API objectID 39654返回isPublicDomain: true。",
+          "attribution": "文徵明",
+          "confidence": "高",
+          "reading": "文徵明八十一岁时再次为拙政园绘制八景册页。画、诗与书法共同组织园林记忆；它不是今日园址的精确平面图，也不能绕过园林长期改建的历史。"
+        }
+      ]
     },
     "徐霞客": {
       "layout": "travel-text",

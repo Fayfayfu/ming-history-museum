@@ -552,6 +552,7 @@ const drawerClosed = await page.evaluate(() => ({
   person: new URL(location.href).searchParams.get('person'),
 }));
 check(!drawerClosed.open, 'drawer must close before testing the timeline archive action', drawerClosed);
+await page.locator('button[data-people-view="timeline"]').click();
 const yuqian = page.locator('[data-timeline-person="于谦"]');
 const yuqianBefore = await yuqian.evaluate((node) => {
   const canvas = document.querySelector('.people-timeline-canvas')?.getBoundingClientRect();
@@ -810,7 +811,7 @@ check(
   { before: portraitFallback.selectedBefore, ...failedPortraitSelection },
 );
 
-await page.locator('#peopleTableTab').focus();
+await page.locator('#peopleTimelineTab').focus();
 await page.keyboard.press('Tab');
 const keyboardFocus = await page.evaluate(() => {
   const person = document.activeElement?.closest('[data-timeline-person]');
@@ -914,6 +915,7 @@ for (const viewportSize of [
 ]) {
   await page.setViewportSize({ width: viewportSize.width, height: viewportSize.height });
   await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+  await page.locator('button[data-people-view="timeline"]').click();
   const beforeScroll = await page.evaluate(() => {
     const viewport = document.querySelector('#peopleTimelineView');
     const style = getComputedStyle(viewport);
@@ -1010,6 +1012,7 @@ for (const viewportSize of [
 
 await page.setViewportSize({ width: 768, height: 900 });
 await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+await page.locator('button[data-people-view="timeline"]').click();
 await page.locator('[data-timeline-person="于谦"] .timeline-person-select').click();
 await page.locator('[data-timeline-person="于谦"] .timeline-person-open').click();
 const tabletArchive = await page.evaluate(() => ({
@@ -1025,6 +1028,7 @@ check(
 
 await page.setViewportSize({ width: 390, height: 844 });
 await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+await page.locator('button[data-people-view="timeline"]').click();
 const mobileErrorStart = pageErrors.length;
 await page.locator('[data-timeline-person="于谦"] .timeline-person-select').click();
 await Promise.all([
@@ -1047,6 +1051,7 @@ check(
 
 await page.setViewportSize({ width: 1440, height: 500 });
 await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+await page.locator('button[data-people-view="timeline"]').click();
 const navLayering = await page.evaluate(async () => {
   const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   const nav = document.querySelector('.museum-nav');
@@ -1065,7 +1070,7 @@ const navLayering = await page.evaluate(async () => {
     if (!avatar) return null;
     const avatarCanvasX = avatar.left + avatar.width / 2 - canvasRect.left;
     const desiredX = avatarCanvasX - (target.x - viewportRect.left);
-    const desiredY = avatar.top + avatar.height / 2 - target.y;
+    const desiredY = window.scrollY + avatar.top + avatar.height / 2 - target.y;
     return { node, desiredX, desiredY };
   }).filter((candidate) => candidate
     && candidate.desiredX >= 0 && candidate.desiredX <= maxScrollX
@@ -1126,10 +1131,12 @@ const prepareTimelineScreenshot = async () => {
 };
 await page.setViewportSize({ width: 1440, height: 1000 });
 await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+await page.locator('button[data-people-view="timeline"]').click();
 await prepareTimelineScreenshot();
 await page.locator('#peopleTimelineView').screenshot({ path: screenshotPaths.desktop });
 await page.setViewportSize({ width: 390, height: 844 });
 await page.goto(url('people.html'), { waitUntil: 'networkidle' });
+await page.locator('button[data-people-view="timeline"]').click();
 await prepareTimelineScreenshot();
 await page.locator('#peopleTimelineView').screenshot({ path: screenshotPaths.mobile });
 const screenshotStats = Object.fromEntries(await Promise.all(Object.entries(screenshotPaths).map(async ([label, file]) => {

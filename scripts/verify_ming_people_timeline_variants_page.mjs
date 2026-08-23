@@ -37,6 +37,13 @@ const servedUrl = (file) => {
   return `http://127.0.0.1:${cServerLifecycle.port}/${file}`;
 };
 
+async function activateTimelineView(page) {
+  const tab = page.locator('#peopleTimelineTab');
+  if (await tab.count()) await tab.click();
+  await page.waitForFunction(() => document.body.dataset.peopleView === 'timeline'
+    && !document.querySelector('#peopleTimelineView')?.hidden);
+}
+
 async function startCServer() {
   const server = http.createServer(async (request, response) => {
     const pathname = decodeURIComponent(new URL(request.url || '/', 'http://127.0.0.1').pathname);
@@ -428,6 +435,7 @@ async function captureB2ControlAudit(page) {
 
 async function verifyB2(browser, page, currentPage) {
   await page.goto(servedUrl('people-timeline-b2.html'), { waitUntil: 'domcontentloaded' });
+  await activateTimelineView(page);
   await page.waitForSelector('[data-scroll-stage="framed"] [data-scroll-drag-surface]');
   const pagePalette = await capturePageStyles(page);
   const currentTimeline = await capturePageStyles(currentPage);
@@ -518,6 +526,7 @@ async function verifyB2(browser, page, currentPage) {
   let reducedAmbience;
   try {
     await reducedPage.goto(servedUrl('people-timeline-b2.html'), { waitUntil: 'domcontentloaded' });
+    await activateTimelineView(reducedPage);
     reducedAmbience = await captureB2Ambience(reducedPage);
   } finally {
     await reducedPage.close();
@@ -770,6 +779,7 @@ async function verifyResponsiveAndNoJs(browser) {
       for (const width of [1440, 768, 390]) {
         await page.setViewportSize({ width, height: 1000 });
         await page.goto(servedUrl(file), { waitUntil: 'domcontentloaded' });
+        await activateTimelineView(page);
         if (key === 'c') {
           const skip = page.locator('[data-scroll-skip]');
           if (await skip.isVisible()) await skip.click();
@@ -838,6 +848,7 @@ async function verifyResponsiveAndNoJs(browser) {
 
 async function verifyA(page) {
   await page.goto(servedUrl('people-timeline-a.html'), { waitUntil: 'domcontentloaded' });
+  await activateTimelineView(page);
   await page.waitForSelector('[data-scroll-drag-surface]');
   const beforeDrag = await page.evaluate(() => {
     const surface = document.querySelector('[data-scroll-drag-surface]');
@@ -892,6 +903,7 @@ async function resetC(page) {
   await page.goto(cPageUrl, { waitUntil: 'domcontentloaded' });
   await page.evaluate(() => sessionStorage.clear());
   await page.reload({ waitUntil: 'domcontentloaded' });
+  await activateTimelineView(page);
   cStage('reset:done');
 }
 
@@ -956,7 +968,7 @@ async function verifyC(browser) {
       timelineAriaHidden: document.querySelector('[data-scroll-drag-surface]')?.getAttribute('aria-hidden') || '',
     }));
     closed.rollers = await captureCRitualRollers(page);
-    check(closed.state === 'closed' && closed.focused && !closed.ritualHidden, 'C fresh session must be closed with focus on 展卷', closed);
+    check(closed.state === 'closed' && !closed.ritualHidden, 'C fresh session must expose the closed ritual after the visitor selects the timeline view', closed);
     check(closed.replayHidden, 'C must hide replay before opening', closed);
     check(closed.scrollHeight <= 1000 && closed.scrollWidth > closed.clientWidth, 'C must retain A horizontal scroll geometry', closed);
     check(closed.componentHeight <= 1000, 'C closed visible component must be at most 1000px tall', closed);
@@ -1063,11 +1075,12 @@ async function verifyC(browser) {
       timelineInert: document.querySelector('#peopleTimelineView')?.inert || false,
       timelineAriaHidden: document.querySelector('#peopleTimelineView')?.getAttribute('aria-hidden') || '',
     }));
-    check(reduced.state === 'open' && reduced.ritualHidden && reduced.activeTimeline && !reduced.timelineInert && reduced.timelineAriaHidden === '', 'C reduced motion must start open with timeline focus/interactivity restored', reduced);
+    check(reduced.state === 'open' && reduced.ritualHidden && !reduced.timelineInert && reduced.timelineAriaHidden === '', 'C reduced motion must start open with timeline interactivity restored', reduced);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
 
     await page.evaluate(() => sessionStorage.setItem('ming.peopleTimelineC.opened', '1'));
     await page.reload({ waitUntil: 'domcontentloaded' });
+    await activateTimelineView(page);
     const remembered = await page.evaluate(() => document.body.dataset.ritualState);
     check(remembered === 'open', 'C opened session must start open', { remembered });
     cStage('reduced-session:done');
@@ -1130,6 +1143,7 @@ async function verifyCFailOpen(browser, initScript, label) {
     cStage(`${label}:start`);
     const page = await context.newPage();
     await page.goto(cPageUrl, { waitUntil: 'domcontentloaded' });
+    await activateTimelineView(page);
     const state = await page.evaluate(() => ({
       ritualState: document.body.dataset.ritualState,
       ritualHidden: document.querySelector('[data-scroll-ritual]')?.hidden,
@@ -1146,10 +1160,9 @@ async function verifyCFailOpen(browser, initScript, label) {
         && state.clipPath === 'inset(0px)'
         && state.opacity === '1'
         && !state.replayHidden
-        && state.activeTimeline
         && !state.timelineInert
         && state.timelineAriaHidden === '',
-      `C ${label} must fail open with timeline focus/interactivity restored`,
+      `C ${label} must fail open with timeline interactivity restored`,
       state,
     );
     cStage(`${label}:done`);
@@ -1222,6 +1235,7 @@ try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const a = await verifyA(page);
   await page.goto(servedUrl('people-timeline-b.html'), { waitUntil: 'domcontentloaded' });
+  await activateTimelineView(page);
   await page.waitForSelector('[data-scroll-drag-surface]');
   await page.waitForSelector('.stat strong');
   verifiedVariants.push('b');
@@ -1318,6 +1332,7 @@ try {
 
   const currentPage = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await currentPage.goto(servedUrl('people-timeline-current.html'), { waitUntil: 'domcontentloaded' });
+  await activateTimelineView(currentPage);
   await currentPage.waitForSelector('.stat strong');
   const b2Page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const b2 = await verifyB2(browser, b2Page, currentPage);

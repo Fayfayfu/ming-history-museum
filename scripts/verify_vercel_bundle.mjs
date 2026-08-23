@@ -86,7 +86,7 @@ for (const file of files) {
     responseStatus: Number(document.documentElement.dataset.verifierResponseStatus || 0),
     title: document.title,
     images: document.images.length,
-    broken: [...document.images].filter(image => !image.naturalWidth).length,
+    broken: [...document.images].filter(image => image.currentSrc && !image.naturalWidth).length,
     bodyWidth: document.body.scrollWidth,
     viewport: innerWidth,
     navLabels: [...document.querySelectorAll('.museum-links a')].map(link => link.textContent.trim()),

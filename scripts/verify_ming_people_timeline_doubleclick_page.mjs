@@ -44,6 +44,12 @@ if (server) await new Promise((resolve, reject) => {
 const baseUrl = configuredBaseUrl || `http://127.0.0.1:${server.address().port}`;
 const url = (file) => `${baseUrl}/${file}`;
 
+async function activateTimelineView(page) {
+  await page.locator('#peopleTimelineTab').click();
+  await page.waitForFunction(() => document.body.dataset.peopleView === 'timeline'
+    && !document.querySelector('#peopleTimelineView')?.hidden);
+}
+
 async function openRitualIfPresent(page) {
   const skip = page.locator('[data-scroll-skip]');
   if (!await skip.count() || !await skip.isVisible()) return;
@@ -88,6 +94,7 @@ async function closeDrawer(page) {
 
 async function verifyDesktopPage(page, file) {
   await page.goto(url(file), { waitUntil: 'domcontentloaded' });
+  await activateTimelineView(page);
   await openRitualIfPresent(page);
   await page.waitForSelector('#peopleTimelineView');
   const initialScroll = await moveTimelineToMiddle(page);
@@ -143,6 +150,7 @@ async function verifyDesktopPage(page, file) {
 
 async function verifyKeyboard(page) {
   await page.goto(url('people.html'), { waitUntil: 'domcontentloaded' });
+  await activateTimelineView(page);
   const name = await visiblePerson(page);
   const avatar = page.locator(`[data-timeline-person="${name}"] .timeline-person-select`);
   await avatar.focus();
@@ -165,6 +173,7 @@ async function verifyMobilePage(browser, file) {
   page.on('pageerror', (error) => pageErrors.push(error.message));
   try {
     await page.goto(url(file), { waitUntil: 'domcontentloaded' });
+    await activateTimelineView(page);
     await openRitualIfPresent(page);
     const bareUrl = new URL(page.url());
     check(!bareUrl.search && !bareUrl.hash && bareUrl.pathname.endsWith(`/${file}`), `${file} mobile test must begin at its bare URL`, { href: page.url() });

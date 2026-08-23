@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import {renderCompactImpactGraph,validateImpactGraphData} from './lib/render_people_impact_graph.mjs';
 import {addHistoricalSliceEraDates,addMingEraDates,addStorytellingEraDates,formatLifeEraLabel} from './lib/ming_reign_year.mjs';
 import {buildPeopleOnDemandData,emitPeopleOnDemandData} from './lib/people_on_demand_data.mjs';
+import {ARTWORK_VIEWER_CSS,ARTWORK_VIEWER_SCRIPT,renderArtworkOpenButton,renderArtworkViewerDialog} from './lib/artwork_viewer.mjs';
 
 const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
 const children = JSON.parse(await fs.readFile('data/ming_children_important.json', 'utf8'));
@@ -45,7 +46,8 @@ const batch8Part3PersonPages = JSON.parse(await fs.readFile('data/ming_person_pa
 const batch10Part1PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch10_part1.json', 'utf8'));
 const batch10Part2PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch10_part2.json', 'utf8'));
 const batch11PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch11.json', 'utf8'));
-const personPages = {people:{...(primaryPersonPages.people || {}), ...(batch2PersonPages.people || {}), ...(batch7PersonPages.people || {}), ...(batch7Part2PersonPages.people || {}), ...(batch7Part3PersonPages.people || batch7Part3PersonPages), ...(batch7Part4PersonPages.people || {}), ...(batch8Part1PersonPages.people || batch8Part1PersonPages), ...(batch8Part2PersonPages.people || batch8Part2PersonPages), ...(batch8Part3PersonPages.people || batch8Part3PersonPages), ...(batch10Part1PersonPages.people || {}), ...(batch10Part2PersonPages.people || {}), ...(batch11PersonPages.people || {})}};
+const batch12PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch12.json', 'utf8'));
+const personPages = {people:{...(primaryPersonPages.people || {}), ...(batch2PersonPages.people || {}), ...(batch7PersonPages.people || {}), ...(batch7Part2PersonPages.people || {}), ...(batch7Part3PersonPages.people || batch7Part3PersonPages), ...(batch7Part4PersonPages.people || {}), ...(batch8Part1PersonPages.people || batch8Part1PersonPages), ...(batch8Part2PersonPages.people || batch8Part2PersonPages), ...(batch8Part3PersonPages.people || batch8Part3PersonPages), ...(batch10Part1PersonPages.people || {}), ...(batch10Part2PersonPages.people || {}), ...(batch11PersonPages.people || {}), ...(batch12PersonPages.people || {})}};
 const emperorDrawerProfiles = JSON.parse(await fs.readFile('data/ming_emperor_drawer_profiles.json', 'utf8'));
 let portraits = {downloaded: 0, total: 0, people: {}};
 try { portraits = JSON.parse(await fs.readFile('data/ming_portraits.json', 'utf8')); } catch {}
@@ -276,6 +278,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;mi
 @media(max-width:620px){.founder-meta-row,.person-assessment-grid{grid-template-columns:1fr}.founder-tomb b{white-space:normal}}
 </style>
 ${storyStyle}
+<style>${ARTWORK_VIEWER_CSS}</style>
 </head>
 <body>
 <main class="shell">
@@ -322,7 +325,9 @@ ${storyStyle}
   </section>
 </main>
 <aside class="drawer" id="drawer"><div class="veil" id="veil"></div><article class="panel"><button class="close" id="close">关闭 ESC</button><div id="detail"></div></article></aside>
+${renderArtworkViewerDialog()}
 <script>
+const artworkOpenButtonMarkup=${JSON.stringify(renderArtworkOpenButton())};
 const personDetailCache=new Map();
 const eventDetailCache=new Map();
 let peopleById=new Map(),eventsById=new Map(),lastDetailRequest=null,detailRequestToken=0;
@@ -361,22 +366,22 @@ function creativeMeta(p){return personDrawerData(p)?.creativeWorks||null}
 function creativeBadgeHtml(p){const c=creativeMeta(p);const count=c?(c.works||[]).length+(c.text?1:0):p.creativeWorkCount||0;return count?'<span class="works-ready">作品展柜 · '+count+' ↗</span>':''}
 function confidenceClass(value){return value==='高'?'auth-high':'auth-medium'}
 function workMuseumHead(c){const count=(c.works||[]).length+(c.text?1:0);return '<header class="work-museum-head"><div><div class="work-museum-kicker">WORKS IN FOCUS · 作品现场</div><h5>'+esc(c.eyebrow)+'</h5><p>'+esc(c.intro)+'</p></div><div class="work-museum-count">'+count+'<small>件作品 / 文本入口</small></div></header>'}
-function artworkCard(w){return '<article class="art-card"><a class="art-image-shell" href="'+esc(w.source)+'" target="_blank" rel="noreferrer" title="打开馆藏页面"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async"></a><div class="art-caption"><div><h6>'+esc(w.title)+'</h6><div class="art-meta">'+esc(w.date)+' · '+esc(w.medium)+'<br>'+esc(w.collection)+' · '+esc(w.license)+'</div><p class="art-reading">'+esc(w.reading)+'</p><span class="auth-tag '+confidenceClass(w.confidence)+'">归属 / 说明 · '+esc(w.confidence)+'置信度</span></div><a class="art-source" href="'+esc(w.source)+'" target="_blank" rel="noreferrer">馆藏页 ↗</a></div></article>'}
-function museumLabelArtwork(w){const meta=[['年代',w.date],['材质',w.medium],['馆藏',w.collection],['图像',w.license]];return '<article class="art-card museum-work"><a class="art-image-shell" href="'+esc(w.source)+'" target="_blank" rel="noreferrer" title="打开馆藏页面"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async"></a><div class="museum-work-label"><div class="work-label-heading"><small>OBJECT LABEL · 作品展签</small><h6>'+esc(w.title)+'</h6></div><dl class="work-meta-list">'+meta.map(([label,value])=>'<div><dt>'+esc(label)+'</dt><dd>'+esc(value)+'</dd></div>').join('')+'</dl><div class="work-reading-block"><b>策展解读</b><p>'+esc(w.reading)+'</p></div><div class="work-evidence-row"><span class="auth-tag '+confidenceClass(w.confidence)+'">归属 / 说明 · '+esc(w.confidence)+'置信度</span><a class="art-source" href="'+esc(w.source)+'" target="_blank" rel="noreferrer">查看馆藏原页 ↗</a></div></div></article>'}
+function artworkCard(w){return '<article class="art-card" data-artwork-item data-artwork-title="'+esc(w.title)+'"><div class="art-image-shell artwork-viewer-trigger"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async" data-artwork-viewer>'+artworkOpenButtonMarkup+'</div><div class="art-caption"><div><h6>'+esc(w.title)+'</h6><div class="art-meta">'+esc(w.date)+' · '+esc(w.medium)+'<br>'+esc(w.collection)+' · '+esc(w.license)+'</div><p class="art-reading">'+esc(w.reading)+'</p><span class="auth-tag '+confidenceClass(w.confidence)+'">归属 / 说明 · '+esc(w.confidence)+'置信度</span></div><a class="art-source" href="'+esc(w.source)+'" target="_blank" rel="noreferrer">馆藏页 ↗</a></div></article>'}
+function museumLabelArtwork(w){const meta=[['年代',w.date],['材质',w.medium],['馆藏',w.collection],['图像',w.license]];return '<article class="art-card museum-work" data-artwork-item data-artwork-title="'+esc(w.title)+'"><div class="art-image-shell artwork-viewer-trigger"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async" data-artwork-viewer>'+artworkOpenButtonMarkup+'</div><div class="museum-work-label"><div class="work-label-heading"><small>OBJECT LABEL · 作品展签</small><h6>'+esc(w.title)+'</h6></div><dl class="work-meta-list">'+meta.map(([label,value])=>'<div><dt>'+esc(label)+'</dt><dd>'+esc(value)+'</dd></div>').join('')+'</dl><div class="work-reading-block"><b>策展解读</b><p>'+esc(w.reading)+'</p></div><div class="work-evidence-row"><span class="auth-tag '+confidenceClass(w.confidence)+'">归属 / 说明 · '+esc(w.confidence)+'置信度</span><a class="art-source" href="'+esc(w.source)+'" target="_blank" rel="noreferrer">查看馆藏原页 ↗</a></div></div></article>'}
 function textWorkHtml(c,kind){const t=c.text;const verse='<blockquote class="work-verse">'+t.lines.map(line=>'<div>'+esc(line)+'</div>').join('')+'</blockquote>';const note='<p class="work-text-note"><b>'+esc(t.confidence)+'置信度</b> · '+esc(t.note)+'</p><a class="text-source" href="'+esc(t.source)+'" target="_blank" rel="noreferrer">查看文本出处 ↗</a>';if(kind==='travel-text')return '<div class="text-work travel-text"><small>TRAVEL LOG · 行旅原文</small><h6>'+esc(t.title)+'</h6><div class="travel-route"><i></i>宁海<span></span>天台山<i></i></div>'+verse+note+'</div>';if(kind==='knowledge-text'){const cells=t.lines.flatMap(line=>line.split(' · '));return '<div class="text-work knowledge-text"><small>KNOWLEDGE ARCHITECTURE · 知识结构</small><h6>'+esc(t.title)+'</h6><div class="knowledge-grid">'+cells.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>'+note+'</div>'}return verse+note}
 function creativeWorksHtml(p){
   const c=creativeMeta(p);if(!c)return '';
   const cls='work-museum layout-'+esc(c.layout);
-  if(c.layout==='scroll-gallery')return '<section class="'+cls+'">'+workMuseumHead(c)+'<div class="work-view-note">作品已按抽屉宽度完整缩放 · 点击作品进入馆藏原页查看细节</div><div class="art-rail">'+c.works.map(museumLabelArtwork).join('')+'</div></section>';
-  if(c.layout==='album-gallery')return '<section class="'+cls+'">'+workMuseumHead(c)+'<div class="work-view-note">↔ 横向拖动浏览 · 点击作品进入馆藏原页</div><div class="art-rail">'+c.works.map(artworkCard).join('')+'</div></section>';
-  if(c.layout==='panorama-gallery')return '<section class="'+cls+'">'+workMuseumHead(c)+'<div class="work-view-note">↔ 像展开手卷一样横向拖动；画面保持长卷比例</div>'+c.works.map(w=>'<article class="panorama-piece"><div class="panorama-title"><h6>'+esc(w.title)+'</h6><span class="auth-tag '+confidenceClass(w.confidence)+'">'+esc(w.confidence)+'置信度</span></div><div class="panorama-window"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async"></div><div class="panorama-caption"><div>'+esc(w.reading)+'<div class="art-meta">'+esc(w.date)+' · '+esc(w.medium)+' · '+esc(w.collection)+' · '+esc(w.license)+'</div></div><a href="'+esc(w.source)+'" target="_blank" rel="noreferrer">馆藏页 ↗</a></div></article>').join('')+'</section>';
+  if(c.layout==='scroll-gallery')return '<section class="'+cls+'">'+workMuseumHead(c)+'<div class="work-view-note">作品已按抽屉宽度完整缩放 · 双击作品或点击“查看大图”放大</div><div class="art-rail">'+c.works.map(museumLabelArtwork).join('')+'</div></section>';
+  if(c.layout==='album-gallery')return '<section class="'+cls+'">'+workMuseumHead(c)+'<div class="work-view-note">↔ 横向拖动浏览 · 双击作品或点击“查看大图”放大</div><div class="art-rail">'+c.works.map(artworkCard).join('')+'</div></section>';
+  if(c.layout==='panorama-gallery')return '<section class="'+cls+'">'+workMuseumHead(c)+'<div class="work-view-note">↔ 像展开手卷一样横向拖动 · 双击作品可进入全屏</div>'+c.works.map(w=>'<article class="panorama-piece" data-artwork-item data-artwork-title="'+esc(w.title)+'"><div class="panorama-title"><h6>'+esc(w.title)+'</h6><span class="auth-tag '+confidenceClass(w.confidence)+'">'+esc(w.confidence)+'置信度</span></div><div class="panorama-window artwork-viewer-trigger"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async" data-artwork-viewer>'+artworkOpenButtonMarkup+'</div><div class="panorama-caption"><div>'+esc(w.reading)+'<div class="art-meta">'+esc(w.date)+' · '+esc(w.medium)+' · '+esc(w.collection)+' · '+esc(w.license)+'</div></div><a href="'+esc(w.source)+'" target="_blank" rel="noreferrer">馆藏页 ↗</a></div></article>').join('')+'</section>';
   if(c.layout==='ink-poem'){
     const w=c.works[0];
-    return '<section class="'+cls+'">'+workMuseumHead(c)+'<div class="ink-poem-stage"><a class="ink-poem-image" href="'+esc(w.source)+'" target="_blank" rel="noreferrer"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async"></a><div class="ink-poem-copy"><small>PAINTING MEETS POEM · 诗画同体</small><h6>'+esc(w.title)+' · '+esc(c.text.title)+'</h6>'+textWorkHtml(c,'verse')+'<p class="art-reading">'+esc(w.reading)+'</p></div></div></section>';
+    return '<section class="'+cls+'" data-artwork-item data-artwork-title="'+esc(w.title)+'"><div class="ink-poem-stage"><div class="ink-poem-image artwork-viewer-trigger"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async" data-artwork-viewer>'+artworkOpenButtonMarkup+'</div><div class="ink-poem-copy"><small>PAINTING MEETS POEM · 诗画同体</small><h6>'+esc(w.title)+' · '+esc(c.text.title)+'</h6>'+textWorkHtml(c,'verse')+'<p class="art-reading">'+esc(w.reading)+'</p></div></div></section>';
   }
   if(c.layout==='orchid-poem'){
     const w=c.works[0];
-    return '<section class="'+cls+'">'+workMuseumHead(c)+'<div class="orchid-poem-stage"><a class="orchid-poem-image" href="'+esc(w.source)+'" target="_blank" rel="noreferrer"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async"></a><div class="orchid-poem-copy"><small>ORCHID, POEM, ATTRIBUTION · 兰与题咏</small><h6>'+esc(w.title)+' × '+esc(c.text.title)+'</h6>'+textWorkHtml(c,'verse')+'<p class="art-reading">'+esc(w.reading)+'</p></div></div></section>';
+    return '<section class="'+cls+'" data-artwork-item data-artwork-title="'+esc(w.title)+'"><div class="orchid-poem-stage"><div class="orchid-poem-image artwork-viewer-trigger"><img src="'+esc(w.image)+'" alt="'+esc(w.title)+'" loading="lazy" decoding="async" data-artwork-viewer>'+artworkOpenButtonMarkup+'</div><div class="orchid-poem-copy"><small>ORCHID, POEM, ATTRIBUTION · 兰与题咏</small><h6>'+esc(w.title)+' × '+esc(c.text.title)+'</h6>'+textWorkHtml(c,'verse')+'<p class="art-reading">'+esc(w.reading)+'</p></div></div></section>';
   }
   if(c.layout==='travel-text'||c.layout==='knowledge-text')return '<section class="'+cls+'">'+workMuseumHead(c)+textWorkHtml(c,c.layout)+'</section>';
   return '';
@@ -470,7 +475,7 @@ function showDrawerAt(scrollTop){const drawer=document.getElementById('drawer');
 function showDetailLoading(label){document.getElementById('detail').innerHTML='<div class="seal">正在载入</div><h2>'+esc(label)+'</h2><p class="note">正在读取详情……</p>';showDrawerAt(0)}
 function showDetailFailure(error){document.getElementById('detail').innerHTML='<div class="seal">载入失败</div><h2>详情未能载入</h2><p class="note">网络或静态资源暂时不可用。列表和筛选状态已保留。</p><button class="reset" type="button" data-detail-retry>重试加载</button>';document.querySelector('[data-detail-retry]').onclick=retryDetail;console.warn('详情加载失败',error)}
 function retryDetail(){if(!lastDetailRequest)return;const request=lastDetailRequest;return request.kind==='person'?openDetail(peopleById.get(request.id)):openEventDetail(eventsById.get(request.id))}
-function focusPerson(name){const person=personRecord(name);if(!person)return;if(personPageMeta(person)&&matchMedia('(max-width:720px)').matches){location.href=personPageHref(person);return}closeDetail();state={category:'全部',domain:'',institution:'',q:person.name,parent:'',event:'',confidence:'',sort:'time'};document.getElementById('search').value=person.name;document.getElementById('personEvent').value='';document.getElementById('domain').value='';document.getElementById('institution').value='';document.getElementById('confidence').value='';document.getElementById('sort').value='time';syncPeopleQuery('person',person.name);render();document.querySelector('.statusline').scrollIntoView({behavior:'smooth',block:'start'});openDetail(person)}
+function focusPerson(name){const person=personRecord(name);if(!person)return;if(personPageMeta(person)&&matchMedia('(max-width:720px)').matches){location.href=personPageHref(person);return}closeDetail();state={category:'全部',domain:'',institution:'',q:person.name,parent:'',event:'',confidence:'',sort:'time'};document.getElementById('search').value=person.name;document.getElementById('personEvent').value='';document.getElementById('domain').value='';document.getElementById('institution').value='';document.getElementById('confidence').value='';document.getElementById('sort').value='time';syncPeopleQuery('person',person.name);render();document.querySelector('.statusline').scrollIntoView({behavior:'smooth',block:'start'});return openDetail(person)}
 function focusEventPeople(id){const event=eventRecord(id);if(!event)return;if(document.body.classList.contains('events-page')){location.href='people.html?event='+encodeURIComponent(id);return}closeDetail();state.event=id;state.parent='';document.getElementById('personEvent').value=id;syncPeopleQuery('event',id);render();document.querySelector('.statusline').scrollIntoView({behavior:'smooth',block:'start'})}
 function eventFiltered(){const q=eventState.q.trim().toLowerCase();return events.filter(e=>(!eventState.stage||e.stage===eventState.stage)&&(!eventState.category||e.category===eventState.category)&&(!q||Object.values(e).flat().join(' ').toLowerCase().includes(q))).sort((a,b)=>(a.year-b.year)||a.id.localeCompare(b.id))}
 function renderStageChips(){document.getElementById('stagechips').innerHTML=eventStages.map(s=>{const count=events.filter(e=>e.stage===s.id).length;return '<button class="stagechip '+(eventState.stage===s.id?'active':'')+'" data-stage="'+s.id+'" title="'+esc(s.thesis)+'"><b>'+esc(s.label)+'</b><span>'+esc(s.range)+' · '+count+'件</span></button>'}).join('');document.querySelectorAll('.stagechip').forEach(b=>b.onclick=()=>{eventState.stage=eventState.stage===b.dataset.stage?'':b.dataset.stage;renderEvents()})}
@@ -504,7 +509,9 @@ function renderPersonDetail(p,restoreScrollTop){
   const tombSource=p.category==='皇帝'?personDrawerData(p)?.tombSource:null;
   const timelineSourceUrl=timelineSource(timelineMeta(p),p)?.url;
   const sourceUrls=[p.source1,p.source2,...lineageUrls,...institutionUrls,...basicInfoUrls,...identityUrls,tombSource,timelineSourceUrl,...(story?.sources||[]),...creativeUrls].filter(Boolean).filter((u,i,a)=>a.indexOf(u)===i);
-  const storyBlock=drawerMeta?profilePreviewHtml(p):'<h4>一生故事</h4>'+personStoryHtml(p)+creativeWorksHtml(p)+reenactmentHtml(p);
+  const storyBlock=drawerMeta
+    ? profilePreviewHtml(p)+creativeWorksHtml(p)
+    : '<h4>一生故事</h4>'+personStoryHtml(p)+creativeWorksHtml(p)+reenactmentHtml(p);
   const governanceBlock=readableEmperor?emperorGovernanceHtml(drawerMeta,p):'';
   const assessmentBlock=readableEmperor?founderBasicNotesHtml(basicInfo,drawerMeta?.assessment,p,drawerMeta):'';
   const hasPeriodPartner=(p.institutions||[]).length>0||p.category==='皇室子女';
@@ -518,7 +525,7 @@ function renderPersonDetail(p,restoreScrollTop){
   showDrawerAt(restoreScrollTop);
 }
 function closeDetail(){detailRequestToken++;document.getElementById('drawer').classList.remove('open')}
-function handleDrawerKeydown(event){if(event.key==='Escape')closeDetail()}
+function handleDrawerKeydown(event){if(event.key==='Escape'&&!document.getElementById('artworkViewer')?.open)closeDetail()}
 function showIndexLoading(){const status=document.getElementById('indexStatus');status.hidden=true;status.innerHTML='';document.getElementById('rows').innerHTML='<tr><td colspan="15" class="index-loading" aria-live="polite">正在载入人物与事件索引……</td></tr>';document.getElementById('eventstream').innerHTML='<div class="index-loading" aria-live="polite">正在载入人物与事件索引……</div>'}
 function showIndexFailure(error){console.error('人物馆索引载入失败',error);const status=document.getElementById('indexStatus');status.innerHTML='<div class="index-failure" role="alert"><b>索引未能载入</b><span>人物与事件数据暂时不可用。</span><button class="index-retry" type="button" data-index-retry>重试载入</button></div>';status.hidden=false;document.getElementById('rows').innerHTML='<tr><td colspan="15" class="empty">索引未能载入。</td></tr>';document.getElementById('eventstream').innerHTML='<div class="eventempty">索引未能载入。</div>';status.querySelector('[data-index-retry]').onclick=initializePage}
 async function initializePage(){
@@ -546,6 +553,7 @@ document.getElementById('search').oninput=e=>{state.q=e.target.value;render()};d
 }
 initializePage();
 </script>
+<script>${ARTWORK_VIEWER_SCRIPT}</script>
 </body></html>`;
 
 await fs.writeFile(`${outDir}/明史人物谱_1368-1644.html`, html, 'utf8');

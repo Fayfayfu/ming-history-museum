@@ -315,7 +315,9 @@ for(const name of ['翁万达','马芳','杨荣','蓝玉','刘大夏','胡宗宪
     knownUnknown:document.querySelectorAll('#detail .knowledge-split article').length,
     action:document.querySelectorAll('#detail .history-slice-action').length,
     consequence:document.querySelectorAll('#detail .history-slice-consequence').length,
-    boundary:document.querySelectorAll('#detail .history-slice-boundary').length
+    boundary:document.querySelectorAll('#detail .history-slice-boundary').length,
+    preview:document.querySelectorAll('#detail .profile-preview').length,
+    enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href')||''
   }),name));
   if(name==='吴三桂'){
     await page.locator('#detail .history-slice').scrollIntoViewIfNeeded();
@@ -379,7 +381,10 @@ for(const name of ['宋濂','解缙','李东阳','文徵明','仇英','马守真
     knownUnknown:document.querySelectorAll('#detail .knowledge-split article').length,
     action:document.querySelectorAll('#detail .history-slice-action').length,
     consequence:document.querySelectorAll('#detail .history-slice-consequence').length,
-    boundary:document.querySelectorAll('#detail .history-slice-boundary').length
+    boundary:document.querySelectorAll('#detail .history-slice-boundary').length,
+    genericCamera:document.querySelectorAll('#detail .story-reenactment').length,
+    preview:document.querySelectorAll('#detail .profile-preview').length,
+    enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href')||''
   }),name));
   if(name==='宋应星'){
     await page.locator('#detail .history-slice').scrollIntoViewIfNeeded();
@@ -396,7 +401,10 @@ for(const name of ['文徵明','李贽','吴承恩','汤显祖','张景岳','宋
     category:document.querySelector('#detail .seal')?.textContent.trim()||'',
     office:document.querySelector('#detail .person-identity b')?.textContent.trim()||'',
     sources:document.querySelectorAll('#detail .sources a').length,
-    historicalSlice:document.querySelectorAll('#detail .history-slice').length
+    historicalSlice:document.querySelectorAll('#detail .history-slice').length,
+    genericCamera:document.querySelectorAll('#detail .story-reenactment').length,
+    preview:document.querySelectorAll('#detail .profile-preview').length,
+    enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href')||''
   }),name));
   await page.locator('#close').click();
 }
@@ -1173,21 +1181,26 @@ const mobileStory=await page.evaluate(()=>({
 await page.locator('#detail .history-slice').scrollIntoViewIfNeeded();
 await page.screenshot({path:path.join(root,'人物档案_历史切片_移动端预览.png'),fullPage:false});
 await page.goto(url('people.html?person='+encodeURIComponent('徐渭')),{waitUntil:'networkidle'});
-await page.locator('#detail .work-museum').scrollIntoViewIfNeeded();
+await page.waitForURL(u=>u.pathname.endsWith('/people/xu-wei.html'));
+await page.locator('.gallery .art-grid').scrollIntoViewIfNeeded();
 const mobileCreative=await page.evaluate(async()=>{
-  const museum=document.querySelector('#detail .work-museum');
-  const image=museum?.querySelector('img');
-  if(image&&!image.complete)await new Promise(resolve=>{image.addEventListener('load',resolve,{once:true});image.addEventListener('error',resolve,{once:true})});
+  const gallery=document.querySelector('.gallery');
+  const grid=gallery?.querySelector('.art-grid');
+  const images=[...(gallery?.querySelectorAll('.art-card img')||[])];
+  await Promise.all(images.map(image=>image.complete?Promise.resolve():new Promise(resolve=>{image.addEventListener('load',resolve,{once:true});image.addEventListener('error',resolve,{once:true})})));
   return {
+    pathname:location.pathname,
     bodyWidth:document.body.scrollWidth,
     viewport:innerWidth,
-    columns:getComputedStyle(museum.querySelector('.ink-poem-stage')).gridTemplateColumns.split(' ').length,
-    imageLoaded:Boolean(image?.naturalWidth),
-    quoteLines:museum.querySelectorAll('.work-verse div').length
+    columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,
+    works:gallery?.querySelectorAll('.art-card').length||0,
+    imagesLoaded:images.every(image=>image.naturalWidth>0),
+    imagesContained:images.every(image=>getComputedStyle(image).objectFit==='contain'),
+    openButtons:gallery?.querySelectorAll('[data-artwork-open]').length||0
   };
 });
-await page.locator('#detail .work-museum').screenshot({path:path.join(root,'人物档案_徐渭_诗画同体_移动端预览.png')});
-await page.locator('#close').click();
+await page.locator('.gallery .art-grid').screenshot({path:path.join(root,'人物独立页_徐渭_作品现场_移动端预览.png')});
+await page.goto(url('people.html'),{waitUntil:'networkidle'});
 await Promise.all([
   page.waitForURL(/people\/wang-shou-ren\.html$/),
   page.evaluate(()=>focusPerson('王守仁'))
@@ -1396,9 +1409,7 @@ const thirdSliceDrawerPass=thirdSliceDrawerSamples.length===16&&individualPageLi
   ?validIndividualPagePreview(x)
   :x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1);
 const fourthSliceDrawerPass=fourthSliceDrawerSamples.length===16&&fourthSliceDrawerSamples.every(x=>{
-  if(x.name==='王守仁') return x.drawerName===x.name&&x.preview===1&&x.enterHref==='people/wang-shou-ren.html'&&x.historicalSlice===0&&x.genericCamera===0;
-  const pageSlug={李时珍:'li-shi-zhen',徐光启:'xu-guang-qi',郑和:'zheng-he',秦良玉:'qin-liang-yu'}[x.name];
-  if(pageSlug) return x.drawerName===x.name&&x.preview===1&&x.enterHref==='people/'+pageSlug+'.html'&&x.historicalSlice===0&&x.genericCamera===0;
+  if(x.preview===1) return validIndividualPagePreview(x);
   if(x.name==='徐达') return x.drawerName===x.name&&x.historicalSlice===1&&x.genericStory===0&&x.lifeChapters>=5&&['渡江','陈友谅','张士诚','大都','定西','1372'].every(text=>x.lifeStoryText.includes(text));
   return x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1;
 });
@@ -1406,14 +1417,18 @@ const genericStoryPass=genericStorySamples.length===3&&genericStorySamples.every
 const historicalSliceTypography=genericStorySamples.find(item=>item.name==='黄道周')?.sliceTypography;
 const historicalSliceTypographyPass=historicalSliceTypography?.label>=12&&historicalSliceTypography?.body>=15&&historicalSliceTypography?.knowledge>=15&&historicalSliceTypography?.action>=16&&historicalSliceTypography?.boundary>=12;
 const wangYangmingThoughtPass=wangYangmingThought.drawerName==='王守仁'&&wangYangmingThought.sourceLinks>=6&&wangYangmingThought.preview===1&&wangYangmingThought.quickNodes===5&&wangYangmingThought.enterHref==='people/wang-shou-ren.html'&&wangYangmingThought.bodyWidth===wangYangmingThought.viewport;
-const fifthSliceDrawerPass=fifthSliceDrawerSamples.length===15&&fifthSliceDrawerSamples.every(x=>x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1);
+const fifthSliceDrawerPass=fifthSliceDrawerSamples.length===15&&fifthSliceDrawerSamples.every(x=>x.preview===1
+  ?validIndividualPagePreview(x)
+  :x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1);
 const sixthSliceDrawerPass=sixthSliceDrawerSamples.length===15&&sixthSliceDrawerSamples.every(x=>x.drawerName===x.name&&x.historicalSlice===1&&x.genericCamera===0&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1)&&sixthSliceDrawerSamples.filter(x=>['万贵妃','郑贵妃','客氏'].includes(x.name)).every(x=>x.knownLabel.startsWith('她当时'));
 const innerCourtCardPass=innerCourtCardSamples.length===6&&innerCourtCardSamples.every(x=>x.drawerName===x.name&&x.category.startsWith('后妃与内廷女性')&&x.office&&x.sources>=2&&x.historicalSlice===1)&&innerCourtFilter.names.length===6&&['马皇后','纪氏','万贵妃','李太后','郑贵妃','客氏'].every(name=>innerCourtFilter.names.includes(name))&&innerCourtFilter.categories.every(category=>category==='后妃与内廷女性')&&innerCourtFilter.viewTitle==='后妃与内廷女性 · 筛选视图';
 const innerCourtPortraitByName=Object.fromEntries(innerCourtCardSamples.map(item=>[item.name,item]));
 const innerCourtPortraitPass=['万贵妃','纪氏','客氏'].every(name=>innerCourtPortraitByName[name].portraitLoaded&&innerCourtPortraitByName[name].imagined&&innerCourtPortraitByName[name].portraitLabel==='AI想象像'&&innerCourtPortraitByName[name].portraitNote.includes('未知置信度'));
-const seventhSliceDrawerPass=seventhSliceDrawerSamples.length===15&&seventhSliceDrawerSamples.every(x=>x.drawerName===x.name&&x.historicalSlice===1&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1);
+const seventhSliceDrawerPass=seventhSliceDrawerSamples.length===15&&seventhSliceDrawerSamples.every(x=>x.preview===1
+  ?validIndividualPagePreview(x)
+  :x.drawerName===x.name&&x.historicalSlice===1&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1);
 const eighthSliceDrawerPass=eighthSliceDrawerSamples.length===23&&eighthSliceDrawerSamples.every(x=>x.drawerName===x.name&&x.historicalSlice===1&&x.coordinate&&x.title&&x.knownUnknown===2&&x.action===1&&x.consequence===1&&x.boundary===1);
-const knowledgeCardPass=knowledgeCardSamples.length===6&&knowledgeCardSamples.every(x=>x.drawerName===x.name&&x.category.startsWith('在野人物')&&x.office&&x.sources>=2&&x.historicalSlice===1);
+const knowledgeCardPass=knowledgeCardSamples.length===6&&knowledgeCardSamples.every(x=>x.drawerName===x.name&&x.category.startsWith('在野人物')&&x.office&&x.sources>=2&&(x.preview===1?validIndividualPagePreview(x):x.historicalSlice===1));
 const sourceDialogPass=sourceDialogAudit?.triggers===6&&sourceDialogAudit.open&&sourceDialogAudit.title==='九门部署与德胜门督战'&&sourceDialogAudit.location.includes('卷170')&&sourceDialogAudit.paragraphs===3&&sourceDialogAudit.original.includes('十月敕谦提督各营军马')&&sourceDialogAudit.original.includes('列阵九门外')&&sourceDialogAudit.reading.includes('正式职责')&&sourceDialogAudit.boundary.includes('正史')&&sourceDialogAudit.provider.includes('维基文库录入本')&&sourceDialogAudit.fullTextHref.includes('%E5%8D%B7170')&&sourceDialogAudit.closeFocused&&sourceDialogAudit.bodyLocked&&sourceDialogAudit.closedByEscape;
 const sourceProviderPass=sourceProviderAudit.shidian?.includes('识典古籍数字文本')&&sourceProviderAudit.dpm?.includes('故宫博物院馆藏页');
 const tangDisplayPass=tangYin.seal.includes('整体高；卒年中')&&tangYin.lifeFact.includes('1470—1523或1524')&&tangYin.lifeFact.includes('约53—54岁')&&tangYin.tenure.includes('1523或1524');
@@ -1493,7 +1508,7 @@ const baseCheckGroups={
   filters:tangYin.first==='唐寅'&&tangYin.drawer&&tangYin.seal.includes('在野人物')&&tangYin.domains.includes('文学艺术')&&tangYin.tenure.includes('—')&&tangYin.preview===1&&tangYin.quickNodes===6&&tangYin.enterHref==='people/tang-yin.html'&&tangYin.sources>=7&&independentFilter.count===16&&JSON.stringify(independentFilter.categories)===JSON.stringify(['在野人物'])&&domainFilter.count>=1&&domainFilter.names.includes('徐霞客')&&storyCoverage.rows===expectedFormalRosterCount&&storyCoverage.markers===storyCoverage.rows&&storyCoverage.statLabel===String(storyCoverage.rows)&&Number.isInteger(+storyCoverage.independentPageStat)&&+storyCoverage.independentPageStat>0,
   emperor:emperorView.emperorCount===1&&emperorView.duplicates.length===0&&Math.abs(emperorView.timelineTop-emperorView.navBottom)<=2&&emperorView.labels.every(label=>!/[子女]\d/.test(label)),
   events:events.peopleTableDisplay==='none'&&events.eventDisplay!=='none'&&events.cards===20&&events.activeStage==='s6'&&events.navActive==='事件馆'&&events.bodyWidth===events.viewport&&queryCount===1&&eventDetail.title==='北京保卫战'&&eventDetail.people===4&&eventDetail.sources===3&&eventPeopleFilterPass&&personRelatedEvents.count>=3&&personRelatedEvents.beijingHref==='events.html?event=e035'&&personRelatedEvents.beijingText.includes('1449')&&personRelatedEvents.beijingText.includes('北京保卫战')&&directEvent.event==='e035'&&directEvent.title==='北京保卫战'&&directEvent.drawerOpen&&crossHall.person==='于谦'&&crossHall.search==='于谦'&&crossHall.first==='于谦',
-  mobile:mobile.bodyWidth===mobile.viewport&&mobile.doorColumns===1&&mobile.eraColumns===1&&mobileProfile.pathname.endsWith('/people/yu-qian.html')&&mobileProfile.h1==='于谦'&&!mobileProfile.drawer&&mobileProfile.chapters===6&&mobileProfile.bodyWidth===mobileProfile.viewport&&mobileProfile.heroColumns===1&&mobileSourceDialog.open&&mobileSourceDialog.dialogWidth<=mobileSourceDialog.viewport&&mobileSourceDialog.readingColumns===1&&mobileSourceDialog.bodyWidth===mobileSourceDialog.viewport&&mobileStory.bodyWidth===mobileStory.viewport&&mobileStory.reenactmentColumns===1&&mobileStory.visible&&mobileStory.genericCamera===0&&mobileCreative.bodyWidth===mobileCreative.viewport&&mobileCreative.columns===1&&mobileCreative.imageLoaded&&mobileCreative.quoteLines===2&&errors.length===0
+  mobile:mobile.bodyWidth===mobile.viewport&&mobile.doorColumns===1&&mobile.eraColumns===1&&mobileProfile.pathname.endsWith('/people/yu-qian.html')&&mobileProfile.h1==='于谦'&&!mobileProfile.drawer&&mobileProfile.chapters===6&&mobileProfile.bodyWidth===mobileProfile.viewport&&mobileProfile.heroColumns===1&&mobileSourceDialog.open&&mobileSourceDialog.dialogWidth<=mobileSourceDialog.viewport&&mobileSourceDialog.readingColumns===1&&mobileSourceDialog.bodyWidth===mobileSourceDialog.viewport&&mobileStory.bodyWidth===mobileStory.viewport&&mobileStory.reenactmentColumns===1&&mobileStory.visible&&mobileStory.genericCamera===0&&mobileCreative.pathname.endsWith('/people/xu-wei.html')&&mobileCreative.bodyWidth===mobileCreative.viewport&&mobileCreative.columns===1&&mobileCreative.works===2&&mobileCreative.imagesLoaded&&mobileCreative.imagesContained&&mobileCreative.openButtons===2&&errors.length===0
 };
 audit.baseCheckGroups=baseCheckGroups;
 audit.pass=baseCheckGroups.home&&baseCheckGroups.people&&baseCheckGroups.profile&&baseCheckGroups.priorBatches&&baseCheckGroups.filters&&baseCheckGroups.emperor&&baseCheckGroups.events&&baseCheckGroups.mobile;
