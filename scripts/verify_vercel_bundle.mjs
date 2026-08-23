@@ -115,6 +115,7 @@ await page.goto(`${base}/people.html?person=${encodeURIComponent('姚广孝')}`,
 await page.waitForFunction(() => (
   document.querySelector('#drawer')?.classList.contains('open')
   && document.querySelector('#detail h2')?.textContent.trim() === '姚广孝'
+  && document.querySelector('#detail .portrait img')
 ), {timeout: 60000});
 const yao = await page.evaluate(async () => {
   const image = document.querySelector('#detail .portrait img');
@@ -133,6 +134,7 @@ await page.goto(`${base}/people.html?person=${encodeURIComponent('杨继盛')}`,
 await page.waitForFunction(() => (
   document.querySelector('#drawer')?.classList.contains('open')
   && document.querySelector('#detail h2')?.textContent.trim() === '杨继盛'
+  && document.querySelectorAll('#detail .life-chapter').length === 6
 ), {timeout: 60000});
 const yangJisheng = await page.evaluate(async () => {
   const image = document.querySelector('#detail .portrait img');
