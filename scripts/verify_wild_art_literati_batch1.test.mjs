@@ -116,7 +116,7 @@ test('构建后的五张独立页和按需详情数据可访问', async () => {
     const html = await fs.readFile(path.join(museumRoot, 'people', `${page.slug}.html`), 'utf8');
     assert.match(html, new RegExp(`<h1>${name}`));
     assert.match(html, new RegExp(page.feature.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-    assert.match(html, /WORKS IN THE NETWORK · 作品现场/);
+    assert.match(html, /WORKS IN THE NETWORK · 作品展陈/);
     assert.match(html, new RegExp(creativeImageName(name)));
     const detail = await readJson(path.join(
       'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆/assets/data/people-details',
