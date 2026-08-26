@@ -30,8 +30,9 @@ const allowedPersonIndexKeys = new Set([
   'alt', 'birth', 'category', 'childCounts', 'confidence', 'creativeWorkCount', 'death', 'detailUrl',
   'display', 'domains', 'evaluation', 'hometown', 'id', 'institutionIds', 'institutions', 'lineageLines',
   'mother', 'name', 'office', 'office_end', 'office_start', 'order', 'parent', 'personPageSlug', 'portrait',
-  'rowId', 'score', 'sex', 'summary', 'year',
+  'rowId', 'score', 'search', 'sex', 'summary', 'year',
 ]);
+const allowedSearchKeys = new Set(['native', 'pinyin']);
 const allowedPortraitKeys = new Set([
   'file', 'objectPosition', 'portraitKind', 'portraitTransform', 'status', 'transformOrigin',
 ]);
@@ -46,6 +47,9 @@ for (const person of peopleIndexArtifact.people || []) {
   }
   for (const key of Object.keys(person.portrait || {})) {
     if (!allowedPortraitKeys.has(key) || forbiddenIndexKeys.has(key)) unexpectedIndexFields.push(`${person.id}.portrait.${key}`);
+  }
+  for (const key of Object.keys(person.search || {})) {
+    if (!allowedSearchKeys.has(key) || forbiddenIndexKeys.has(key)) unexpectedIndexFields.push(`${person.id}.search.${key}`);
   }
 }
 check(unexpectedIndexFields.length === 0, 'final people index must contain only declared list fields', unexpectedIndexFields.slice(0, 20));
@@ -106,6 +110,18 @@ async function openRoster(page) {
   await page.waitForSelector('#rows tr[data-id]', { state: 'visible' });
 }
 
+async function assertPeopleSearch(page, query, rowId) {
+  await page.locator('#search').fill(query);
+  await page.waitForSelector(`#rows tr[data-id="${rowId}"]`, { state: 'visible' });
+  return page.locator(`#rows tr[data-id="${rowId}"]`).count();
+}
+
+async function assertEventSearch(page, query, eventId) {
+  await page.locator('#eventSearch').fill(query);
+  await page.waitForSelector(`#eventstream .eventcard[data-event="${eventId}"]`, { state: 'visible' });
+  return page.locator(`#eventstream .eventcard[data-event="${eventId}"]`).count();
+}
+
 async function closeDrawer(page) {
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.querySelector('#drawer')?.classList.contains('open'));
@@ -137,6 +153,31 @@ try {
     'category filtering must exclude nonmatching people',
   );
   await page.locator('.chip[data-cat="全部"]').click();
+  check(
+    (await page.locator('#search').getAttribute('placeholder'))?.includes('拼音或繁体字'),
+    'people search must explain pinyin and traditional-name support',
+  );
+  check(
+    await assertPeopleSearch(page, 'tangyin', 'tang-yin') === 1,
+    'full-pinyin person-name search must find 唐寅',
+  );
+  check(
+    await assertPeopleSearch(page, 'ty', 'tang-yin') === 1,
+    'initial-letter person-name search must find 唐寅',
+  );
+  check(
+    await assertPeopleSearch(page, '唐伯虎', 'tang-yin') === 1,
+    'Chinese alias search must find 唐寅',
+  );
+  check(
+    await assertPeopleSearch(page, 'tangbohu', 'tang-yin') === 1,
+    'pinyin alias search must find 唐寅',
+  );
+  check(
+    await assertPeopleSearch(page, '朱祁鎮', 'zhu-qizhen') === 1,
+    'traditional-name search must find 朱祁镇',
+  );
+  await page.locator('#search').fill('');
 
   const zhuRow = page.locator('#rows tr[data-id="zhu-yuan-zhang"]');
   check(await zhuRow.count() === 1, '朱元璋 must retain the stable row selector zhu-yuan-zhang');
@@ -153,6 +194,35 @@ try {
 
   await page.goto(`${baseUrl}/events.html`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('#eventstream .eventcard[data-event="e001"]');
+  check(
+    (await page.locator('#eventSearch').getAttribute('placeholder'))?.includes('拼音、简拼、繁体与别名'),
+    'event search must explain pinyin, initials, traditional-name, and alias support',
+  );
+  check(
+    await assertEventSearch(page, 'beijingbaoweizhan', 'e035') === 1,
+    'full-pinyin event-title search must find 北京保卫战',
+  );
+  check(
+    await assertEventSearch(page, 'bjbwz', 'e035') === 1,
+    'initial-letter event-title search must find 北京保卫战',
+  );
+  check(
+    await assertEventSearch(page, '北京保衛戰', 'e035') === 1,
+    'traditional event-title search must find 北京保卫战',
+  );
+  check(
+    await assertEventSearch(page, 'zhenghe', 'e020') === 1,
+    'related-person full-pinyin search must find 郑和首次下西洋',
+  );
+  check(
+    await assertEventSearch(page, 'zh', 'e020') === 1,
+    'related-person initials search must find 郑和首次下西洋',
+  );
+  check(
+    await assertEventSearch(page, 'masanbao', 'e020') === 1,
+    'related-person alias pinyin search must find 郑和首次下西洋',
+  );
+  await page.locator('#eventSearch').fill('');
   await page.locator('#eventstream .eventcard[data-event="e001"]').click();
   await page.waitForFunction(() => document.querySelectorAll('#detail .event-detail-copy').length >= 4);
   check(await page.locator('#detail .event-detail-copy').count() >= 4, 'event detail must load its full narrative shard');

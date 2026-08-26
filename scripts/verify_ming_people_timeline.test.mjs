@@ -92,12 +92,17 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'npm run verify:people-timeline-doubleclick-page',
     'node scripts/verify_ming_reign_year_page.mjs',
     'npm run verify:people-on-demand-data',
+    'npm run verify:person-search',
     'npm run verify:people-on-demand-page',
     'npm run verify:people-on-demand-contracts',
   ]);
   assert.equal(
     packageJson.scripts['verify:people-on-demand-contracts'],
     'node --test scripts/verify_ming_on_demand_contracts.test.mjs',
+  );
+  assert.equal(
+    packageJson.scripts['verify:person-search'],
+    'node --test scripts/lib/person_search.test.mjs',
   );
   assert.equal(
     packageJson.scripts['verify:people-timeline-variants-page'],

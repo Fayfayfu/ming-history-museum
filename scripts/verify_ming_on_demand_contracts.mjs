@@ -86,7 +86,10 @@ try {
   if (scope === 'all' || scope === 'event') {
   await page.goto(`${base}/events.html?q=${encodeURIComponent('北京保卫战')}`, { waitUntil: 'domcontentloaded' });
   await page.locator('.eventcard').first().click();
-  await page.waitForFunction(() => document.querySelector('#detail h2')?.textContent.includes('北京保卫战'));
+  await page.waitForFunction(() => (
+    document.querySelector('#detail h2')?.textContent.includes('北京保卫战')
+    && document.querySelectorAll('#detail .event-detail-copy').length >= 4
+  ));
   const eventPeopleControl = page.locator('#detail [data-event-people="e035"]');
   if (await eventPeopleControl.count() !== 1) fail('event linkage control missing for e035');
   await eventPeopleControl.click();

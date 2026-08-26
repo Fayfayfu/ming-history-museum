@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {buildPersonSearchIndex, buildSearchIndex} from './person_search.mjs';
 
 const clone = (value) => structuredClone(value);
 const peopleFor = (source) => source?.people || {};
@@ -126,7 +127,15 @@ function buildPersonDetail(id, person, input) {
   };
 }
 
-function buildEventIndexEntry(id, event) {
+function buildEventIndexEntry(id, event, personAliases) {
+  const searchTerms = [
+    event.title,
+    event.emperor,
+    event.location,
+    event.category,
+    ...(event.people || []).flatMap((name) => personAliases.get(name) || [name]),
+    ...(event.institutions || []),
+  ];
   return {
     id,
     year: event.year,
@@ -139,6 +148,7 @@ function buildEventIndexEntry(id, event) {
     location: event.location,
     people: clone(event.people || []),
     institutions: clone(event.institutions || []),
+    search: buildSearchIndex(searchTerms),
     confidence: event.confidence,
     detailUrl: `assets/data/event-details/${id}.json`,
   };
@@ -149,32 +159,40 @@ export function buildPeopleOnDemandData(input) {
   const events = stableEvents(input.eventData?.events || []);
   const portraits = input.portraits?.people || input.portraits || {};
   const institutionIds = institutionIdsByPerson(input.institutionData);
+  const personAliases = new Map((input.core || []).map((person) => [
+    person.name || person.title,
+    [person.name, person.alt, person.title].filter(Boolean),
+  ]));
 
   return {
     peopleIndex: {
       version: 1,
-      people: people.map(({ id, person }) => ({
-        id,
-        name: person.name,
-        category: person.category,
-        office: person.office,
-        birth: person.birth,
-        death: person.death,
-        domains: clone(person.domains || []),
-        institutionIds: clone(
-          input.institutionData?.institutions
-            ? institutionIds.get(person.name) || []
-            : input.personInstitutionIds?.[person.name] || [],
-        ),
-        portrait: clone(portraits[person.name] || null),
-        detailUrl: `assets/data/people-details/${id}.json`,
-      })),
+      people: people.map(({ id, person }) => {
+        const search = buildPersonSearchIndex(person).search;
+        return {
+          id,
+          name: person.name,
+          category: person.category,
+          office: person.office,
+          birth: person.birth,
+          death: person.death,
+          domains: clone(person.domains || []),
+          institutionIds: clone(
+            input.institutionData?.institutions
+              ? institutionIds.get(person.name) || []
+              : input.personInstitutionIds?.[person.name] || [],
+          ),
+          portrait: clone(portraits[person.name] || null),
+          search: clone(search),
+          detailUrl: `assets/data/people-details/${id}.json`,
+        };
+      }),
     },
     peopleDetails: new Map(people.map(({ id, person }) => [id, buildPersonDetail(id, person, input)])),
     eventsIndex: {
       version: 1,
       stages: clone(input.eventData?.stages || []),
-      events: events.map(({ id, event }) => buildEventIndexEntry(id, event)),
+      events: events.map(({ id, event }) => buildEventIndexEntry(id, event, personAliases)),
     },
     eventDetails: new Map(events.map(({ id, event }) => [id, { ...clone(event), id }])),
   };
