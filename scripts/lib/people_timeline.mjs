@@ -1,3 +1,5 @@
+import { MUSEUM_BOUNDARIES, MUSEUM_TIMELINE_SCOPE } from './museum_temporal_scope.mjs';
+
 const CHAR_VARIANTS = {
   熾: '炽',
   鎮: '镇',
@@ -33,7 +35,7 @@ const TOP_LANES_SHIFT_PX = 32;
 const SPARSE_WOMEN_LANE_OVERLAP_PX = 12;
 const LANE_GAP_PX = 0;
 const HORIZONTAL_SLOT_CLEARANCE_RATIO = 0.8;
-const VERTICAL_SLOT_STEP_RATIO = 0.53;
+const VERTICAL_SLOT_STEP_RATIO = 0.48;
 const CANVAS_EDGE_PADDING_PX = 48;
 
 function compareTimelineNodes(left, right) {
@@ -125,8 +127,8 @@ export function layoutPeopleTimeline(people, options = {}) {
   const years = people.map((person) => person.timeline_year);
   if (!years.every(Number.isInteger)) throw new Error('Timeline people require integer timeline_year values');
 
-  const minYear = Math.min(...years, 1368);
-  const maxYear = Math.max(...years, 1644);
+  const minYear = Math.min(...years, MUSEUM_TIMELINE_SCOPE.start);
+  const maxYear = Math.max(...years, MUSEUM_TIMELINE_SCOPE.end);
   const width = (maxYear - minYear) * yearPx + paddingX * 2;
   const nodes = people.map((person) => {
     const lane = TIMELINE_LANES[person.category];
@@ -160,9 +162,9 @@ export function layoutPeopleTimeline(people, options = {}) {
   for (let year = Math.ceil(minYear / 10) * 10; year <= maxYear; year += 10) {
     ticks.push({ year, x: paddingX + (year - minYear) * yearPx, type: 'decade' });
   }
-  const boundaries = [1368, 1644].map((year) => ({
-    year,
-    x: paddingX + (year - minYear) * yearPx,
+  const boundaries = MUSEUM_BOUNDARIES.map((boundary) => ({
+    ...boundary,
+    x: paddingX + (boundary.year - minYear) * yearPx,
     type: 'boundary',
   }));
 
@@ -368,7 +370,7 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
   }
 
   const ticks = layout.ticks.map((tick) => `<span class="timeline-tick" style="--tick-x:${tick.x}px"><time datetime="${tick.year}">${tick.year}</time></span>`).join('');
-  const boundaries = layout.boundaries.map((boundary) => `<span class="timeline-boundary" style="--boundary-x:${boundary.x}px"><time datetime="${boundary.year}">${boundary.year}</time></span>`).join('');
+  const boundaries = layout.boundaries.map((boundary) => `<span class="timeline-boundary" style="--boundary-x:${boundary.x}px"><time datetime="${boundary.year}">${boundary.year}<b>${escapeHtml(boundary.label)}</b></time></span>`).join('');
   const peopleMarkup = layout.nodes.map((node) => personMarkup(node, portraitFor, layout.axisY)).join('');
 
   return `<section class="people-timeline" aria-label="人物馆浏览方式与明朝人物时间长卷">
@@ -395,7 +397,7 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .people-view-tabs button:hover,.people-view-tabs button:focus-visible{z-index:1;transform:translateY(-1px);border-color:#8e3022;box-shadow:0 5px 14px rgba(50,38,20,.16);outline:none}
 .people-view-tabs button[aria-selected="true"]{background:#171815;color:#f5f0e3;border-color:#171815}
 .people-page[data-people-view="table"] #peopleTimelineView{display:none}
-.people-page>.shell>.timeline[hidden],.people-page>.shell>.toolbar[hidden],.people-page>.shell>.statusline[hidden],.people-page>.shell>.tablewrap[hidden],.people-page>.shell>.method[hidden]{display:none!important}
+.people-page>.shell>.timeline[hidden],.people-page>.shell>.southern-branch[hidden],.people-page>.shell>.toolbar[hidden],.people-page>.shell>.statusline[hidden],.people-page>.shell>.tablewrap[hidden],.people-page>.shell>.method[hidden]{display:none!important}
 @media(max-width:560px){.people-view-tabs{gap:7px}.people-view-tabs button{min-height:40px;padding:7px 10px}.people-view-tabs button>span{font-size:14px}}
 .people-timeline-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-gutter:stable;border:1px solid #c7bea9;background:#f5f0e3}
 .people-timeline-canvas{position:relative;width:var(--timeline-width);height:var(--timeline-height);min-width:6500px}
@@ -404,6 +406,7 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .timeline-tick time{position:absolute;top:18px;left:4px;white-space:nowrap}
 .timeline-boundary{position:absolute;left:var(--boundary-x);top:0;height:100%;border-left:2px solid #b64a35;color:#8e3022;font:12px/1 ui-monospace,monospace}
 .timeline-boundary time{position:absolute;top:calc(var(--timeline-axis-y) + 18px);left:4px;font-weight:700;white-space:nowrap}
+.timeline-boundary b{display:block;margin-top:4px;color:#625d50;font:600 10px/1.35 ui-sans-serif,"Noto Sans SC",sans-serif;letter-spacing:.02em}
 .timeline-lane-label{position:absolute;z-index:1;left:18px;top:var(--lane-y);margin:0;transform:translateY(-50%);width:108px;color:#625d50;font-size:12px;line-height:1.25;text-align:center}
 .timeline-person{position:absolute;left:var(--person-x);top:var(--person-y);z-index:2;width:var(--avatar-size);height:var(--avatar-size);transform:translate(-50%,-50%);text-align:center;pointer-events:none}
 .timeline-person-guide{position:absolute;z-index:0;left:50%;width:1px;pointer-events:none;transform:translateX(-50%);background:rgba(98,93,80,.36)}
@@ -450,7 +453,7 @@ export function peopleTimelineClientScript() {
   return `(()=>{
     const body=document.body;
     const timeline=document.getElementById('peopleTimelineView');
-    const tableSections=[...document.querySelectorAll('.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method')];
+    const tableSections=[...document.querySelectorAll('.people-page>.shell>.timeline,.people-page>.shell>.southern-branch,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method')];
     const buttons=[...document.querySelectorAll('button[data-people-view]')];
     const people=[...document.querySelectorAll('[data-timeline-person]')];
     let portraitLoadingFrame=0;

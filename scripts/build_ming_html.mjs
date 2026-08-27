@@ -12,6 +12,7 @@ const eventData = addMingEraDates(JSON.parse(await fs.readFile('data/ming_events
 const impactGraphData = validateImpactGraphData(JSON.parse(await fs.readFile('data/ming_people_impact_graphs.json', 'utf8')));
 const institutionData = JSON.parse(await fs.readFile('data/ming_person_institutions.json', 'utf8'));
 const peopleTimeline = JSON.parse(await fs.readFile('data/ming_people_timeline.json', 'utf8'));
+const southernMingBranch = JSON.parse(await fs.readFile('data/ming_southern_ming_branch.json', 'utf8'));
 const storytelling = addStorytellingEraDates(JSON.parse(await fs.readFile('data/ming_storytelling.json', 'utf8')));
 const historicalSliceBatch2 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch2.json', 'utf8'));
 const historicalSliceBatch3 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch3.json', 'utf8'));
@@ -116,6 +117,43 @@ const buildPeople = [
   ...core,
   ...childSourceRecords,
 ];
+const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  "'": '&#39;',
+  '"': '&quot;',
+}[char]));
+const renderSouthernMingBranch = branch => {
+  const sourceLink = sourceId => {
+    const source = peopleTimeline.source_catalog?.[sourceId];
+    if (!source) return '';
+    return `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.label)}</a>`;
+  };
+  const rulers = (branch.primary || []).map(item => {
+    const person = core.find(record => normalize(record.name) === normalize(item.name)) || {};
+    const sources = (item.sourceIds || []).map(sourceLink).filter(Boolean).join('');
+    return `<article class="southern-branch-ruler">
+      <a class="southern-branch-profile" href="people.html?person=${encodeURIComponent(item.name)}">
+      <span>${escapeHtml(item.era)} · ${escapeHtml(item.start)}—${escapeHtml(item.end)}</span>
+      <b>${escapeHtml(item.name)}</b>
+      <em>${escapeHtml(person.office || '南明政权人物')}</em>
+      <p>${escapeHtml(person.summary || '')}</p>
+      </a>
+      <small>${sources}</small>
+    </article>`;
+  }).join('');
+
+  return `<section class="southern-branch" aria-labelledby="southernMingBranchTitle">
+    <header class="southern-branch-head">
+      <div><span>SOUTHERN MING BRANCH</span><h2 id="southernMingBranchTitle">${escapeHtml(branch.title)} · ${escapeHtml(branch.range)}</h2></div>
+      <p>${escapeHtml(branch.boundary)}</p>
+    </header>
+    <div class="southern-branch-list">${rulers}</div>
+    <p class="southern-branch-note">${escapeHtml((branch.notes || []).join(' '))}</p>
+  </section>`;
+};
+const southernMingBranchHtml = renderSouthernMingBranch(southernMingBranch);
 const institutionLinksByName = new Map();
 for (const institution of institutionData.institutions||[]) for (const person of institution.people||[]) {
   const links=institutionLinksByName.get(person.name)||[];
@@ -264,7 +302,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;mi
 @media(max-width:920px){.eventcard{grid-template-columns:118px minmax(0,1fr)}.eventdot{left:112px}.eventdate{padding-left:10px;padding-right:8px}.eventdate strong{font-size:16px;letter-spacing:-.06em}}
 @media(max-width:520px){.related-events a{grid-template-columns:112px minmax(0,1fr)}}
 </style>
-<style>@media(min-width:921px){.stats{grid-template-columns:repeat(11,1fr)}}.portrait-fallback.b-external{background:#526a89}.b-external{color:#526a89}</style>
+<style>@media(min-width:921px){.stats{grid-template-columns:repeat(11,1fr)}}.portrait-fallback.b-external{background:#526a89}.b-external{color:#526a89}.southern-branch{margin:18px 0 0;border:1px solid var(--line);border-top:3px solid var(--red);background:rgba(251,248,239,.72);box-shadow:var(--shadow)}.southern-branch-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.9fr);gap:24px;padding:22px 24px 20px;align-items:end}.southern-branch-head span{font:700 10px/1 ui-monospace,monospace;letter-spacing:.16em;color:var(--red)}.southern-branch-head h2{margin:8px 0 0;font-size:25px;line-height:1.3}.southern-branch-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}.southern-branch-list{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line)}.southern-branch-ruler{display:grid;grid-template-rows:1fr auto;min-height:176px;padding:18px 19px;background:var(--white);color:var(--ink)}.southern-branch-ruler:hover{background:#f3ead8}.southern-branch-profile{display:block;color:inherit;text-decoration:none}.southern-branch-ruler span{font:700 11px/1.3 ui-monospace,monospace;color:var(--red)}.southern-branch-ruler b{display:block;margin-top:9px;font-size:24px;line-height:1.2}.southern-branch-ruler em{display:block;margin-top:5px;color:#526a89;font-size:12px;font-style:normal;line-height:1.45}.southern-branch-ruler p{margin:12px 0 14px;color:#50483d;font-size:12px;line-height:1.7}.southern-branch-ruler small{display:flex;flex-wrap:wrap;gap:6px;font-size:10px;line-height:1.4}.southern-branch-ruler small a{border:1px solid var(--line);padding:4px 6px;color:var(--red);text-decoration:none}.southern-branch-ruler small a:hover{border-color:var(--red)}.southern-branch-note{margin:0;padding:13px 24px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.7}@media(max-width:860px){.southern-branch-head,.southern-branch-list{grid-template-columns:1fr}.southern-branch-ruler{min-height:0}.southern-branch-head{gap:12px;padding:20px}}</style>
 <style>.portrait-fallback.b-consort{background:#8b5669}.portrait-fallback.b-rival{background:#345b66}.b-consort{color:#8b5669}.b-rival{color:#345b66}.history-slice{margin:34px 0;border:1px solid #594a39;border-top:5px solid var(--red);background:#211d18;color:#eee4cf;box-shadow:0 20px 44px rgba(50,38,22,.18)}.history-slice-head{display:flex;justify-content:space-between;align-items:start;gap:20px;padding:25px 27px 23px;background:linear-gradient(110deg,rgba(156,47,35,.24),transparent 65%);border-bottom:1px solid #594a39}.history-slice-kicker{font:700 11px/1 ui-monospace,monospace;letter-spacing:.17em;color:#df806d}.history-slice-coord{margin-top:13px;font:700 12px/1.5 ui-monospace,monospace;color:#c9bda8}.history-slice-head h5{max-width:640px;margin:12px 0 0;font:800 26px/1.35 "Songti SC","STSong",serif;text-wrap:balance}.history-slice-confidence{flex:none;padding:6px 8px;border:1px solid #a96a5d;color:#e4a08f;font:700 10px/1 ui-monospace,monospace}.history-slice-grid{display:grid;grid-template-columns:.78fr 1.22fr}.history-slice-ledger{padding:27px;background:#e8ddc6;color:#28231c;border-right:1px solid #594a39}.history-slice-ledger>div{padding:0 0 19px;margin-bottom:19px;border-bottom:1px solid #c6b79b}.history-slice-ledger b,.history-slice-view b{display:block;margin-bottom:8px;font:700 12px/1.5 ui-monospace,monospace;letter-spacing:.08em;color:#9c2f23}.history-slice-ledger p,.history-slice-view p{margin:0!important;font-size:15px!important;line-height:1.9!important}.history-slice-view{padding:27px 29px}.knowledge-split{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-bottom:22px;background:#594a39;border:1px solid #594a39}.knowledge-split article{padding:18px;background:#2b251f}.knowledge-split article:nth-child(2){background:#181512}.knowledge-split p{color:#d6cbb7}.history-slice-action,.history-slice-consequence{padding:18px 0;border-top:1px solid #594a39}.history-slice-consequence{padding-bottom:0}.history-slice-action p,.history-slice-consequence p{font:600 16px/1.9 "Songti SC","STSong",serif!important;color:#eee4cf}.history-slice-boundary{display:grid;grid-template-columns:100px 1fr;gap:16px;padding:15px 27px;border-top:1px solid #594a39;background:#171410;color:#9f9584;font-size:12px;line-height:1.8}.history-slice-boundary b{color:#df806d}.history-slice .story-layer{color:#315b43}@media(max-width:620px){.history-slice-head{flex-direction:column;padding:22px}.history-slice-grid,.knowledge-split{grid-template-columns:1fr}.history-slice-ledger{border-right:0;border-bottom:1px solid #594a39;padding:22px}.history-slice-view{padding:22px}.history-slice-boundary{grid-template-columns:1fr;gap:5px;padding:14px 22px}.history-slice-head h5{font-size:22px}}</style>
 <style>
 .founder-meta-row{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
@@ -296,6 +334,7 @@ ${storyStyle}
   <section class="stats" id="stats"></section>
   <section class="index-status" id="indexStatus" aria-live="assertive" hidden></section>
   <section class="timeline"><div class="timeline-title">帝系 · 点击查看一位皇帝、其重要子嗣及任内文武官与宦官；在野及域外人物请使用身份或领域筛选</div><div class="emperors" id="emperors"></div></section>
+  ${southernMingBranchHtml}
   <section class="eventlab" id="eventLab">
     <header class="event-head">
       <div><div class="event-kicker">EVENT ATLAS · 1368—1662</div><h2>明代重大事件年表</h2><p>按六个历史阶段组织事件。卡片先呈现“起因—长期影响”，点击后展开经过、直接结果、相关人物、制度与证据入口；点击人物标签可反查人物总表。</p></div>

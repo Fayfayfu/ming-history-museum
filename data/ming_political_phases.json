@@ -54,6 +54,42 @@
         "confidence": "中",
         "sourceIds": ["QSLZ080"]
       }
+    ],
+    "朱由崧": [
+      {
+        "regime": "弘光",
+        "phase": "ruler",
+        "start": 1644,
+        "end": 1645,
+        "role": "弘光政权君主",
+        "confidence": "高",
+        "sourceIds": ["DPM_NANMING_HONGGUANG", "MS120"],
+        "note": "来源可核1644年南京即位和弘光政权短暂存在；正统性与控制范围按南明分支说明，不并入北京明廷帝系。"
+      }
+    ],
+    "朱聿键": [
+      {
+        "regime": "隆武",
+        "phase": "ruler",
+        "start": 1645,
+        "end": 1646,
+        "role": "隆武政权君主",
+        "confidence": "高",
+        "sourceIds": ["DPM_NANMING_LONGWU", "MS118"],
+        "note": "来源可核福州即位与1646年遇害；实际政权范围和郑氏集团影响属于解释层。"
+      }
+    ],
+    "朱由榔": [
+      {
+        "regime": "永历",
+        "phase": "ruler",
+        "start": 1646,
+        "end": 1662,
+        "role": "永历政权君主",
+        "confidence": "高",
+        "sourceIds": ["NMC_YONGLI_EDICT", "MS120"],
+        "note": "来源可核1646年即位与1662年被杀；本馆用1662年作为南明主线终局。"
+      }
     ]
   }
 }
