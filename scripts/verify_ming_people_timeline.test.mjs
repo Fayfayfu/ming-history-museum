@@ -84,6 +84,8 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'npm run verify:people-timeline',
     'npm run verify:people-timeline-unit',
     'npm run verify:people-timeline-variants-unit',
+    'npm run verify:southern-ming-branch',
+    'npm run verify:network-scope',
     'node --test scripts/lib/ming_reign_year.test.mjs',
     'node scripts/verify_ming_museum.mjs',
     'npm run verify:person-page-locator',
@@ -93,6 +95,7 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'npm run verify:people-timeline-doubleclick-page',
     'node scripts/verify_ming_reign_year_page.mjs',
     'npm run verify:people-on-demand-data',
+    'npm run verify:people-political-phases',
     'npm run verify:person-search',
     'npm run verify:people-on-demand-page',
     'npm run verify:people-on-demand-contracts',
@@ -103,6 +106,18 @@ test('default verify gate runs data, all timeline test suites, legacy regression
   assert.equal(
     packageJson.scripts['verify:people-on-demand-contracts'],
     'node --test scripts/verify_ming_on_demand_contracts.test.mjs',
+  );
+  assert.equal(
+    packageJson.scripts['verify:southern-ming-branch'],
+    'node --test scripts/verify_southern_ming_branch.test.mjs',
+  );
+  assert.equal(
+    packageJson.scripts['verify:network-scope'],
+    'node --test scripts/verify_ming_network_scope.test.mjs',
+  );
+  assert.equal(
+    packageJson.scripts['verify:people-political-phases'],
+    'node scripts/verify_people_political_phase_filter.mjs',
   );
   assert.equal(
     packageJson.scripts['verify:person-search'],

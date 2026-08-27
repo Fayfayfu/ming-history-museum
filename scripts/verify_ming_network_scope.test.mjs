@@ -56,6 +56,21 @@ test('generated network artifact anchors the Beijing Ming spine to 1644 while re
   assert.match(svg, /1644 · 北京明廷覆亡/);
   assert.match(svg, /1662 · 南明终局/);
 
+  for (const node of data.nodes.filter((item) => item.subtype === '政权人物' && !['朱由崧', '朱聿键', '朱由榔'].includes(item.name))) {
+    assert.equal(node.role, 'regime', `${node.name} must not fall back to the royal network role`);
+  }
+  for (const node of data.nodes.filter((item) => item.subtype === '域外人物')) {
+    assert.equal(node.role, 'foreign', `${node.name} must not fall back to the royal network role`);
+  }
+  for (const name of ['朱由崧', '朱聿键', '朱由榔']) {
+    assert.equal(data.nodes.find((node) => node.name === name)?.role, 'southern', `${name} must remain a Southern Ming branch node`);
+  }
+  for (const [name, regimes] of Object.entries({ 洪承畴: ['明', '清'], 吴三桂: ['明', '清'], 傅山: ['明', '遗民'] })) {
+    const node = data.nodes.find((item) => item.name === name);
+    assert.deepEqual(node?.politicalPhases?.map((phase) => phase.regime), regimes, `${name} must retain readable cross-regime phases in network data`);
+    assert.match(svg, new RegExp(`${name}｜[^<]*政权阶段[^<]*${regimes.join('.*')}`), `${name} network label must expose political progression`);
+  }
+
   const names = await fs.readdir(networkDir);
   assert.ok(!names.some(name => name.startsWith('明史129人物关系网')), '版本化关系网不得保留旧的 129 人命名');
 });

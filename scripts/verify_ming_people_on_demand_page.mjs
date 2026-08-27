@@ -129,6 +129,18 @@ async function assertEventSearch(page, query, eventId) {
   return page.locator(`#eventstream .eventcard[data-event="${eventId}"]`).count();
 }
 
+async function selectedPeriods(page) {
+  return page.locator('#period input[type="checkbox"]:checked').evaluateAll((inputs) => inputs.map((input) => input.value));
+}
+
+async function setSelectedPeriods(page, ids) {
+  for (const id of ['ming', 'southern-ming', 'transition']) {
+    const control = page.locator(`#period input[type="checkbox"][value="${id}"]`);
+    if (ids.includes(id)) await control.check();
+    else await control.uncheck();
+  }
+}
+
 async function closeDrawer(page) {
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.querySelector('#drawer')?.classList.contains('open'));
@@ -160,14 +172,15 @@ try {
     'category filtering must exclude nonmatching people',
   );
   await page.locator('.chip[data-cat="全部"]').click();
-  check(await page.locator('#period option[value="southern-ming"]').count() === 1, 'period filter must include Southern Ming');
-  check(await page.locator('#period option[value="transition"]').count() === 1, 'period filter must include Ming-Qing transition');
-  await page.locator('#period').selectOption('southern-ming');
+  check(await page.locator('#period input[value="southern-ming"]').count() === 1, 'period filter must include Southern Ming');
+  check(await page.locator('#period input[value="transition"]').count() === 1, 'period filter must include Ming-Qing transition');
+  await setSelectedPeriods(page, ['southern-ming']);
   check(await page.locator('#rows tr[data-id="person-u6731-u7531-u5d27"]').count() === 1, 'Southern Ming period filter must find 朱由崧');
   check(await page.locator('#rows .phase-southern-ming').count() >= 3, 'Southern Ming rows must show lightweight period tags');
-  await page.locator('#period').selectOption('transition');
+  await setSelectedPeriods(page, ['ming', 'transition']);
+  check(JSON.stringify(await selectedPeriods(page)) === JSON.stringify(['ming', 'transition']), 'period control must retain the selected OR group');
   await page.locator('#search').fill('hongchengchou');
-  check(await page.locator('#rows tr[data-id="hong-cheng-chou"]').count() === 1, 'period filter must compose with pinyin search for 洪承畴');
+  check(await page.locator('#rows tr[data-id="hong-cheng-chou"]').count() === 1, 'multi-period filter must compose with pinyin search for 洪承畴');
   await page.locator('#rows tr[data-id="hong-cheng-chou"]').click();
   await waitForPerson(page, '洪承畴');
   check(await page.locator('#detail .person-identity-flow').isVisible(), 'cross-regime person detail must show identity progression');
@@ -175,22 +188,21 @@ try {
   await closeDrawer(page);
   await page.locator('#search').fill('');
   await page.locator('#personEvent').selectOption('e087');
-  check(await page.locator('#period').inputValue() === 'transition', 'event-related people entry must preserve the selected period');
-  check(new URL(page.url()).searchParams.get('period') === 'transition', 'event-related people entry must preserve period in the URL');
+  check(JSON.stringify(await selectedPeriods(page)) === JSON.stringify(['ming', 'transition']), 'event-related people entry must preserve every selected period');
+  check(new URL(page.url()).searchParams.get('period') === 'ming,transition', 'event-related people entry must preserve multi-period URL state');
   check(await page.locator('#rows tr[data-id="hong-cheng-chou"]').count() === 1, 'period must intersect rather than replace an event-related people view');
   await page.locator('#personEvent').selectOption('');
   await page.evaluate(() => openEventDetail(eventRecord('e087')));
   await page.waitForSelector('#detail .personjump[data-person="洪承畴"]', { state: 'visible' });
   await page.locator('#detail .personjump[data-person="洪承畴"]').click();
   await waitForPerson(page, '洪承畴');
-  check(await page.locator('#period').inputValue() === 'transition', 'person jump must preserve the selected period');
-  check(new URL(page.url()).searchParams.get('period') === 'transition', 'person jump must preserve period in the URL');
+  check(JSON.stringify(await selectedPeriods(page)) === JSON.stringify(['ming', 'transition']), 'person jump must preserve every selected period');
+  check(new URL(page.url()).searchParams.get('period') === 'ming,transition', 'person jump must preserve multi-period URL state');
   await closeDrawer(page);
   await page.locator('#search').fill('');
-  await page.locator('#period').selectOption('ming');
   await page.locator('.emperor[data-name="朱元璋"]').click();
-  check(await page.locator('#period').inputValue() === 'ming', 'emperor parent entry must preserve the selected period');
-  check(new URL(page.url()).searchParams.get('period') === 'ming', 'emperor parent entry must preserve period in the URL');
+  check(JSON.stringify(await selectedPeriods(page)) === JSON.stringify(['ming', 'transition']), 'emperor parent entry must preserve every selected period');
+  check(new URL(page.url()).searchParams.get('period') === 'ming,transition', 'emperor parent entry must preserve multi-period URL state');
   check(await page.locator('#rows tr[data-id]').count() > 0, 'period must intersect rather than replace an emperor parent view');
   await page.locator('#reset').click();
   check(

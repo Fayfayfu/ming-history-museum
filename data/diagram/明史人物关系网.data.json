@@ -1,19 +1,21 @@
 {
   "meta": {
     "nodes": 178,
-    "edges": 266,
+    "edges": 272,
     "roleCounts": {
       "emperor": 16,
       "official": 101,
       "commoner": 16,
-      "royal": 42,
+      "royal": 30,
+      "regime": 10,
+      "foreign": 2,
       "southern": 3
     },
     "edgeCounts": {
       "succession": 15,
       "lineage": 37,
       "event": 176,
-      "era": 59
+      "era": 65
     },
     "scope": {
       "start": 1368,
@@ -58,7 +60,8 @@
       "subtype": "皇帝",
       "score": 88,
       "confidence": "高",
-      "influence": 66.95,
+      "politicalPhases": [],
+      "influence": 68.95,
       "x": 400,
       "y": 1386
     },
@@ -69,6 +72,7 @@
       "subtype": "皇帝",
       "score": 58,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 42.1,
       "x": 683.3,
       "y": 1454
@@ -80,6 +84,7 @@
       "subtype": "皇帝",
       "score": 90,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 61.5,
       "x": 900,
       "y": 1386
@@ -91,6 +96,7 @@
       "subtype": "皇帝",
       "score": 82,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 37.7,
       "x": 1091.7,
       "y": 1454
@@ -102,6 +108,7 @@
       "subtype": "皇帝",
       "score": 86,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 34,
       "x": 1183.3,
       "y": 1386
@@ -113,7 +120,8 @@
       "subtype": "皇帝",
       "score": 45,
       "confidence": "高",
-      "influence": 48.7,
+      "politicalPhases": [],
+      "influence": 49.2,
       "x": 1508.3,
       "y": 1454
     },
@@ -124,6 +132,7 @@
       "subtype": "皇帝",
       "score": 72,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 37.65,
       "x": 1566.7,
       "y": 1386
@@ -135,6 +144,7 @@
       "subtype": "皇帝",
       "score": 68,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 31.6,
       "x": 1941.7,
       "y": 1454
@@ -146,6 +156,7 @@
       "subtype": "皇帝",
       "score": 84,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 34.05,
       "x": 2283.3,
       "y": 1386
@@ -157,6 +168,7 @@
       "subtype": "皇帝",
       "score": 57,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 36.3,
       "x": 2566.7,
       "y": 1454
@@ -168,7 +180,8 @@
       "subtype": "皇帝",
       "score": 60,
       "confidence": "高",
-      "influence": 47.9,
+      "politicalPhases": [],
+      "influence": 48.4,
       "x": 3083.3,
       "y": 1386
     },
@@ -179,6 +192,7 @@
       "subtype": "皇帝",
       "score": 79,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 33.13,
       "x": 3508.3,
       "y": 1454
@@ -190,6 +204,7 @@
       "subtype": "皇帝",
       "score": 62,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 68.6,
       "x": 3950,
       "y": 1386
@@ -201,6 +216,7 @@
       "subtype": "皇帝",
       "score": 65,
       "confidence": "低",
+      "politicalPhases": [],
       "influence": 34.8,
       "x": 4350,
       "y": 1454
@@ -212,6 +228,7 @@
       "subtype": "皇帝",
       "score": 40,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 29.8,
       "x": 4408.3,
       "y": 1386
@@ -223,6 +240,7 @@
       "subtype": "皇帝",
       "score": 58,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 51.7,
       "x": 4608.3,
       "y": 1454
@@ -234,6 +252,7 @@
       "subtype": "文臣",
       "score": 75,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 7.63,
       "x": 240.3,
       "y": 1216.6
@@ -245,6 +264,7 @@
       "subtype": "文臣",
       "score": 40,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 2.8,
       "x": 362.7,
       "y": 1000.3
@@ -256,6 +276,7 @@
       "subtype": "文臣",
       "score": 66,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 303.2,
       "y": 1008.7
@@ -267,6 +288,7 @@
       "subtype": "文臣",
       "score": 84,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.95,
       "x": 247.3,
       "y": 1041.9
@@ -278,6 +300,7 @@
       "subtype": "文臣",
       "score": 82,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2,
       "x": 190.8,
       "y": 1065.6
@@ -289,6 +312,7 @@
       "subtype": "文臣",
       "score": 77,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 10.67,
       "x": 636.5,
       "y": 1162.9
@@ -300,6 +324,7 @@
       "subtype": "文臣",
       "score": 76,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 10.55,
       "x": 822.3,
       "y": 1139.6
@@ -311,6 +336,7 @@
       "subtype": "文臣",
       "score": 74,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.3,
       "x": 865,
       "y": 930.7
@@ -322,6 +348,7 @@
       "subtype": "文臣",
       "score": 89,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.88,
       "x": 954.8,
       "y": 1012.7
@@ -333,6 +360,7 @@
       "subtype": "文臣",
       "score": 82,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 2,
       "x": 944.4,
       "y": 755.3
@@ -344,6 +372,7 @@
       "subtype": "文臣",
       "score": 88,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 19.05,
       "x": 1146.3,
       "y": 1231.6
@@ -355,6 +384,7 @@
       "subtype": "文臣",
       "score": 84,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 18.55,
       "x": 1202.7,
       "y": 1124.7
@@ -366,6 +396,7 @@
       "subtype": "文臣",
       "score": 83,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 18.42,
       "x": 1300.4,
       "y": 1313.9
@@ -377,6 +408,7 @@
       "subtype": "文臣",
       "score": 94,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 22.6,
       "x": 1682.9,
       "y": 1242.7
@@ -388,6 +420,7 @@
       "subtype": "文臣",
       "score": 57,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 7,
       "x": 1662.4,
       "y": 1133.1
@@ -399,6 +432,7 @@
       "subtype": "文臣",
       "score": 81,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 1.88,
       "x": 1390.3,
       "y": 1155.9
@@ -410,6 +444,7 @@
       "subtype": "文臣",
       "score": 82,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2,
       "x": 1794.2,
       "y": 1014.8
@@ -421,6 +456,7 @@
       "subtype": "文臣",
       "score": 85,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 17.27,
       "x": 2268.4,
       "y": 1183.5
@@ -432,6 +468,7 @@
       "subtype": "文臣",
       "score": 83,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 11.42,
       "x": 2369.3,
       "y": 1078.1
@@ -443,6 +480,7 @@
       "subtype": "文臣",
       "score": 76,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 18.95,
       "x": 2459,
       "y": 1260.2
@@ -454,6 +492,7 @@
       "subtype": "文臣",
       "score": 82,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 2,
       "x": 2043.8,
       "y": 1027.3
@@ -465,6 +504,7 @@
       "subtype": "文臣",
       "score": 87,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 7.72,
       "x": 2780.3,
       "y": 1315.7
@@ -476,6 +516,7 @@
       "subtype": "文臣",
       "score": 82,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.7,
       "x": 2670.4,
       "y": 1006.8
@@ -487,6 +528,7 @@
       "subtype": "文臣",
       "score": 93,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 4.28,
       "x": 2585.9,
       "y": 1079.8
@@ -498,6 +540,7 @@
       "subtype": "文臣",
       "score": 78,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 1.5,
       "x": 2974.4,
       "y": 930.7
@@ -509,6 +552,7 @@
       "subtype": "文臣",
       "score": 30,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.6,
       "x": 3001.9,
       "y": 1100.6
@@ -520,6 +564,7 @@
       "subtype": "文臣",
       "score": 22,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 4.2,
       "x": 3155.9,
       "y": 965.1
@@ -531,6 +576,7 @@
       "subtype": "文臣",
       "score": 83,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.13,
       "x": 3141,
       "y": 896
@@ -542,6 +588,7 @@
       "subtype": "文臣",
       "score": 78,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 10.8,
       "x": 3248,
       "y": 1171.4
@@ -553,6 +600,7 @@
       "subtype": "文臣",
       "score": 84,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 8.75,
       "x": 3465.7,
       "y": 1068.4
@@ -564,6 +612,7 @@
       "subtype": "文臣",
       "score": 92,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 15.35,
       "x": 3685.9,
       "y": 1146.4
@@ -575,6 +624,7 @@
       "subtype": "文臣",
       "score": 84,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 4.55,
       "x": 3386.8,
       "y": 1265.4
@@ -586,6 +636,7 @@
       "subtype": "文臣",
       "score": 56,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 3865.4,
       "y": 902.5
@@ -597,9 +648,10 @@
       "subtype": "文臣",
       "score": 68,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.6,
-      "x": 4187.7,
-      "y": 1134.7
+      "x": 4188.4,
+      "y": 1141.2
     },
     {
       "id": "沈鲤",
@@ -608,6 +660,7 @@
       "subtype": "文臣",
       "score": 72,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0.75,
       "x": 3846,
       "y": 843.3
@@ -619,9 +672,10 @@
       "subtype": "文臣",
       "score": 92,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.25,
-      "x": 4235.5,
-      "y": 1096.7
+      "x": 4230.6,
+      "y": 1096.4
     },
     {
       "id": "申时行",
@@ -630,9 +684,10 @@
       "subtype": "文臣",
       "score": 70,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.6,
-      "x": 4046.6,
-      "y": 1145.1
+      "x": 4046.9,
+      "y": 1149.3
     },
     {
       "id": "顾宪成",
@@ -641,6 +696,7 @@
       "subtype": "文臣",
       "score": 80,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 1.75,
       "x": 3877.3,
       "y": 757.7
@@ -652,9 +708,10 @@
       "subtype": "文臣",
       "score": 82,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2,
-      "x": 4068.3,
-      "y": 989.4
+      "x": 4067.8,
+      "y": 989.6
     },
     {
       "id": "叶向高",
@@ -663,9 +720,10 @@
       "subtype": "文臣",
       "score": 76,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 1.25,
-      "x": 4016.1,
-      "y": 957.6
+      "x": 4014.9,
+      "y": 958.9
     },
     {
       "id": "杨涟",
@@ -674,9 +732,10 @@
       "subtype": "文臣",
       "score": 87,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 6.32,
-      "x": 4360.8,
-      "y": 1022.7
+      "x": 4361.1,
+      "y": 1023.7
     },
     {
       "id": "左光斗",
@@ -685,9 +744,10 @@
       "subtype": "文臣",
       "score": 88,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 6.45,
-      "x": 4246.8,
-      "y": 1177.3
+      "x": 4243.4,
+      "y": 1178.5
     },
     {
       "id": "孙承宗",
@@ -696,9 +756,10 @@
       "subtype": "文臣",
       "score": 90,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.3,
-      "x": 4257.6,
-      "y": 988.6
+      "x": 4258.1,
+      "y": 978.9
     },
     {
       "id": "杨嗣昌",
@@ -707,9 +768,10 @@
       "subtype": "文臣",
       "score": 60,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0.5,
-      "x": 4400.8,
-      "y": 1204.7
+      "x": 4406.3,
+      "y": 1194.5
     },
     {
       "id": "倪元璐",
@@ -718,9 +780,10 @@
       "subtype": "文臣",
       "score": 79,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 1.63,
-      "x": 4458.9,
-      "y": 1215.9
+      "x": 4455.4,
+      "y": 1226.6
     },
     {
       "id": "黄道周",
@@ -729,9 +792,25 @@
       "subtype": "文臣",
       "score": 82,
       "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1622,
+          "end": 1644,
+          "role": "明朝文臣、礼部尚书",
+          "confidence": "高"
+        },
+        {
+          "regime": "隆武",
+          "start": 1645,
+          "end": 1646,
+          "role": "隆武政权武英殿大学士",
+          "confidence": "高"
+        }
+      ],
       "influence": 2.9,
-      "x": 4706.9,
-      "y": 1391.7
+      "x": 4689.2,
+      "y": 1389.3
     },
     {
       "id": "史可法",
@@ -740,6 +819,22 @@
       "subtype": "文臣",
       "score": 78,
       "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1628,
+          "end": 1644,
+          "role": "明朝文臣、兵部尚书",
+          "confidence": "高"
+        },
+        {
+          "regime": "弘光",
+          "start": 1644,
+          "end": 1645,
+          "role": "弘光政权兵部尚书、督师扬州",
+          "confidence": "高"
+        }
+      ],
       "influence": 3.8,
       "x": 4717.8,
       "y": 1325.9
@@ -751,6 +846,15 @@
       "subtype": "政权人物",
       "score": 61,
       "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "弘光",
+          "start": 1644,
+          "end": 1645,
+          "role": "弘光政权君主",
+          "confidence": "高"
+        }
+      ],
       "influence": 2.8,
       "x": 4750,
       "y": 1770
@@ -762,6 +866,15 @@
       "subtype": "政权人物",
       "score": 68,
       "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "隆武",
+          "start": 1645,
+          "end": 1646,
+          "role": "隆武政权君主",
+          "confidence": "高"
+        }
+      ],
       "influence": 1.4,
       "x": 4766.7,
       "y": 1788
@@ -773,6 +886,15 @@
       "subtype": "政权人物",
       "score": 72,
       "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "永历",
+          "start": 1646,
+          "end": 1662,
+          "role": "永历政权君主",
+          "confidence": "高"
+        }
+      ],
       "influence": 1.65,
       "x": 4783.3,
       "y": 1806
@@ -784,6 +906,7 @@
       "subtype": "武官",
       "score": 95,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 10.13,
       "x": 435.4,
       "y": 1051.5
@@ -795,6 +918,7 @@
       "subtype": "武官",
       "score": 88,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.05,
       "x": 255.1,
       "y": 974.9
@@ -806,6 +930,7 @@
       "subtype": "武官",
       "score": 86,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 4.8,
       "x": 258.4,
       "y": 1111.6
@@ -817,6 +942,7 @@
       "subtype": "武官",
       "score": 87,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.63,
       "x": 309.2,
       "y": 948.4
@@ -828,6 +954,7 @@
       "subtype": "武官",
       "score": 84,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.25,
       "x": 212.6,
       "y": 934.5
@@ -839,6 +966,7 @@
       "subtype": "武官",
       "score": 89,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 6.57,
       "x": 316.3,
       "y": 1116.4
@@ -850,6 +978,7 @@
       "subtype": "武官",
       "score": 89,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 9.38,
       "x": 410,
       "y": 953.6
@@ -861,6 +990,7 @@
       "subtype": "武官",
       "score": 84,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 11.55,
       "x": 534.3,
       "y": 1129.2
@@ -872,6 +1002,7 @@
       "subtype": "武官",
       "score": 80,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 1.75,
       "x": 702.7,
       "y": 1150.8
@@ -883,6 +1014,7 @@
       "subtype": "武官",
       "score": 78,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 1.5,
       "x": 805.6,
       "y": 858.2
@@ -894,6 +1026,7 @@
       "subtype": "武官",
       "score": 62,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 798.9,
       "y": 976.1
@@ -905,6 +1038,7 @@
       "subtype": "武官",
       "score": 58,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 11.2,
       "x": 1525.7,
       "y": 1066.9
@@ -916,6 +1050,7 @@
       "subtype": "武官",
       "score": 86,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.5,
       "x": 3036.3,
       "y": 882.2
@@ -927,6 +1062,7 @@
       "subtype": "武官",
       "score": 81,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 4.17,
       "x": 3187.3,
       "y": 1155.3
@@ -938,6 +1074,7 @@
       "subtype": "武官",
       "score": 95,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 10.13,
       "x": 3427.6,
       "y": 1215.3
@@ -949,6 +1086,7 @@
       "subtype": "武官",
       "score": 90,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.3,
       "x": 3333.3,
       "y": 952.1
@@ -960,6 +1098,7 @@
       "subtype": "武官",
       "score": 89,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.88,
       "x": 3359.5,
       "y": 1211
@@ -971,6 +1110,7 @@
       "subtype": "武官",
       "score": 86,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 2.5,
       "x": 3334,
       "y": 1154.3
@@ -982,9 +1122,10 @@
       "subtype": "武官",
       "score": 68,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.8,
-      "x": 3985.7,
-      "y": 1130.1
+      "x": 3982.2,
+      "y": 1127.4
     },
     {
       "id": "李如松",
@@ -993,9 +1134,10 @@
       "subtype": "武官",
       "score": 87,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 7.72,
-      "x": 3813.7,
-      "y": 1254.8
+      "x": 3782.1,
+      "y": 1354
     },
     {
       "id": "宋应昌",
@@ -1004,6 +1146,7 @@
       "subtype": "武官",
       "score": 85,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 2.38,
       "x": 3734.2,
       "y": 1092.7
@@ -1015,9 +1158,10 @@
       "subtype": "武官",
       "score": 79,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.52,
-      "x": 4128.3,
-      "y": 999.4
+      "x": 4128.6,
+      "y": 989.1
     },
     {
       "id": "秦良玉",
@@ -1026,9 +1170,10 @@
       "subtype": "武官",
       "score": 90,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 4305.2,
-      "y": 1184.8
+      "x": 4302.4,
+      "y": 1181
     },
     {
       "id": "毛文龙",
@@ -1037,6 +1182,7 @@
       "subtype": "武官",
       "score": 64,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 4131.3,
       "y": 847.9
@@ -1048,9 +1194,10 @@
       "subtype": "武官",
       "score": 84,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 7.35,
-      "x": 4438.2,
-      "y": 1155.1
+      "x": 4440.2,
+      "y": 1142.9
     },
     {
       "id": "洪承畴",
@@ -1059,9 +1206,25 @@
       "subtype": "文臣",
       "score": 55,
       "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1616,
+          "end": 1642,
+          "role": "明朝文臣、蓟辽总督",
+          "confidence": "高"
+        },
+        {
+          "regime": "清",
+          "start": 1642,
+          "end": 1661,
+          "role": "清廷大学士、五省经略",
+          "confidence": "高"
+        }
+      ],
       "influence": 5.6,
-      "x": 4544.4,
-      "y": 1203.3
+      "x": 4547.3,
+      "y": 1183
     },
     {
       "id": "卢象升",
@@ -1070,6 +1233,7 @@
       "subtype": "武官",
       "score": 87,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.63,
       "x": 4555.7,
       "y": 897.6
@@ -1081,6 +1245,7 @@
       "subtype": "武官",
       "score": 80,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 1.75,
       "x": 4563,
       "y": 988.9
@@ -1092,9 +1257,25 @@
       "subtype": "武官",
       "score": 25,
       "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1630,
+          "end": 1644,
+          "role": "辽东总兵",
+          "confidence": "中"
+        },
+        {
+          "regime": "清",
+          "start": 1644,
+          "end": 1662,
+          "role": "清朝平西王、征南统帅",
+          "confidence": "中"
+        }
+      ],
       "influence": 7,
-      "x": 4748.7,
-      "y": 1440.4
+      "x": 4744.1,
+      "y": 1413.1
     },
     {
       "id": "郑和",
@@ -1103,6 +1284,7 @@
       "subtype": "宦官",
       "score": 92,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.55,
       "x": 1032.7,
       "y": 1173.5
@@ -1114,6 +1296,7 @@
       "subtype": "宦官",
       "score": 81,
       "confidence": "低",
+      "politicalPhases": [],
       "influence": 1.88,
       "x": 953.1,
       "y": 841
@@ -1125,6 +1308,7 @@
       "subtype": "宦官",
       "score": 18,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 8.4,
       "x": 1433.7,
       "y": 1109.4
@@ -1136,6 +1320,7 @@
       "subtype": "宦官",
       "score": 45,
       "confidence": "低",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 1436.5,
       "y": 999.6
@@ -1147,6 +1332,7 @@
       "subtype": "宦官",
       "score": 20,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 8.4,
       "x": 1451.1,
       "y": 1178.8
@@ -1158,6 +1344,7 @@
       "subtype": "宦官",
       "score": 32,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 5.6,
       "x": 1930.6,
       "y": 1217.4
@@ -1169,6 +1356,7 @@
       "subtype": "宦官",
       "score": 15,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 12.6,
       "x": 2518.2,
       "y": 1076.1
@@ -1180,6 +1368,7 @@
       "subtype": "宦官",
       "score": 66,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 4.2,
       "x": 2674.2,
       "y": 1225.3
@@ -1191,6 +1380,7 @@
       "subtype": "宦官",
       "score": 72,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.85,
       "x": 3856.6,
       "y": 993.5
@@ -1202,6 +1392,7 @@
       "subtype": "宦官",
       "score": 78,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 1.5,
       "x": 3905.8,
       "y": 854.2
@@ -1213,9 +1404,10 @@
       "subtype": "宦官",
       "score": 8,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.6,
-      "x": 4498.5,
-      "y": 1171.7
+      "x": 4491.6,
+      "y": 1179
     },
     {
       "id": "王承恩",
@@ -1224,6 +1416,7 @@
       "subtype": "宦官",
       "score": 70,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 4617.3,
       "y": 889.8
@@ -1235,9 +1428,10 @@
       "subtype": "后妃与内廷女性",
       "score": 68,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0,
       "x": 1883.7,
-      "y": 2213.8
+      "y": 2373.8
     },
     {
       "id": "万贵妃",
@@ -1246,9 +1440,10 @@
       "subtype": "后妃与内廷女性",
       "score": 42,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0,
       "x": 1942.5,
-      "y": 2187.5
+      "y": 2347.5
     },
     {
       "id": "郑贵妃",
@@ -1257,9 +1452,10 @@
       "subtype": "后妃与内廷女性",
       "score": 38,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0,
-      "x": 4024.8,
-      "y": 2145.5
+      "x": 4024.7,
+      "y": 2305.5
     },
     {
       "id": "客氏",
@@ -1268,9 +1464,10 @@
       "subtype": "后妃与内廷女性",
       "score": 12,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 0,
-      "x": 4416.5,
-      "y": 2034.8
+      "x": 4410,
+      "y": 2204.8
     },
     {
       "id": "沈周",
@@ -1279,9 +1476,10 @@
       "subtype": "在野人物",
       "score": 89,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.88,
-      "x": 1612.2,
-      "y": 2048.1
+      "x": 1610.1,
+      "y": 2069.8
     },
     {
       "id": "唐寅",
@@ -1290,9 +1488,10 @@
       "subtype": "在野人物",
       "score": 86,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.5,
-      "x": 2351.6,
-      "y": 2099.2
+      "x": 2350.7,
+      "y": 2120.7
     },
     {
       "id": "仇英",
@@ -1301,9 +1500,10 @@
       "subtype": "在野人物",
       "score": 88,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 2.75,
-      "x": 2967.3,
-      "y": 2062.6
+      "x": 2969,
+      "y": 2084.3
     },
     {
       "id": "李时珍",
@@ -1312,9 +1512,10 @@
       "subtype": "在野人物",
       "score": 95,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.63,
-      "x": 3130.1,
-      "y": 2053.9
+      "x": 3133.5,
+      "y": 2074.9
     },
     {
       "id": "徐渭",
@@ -1323,9 +1524,10 @@
       "subtype": "在野人物",
       "score": 78,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 1.5,
-      "x": 3189.3,
-      "y": 2066.3
+      "x": 3192.1,
+      "y": 2090.9
     },
     {
       "id": "马守真",
@@ -1334,9 +1536,10 @@
       "subtype": "在野人物",
       "score": 84,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.25,
-      "x": 3849,
-      "y": 2083.5
+      "x": 3850,
+      "y": 2105.1
     },
     {
       "id": "陈继儒",
@@ -1345,9 +1548,10 @@
       "subtype": "在野人物",
       "score": 82,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2,
-      "x": 3927.8,
-      "y": 2142.9
+      "x": 3928.1,
+      "y": 2164.3
     },
     {
       "id": "徐霞客",
@@ -1356,20 +1560,22 @@
       "subtype": "在野人物",
       "score": 94,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.5,
-      "x": 4393.7,
-      "y": 2092.4
+      "x": 4397,
+      "y": 2109.5
     },
     {
       "id": "郭子兴",
       "name": "郭子兴",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 72,
       "confidence": "中",
-      "influence": 0.25,
-      "x": 185,
-      "y": 1994.2
+      "politicalPhases": [],
+      "influence": 0.75,
+      "x": 264.3,
+      "y": 1776.5
     },
     {
       "id": "马皇后",
@@ -1378,42 +1584,46 @@
       "subtype": "后妃与内廷女性",
       "score": 88,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.25,
       "x": 267.2,
-      "y": 1889.4
+      "y": 2049.4
     },
     {
       "id": "陈友谅",
       "name": "陈友谅",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 82,
       "confidence": "高",
-      "influence": 1.5,
-      "x": 185,
-      "y": 2078.5
+      "politicalPhases": [],
+      "influence": 2,
+      "x": 236.3,
+      "y": 1832.4
     },
     {
       "id": "张士诚",
       "name": "张士诚",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 76,
       "confidence": "高",
-      "influence": 0.75,
-      "x": 185,
-      "y": 2141.4
+      "politicalPhases": [],
+      "influence": 1.25,
+      "x": 278.2,
+      "y": 1876
     },
     {
       "id": "也先",
       "name": "也先",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 85,
       "confidence": "中",
-      "influence": 1.88,
-      "x": 1459.4,
-      "y": 2069.6
+      "politicalPhases": [],
+      "influence": 2.38,
+      "x": 1475.2,
+      "y": 1880.1
     },
     {
       "id": "张璁",
@@ -1422,6 +1632,7 @@
       "subtype": "文臣",
       "score": 78,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.8,
       "x": 2921.7,
       "y": 1156.8
@@ -1433,42 +1644,54 @@
       "subtype": "后妃与内廷女性",
       "score": 84,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 1.75,
       "x": 3634.3,
-      "y": 2173.6
+      "y": 2333.6
     },
     {
       "id": "努尔哈赤",
       "name": "努尔哈赤",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 91,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 12.43,
-      "x": 4202.8,
-      "y": 1317.7
+      "x": 4203.5,
+      "y": 1305
     },
     {
       "id": "皇太极",
       "name": "皇太极",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 93,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 9.88,
-      "x": 4434,
-      "y": 1519.5
+      "x": 4427.7,
+      "y": 1491.4
     },
     {
       "id": "李自成",
       "name": "李自成",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 78,
       "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "大顺",
+          "start": 1644,
+          "end": 1645,
+          "role": "大顺政权君主",
+          "confidence": "高"
+        }
+      ],
       "influence": 13.6,
-      "x": 4491.1,
-      "y": 1587.2
+      "x": 4474.6,
+      "y": 1554.6
     },
     {
       "id": "文徵明",
@@ -1477,9 +1700,10 @@
       "subtype": "在野人物",
       "score": 91,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.13,
-      "x": 2926,
-      "y": 2000.4
+      "x": 2928.7,
+      "y": 2022.4
     },
     {
       "id": "李贽",
@@ -1488,9 +1712,10 @@
       "subtype": "在野人物",
       "score": 89,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.88,
-      "x": 3294.9,
-      "y": 2103.9
+      "x": 3264.5,
+      "y": 2113.5
     },
     {
       "id": "吴承恩",
@@ -1499,9 +1724,10 @@
       "subtype": "在野人物",
       "score": 92,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3.25,
-      "x": 3235.9,
-      "y": 2106.6
+      "x": 3213.6,
+      "y": 2149.6
     },
     {
       "id": "汤显祖",
@@ -1510,9 +1736,10 @@
       "subtype": "在野人物",
       "score": 91,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.13,
-      "x": 3909,
-      "y": 2065.4
+      "x": 3910,
+      "y": 2086.8
     },
     {
       "id": "张景岳",
@@ -1521,9 +1748,10 @@
       "subtype": "在野人物",
       "score": 88,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 2.75,
-      "x": 4133.3,
-      "y": 2066.9
+      "x": 4130.9,
+      "y": 2088.9
     },
     {
       "id": "宋应星",
@@ -1532,9 +1760,10 @@
       "subtype": "在野人物",
       "score": 94,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.5,
-      "x": 4636.8,
-      "y": 2077.1
+      "x": 4636.3,
+      "y": 2098.5
     },
     {
       "id": "宋礼",
@@ -1543,6 +1772,7 @@
       "subtype": "文臣",
       "score": 88,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3.65,
       "x": 892.9,
       "y": 1015.4
@@ -1554,6 +1784,7 @@
       "subtype": "文臣",
       "score": 91,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.13,
       "x": 3623.4,
       "y": 1198.4
@@ -1561,35 +1792,46 @@
     {
       "id": "李舜臣",
       "name": "李舜臣",
-      "role": "royal",
+      "role": "foreign",
       "subtype": "域外人物",
       "score": 94,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 7.2,
-      "x": 3936.9,
-      "y": 1652.5
+      "x": 3940.7,
+      "y": 1745.3
     },
     {
       "id": "丰臣秀吉",
       "name": "丰臣秀吉",
-      "role": "royal",
+      "role": "foreign",
       "subtype": "域外人物",
       "score": 62,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 4.2,
-      "x": 3773,
-      "y": 1587.4
+      "x": 3786.7,
+      "y": 1696.8
     },
     {
       "id": "多尔衮",
       "name": "多尔衮",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 89,
       "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "清",
+          "start": 1644,
+          "end": 1650,
+          "role": "清摄政睿亲王",
+          "confidence": "高"
+        }
+      ],
       "influence": 5.17,
-      "x": 4689.6,
-      "y": 1770.1
+      "x": 4665.8,
+      "y": 1713.6
     },
     {
       "id": "何心隐",
@@ -1598,9 +1840,10 @@
       "subtype": "在野人物",
       "score": 87,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.63,
-      "x": 3228.3,
-      "y": 2162.9
+      "x": 3266.9,
+      "y": 2173.8
     },
     {
       "id": "陆炳",
@@ -1609,6 +1852,7 @@
       "subtype": "武官",
       "score": 43,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 3087.5,
       "y": 824.4
@@ -1620,6 +1864,7 @@
       "subtype": "武官",
       "score": 8,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 867.9,
       "y": 746
@@ -1631,6 +1876,7 @@
       "subtype": "武官",
       "score": 20,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 484.7,
       "y": 807.3
@@ -1642,9 +1888,10 @@
       "subtype": "武官",
       "score": 5,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 0.5,
-      "x": 4452.4,
-      "y": 1086
+      "x": 4455.8,
+      "y": 1082.7
     },
     {
       "id": "钱宁",
@@ -1653,6 +1900,7 @@
       "subtype": "武官",
       "score": 7,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 0.5,
       "x": 2554.4,
       "y": 1129.1
@@ -1664,20 +1912,37 @@
       "subtype": "在野人物",
       "score": 92,
       "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1636,
+          "end": 1644,
+          "role": "明末诸生、伏阙申冤者",
+          "confidence": "高"
+        },
+        {
+          "regime": "遗民",
+          "start": 1644,
+          "end": 1662,
+          "role": "明遗民、书画医家",
+          "confidence": "高"
+        }
+      ],
       "influence": 3.25,
-      "x": 4658.1,
-      "y": 2152.5
+      "x": 4657.4,
+      "y": 2174
     },
     {
       "id": "王保保",
       "name": "王保保",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 87,
       "confidence": "高",
-      "influence": 2.13,
-      "x": 185,
-      "y": 1935.2
+      "politicalPhases": [],
+      "influence": 2.63,
+      "x": 204,
+      "y": 1779.9
     },
     {
       "id": "杨慎",
@@ -1686,6 +1951,7 @@
       "subtype": "文臣",
       "score": 88,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3.65,
       "x": 2943.5,
       "y": 984.3
@@ -1697,6 +1963,7 @@
       "subtype": "文臣",
       "score": 89,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.88,
       "x": 3146.9,
       "y": 803.6
@@ -1704,13 +1971,14 @@
     {
       "id": "俺答",
       "name": "俺答",
-      "role": "royal",
+      "role": "regime",
       "subtype": "政权人物",
       "score": 88,
       "confidence": "中",
-      "influence": 2.25,
-      "x": 3368.1,
-      "y": 2156.4
+      "politicalPhases": [],
+      "influence": 2.75,
+      "x": 3242.4,
+      "y": 1869.6
     },
     {
       "id": "王崇古",
@@ -1719,6 +1987,7 @@
       "subtype": "文臣",
       "score": 90,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3,
       "x": 3263.7,
       "y": 1062
@@ -1730,6 +1999,7 @@
       "subtype": "文臣",
       "score": 86,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 2.5,
       "x": 3979.1,
       "y": 783.7
@@ -1741,9 +2011,10 @@
       "subtype": "文臣",
       "score": 91,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 5.42,
-      "x": 4319.3,
-      "y": 1081.6
+      "x": 4324.4,
+      "y": 1077
     },
     {
       "id": "朱标",
@@ -1752,9 +2023,10 @@
       "subtype": "皇室子女",
       "score": 80,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 8.45,
-      "x": 568.9,
-      "y": 1604.4
+      "x": 564.8,
+      "y": 1623.5
     },
     {
       "id": "朱橚",
@@ -1763,9 +2035,10 @@
       "subtype": "皇室子女",
       "score": 76,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3.75,
-      "x": 449.4,
-      "y": 1650
+      "x": 445.5,
+      "y": 1676.3
     },
     {
       "id": "朱柏",
@@ -1774,9 +2047,10 @@
       "subtype": "皇室子女",
       "score": 60,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 458.1,
-      "y": 1594.6
+      "x": 446.2,
+      "y": 1621.4
     },
     {
       "id": "朱权",
@@ -1785,9 +2059,10 @@
       "subtype": "皇室子女",
       "score": 78,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 6.8,
-      "x": 618.2,
-      "y": 1557.5
+      "x": 616.7,
+      "y": 1581.8
     },
     {
       "id": "宁国公主",
@@ -1796,9 +2071,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "低",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 505.2,
-      "y": 1621
+      "x": 498.1,
+      "y": 1642.7
     },
     {
       "id": "朱文奎",
@@ -1807,9 +2083,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 1001.4,
-      "y": 1597.2
+      "x": 992.9,
+      "y": 1635.6
     },
     {
       "id": "朱文圭",
@@ -1818,9 +2095,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 846.8,
-      "y": 1655.3
+      "x": 827.9,
+      "y": 1690.7
     },
     {
       "id": "朱高煦",
@@ -1829,9 +2107,10 @@
       "subtype": "皇室子女",
       "score": 28,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 898.8,
-      "y": 1615.3
+      "x": 899.7,
+      "y": 1637.3
     },
     {
       "id": "朱高燧",
@@ -1840,9 +2119,10 @@
       "subtype": "皇室子女",
       "score": 52,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 928,
-      "y": 1666.9
+      "x": 924.5,
+      "y": 1690.8
     },
     {
       "id": "朱瞻墡",
@@ -1851,9 +2131,10 @@
       "subtype": "皇室子女",
       "score": 74,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3.5,
-      "x": 1160.8,
-      "y": 1715.6
+      "x": 1152.7,
+      "y": 1740.3
     },
     {
       "id": "朱见济",
@@ -1862,9 +2143,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3,
       "x": 1566.7,
-      "y": 1648.4
+      "y": 1671.2
     },
     {
       "id": "朱祐杬",
@@ -1873,9 +2155,10 @@
       "subtype": "皇室子女",
       "score": 65,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 2100.1,
-      "y": 1662
+      "x": 2082.1,
+      "y": 1696.2
     },
     {
       "id": "朱载壡",
@@ -1884,9 +2167,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 3110.9,
-      "y": 1622.7
+      "x": 3104.6,
+      "y": 1646.1
     },
     {
       "id": "朱载圳",
@@ -1895,9 +2179,10 @@
       "subtype": "皇室子女",
       "score": 45,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 3178.3,
-      "y": 1627.9
+      "x": 3166.7,
+      "y": 1654.7
     },
     {
       "id": "朱翊镠",
@@ -1906,9 +2191,10 @@
       "subtype": "皇室子女",
       "score": 52,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 3661.6,
-      "y": 1661.8
+      "x": 3643.2,
+      "y": 1695.8
     },
     {
       "id": "朱常洵",
@@ -1917,9 +2203,10 @@
       "subtype": "皇室子女",
       "score": 30,
       "confidence": "高",
+      "politicalPhases": [],
       "influence": 11.4,
-      "x": 4204.6,
-      "y": 1441.7
+      "x": 4197.7,
+      "y": 1459.7
     },
     {
       "id": "朱常浩",
@@ -1928,9 +2215,10 @@
       "subtype": "皇室子女",
       "score": 45,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 4033.9,
-      "y": 1671.4
+      "x": 4029.3,
+      "y": 1697.6
     },
     {
       "id": "朱常润",
@@ -1939,9 +2227,10 @@
       "subtype": "皇室子女",
       "score": 55,
       "confidence": "低",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 4066.6,
-      "y": 1627.8
+      "x": 4054.1,
+      "y": 1649.5
     },
     {
       "id": "朱常瀛",
@@ -1950,9 +2239,10 @@
       "subtype": "皇室子女",
       "score": 62,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 4119.7,
-      "y": 1632.6
+      "x": 4103.7,
+      "y": 1668.5
     },
     {
       "id": "朱慈烺",
@@ -1961,9 +2251,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "低",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 4766,
-      "y": 1621.6
+      "x": 4703.7,
+      "y": 1665.7
     },
     {
       "id": "朱慈炯",
@@ -1972,9 +2263,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "低",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 4709.8,
-      "y": 1712.1
+      "x": 4692.3,
+      "y": 1758
     },
     {
       "id": "朱慈炤",
@@ -1983,9 +2275,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "低",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 4713,
-      "y": 1652.3
+      "x": 4727.1,
+      "y": 1711.5
     },
     {
       "id": "朱慈焕",
@@ -1994,9 +2287,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "低",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 4760.8,
-      "y": 1678.2
+      "x": 4764.1,
+      "y": 1672.4
     },
     {
       "id": "长平公主",
@@ -2005,9 +2299,10 @@
       "subtype": "皇室子女",
       "score": 0,
       "confidence": "中",
+      "politicalPhases": [],
       "influence": 3,
-      "x": 4246.4,
-      "y": 1560.6
+      "x": 4252.1,
+      "y": 1598.8
     }
   ],
   "edges": [
@@ -4868,6 +5163,50 @@
       ]
     },
     {
+      "source": "郭子兴",
+      "target": "朱元璋",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "陈友谅",
+      "target": "朱元璋",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "张士诚",
+      "target": "朱元璋",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "也先",
+      "target": "朱祁镇",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
       "source": "文徵明",
       "target": "朱厚熜",
       "types": [
@@ -5022,7 +5361,29 @@
       ]
     },
     {
+      "source": "王保保",
+      "target": "朱元璋",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
       "source": "杨博",
+      "target": "朱厚熜",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "俺答",
       "target": "朱厚熜",
       "types": [
         "era"

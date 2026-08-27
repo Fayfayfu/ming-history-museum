@@ -15,11 +15,42 @@ const branchPrimary = [
   { name: '朱由榔', era: '永历', start: 1646, end: 1662 },
 ];
 const branchNames = branchPrimary.map((item) => item.name);
+const reviewedLateMingPhases = [
+  { name: '史可法', regime: '弘光', start: 1644, end: 1645, sourceId: 'MS274', confidence: '高' },
+  { name: '黄道周', regime: '隆武', start: 1645, end: 1646, sourceId: 'MS255', confidence: '高' },
+  { name: '李自成', regime: '大顺', start: 1644, end: 1645, sourceId: 'MS309', confidence: '高' },
+  { name: '多尔衮', regime: '清', start: 1644, end: 1650, sourceId: 'DPM_DORGON', confidence: '高' },
+];
 const outputHtml = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史人物谱_1368-1644.html';
 
 async function readJson(path) {
   return JSON.parse(await fs.readFile(path, 'utf8'));
 }
+
+test('late-Ming connected people have source-bounded 1644—1662 political phases without creating new identities', async () => {
+  const [core, timelineData, phaseData] = await Promise.all([
+    readJson('data/ming_core.json'),
+    readJson('data/ming_people_timeline.json'),
+    readJson('data/ming_political_phases.json'),
+  ]);
+
+  assert.deepEqual(
+    validatePoliticalPhases({
+      roster: new Set(core.map((person) => person.name)),
+      phaseData: { ...phaseData, source_catalog: timelineData.source_catalog },
+    }),
+    [],
+  );
+  for (const expected of reviewedLateMingPhases) {
+    const phase = phaseData.people[expected.name]?.find((item) => item.regime === expected.regime && item.start === expected.start && item.end === expected.end);
+    assert.ok(phase, `${expected.name} must retain the reviewed ${expected.regime} phase`);
+    assert.equal(phase.confidence, expected.confidence);
+    assert.deepEqual(phase.sourceIds, [expected.sourceId]);
+    assert.ok(timelineData.source_catalog[expected.sourceId], `${expected.name} source must exist in the shared catalog`);
+    assert.match(phase.note || '', /可核|可证|可确认/, `${expected.name} phase must keep a source boundary`);
+    assert.equal(core.filter((person) => person.name === expected.name).length, 1, `${expected.name} must remain one formal person`);
+  }
+});
 
 test('branch has three rulers without changing the emperor spine', async () => {
   const [core, branch] = await Promise.all([

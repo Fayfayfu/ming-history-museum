@@ -5,6 +5,7 @@ const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
 const children = JSON.parse(await fs.readFile('data/ming_children_important.json', 'utf8'));
 const events = JSON.parse(await fs.readFile('data/ming_events.json', 'utf8'));
 const southernMingBranch = JSON.parse(await fs.readFile('data/ming_southern_ming_branch.json', 'utf8'));
+const politicalPhaseData = JSON.parse(await fs.readFile('data/ming_political_phases.json', 'utf8'));
 
 const WIDTH = 5200;
 const HEIGHT = 3000;
@@ -35,7 +36,14 @@ function roleOf(person) {
   if (person.category === '皇帝') return 'emperor';
   if (['文臣','武官','宦官'].includes(person.category)) return 'official';
   if (person.category === '在野人物') return 'commoner';
+  if (person.category === '政权人物') return 'regime';
+  if (person.category === '域外人物') return 'foreign';
   return 'royal';
+}
+function networkPoliticalPhases(name) {
+  return (politicalPhaseData.people?.[name] || []).map(({ regime, start, end, role, confidence }) => ({
+    regime, start, end, role, confidence,
+  }));
 }
 
 const nodes = core.map(p => ({
@@ -47,6 +55,7 @@ const nodes = core.map(p => ({
   score: Number.isFinite(+p.score) ? +p.score : null,
   birthYear: Number.isFinite(+p.birth) ? +p.birth : null,
   deathYear: Number.isFinite(+p.death) ? +p.death : null,
+  politicalPhases: networkPoliticalPhases(p.name),
   sourceType: '核心人物'
 }));
 const known = new Map(nodes.map(n => [n.id, n]));
@@ -161,9 +170,9 @@ for (const e of edges) {
   degree.set(e.b, degree.get(e.b) + w);
 }
 
-const roleColor = { emperor:'#fb7185', official:'#22d3ee', commoner:'#fbbf24', royal:'#a78bfa', southern:'#d8a447' };
-const roleFill = { emperor:'#4a1525', official:'#083344', commoner:'#422006', royal:'#2e1065', southern:'#4a3412' };
-const roleLabel = { emperor:'北京明廷皇帝', official:'官员（文臣／武官／宦官）', commoner:'百姓／在野人物', royal:'重要皇族', southern:'南明延续政权人物' };
+const roleColor = { emperor:'#fb7185', official:'#22d3ee', commoner:'#fbbf24', royal:'#a78bfa', regime:'#f472b6', foreign:'#38bdf8', southern:'#d8a447' };
+const roleFill = { emperor:'#4a1525', official:'#083344', commoner:'#422006', royal:'#2e1065', regime:'#4a1837', foreign:'#11344a', southern:'#4a3412' };
+const roleLabel = { emperor:'北京明廷皇帝', official:'官员（文臣／武官／宦官）', commoner:'百姓／在野人物', royal:'重要皇族', regime:'政权人物', foreign:'域外人物', southern:'南明延续政权人物' };
 
 for (const n of nodes) {
   const d = degree.get(n.id);
@@ -174,7 +183,7 @@ for (const n of nodes) {
   n.collision = 28 + n.fontSize * Math.max(2.5, n.display.length * .58);
   const year = Math.max(MUSEUM_TIMELINE_SCOPE.start, Math.min(MUSEUM_TIMELINE_SCOPE.end, centralYear(n)));
   n.targetX = PLOT.left + ((year - MUSEUM_TIMELINE_SCOPE.start) / (MUSEUM_TIMELINE_SCOPE.end - MUSEUM_TIMELINE_SCOPE.start)) * (PLOT.right - PLOT.left);
-  const bands = { emperor:1400, official:780, southern:1770, royal:2040, commoner:2550 };
+  const bands = { emperor:1400, official:780, southern:1770, regime:1980, royal:2200, foreign:2410, commoner:2600 };
   n.targetY = bands[n.role] + (rand(n.id,'band') - .5) * (n.role === 'official' ? 920 : 350);
   n.x = n.targetX + (rand(n.id,'x') - .5) * 220;
   n.y = n.targetY + (rand(n.id,'y') - .5) * 220;
@@ -262,10 +271,14 @@ const edgeSvg = edges.map(e => {
 
 const nodeSvg = [...nodes].sort((a,b)=>a.influence-b.influence).map(n => {
   const color=roleColor[n.role], fill=roleFill[n.role];
-  const category = n.role === 'official' ? n.subtype : roleLabel[n.role];
-  const politicalStage = n.role === 'southern'
+  const category = n.role === 'official' ? `${roleLabel[n.role]} · ${n.subtype}` : roleLabel[n.role];
+  const southernStage = n.role === 'southern'
     ? `${southernMingByName.get(n.id)?.era || '南明'}政权人物`
     : '';
+  const phaseStage = n.politicalPhases?.length
+    ? `政权阶段 ${n.politicalPhases.map(phase => `${phase.regime} ${phase.start}—${phase.end} · ${phase.role} · ${phase.confidence}置信度`).join('；')}`
+    : '';
+  const politicalStage = [southernStage, phaseStage].filter(Boolean).join('｜');
   const score = n.score == null ? '待考' : n.score;
   const relations = Math.round(degree.get(n.id)*10)/10;
   const halo = n.influence >= 13 ? `<circle r="${n.radius+8}" fill="none" stroke="${color}" stroke-opacity=".18" stroke-width="3"/>` : '';
@@ -319,14 +332,14 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEI
 ${southernBranchSvg}
 <g aria-label="relationships">${edgeSvg}</g>
 <g aria-label="people">${nodeSvg}</g>
-<g aria-label="legend" transform="translate(150 ${HEIGHT-160})">
-  <rect x="0" y="-54" width="4900" height="110" rx="12" fill="#0b1220" fill-opacity=".94" stroke="#334155"/>
-  ${Object.entries(roleLabel).map(([role,label],i)=>`<g transform="translate(${34+i*540} -20)"><circle r="10" fill="${roleFill[role]}" stroke="${roleColor[role]}" stroke-width="2"/><text x="23" y="6" fill="#cbd5e1" font-size="16">${label} · ${roleCounts[role]}人</text></g>`).join('')}
-  <g transform="translate(2820 -20)"><line x1="0" y1="0" x2="52" y2="0" stroke="#fbbf24" stroke-width="4"/><text x="67" y="6" fill="#cbd5e1" font-size="16">帝位承接 ${edgeCounts.succession}</text></g>
-  <g transform="translate(3270 -20)"><line x1="0" y1="0" x2="52" y2="0" stroke="#a78bfa" stroke-width="3"/><text x="67" y="6" fill="#cbd5e1" font-size="16">父子／父女 ${edgeCounts.lineage}</text></g>
-  <g transform="translate(3790 -20)"><line x1="0" y1="0" x2="52" y2="0" stroke="#64748b" stroke-width="2"/><text x="67" y="6" fill="#cbd5e1" font-size="16">共同事件 ${edgeCounts.event}</text></g>
-  <g transform="translate(4270 -20)"><line x1="0" y1="0" x2="52" y2="0" stroke="#64748b" stroke-width="2" stroke-dasharray="8 8"/><text x="67" y="6" fill="#cbd5e1" font-size="16">时代锚定 ${edgeCounts.era}</text></g>
-  <text x="34" y="35" fill="#64748b" font-size="13">口径：共同事件只表示同载于同一事件，不自动等于盟友或敌人；时代锚定只用于无其他关系记录的人物；政权颜色不表示忠奸或评分。生成于 ${generated}。</text>
+<g aria-label="legend" transform="translate(150 ${HEIGHT-176})">
+  <rect x="0" y="-64" width="4900" height="132" rx="12" fill="#0b1220" fill-opacity=".94" stroke="#334155"/>
+  ${Object.entries(roleLabel).map(([role,label],i)=>`<g transform="translate(${34+i*695} -28)"><circle r="9" fill="${roleFill[role]}" stroke="${roleColor[role]}" stroke-width="2"/><text x="21" y="5" fill="#cbd5e1" font-size="13">${label} · ${roleCounts[role]}人</text></g>`).join('')}
+  <g transform="translate(34 10)"><line x1="0" y1="0" x2="48" y2="0" stroke="#fbbf24" stroke-width="4"/><text x="62" y="5" fill="#cbd5e1" font-size="14">帝位承接 ${edgeCounts.succession}</text></g>
+  <g transform="translate(500 10)"><line x1="0" y1="0" x2="48" y2="0" stroke="#a78bfa" stroke-width="3"/><text x="62" y="5" fill="#cbd5e1" font-size="14">父子／父女 ${edgeCounts.lineage}</text></g>
+  <g transform="translate(1030 10)"><line x1="0" y1="0" x2="48" y2="0" stroke="#64748b" stroke-width="2"/><text x="62" y="5" fill="#cbd5e1" font-size="14">共同事件 ${edgeCounts.event}</text></g>
+  <g transform="translate(1510 10)"><line x1="0" y1="0" x2="48" y2="0" stroke="#64748b" stroke-width="2" stroke-dasharray="8 8"/><text x="62" y="5" fill="#cbd5e1" font-size="14">时代锚定 ${edgeCounts.era}</text></g>
+  <text x="34" y="47" fill="#64748b" font-size="13">口径：共同事件只表示同载于同一事件，不自动等于盟友或敌人；时代锚定只用于无其他关系记录的人物；政权颜色不表示忠奸或评分。生成于 ${generated}。</text>
 </g>
 </svg>`;
 
@@ -334,7 +347,7 @@ await fs.mkdir(outDir,{recursive:true});
 await fs.writeFile(`${outDir}/明史人物关系网.svg`,svg,'utf8');
 await fs.writeFile(`${outDir}/明史人物关系网.data.json`,JSON.stringify({
   meta:{nodes:nodes.length,edges:edges.length,roleCounts,edgeCounts,scope:MUSEUM_TIMELINE_SCOPE,boundaries:MUSEUM_BOUNDARIES,coordinates:coordinateMeta,generated},
-  nodes:nodes.map(n=>({id:n.id,name:n.display,role:n.role,subtype:n.subtype,score:n.score,confidence:n.confidence||'未知',influence:+n.influence.toFixed(2),x:+n.x.toFixed(1),y:+n.y.toFixed(1)})),
+  nodes:nodes.map(n=>({id:n.id,name:n.display,role:n.role,subtype:n.subtype,score:n.score,confidence:n.confidence||'未知',politicalPhases:n.politicalPhases||[],influence:+n.influence.toFixed(2),x:+n.x.toFixed(1),y:+n.y.toFixed(1)})),
   edges:edges.map(e=>({source:e.a,target:e.b,types:e.types,eventCount:e.weights.event||0,details:e.details}))
 },null,2),'utf8');
 
