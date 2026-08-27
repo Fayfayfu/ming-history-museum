@@ -1,4 +1,4 @@
-import { clampMuseumYear, MUSEUM_BOUNDARIES, MUSEUM_TIMELINE_SCOPE } from './museum_temporal_scope.mjs';
+import { MUSEUM_BOUNDARIES, MUSEUM_TIMELINE_SCOPE } from './museum_temporal_scope.mjs';
 
 const CHAR_VARIANTS = {
   熾: '炽',
@@ -21,7 +21,7 @@ export const TIMELINE_SIZE_PX = { emperor: 88, featured: 72, standard: 56 };
 export const TIMELINE_LANES = {
   '后妃与内廷女性': { id: 'women', side: 'top', order: 2, label: '后妃与内廷女性' },
   '皇室子女': { id: 'children', side: 'top', order: 1, label: '皇子女' },
-  '皇帝': { id: 'emperor', side: 'top', order: 0, label: '皇帝' },
+  '皇帝': { id: 'emperor', side: 'top', order: 0, label: '皇帝／君主' },
   '宦官': { id: 'eunuch', side: 'bottom', order: 0, label: '宦官' },
   '文臣': { id: 'officials', side: 'bottom', order: 1, label: '文臣／武官' },
   '武官': { id: 'officials', side: 'bottom', order: 1, label: '文臣／武官' },
@@ -29,6 +29,14 @@ export const TIMELINE_LANES = {
   '政权人物': { id: 'external', side: 'bottom', order: 3, label: '政权人物／域外人物' },
   '域外人物': { id: 'external', side: 'bottom', order: 3, label: '政权人物／域外人物' },
 };
+
+const SOUTHERN_MING_RULER_REGIMES = new Set(['弘光', '隆武', '永历', '鲁王监国']);
+
+function isSouthernMingRuler(person) {
+  return person.category === '政权人物' && (person.politicalPhases || []).some((phase) => (
+    phase.phase === 'ruler' && SOUTHERN_MING_RULER_REGIMES.has(phase.regime)
+  ));
+}
 
 const AXIS_GAP_PX = 8;
 const TOP_LANES_SHIFT_PX = 32;
@@ -127,20 +135,25 @@ export function layoutPeopleTimeline(people, options = {}) {
   const years = people.map((person) => person.timeline_year);
   if (!years.every(Number.isInteger)) throw new Error('Timeline people require integer timeline_year values');
 
-  const minYear = MUSEUM_TIMELINE_SCOPE.start;
+  const minYear = Math.min(...years, MUSEUM_TIMELINE_SCOPE.start);
   const maxYear = MUSEUM_TIMELINE_SCOPE.end;
   const width = (maxYear - minYear) * yearPx + paddingX * 2;
   const nodes = people.map((person) => {
-    const lane = TIMELINE_LANES[person.category];
-    const sizePx = TIMELINE_SIZE_PX[person.timeline_size];
+    const southernMingRuler = isSouthernMingRuler(person);
+    const lane = southernMingRuler ? TIMELINE_LANES['皇帝'] : TIMELINE_LANES[person.category];
+    const displaySize = southernMingRuler ? 'emperor' : person.timeline_size;
+    const sizePx = TIMELINE_SIZE_PX[displaySize];
     if (!lane) throw new Error(`Unknown timeline category: ${person.category}`);
     if (!sizePx) throw new Error(`Unknown timeline size: ${person.timeline_size}`);
     return {
       ...person,
       lane: { ...lane },
       sizePx,
-      displayYear: clampMuseumYear(person.timeline_year),
-      x: paddingX + (clampMuseumYear(person.timeline_year) - minYear) * yearPx,
+      displaySize,
+      displayCategoryLabel: southernMingRuler ? '南明君主' : null,
+      displayCategoryStyle: southernMingRuler ? 'emperor' : null,
+      displayYear: Math.min(person.timeline_year, maxYear),
+      x: paddingX + (Math.min(person.timeline_year, maxYear) - minYear) * yearPx,
     };
   });
   const topLanes = laneGroups(nodes, 'top');
@@ -356,10 +369,10 @@ function personMarkup(node, portraitFor, axisY) {
   const role = escapeHtml(node.timeline_role || node.office || '人物');
   const yearLabel = escapeHtml(node.timeline_year_label || String(node.timeline_year));
   const basis = escapeHtml(node.timeline_year_basis || '登场依据待补');
-  const categoryLabelValue = CATEGORY_LABELS[node.category] || node.lane.label || '人物';
+  const categoryLabelValue = node.displayCategoryLabel || CATEGORY_LABELS[node.category] || node.lane.label || '人物';
   const categoryLabel = escapeHtml(categoryLabelValue);
-  const categoryStyle = CATEGORY_STYLES[node.category] || 'external';
-  const size = escapeHtml(node.timeline_size);
+  const categoryStyle = node.displayCategoryStyle || CATEGORY_STYLES[node.category] || 'external';
+  const size = escapeHtml(node.displaySize || node.timeline_size);
   const x = Number(node.x);
   const y = Number(node.y);
   const avatarSize = Number(node.sizePx);
@@ -399,7 +412,7 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
   const ticks = layout.ticks.map((tick) => `<span class="timeline-tick" style="--tick-x:${tick.x}px"><time datetime="${tick.year}">${tick.year}</time></span>`).join('');
   const boundaries = layout.boundaries.map((boundary) => `<span class="timeline-boundary" role="listitem" data-timeline-boundary data-year="${boundary.year}" style="--boundary-x:${boundary.x}px"><time datetime="${boundary.year}">${boundary.year}<b>${escapeHtml(boundary.label)}</b></time></span>`).join('');
   const peopleMarkup = layout.nodes.map((node) => personMarkup(node, portraitFor, layout.axisY)).join('');
-  const scopeDescription = `${layout.minYear}至${layout.maxYear}；1644为北京明廷覆亡，1662为南明终局`;
+  const scopeDescription = `人物时间位置${layout.minYear}至${layout.maxYear}；1368为明朝建立，1644为北京明廷覆亡，1662为南明终局`;
 
   return `<section class="people-timeline" aria-label="人物馆浏览方式与历史长卷，${scopeDescription}">
   <div class="people-view-tabs" role="tablist" aria-label="人物浏览方式">
@@ -426,7 +439,7 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .people-view-tabs button:hover,.people-view-tabs button:focus-visible{z-index:1;transform:translateY(-1px);border-color:#8e3022;box-shadow:0 5px 14px rgba(50,38,20,.16);outline:none}
 .people-view-tabs button[aria-selected="true"]{background:#171815;color:#f5f0e3;border-color:#171815}
 .people-page[data-people-view="table"] #peopleTimelineView{display:none}
-.people-page>.shell>.timeline[hidden],.people-page>.shell>.southern-branch[hidden],.people-page>.shell>.toolbar[hidden],.people-page>.shell>.statusline[hidden],.people-page>.shell>.tablewrap[hidden],.people-page>.shell>.method[hidden]{display:none!important}
+.people-page>.shell>.timeline[hidden],.people-page>.shell>.toolbar[hidden],.people-page>.shell>.statusline[hidden],.people-page>.shell>.tablewrap[hidden],.people-page>.shell>.method[hidden]{display:none!important}
 @media(max-width:560px){.people-view-tabs{gap:7px}.people-view-tabs button{min-height:40px;padding:7px 10px}.people-view-tabs button>span{font-size:14px}}
 .people-timeline-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-gutter:stable;border:1px solid #c7bea9;background:#f5f0e3}
 .timeline-phase-legend{position:sticky;left:0;z-index:4;display:flex;align-items:center;gap:6px;min-width:max-content;margin:0;padding:8px 12px 7px;border-bottom:1px solid #d4c9b3;background:rgba(245,240,227,.96);color:#625d50;font:600 10px/1.35 ui-sans-serif,"Noto Sans SC",sans-serif;letter-spacing:.01em}.timeline-phase-legend span,.timeline-person-regime{display:inline-flex;align-items:center;border:1px solid currentColor;padding:1px 4px;font:700 9px/1.25 ui-monospace,monospace;letter-spacing:.02em}.timeline-phase-legend small{margin-left:4px;font:400 10px/1.35 ui-sans-serif,"Noto Sans SC",sans-serif;letter-spacing:0}.regime-phase-ming{color:#4f7d56}.regime-phase-southern-ming{color:#9d6b38}.regime-phase-transition{color:#756557}.regime-phase-neutral{color:#61778b}
@@ -483,7 +496,7 @@ export function peopleTimelineClientScript() {
   return `(()=>{
     const body=document.body;
     const timeline=document.getElementById('peopleTimelineView');
-    const tableSections=[...document.querySelectorAll('.people-page>.shell>.timeline,.people-page>.shell>.southern-branch,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method')];
+    const tableSections=[...document.querySelectorAll('.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method')];
     const buttons=[...document.querySelectorAll('button[data-people-view]')];
     const people=[...document.querySelectorAll('[data-timeline-person]')];
     let portraitLoadingFrame=0;

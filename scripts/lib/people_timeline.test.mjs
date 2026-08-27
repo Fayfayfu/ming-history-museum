@@ -82,6 +82,9 @@ test('layout uses one strict x scale and keeps people on the correct side of the
   ];
   const layout = layoutPeopleTimeline(people, { yearPx: 22, paddingX: 140, minHeight: 960, maxHeight: 1400 });
   const byName = Object.fromEntries(layout.nodes.map((node) => [node.name, node]));
+  assert.equal(layout.minYear, 1352);
+  assert.equal(byName.前朝人物.displayYear, 1352);
+  assert.ok(byName.前朝人物.x < layout.boundaries.find((boundary) => boundary.year === 1368).x);
   assert.equal(byName.王守仁.x - byName.于谦.x, (1499 - 1421) * 22);
   assert.equal(byName.张居正.x - byName.王守仁.x, (1547 - 1499) * 22);
   assert.ok(byName.甲帝.y < layout.axisY);
@@ -142,12 +145,12 @@ test('layout keeps real timeline data on the strict year scale', async () => {
   assert.equal(fuShan.lane.id, 'independent');
   const wangBaobao = layout.nodes.find((node) => node.name === '王保保');
   assert.equal(wangBaobao.timeline_year, 1362);
-  assert.equal(wangBaobao.displayYear, 1368);
+  assert.equal(wangBaobao.displayYear, 1362);
   assert.equal(wangBaobao.lane.id, 'external');
-  assert.equal(layout.minYear, 1368);
+  assert.equal(layout.minYear, 1352);
   assert.equal(layout.maxYear, 1662);
   assert.deepEqual(layout.boundaries.map((boundary) => boundary.year), [1368, 1644, 1662]);
-  assert.ok(layout.width >= 6700 && layout.width <= 6800);
+  assert.equal(layout.width, 7100);
   assert.ok(layout.height >= 960 && layout.height <= 1200, `timeline height must stay within one 1200px canvas, got ${layout.height}px`);
   const topNodes = layout.nodes.filter((node) => node.lane.side === 'top');
   const topContentEdge = Math.min(...topNodes.map((node) => node.y - node.sizePx / 2));
@@ -176,7 +179,7 @@ test('layout keeps real timeline data on the strict year scale', async () => {
     const gap = laneBounds(innerLane).min - laneBounds(outerLane).max;
     assert.ok(gap >= 0 && gap <= 4, `${outerLane}/${innerLane} category gap must stay compact, got ${gap}px`);
   }
-  assert.equal(layout.minYear, 1368);
+  assert.equal(layout.minYear, 1352);
   assert.equal(layout.maxYear, 1662);
   assert.deepEqual(
     repeated.nodes.map((node) => [node.name, node.x, node.y, node.slot]),

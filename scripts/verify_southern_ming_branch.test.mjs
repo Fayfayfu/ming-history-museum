@@ -65,7 +65,7 @@ test('branch has three rulers without changing the emperor spine', async () => {
   }
 });
 
-test('branch rulers stay in the external timeline lane and ruler political phases', async () => {
+test('Southern Ming rulers share the upper ruler lane without changing their source category', async () => {
   const [core, children, timelineData, branch, phaseData] = await Promise.all([
     readJson('data/ming_core.json'),
     readJson('data/ming_children_important.json'),
@@ -73,7 +73,10 @@ test('branch rulers stay in the external timeline lane and ruler political phase
     readJson('data/ming_southern_ming_branch.json'),
     readJson('data/ming_political_phases.json'),
   ]);
-  const people = validatePeopleTimelineData({ core, children, timelineData });
+  const people = validatePeopleTimelineData({ core, children, timelineData }).map((person) => ({
+    ...person,
+    politicalPhases: phaseData.people?.[person.name] || [],
+  }));
   const layout = layoutPeopleTimeline(people);
   const peopleByName = new Map(people.map((person) => [person.name, person]));
   const nodeByName = new Map(layout.nodes.map((node) => [node.name, node]));
@@ -96,7 +99,10 @@ test('branch rulers stay in the external timeline lane and ruler political phase
   for (const name of branchNames) {
     assert.equal(peopleByName.get(name)?.source, 'core');
     assert.equal(peopleByName.get(name)?.timeline_size, 'standard');
-    assert.equal(nodeByName.get(name)?.lane.id, 'external');
+    assert.equal(nodeByName.get(name)?.lane.id, 'emperor');
+    assert.equal(nodeByName.get(name)?.lane.label, '皇帝／君主');
+    assert.equal(nodeByName.get(name)?.sizePx, 88);
+    assert.equal(nodeByName.get(name)?.displayCategoryLabel, '南明君主');
     assert.equal(phaseData.people[name]?.[0]?.phase, 'ruler');
   }
 
@@ -116,7 +122,7 @@ test('branch rulers stay in the external timeline lane and ruler political phase
   });
 });
 
-test('static people build renders the branch after the emperor spine with people links', async () => {
+test('static people build keeps Beijing Ming and Southern Ming rulers in one compact strip', async () => {
   const result = spawnSync(process.execPath, ['scripts/build_ming_html.mjs'], {
     cwd: process.cwd(),
     encoding: 'utf8',
@@ -124,15 +130,22 @@ test('static people build renders the branch after the emperor spine with people
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 
   const html = await fs.readFile(path.resolve(outputHtml), 'utf8');
-  const emperorIndex = html.indexOf('id="emperors"');
-  const branchIndex = html.indexOf('南明延续政权 · 1644—1662');
+  const emperorIndex = html.indexOf('id="beijingMingRulers"');
+  const dividerIndex = html.indexOf('class="ruler-group ruler-group-southern"');
+  const branchIndex = html.indexOf('id="southernMingRulers"');
   const eventIndex = html.indexOf('id="eventLab"');
+  const visibleText = html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
 
   assert.ok(emperorIndex > 0, 'emperor spine section must render');
-  assert.ok(branchIndex > emperorIndex, 'Southern Ming branch must follow the emperor spine');
+  assert.ok(dividerIndex > emperorIndex, 'a light group divider must follow the Beijing Ming ruler group');
+  assert.ok(branchIndex > dividerIndex, 'Southern Ming rulers must continue in the same strip after the divider');
   assert.ok(eventIndex > branchIndex, 'Southern Ming branch must render before the event hall');
+  assert.match(visibleText, /1368—1644 北京明廷十六帝/);
+  assert.match(visibleText, /1644—1662 南明延续三君主/);
+  assert.doesNotMatch(html, /<section class="southern-branch"/);
+  assert.match(html, /data-southern-ruler=/);
   for (const name of branchNames) {
-    assert.match(html, new RegExp(`people\\.html\\?person=${encodeURIComponent(name)}`));
+    assert.match(html, new RegExp(`"name":"${name}"`));
   }
   assert.doesNotMatch(html, /第17|第18|第19/);
 });

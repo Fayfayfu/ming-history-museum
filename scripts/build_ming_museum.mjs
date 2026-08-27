@@ -149,7 +149,7 @@ function baseHall(kind) {
       .replace('</style>', `${hallCSS}${PEOPLE_TIMELINE_CSS}</style>`)
       .replace('</head>', `<noscript><style>.people-view-tabs,#peopleTimelineView{display:none!important}.people-page>.shell>.timeline,.people-page>.shell>.toolbar,.people-page>.shell>.statusline,.people-page>.shell>.tablewrap,.people-page>.shell>.method{display:revert!important}</style></noscript></head>`)
       .replace('<main class="shell" id="main">', `<noscript><section class="hall-note"><b>无 JavaScript 静态名录：</b>本页的筛选与抽屉需要 JavaScript；请打开 <a href="people-archive.html">完整人物名录（${timelinePeople.length} 位）</a> 直接阅读全部记录。</section></noscript><main class="shell" id="main">`)
-      .replace('<section class="timeline">', `${peopleTimelineHtml}<section class="timeline">`)
+      .replace(/<section class="timeline"[^>]*>/, (timelineSection) => `${peopleTimelineHtml}${timelineSection}`)
       .replace('<button id="peopleTableTab" type="button" role="tab" aria-selected="true" data-people-view="table">', '<button id="peopleTableTab" type="button" role="tab" aria-selected="true" aria-controls="peopleTableView" data-people-view="table">')
       .replace('<section class="tablewrap">', '<section class="tablewrap" id="peopleTableView" role="tabpanel" aria-labelledby="peopleTableTab">')
       .replace('<tbody id="rows"></tbody>', `<tbody id="rows">${noScriptRosterRow}</tbody>`)

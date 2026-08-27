@@ -37,6 +37,21 @@ try {
   browser = await chromium.launch({ headless: true, executablePath: chrome });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   await page.goto(`http://127.0.0.1:${server.address().port}/people.html`, { waitUntil: 'networkidle' });
+  const rulerStrip = await page.evaluate(() => {
+    const beijing = document.querySelector('#beijingMingRulers');
+    const southern = document.querySelector('#southernMingRulers');
+    return {
+      beijingCount: beijing?.querySelectorAll('.emperor').length || 0,
+      southernCount: southern?.querySelectorAll('.emperor').length || 0,
+      beijingTop: beijing?.getBoundingClientRect().top || 0,
+      southernTop: southern?.getBoundingClientRect().top || 0,
+      detachedBranchCount: document.querySelectorAll('.southern-branch').length,
+    };
+  });
+  check(rulerStrip.beijingCount === 16, 'compact ruler strip keeps sixteen Beijing Ming emperors', rulerStrip);
+  check(rulerStrip.southernCount === 3, 'compact ruler strip appends three Southern Ming rulers', rulerStrip);
+  check(Math.abs(rulerStrip.beijingTop - rulerStrip.southernTop) < 2, 'both ruler groups stay on one horizontal row', rulerStrip);
+  check(rulerStrip.detachedBranchCount === 0, 'no detached Southern Ming exhibition block remains', rulerStrip);
   await page.locator('#peopleTimelineTab').click();
   await page.waitForFunction(() => document.body.dataset.peopleView === 'timeline');
 
@@ -48,6 +63,9 @@ try {
     hongPhase: document.querySelector('[data-timeline-person="洪承畴"]')?.dataset.regimePhase || '',
     southernLane: [...document.querySelectorAll('[data-timeline-person="朱由崧"],[data-timeline-person="朱聿键"],[data-timeline-person="朱由榔"]')].map((node) => node.dataset.lane),
     emperorCount: document.querySelectorAll('[data-timeline-person][data-category-label="皇帝"]').length,
+    southernRulerCount: document.querySelectorAll('[data-timeline-person][data-category-label="南明君主"]').length,
+    rulerLaneLabel: document.querySelector('.timeline-lane-label--emperor')?.textContent.trim() || '',
+    pre1368Years: [...document.querySelectorAll('[data-timeline-person]')].filter((node) => Number(node.dataset.year) < 1368).map((node) => ({name:node.dataset.timelinePerson,year:Number(node.dataset.year),x:node.style.getPropertyValue('--person-x')})),
     timelineAria: document.querySelector('#peopleTimelineView')?.getAttribute('aria-label') || '',
   }));
 
@@ -56,8 +74,11 @@ try {
   check(state.boundaryLabels[1]?.includes('北京明廷覆亡') && state.boundaryLabels[2]?.includes('南明终局'), '1644 and 1662 carry distinct historical labels', state);
   check(state.hongCount === 1, 'cross-era person renders once', state);
   check(state.hongPhase === '明→清', 'cross-era anchor exposes its political progression without duplicating the person', state);
-  check(state.southernLane.length === 3 && state.southernLane.every((lane) => lane === 'external'), 'Southern Ming rulers remain in the external political lane', state);
+  check(state.southernLane.length === 3 && state.southernLane.every((lane) => lane === 'emperor'), 'Southern Ming rulers share the upper ruler lane', state);
   check(state.emperorCount === 16, 'timeline keeps Beijing Ming emperor spine at sixteen', state);
+  check(state.southernRulerCount === 3, 'timeline distinguishes three Southern Ming rulers without recategorizing them as Beijing emperors', state);
+  check(state.rulerLaneLabel === '皇帝／君主', 'upper ruler lane uses the combined visitor-facing label', state);
+  check(new Set(state.pre1368Years.map((item) => item.x)).size > 1, 'people before 1368 retain distinct chronological positions', state.pre1368Years);
   check(state.timelineAria.includes('1368') && state.timelineAria.includes('1662') && state.timelineAria.includes('北京明廷覆亡'), 'timeline announces the full public scope and 1644 break', state);
 } finally {
   await browser?.close();

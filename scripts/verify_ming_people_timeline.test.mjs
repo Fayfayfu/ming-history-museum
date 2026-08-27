@@ -55,7 +55,7 @@ function assertVerifierRejects(mutate, messagePattern) {
 test('verifier accepts the curated 178-person timeline', () => {
   const result = runVerifier();
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-  assert.match(result.stdout, /178 people, layout 1368-1662/);
+  assert.match(result.stdout, /178 people, layout 1352-1662, people 1352-1646/);
 });
 
 test('museum story coverage derives its roster gate from the source roster', () => {
