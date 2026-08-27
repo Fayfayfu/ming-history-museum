@@ -157,7 +157,6 @@ function baseHall(kind) {
         /function focusPerson\(name\)\{([^\n]*?)openDetail\(person\)\}/,
         (_, beforeOpenDetail) => `async function focusPerson(name){${beforeOpenDetail}openDetail(person);const portrait=document.querySelector('#detail .portrait img');if(portrait&&!portrait.complete)await new Promise(resolve=>{portrait.addEventListener('load',resolve,{once:true});portrait.addEventListener('error',resolve,{once:true});if(portrait.complete)resolve()})}`,
       )
-      .replace('renderEvents();render();', "renderEvents();render();const peopleParams=new URLSearchParams(location.search);const requestedEvent=peopleParams.get('event');const requestedPerson=peopleParams.get('person');if(requestedEvent&&eventRecord(requestedEvent)){state.event=requestedEvent;state.parent='';document.getElementById('personEvent').value=requestedEvent;render()}else if(requestedPerson)focusPerson(requestedPerson);")
       .replace('</body>', `<script>${peopleTimelineClientScript()}</script></body>`);
     html = moveHallScopeToFooter(html, 'people');
   } else {
@@ -170,7 +169,7 @@ function baseHall(kind) {
       .replace('<b>双重范围</b><br>人物表以北京明朝 1368—1644 为主体；事件年表延伸至南明终局 1662。', '<b>本馆范围</b><br>起于 1368 年明朝建立，止于 1662 年永历帝被杀。')
       .replace(/<div class="scope"><b>本馆范围<\/b>.*?<\/div>/s, '<div class="scope"><b>本馆范围</b><br>起于 1368 年明朝建立，止于 1662 年永历帝被杀。<br><b>展览逻辑</b><br>六个阶段不是唯一分期，而是识别结构变化的参观路径。<br><b>置信度</b><br>81 件为高、14 件为中；因果与长期影响属于结构化研究判断。<br><b>跨馆</b><br>点击人物标签，前往人物馆查看生平、任期与评价。</div>')
       .replace(/function focusPerson\(name\)\{[^\n]*\}/, "function focusPerson(name){location.href='people.html?person='+encodeURIComponent(name)}")
-      .replace('renderEvents();render();', "renderEvents();render();const eventParams=new URLSearchParams(location.search);const requestedStage=eventParams.get('stage');const requestedQuery=eventParams.get('q');const requestedCategory=eventParams.get('category');const requestedEvent=eventParams.get('event');if(requestedStage&&eventStages.some(s=>s.id===requestedStage))eventState.stage=requestedStage;if(requestedQuery){eventState.q=requestedQuery;document.getElementById('eventSearch').value=requestedQuery}if(requestedCategory&&eventCategories.includes(requestedCategory)){eventState.category=requestedCategory;document.getElementById('eventCategory').value=requestedCategory}renderEvents();if(requestedEvent&&eventRecord(requestedEvent))openEventDetail(eventRecord(requestedEvent));");
+      .replace('renderEvents();render();', "const requestedStage=pageQuery.get('stage');const requestedQuery=pageQuery.get('q');const requestedCategory=pageQuery.get('category');if(requestedStage&&eventStages.some(s=>s.id===requestedStage))eventState.stage=requestedStage;if(requestedQuery){eventState.q=requestedQuery;document.getElementById('eventSearch').value=requestedQuery}if(requestedCategory&&eventCategories.includes(requestedCategory)){eventState.category=requestedCategory;document.getElementById('eventCategory').value=requestedCategory}renderEvents();render();");
     html = moveHallScopeToFooter(html, 'events');
   }
   return html;

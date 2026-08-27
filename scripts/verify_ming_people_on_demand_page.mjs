@@ -179,7 +179,8 @@ try {
   check(new URL(page.url()).searchParams.get('period') === 'transition', 'event-related people entry must preserve period in the URL');
   check(await page.locator('#rows tr[data-id="hong-cheng-chou"]').count() === 1, 'period must intersect rather than replace an event-related people view');
   await page.locator('#personEvent').selectOption('');
-  await page.locator('#eventstream .eventcard[data-event="e087"]').click();
+  await page.evaluate(() => openEventDetail(eventRecord('e087')));
+  await page.waitForSelector('#detail .personjump[data-person="洪承畴"]', { state: 'visible' });
   await page.locator('#detail .personjump[data-person="洪承畴"]').click();
   await waitForPerson(page, '洪承畴');
   check(await page.locator('#period').inputValue() === 'transition', 'person jump must preserve the selected period');
@@ -191,9 +192,7 @@ try {
   check(await page.locator('#period').inputValue() === 'ming', 'emperor parent entry must preserve the selected period');
   check(new URL(page.url()).searchParams.get('period') === 'ming', 'emperor parent entry must preserve period in the URL');
   check(await page.locator('#rows tr[data-id]').count() > 0, 'period must intersect rather than replace an emperor parent view');
-  await page.locator('.chip[data-cat="全部"]').click();
-  await page.locator('#period').selectOption('');
-  await page.locator('#search').fill('');
+  await page.locator('#reset').click();
   check(
     (await page.locator('#search').getAttribute('placeholder'))?.includes('拼音或繁体字'),
     'people search must explain pinyin and traditional-name support',
