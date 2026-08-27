@@ -58,6 +58,10 @@ test('keeps narrative fields out of people index', () => {
     id: 'zhu-yuan-zhang', name: '朱元璋', category: '皇帝', office: '明太祖',
     birth: 1328, death: 1398, domains: ['政治制度'], institutionIds: ['central-secretariat', 'censorate-platform'],
     portrait: { file: 'assets/portraits/zhu.jpg', kind: 'sourced' },
+    search: {
+      native: ['朱元璋'],
+      pinyin: ['zhuyuanzhang', 'zhu yuan zhang', 'zyz'],
+    },
     detailUrl: 'assets/data/people-details/zhu-yuan-zhang.json',
   });
   assert.equal('scenes' in entry, false);
@@ -67,6 +71,34 @@ test('keeps narrative fields out of people index', () => {
   assert.deepEqual(result.peopleIndex, { version: 1, people: result.peopleIndex.people });
   assert.equal(result.eventsIndex.version, 1);
   assert.deepEqual(result.eventsIndex.stages, fixture.eventData.stages);
+});
+
+test('projects political phases once per person without source IDs in the lightweight index', () => {
+  const result = buildPeopleOnDemandData({
+    ...fixture,
+    core: [{ ...fixture.core[0], name: '洪承畴' }],
+    politicalPhaseData: {
+      people: {
+        洪承畴: [
+          { regime: '明', start: 1616, end: 1642, role: '明朝文臣、蓟辽总督', confidence: '高', sourceIds: ['QSG237'] },
+          { regime: '清', start: 1642, end: 1661, role: '清廷大学士、五省经略', confidence: '高', sourceIds: ['QSG237'] },
+        ],
+      },
+    },
+  });
+
+  const entry = result.peopleIndex.people.find((person) => person.name === '洪承畴');
+  const detail = result.peopleDetails.get(entry.id);
+  assert.equal(result.peopleIndex.people.filter((person) => person.name === '洪承畴').length, 1);
+  assert.deepEqual(entry.politicalPhases, [
+    { regime: '明', start: 1616, end: 1642, role: '明朝文臣、蓟辽总督', confidence: '高' },
+    { regime: '清', start: 1642, end: 1661, role: '清廷大学士、五省经略', confidence: '高' },
+  ]);
+  assert.equal(entry.politicalPhases[1].sourceIds, undefined);
+  assert.deepEqual(detail.drawer.politicalPhases, [
+    { regime: '明', start: 1616, end: 1642, role: '明朝文臣、蓟辽总督', confidence: '高', sourceIds: ['QSG237'] },
+    { regime: '清', start: 1642, end: 1661, role: '清廷大学士、五省经略', confidence: '高', sourceIds: ['QSG237'] },
+  ]);
 });
 
 test('derives every institution association and retains both drawer profile shapes', () => {

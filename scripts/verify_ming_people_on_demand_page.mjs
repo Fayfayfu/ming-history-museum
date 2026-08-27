@@ -28,9 +28,9 @@ const peopleIndexBuffer = await fs.readFile(peopleIndexPath);
 const peopleIndexArtifact = JSON.parse(peopleIndexBuffer);
 const allowedPersonIndexKeys = new Set([
   'alt', 'birth', 'category', 'childCounts', 'confidence', 'creativeWorkCount', 'death', 'detailUrl',
-  'display', 'domains', 'evaluation', 'hometown', 'id', 'institutionIds', 'institutions', 'lineageLines',
-  'mother', 'name', 'office', 'office_end', 'office_start', 'order', 'parent', 'personPageSlug', 'portrait',
-  'rowId', 'score', 'search', 'sex', 'summary', 'year',
+  'display', 'domains', 'evaluation', 'hometown', 'id', 'institutionIds', 'institutions', 'politicalPhases',
+  'lineageLines', 'mother', 'name', 'office', 'office_end', 'office_start', 'order', 'parent', 'periodIds',
+  'personPageSlug', 'portrait', 'rowId', 'score', 'search', 'sex', 'summary', 'year',
 ]);
 const allowedSearchKeys = new Set(['native', 'pinyin']);
 const allowedPortraitKeys = new Set([
@@ -53,6 +53,13 @@ for (const person of peopleIndexArtifact.people || []) {
   }
 }
 check(unexpectedIndexFields.length === 0, 'final people index must contain only declared list fields', unexpectedIndexFields.slice(0, 20));
+check(!peopleIndexBuffer.includes(Buffer.from('"sourceIds"')), 'people index must not expose political phase source IDs');
+check(
+  ['ming', 'southern-ming', 'transition'].every((id) => (
+    (peopleIndexArtifact.periodFilters || []).some((period) => period.id === id)
+  )),
+  'people index must expose all period filter options',
+);
 check(
   peopleIndexBuffer.byteLength < 240 * 1024,
   'final people index must stay below the 240 KiB boot budget',
@@ -153,6 +160,21 @@ try {
     'category filtering must exclude nonmatching people',
   );
   await page.locator('.chip[data-cat="全部"]').click();
+  check(await page.locator('#period option[value="southern-ming"]').count() === 1, 'period filter must include Southern Ming');
+  check(await page.locator('#period option[value="transition"]').count() === 1, 'period filter must include Ming-Qing transition');
+  await page.locator('#period').selectOption('southern-ming');
+  check(await page.locator('#rows tr[data-id="person-u6731-u7531-u5d27"]').count() === 1, 'Southern Ming period filter must find 朱由崧');
+  check(await page.locator('#rows .phase-southern-ming').count() >= 3, 'Southern Ming rows must show lightweight period tags');
+  await page.locator('#period').selectOption('transition');
+  await page.locator('#search').fill('hongchengchou');
+  check(await page.locator('#rows tr[data-id="hong-chengchou"]').count() === 1, 'period filter must compose with pinyin search for 洪承畴');
+  await page.locator('#rows tr[data-id="hong-chengchou"]').click();
+  await waitForPerson(page, '洪承畴');
+  check(await page.locator('#detail .person-identity-flow').isVisible(), 'cross-regime person detail must show identity progression');
+  check(await page.locator('#detail .person-identity-flow .person-identity-step').count() >= 2, 'cross-regime person detail must keep both identity phases');
+  await closeDrawer(page);
+  await page.locator('#period').selectOption('');
+  await page.locator('#search').fill('');
   check(
     (await page.locator('#search').getAttribute('placeholder'))?.includes('拼音或繁体字'),
     'people search must explain pinyin and traditional-name support',

@@ -112,8 +112,24 @@ function stableEvents(events) {
   });
 }
 
+function politicalPhasesFor(input, name, includeSourceIds = false) {
+  const phases = input.politicalPhaseData?.people?.[name] || [];
+  return phases.map((phase) => {
+    const projected = {
+      regime: phase.regime,
+      start: phase.start,
+      end: phase.end,
+      role: phase.role,
+      confidence: phase.confidence,
+    };
+    if (includeSourceIds) projected.sourceIds = clone(phase.sourceIds || []);
+    return projected;
+  });
+}
+
 function buildPersonDetail(id, person, input) {
   const name = person.name;
+  const politicalPhases = politicalPhasesFor(input, name, true);
   return {
     id,
     drawer: {
@@ -123,6 +139,7 @@ function buildPersonDetail(id, person, input) {
       creativeWorks: clone(peopleFor(input.creativeWorks)[name] || null),
       personPage: clone(peopleFor(input.personPages)[name] || null),
       emperorDrawerProfile: clone(drawerProfileFor(input.emperorDrawerProfiles, name)),
+      ...(politicalPhases.length ? { politicalPhases } : {}),
     },
   };
 }
@@ -169,6 +186,7 @@ export function buildPeopleOnDemandData(input) {
       version: 1,
       people: people.map(({ id, person }) => {
         const search = buildPersonSearchIndex(person).search;
+        const politicalPhases = politicalPhasesFor(input, person.name);
         return {
           id,
           name: person.name,
@@ -185,6 +203,7 @@ export function buildPeopleOnDemandData(input) {
           portrait: clone(portraits[person.name] || null),
           search: clone(search),
           detailUrl: `assets/data/people-details/${id}.json`,
+          ...(politicalPhases.length ? { politicalPhases } : {}),
         };
       }),
     },
