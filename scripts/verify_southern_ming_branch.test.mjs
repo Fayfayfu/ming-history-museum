@@ -78,6 +78,11 @@ test('branch rulers stay in the external timeline lane and ruler political phase
   assert.equal(core.find((person) => person.name === '朱由崧')?.source1, timelineData.source_catalog.DPM_NANMING_HONGGUANG.url);
   assert.equal(core.find((person) => person.name === '朱聿键')?.source1, timelineData.source_catalog.DPM_NANMING_LONGWU.url);
   assert.equal(core.find((person) => person.name === '朱由榔')?.source1, timelineData.source_catalog.NMC_YONGLI_EDICT.url);
+  assert.deepEqual(timelineData.source_catalog.NMC_YONGLI_EDICT, {
+    label: '中国国家博物馆·康熙元年三月十二日俘获永历帝宣捷诏谕',
+    url: 'https://www.chnmuseum.cn/zp/zpml/gjwxbt/202008/t20200824_247135.shtml',
+    kind: '博物馆',
+  });
 });
 
 test('static people build renders the branch after the emperor spine with people links', async () => {
