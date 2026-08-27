@@ -123,6 +123,11 @@ function centralYear(n) {
   if (n.deathYear) return n.deathYear - 25;
   return 1506;
 }
+function reignAnchorYear(n) {
+  const starts = numberList(n.office_start), ends = numberList(n.office_end);
+  if (starts.length && ends.length) return (Math.min(...starts) + Math.max(...ends)) / 2;
+  return centralYear(n);
+}
 function dominantEmperor(n) {
   const starts = numberList(n.office_start), ends = numberList(n.office_end);
   if (starts.length && ends.length) {
@@ -176,15 +181,17 @@ for (const n of nodes) {
   n.vx = 0; n.vy = 0;
 }
 
-// Keep emperors as the timeline spine. Other people settle around evidence-backed links.
-const emperorIndex = new Map(emperorOrder.map((n,i)=>[normalize(n),i]));
+const scopeX = year => PLOT.left + ((year - MUSEUM_TIMELINE_SCOPE.start) / (MUSEUM_TIMELINE_SCOPE.end - MUSEUM_TIMELINE_SCOPE.start)) * (PLOT.right - PLOT.left);
+const beijingMingEndX = scopeX(1644);
+const southernMingEndX = scopeX(1662);
+
+// Keep emperors on their actual reign-time anchors. Other people settle around evidence-backed links.
 for (const n of nodes.filter(n => n.role === 'emperor')) {
-  const i = emperorIndex.get(n.id);
-  n.fixedX = PLOT.left + 90 + i * ((PLOT.right - PLOT.left - 180) / 15);
+  const i = emperorOrder.indexOf(n.display);
+  n.fixedX = Math.min(beijingMingEndX, scopeX(reignAnchorYear(n)));
   n.fixedY = 1420 + (i % 2 ? 34 : -34);
   n.x = n.fixedX; n.y = n.fixedY;
 }
-const scopeX = year => PLOT.left + ((year - MUSEUM_TIMELINE_SCOPE.start) / (MUSEUM_TIMELINE_SCOPE.end - MUSEUM_TIMELINE_SCOPE.start)) * (PLOT.right - PLOT.left);
 for (const n of nodes.filter(node => node.role === 'southern')) {
   const ruler = southernMingByName.get(n.id);
   n.fixedX = scopeX(ruler?.start ?? centralYear(n));
@@ -278,8 +285,13 @@ const boundarySvg = MUSEUM_BOUNDARIES.map(boundary => {
   return `<g aria-label="${esc(`${boundary.year} ${boundary.label}`)}"><line x1="${x}" y1="250" x2="${x}" y2="2740" stroke="${isBreak ? '#d8a447' : '#475569'}" stroke-width="${isBreak ? 2.5 : 1.2}" stroke-dasharray="${isBreak ? '8 10' : '4 13'}"/><text x="${x + 10}" y="232" fill="${isBreak ? '#f0c96a' : '#94a3b8'}" font-size="15" font-weight="700">${boundary.year} · ${esc(boundary.label)}</text></g>`;
 }).join('');
 const southernBranchStart = scopeX(1644);
-const southernBranchEnd = scopeX(1662);
+const southernBranchEnd = southernMingEndX;
 const southernBranchSvg = `<g aria-label="南明延续政权分支"><line x1="${southernBranchStart}" y1="1770" x2="${southernBranchEnd}" y2="1770" stroke="#d8a447" stroke-width="2.4" stroke-dasharray="8 10"/><text x="${southernBranchStart + 18}" y="1740" fill="#f0c96a" font-size="17" font-weight="700">南明延续政权 · 1644—1662</text><text x="${southernBranchStart + 18}" y="1760" fill="#94a3b8" font-size="13">弘光、隆武、永历为并行延续政权人物，不追加为北京明廷帝序。</text></g>`;
+const coordinateMeta = {
+  boundaries: Object.fromEntries(MUSEUM_BOUNDARIES.map(boundary => [boundary.year, +scopeX(boundary.year).toFixed(1)])),
+  beijingMingSpine: { start: +scopeX(MUSEUM_TIMELINE_SCOPE.start).toFixed(1), end: +beijingMingEndX.toFixed(1) },
+  southernMingBranch: { start: +southernBranchStart.toFixed(1), end: +southernMingEndX.toFixed(1) }
+};
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEIGHT}" role="img" aria-labelledby="title desc">
 <title id="title">明史${nodes.length}人物关系网</title>
@@ -301,7 +313,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEI
   <text x="150" y="182" fill="#64748b" font-size="15">姓名越大＝关系中心性与研究评分越高；悬停节点或连线可查看说明</text>
   <text x="5050" y="92" fill="#94a3b8" font-size="17" text-anchor="end">${nodes.length} NODES · ${edges.length} EDGES</text>
 </g>
-<g aria-label="era spine"><line x1="${PLOT.left}" y1="1420" x2="${PLOT.right}" y2="1420" stroke="#334155" stroke-width="2" stroke-dasharray="5 14"/></g>
+<g aria-label="era spine"><line x1="${scopeX(MUSEUM_TIMELINE_SCOPE.start)}" y1="1420" x2="${beijingMingEndX}" y2="1420" stroke="#334155" stroke-width="2" stroke-dasharray="5 14"/></g>
 <g aria-label="北京明廷十六帝主线"><text x="${PLOT.left}" y="1380" fill="#fbbf24" font-size="17" font-weight="700">北京明廷帝系 · 16帝（1368—1644）</text></g>
 <g aria-label="历史范围断点">${boundarySvg}</g>
 ${southernBranchSvg}
@@ -319,11 +331,11 @@ ${southernBranchSvg}
 </svg>`;
 
 await fs.mkdir(outDir,{recursive:true});
-await fs.writeFile(`${outDir}/明史129人物关系网.svg`,svg,'utf8');
-await fs.writeFile(`${outDir}/明史129人物关系网.data.json`,JSON.stringify({
-  meta:{nodes:nodes.length,edges:edges.length,roleCounts,edgeCounts,scope:MUSEUM_TIMELINE_SCOPE,boundaries:MUSEUM_BOUNDARIES,generated},
+await fs.writeFile(`${outDir}/明史人物关系网.svg`,svg,'utf8');
+await fs.writeFile(`${outDir}/明史人物关系网.data.json`,JSON.stringify({
+  meta:{nodes:nodes.length,edges:edges.length,roleCounts,edgeCounts,scope:MUSEUM_TIMELINE_SCOPE,boundaries:MUSEUM_BOUNDARIES,coordinates:coordinateMeta,generated},
   nodes:nodes.map(n=>({id:n.id,name:n.display,role:n.role,subtype:n.subtype,score:n.score,confidence:n.confidence||'未知',influence:+n.influence.toFixed(2),x:+n.x.toFixed(1),y:+n.y.toFixed(1)})),
   edges:edges.map(e=>({source:e.a,target:e.b,types:e.types,eventCount:e.weights.event||0,details:e.details}))
 },null,2),'utf8');
 
-console.log(JSON.stringify({nodes:nodes.length,edges:edges.length,roleCounts,edgeCounts,svg:`${outDir}/明史129人物关系网.svg`},null,2));
+console.log(JSON.stringify({nodes:nodes.length,edges:edges.length,roleCounts,edgeCounts,svg:`${outDir}/明史人物关系网.svg`},null,2));
