@@ -1,0 +1,59 @@
+{
+  "version": "1.0",
+  "people": {
+    "洪承畴": [
+      {
+        "regime": "明",
+        "start": 1616,
+        "end": 1642,
+        "role": "明朝文臣、蓟辽总督",
+        "confidence": "高",
+        "sourceIds": ["QSG237"]
+      },
+      {
+        "regime": "清",
+        "start": 1642,
+        "end": 1661,
+        "role": "清廷大学士、五省经略",
+        "confidence": "高",
+        "sourceIds": ["QSG237"]
+      }
+    ],
+    "傅山": [
+      {
+        "regime": "明",
+        "start": 1636,
+        "end": 1644,
+        "role": "明末诸生、伏阙申冤者",
+        "confidence": "高",
+        "sourceIds": ["DPM_FUSHAN_1636"]
+      },
+      {
+        "regime": "遗民",
+        "start": 1644,
+        "end": 1662,
+        "role": "明遗民、书画医家",
+        "confidence": "高",
+        "sourceIds": ["DPM_FUSHAN"]
+      }
+    ],
+    "吴三桂": [
+      {
+        "regime": "明",
+        "start": 1630,
+        "end": 1644,
+        "role": "辽东总兵",
+        "confidence": "中",
+        "sourceIds": ["QSLZ080"]
+      },
+      {
+        "regime": "清",
+        "start": 1644,
+        "end": 1662,
+        "role": "清朝平西王、征南统帅",
+        "confidence": "中",
+        "sourceIds": ["QSLZ080"]
+      }
+    ]
+  }
+}
