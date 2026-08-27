@@ -16,7 +16,10 @@ const batch10Part1Pages = JSON.parse(await fs.readFile('data/ming_person_pages_b
 const batch10Part2Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch10_part2.json', 'utf8'));
 const batch11Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch11.json', 'utf8'));
 const batch12Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch12.json', 'utf8'));
-const pages = {people:{...(primaryPages.people || {}), ...(batch2Pages.people || {}), ...(batch7Pages.people || {}), ...(batch7Part2Pages.people || {}), ...(batch7Part3Pages.people || batch7Part3Pages), ...(batch7Part4Pages.people || {}), ...(batch8Part1Pages.people || batch8Part1Pages), ...(batch8Part2Pages.people || batch8Part2Pages), ...(batch8Part3Pages.people || batch8Part3Pages), ...(batch10Part1Pages.people || {}), ...(batch10Part2Pages.people || {}), ...(batch11Pages.people || {}), ...(batch12Pages.people || {})}};
+const batch13Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch13.json', 'utf8'));
+const batch14Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch14.json', 'utf8'));
+const batch15Pages = JSON.parse(await fs.readFile('data/ming_person_pages_batch15.json', 'utf8'));
+const pages = {people:{...(primaryPages.people || {}), ...(batch2Pages.people || {}), ...(batch7Pages.people || {}), ...(batch7Part2Pages.people || {}), ...(batch7Part3Pages.people || batch7Part3Pages), ...(batch7Part4Pages.people || {}), ...(batch8Part1Pages.people || batch8Part1Pages), ...(batch8Part2Pages.people || batch8Part2Pages), ...(batch8Part3Pages.people || batch8Part3Pages), ...(batch10Part1Pages.people || {}), ...(batch10Part2Pages.people || {}), ...(batch11Pages.people || {}), ...(batch12Pages.people || {}), ...(batch13Pages.people || {}), ...(batch14Pages.people || {}), ...(batch15Pages.people || {})}};
 const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
 const creative = JSON.parse(await fs.readFile('data/ming_creative_works.json', 'utf8'));
 const storytelling = JSON.parse(await fs.readFile('data/ming_storytelling.json', 'utf8'));
@@ -27,6 +30,8 @@ const historicalSliceBatch5 = JSON.parse(await fs.readFile('data/ming_historical
 const historicalSliceBatch6 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch6.json', 'utf8'));
 const historicalSliceBatch7 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch7.json', 'utf8'));
 const historicalSliceBatch8 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch8.json', 'utf8'));
+const historicalSliceBatch9 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch9.json', 'utf8'));
+const historicalSliceBatch10 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch10.json', 'utf8'));
 const historicalSlices = {
   people: {
     ...(historicalSliceBatch2.people || {}),
@@ -35,7 +40,9 @@ const historicalSlices = {
     ...(historicalSliceBatch5.people || {}),
     ...(historicalSliceBatch6.people || {}),
     ...(historicalSliceBatch7.people || {}),
-    ...(historicalSliceBatch8.people || {})
+    ...(historicalSliceBatch8.people || {}),
+    ...(historicalSliceBatch9.people || {}),
+    ...(historicalSliceBatch10.people || {})
   }
 };
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));

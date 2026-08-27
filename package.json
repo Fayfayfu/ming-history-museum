@@ -14,6 +14,9 @@
     "verify:wild-art-literati-batch1": "node --test scripts/verify_wild_art_literati_batch1.test.mjs",
     "verify:wild-art-literati-layout": "node scripts/verify_wild_art_literati_layout_page.mjs",
     "verify:featured-work-person-pages": "node --test scripts/verify_featured_work_person_pages.test.mjs",
+    "verify:outside-court-batch2-person-pages": "node --test scripts/verify_outside_court_batch2_person_pages.test.mjs",
+    "verify:art-literati-batch2-person-pages": "node --test scripts/verify_art_literati_batch2_person_pages.test.mjs",
+    "verify:travel-medicine-technology-batch3-person-pages": "node --test scripts/verify_travel_medicine_technology_batch3_person_pages.test.mjs",
     "verify:artwork-viewer": "node scripts/verify_artwork_viewer_page.mjs",
     "verify:person-page-locator": "node scripts/verify_person_page_locator.mjs",
     "verify:life-stories-batch5": "node scripts/verify_ming_life_stories_batch5.mjs",
@@ -38,7 +41,7 @@
     "verify:people-on-demand-contracts": "node --test scripts/verify_ming_on_demand_contracts.test.mjs",
     "verify:person-search": "node --test scripts/lib/person_search.test.mjs",
     "verify:deploy": "node scripts/verify_vercel_bundle.mjs",
-    "verify": "npm run verify:people-timeline && npm run verify:people-timeline-unit && npm run verify:people-timeline-variants-unit && node --test scripts/lib/ming_reign_year.test.mjs && node scripts/verify_ming_museum.mjs && npm run verify:person-page-locator && npm run verify:people-timeline-page && npm run verify:people-default-view && npm run verify:people-timeline-variants-page && npm run verify:people-timeline-doubleclick-page && node scripts/verify_ming_reign_year_page.mjs && npm run verify:people-on-demand-data && npm run verify:person-search && npm run verify:people-on-demand-page && npm run verify:people-on-demand-contracts"
+    "verify": "npm run verify:people-timeline && npm run verify:people-timeline-unit && npm run verify:people-timeline-variants-unit && node --test scripts/lib/ming_reign_year.test.mjs && node scripts/verify_ming_museum.mjs && npm run verify:person-page-locator && npm run verify:people-timeline-page && npm run verify:people-default-view && npm run verify:people-timeline-variants-page && npm run verify:people-timeline-doubleclick-page && node scripts/verify_ming_reign_year_page.mjs && npm run verify:people-on-demand-data && npm run verify:person-search && npm run verify:people-on-demand-page && npm run verify:people-on-demand-contracts && npm run verify:outside-court-batch2-person-pages && npm run verify:art-literati-batch2-person-pages && npm run verify:travel-medicine-technology-batch3-person-pages"
   },
   "dependencies": {
     "sharp": "^0.34.5"

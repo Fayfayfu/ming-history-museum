@@ -10,7 +10,7 @@ const storytelling = await read('ming_storytelling.json');
 const portraits = await read('ming_portraits.json');
 const lineages = await read('ming_imperial_lineages.json');
 const batches = [];
-for (let index = 2; index <= 9; index += 1) batches.push(await read(`ming_historical_slices_batch${index}.json`));
+for (let index = 2; index <= 10; index += 1) batches.push(await read(`ming_historical_slices_batch${index}.json`));
 
 const outputRoot = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆';
 const validConfidence = new Set(['高', '中', '低', '未知']);

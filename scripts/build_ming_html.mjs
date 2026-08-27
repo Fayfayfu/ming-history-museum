@@ -21,6 +21,7 @@ const historicalSliceBatch6 = JSON.parse(await fs.readFile('data/ming_historical
 const historicalSliceBatch7 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch7.json', 'utf8'));
 const historicalSliceBatch8 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch8.json', 'utf8'));
 const historicalSliceBatch9 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch9.json', 'utf8'));
+const historicalSliceBatch10 = JSON.parse(await fs.readFile('data/ming_historical_slices_batch10.json', 'utf8'));
 const historicalSlices = addHistoricalSliceEraDates({
   people: {
     ...(historicalSliceBatch2.people || {}),
@@ -30,7 +31,8 @@ const historicalSlices = addHistoricalSliceEraDates({
     ...(historicalSliceBatch6.people || {}),
     ...(historicalSliceBatch7.people || {}),
     ...(historicalSliceBatch8.people || {}),
-    ...(historicalSliceBatch9.people || {})
+    ...(historicalSliceBatch9.people || {}),
+    ...(historicalSliceBatch10.people || {})
   }
 });
 const creativeWorks = JSON.parse(await fs.readFile('data/ming_creative_works.json', 'utf8'));
@@ -47,7 +49,10 @@ const batch10Part1PersonPages = JSON.parse(await fs.readFile('data/ming_person_p
 const batch10Part2PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch10_part2.json', 'utf8'));
 const batch11PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch11.json', 'utf8'));
 const batch12PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch12.json', 'utf8'));
-const personPages = {people:{...(primaryPersonPages.people || {}), ...(batch2PersonPages.people || {}), ...(batch7PersonPages.people || {}), ...(batch7Part2PersonPages.people || {}), ...(batch7Part3PersonPages.people || batch7Part3PersonPages), ...(batch7Part4PersonPages.people || {}), ...(batch8Part1PersonPages.people || batch8Part1PersonPages), ...(batch8Part2PersonPages.people || batch8Part2PersonPages), ...(batch8Part3PersonPages.people || batch8Part3PersonPages), ...(batch10Part1PersonPages.people || {}), ...(batch10Part2PersonPages.people || {}), ...(batch11PersonPages.people || {}), ...(batch12PersonPages.people || {})}};
+const batch13PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch13.json', 'utf8'));
+const batch14PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch14.json', 'utf8'));
+const batch15PersonPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch15.json', 'utf8'));
+const personPages = {people:{...(primaryPersonPages.people || {}), ...(batch2PersonPages.people || {}), ...(batch7PersonPages.people || {}), ...(batch7Part2PersonPages.people || {}), ...(batch7Part3PersonPages.people || batch7Part3PersonPages), ...(batch7Part4PersonPages.people || {}), ...(batch8Part1PersonPages.people || batch8Part1PersonPages), ...(batch8Part2PersonPages.people || batch8Part2PersonPages), ...(batch8Part3PersonPages.people || batch8Part3PersonPages), ...(batch10Part1PersonPages.people || {}), ...(batch10Part2PersonPages.people || {}), ...(batch11PersonPages.people || {}), ...(batch12PersonPages.people || {}), ...(batch13PersonPages.people || {}), ...(batch14PersonPages.people || {}), ...(batch15PersonPages.people || {})}};
 const emperorDrawerProfiles = JSON.parse(await fs.readFile('data/ming_emperor_drawer_profiles.json', 'utf8'));
 let portraits = {downloaded: 0, total: 0, people: {}};
 try { portraits = JSON.parse(await fs.readFile('data/ming_portraits.json', 'utf8')); } catch {}
