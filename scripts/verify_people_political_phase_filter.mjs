@@ -8,12 +8,14 @@ const root = path.resolve(process.env.MING_PEOPLE_ON_DEMAND_ROOT || 'outputs/019
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const index = JSON.parse(await fs.readFile(path.join(root, 'assets/data/people-index.json'), 'utf8'));
 const hong = index.people.find((person) => person.name === '洪承畴');
+const hongguang = index.people.find((person) => person.name === '朱由崧');
 
 assert.ok(hong, 'political phase index must include 洪承畴');
 assert.equal(index.people.filter((person) => person.name === '洪承畴').length, 1, 'political phase filtering must not duplicate a person');
 assert.deepEqual(hong.politicalPhases?.map((phase) => phase.regime), ['明', '清'], 'index must expose 洪承畴的完整政权阶段');
 assert.equal(hong.politicalPhases?.[1]?.sourceIds, undefined, 'lightweight index must not expose phase source IDs');
 assert.deepEqual(index.periodFilters?.map((filter) => filter.id), ['ming', 'southern-ming', 'transition'], 'period filters must expose stable URL values');
+assert.deepEqual(hongguang?.periodIds, ['southern-ming'], 'Southern Ming phases must not be misclassified as Ming-Qing transition');
 
 const server = http.createServer(async (request, response) => {
   const requestPath = decodeURIComponent(new URL(request.url || '/', 'http://127.0.0.1').pathname);
