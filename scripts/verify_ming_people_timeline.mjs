@@ -47,7 +47,6 @@ const [core, children, timelineData] = await Promise.all([
 ]);
 
 const people = validatePeopleTimelineData({ core, children, timelineData });
-const layout = layoutPeopleTimeline(people);
 const years = people.map((person) => person.timeline_year);
 const approximate = people.filter((person) => /^约/.test(person.timeline_year_label)).length;
 const failures = [];
@@ -61,6 +60,12 @@ const emperors = people.filter((person) => person.timeline_size === 'emperor');
 if (emperors.length !== 16) {
   failures.push(`timeline must contain exactly 16 emperors; got ${emperors.length}`);
 }
+
+if (failures.length) {
+  throw new Error(failures.join('\n'));
+}
+
+const layout = layoutPeopleTimeline(people);
 
 const boundaryYears = layout.boundaries.map((boundary) => boundary.year);
 for (const boundary of MUSEUM_BOUNDARIES) {

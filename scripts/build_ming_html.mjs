@@ -360,7 +360,7 @@ ${storyStyleLink}
 <main class="shell">
   <header class="mast">
     <div><div class="eyebrow">Ming Biographical Register · Research Baseline 04</div><h1>明史人物谱<small>1368—1662</small></h1><p class="lede">人物不只存在于官职表：这里同时收录帝王宗室、后妃、文武官员、内廷人物、改变明朝命运的同时代政权人物、与明朝发生关键互动的域外人物，以及通过艺术、医学、出版与实地考察留下影响的在野人物。可按制度身份与历史领域交叉检索；评价分数是透明研究量表，不是“历史人物战力榜”。</p></div>
-    <div class="scope"><b>双重范围</b><br>人物表以北京明朝 1368—1644 为主体；事件年表延伸至南明终局 1662。<br><b>画像</b><br>${portraits.downloaded} 位人物使用可追溯的本地题图，${imaginedPortraitCount} 位使用AI想象像。明代画像、清代绘像、小说插图和AI想象均分别标识，不混称真实容貌。<br><b>叙事协议</b><br>生平分为“可考史实、合理推演、艺术想象”三层；推演与想象均用小字标签标明。<br><b>纪年</b><br>皇帝任期按实际即位年，区别于次年改元。人物任期与帝系按年份求交集；帝位交接年可能同时列入前后两朝。</div>
+    <div class="scope"><b>本馆范围</b><br>全馆叙事起于 1368 年明朝建立，1644 年北京明廷覆亡为主断点；人物、事件与关系网延展至 1662 年南明终局。1662 年后的经历仅在人物独立页作必要收束，不纳入全馆时间线与关系网。<br><b>画像</b><br>${portraits.downloaded} 位人物使用可追溯的本地题图，${imaginedPortraitCount} 位使用AI想象像。明代画像、清代绘像、小说插图和AI想象均分别标识，不混称真实容貌。<br><b>叙事协议</b><br>生平分为“可考史实、合理推演、艺术想象”三层；推演与想象均用小字标签标明。<br><b>纪年</b><br>皇帝任期按实际即位年，区别于次年改元。人物任期与帝系按年份求交集；帝位交接年可能同时列入前后两朝。</div>
   </header>
   <section class="stats" id="stats"></section>
   <section class="index-status" id="indexStatus" aria-live="assertive" hidden></section>
@@ -595,7 +595,7 @@ function renderPersonDetail(p,restoreScrollTop){
   const timelineSourceUrl=timelineSource(timelineMeta(p),p)?.url;
   const sourceUrls=[p.source1,p.source2,...lineageUrls,...institutionUrls,...basicInfoUrls,...identityUrls,...politicalPhaseUrls,tombSource,timelineSourceUrl,...(story?.sources||[]),...creativeUrls].filter(Boolean).filter((u,i,a)=>a.indexOf(u)===i);
   const storyBlock=drawerMeta
-    ? profilePreviewHtml(p)+creativeWorksHtml(p)
+    ? profilePreviewHtml(p)+reenactmentHtml(p)+creativeWorksHtml(p)
     : '<h4>一生故事</h4>'+personStoryHtml(p)+creativeWorksHtml(p)+reenactmentHtml(p);
   const governanceBlock=readableEmperor?emperorGovernanceHtml(drawerMeta,p):'';
   const assessmentBlock=readableEmperor?founderBasicNotesHtml(basicInfo,drawerMeta?.assessment,p,drawerMeta):'';

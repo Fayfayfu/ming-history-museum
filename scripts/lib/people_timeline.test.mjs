@@ -142,11 +142,13 @@ test('layout keeps real timeline data on the strict year scale', async () => {
   assert.equal(fuShan.lane.id, 'independent');
   const wangBaobao = layout.nodes.find((node) => node.name === '王保保');
   assert.equal(wangBaobao.timeline_year, 1362);
+  assert.equal(wangBaobao.displayYear, 1368);
   assert.equal(wangBaobao.lane.id, 'external');
+  assert.equal(layout.minYear, 1368);
   assert.equal(layout.maxYear, 1662);
   assert.deepEqual(layout.boundaries.map((boundary) => boundary.year), [1368, 1644, 1662]);
-  assert.ok(layout.width >= 6800 && layout.width <= 7200);
-  assert.ok(layout.height >= 960 && layout.height <= 1000, `timeline height must stay within one 1000px canvas, got ${layout.height}px`);
+  assert.ok(layout.width >= 6700 && layout.width <= 6800);
+  assert.ok(layout.height >= 960 && layout.height <= 1200, `timeline height must stay within one 1200px canvas, got ${layout.height}px`);
   const topNodes = layout.nodes.filter((node) => node.lane.side === 'top');
   const topContentEdge = Math.min(...topNodes.map((node) => node.y - node.sizePx / 2));
   assert.ok(
@@ -174,14 +176,14 @@ test('layout keeps real timeline data on the strict year scale', async () => {
     const gap = laneBounds(innerLane).min - laneBounds(outerLane).max;
     assert.ok(gap >= 0 && gap <= 4, `${outerLane}/${innerLane} category gap must stay compact, got ${gap}px`);
   }
-  assert.ok(layout.minYear < 1368);
-  assert.ok(layout.maxYear >= 1644);
+  assert.equal(layout.minYear, 1368);
+  assert.equal(layout.maxYear, 1662);
   assert.deepEqual(
     repeated.nodes.map((node) => [node.name, node.x, node.y, node.slot]),
     layout.nodes.map((node) => [node.name, node.x, node.y, node.slot])
   );
   for (const node of layout.nodes) {
-    assert.equal(node.x, 140 + (node.timeline_year - layout.minYear) * 22);
+    assert.equal(node.x, 140 + (node.displayYear - layout.minYear) * 22);
   }
   for (const nodes of Object.values(Object.groupBy(layout.nodes, (node) => `${node.lane.id}:${node.slot}`))) {
     nodes.sort((left, right) => left.x - right.x);
