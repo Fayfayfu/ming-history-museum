@@ -100,7 +100,7 @@ try {
   if (parseFloat(card.founderIdentityRowGap) > 6 || !card.founderIdentityRowsSingleLine) errors.push(`朱元璋身份格行距或换行不符合紧凑两行标准：gap ${card.founderIdentityRowGap}，单行 ${card.founderIdentityRowsSingleLine}`);
   if (card.standaloneFounderDomains !== 1 || card.founderIdentityDomains.length < 2 || !card.founderIdentityDomains.includes('政治制度') || !card.founderIdentityDomains.includes('军事边疆')) errors.push(`历史领域应独立成格并显示全部领域，实际为 ${card.founderIdentityDomains.join('|') || '无'} / 独立格 ${card.standaloneFounderDomains}`);
   if (card.royalColumns.length !== 3) errors.push(`皇室关系应为三栏，实际为 ${card.royalColumns.length}`);
-  if (!card.royalColumns[0]?.includes('朱世珍') || !card.royalColumns[0]?.includes('陈氏') || !card.royalColumns[0]?.includes('濠州朱氏开国一系')) errors.push('家庭出身栏缺少父母或支系信息');
+  if (!card.royalColumns[0]?.includes('朱世珍') || !card.royalColumns[0]?.includes('陈氏') || !card.royalColumns[0]?.includes('濠州朱氏开国一系')) errors.push('父母/帝系栏缺少父母或支系信息');
   if (!card.royalColumns[1]?.includes('皇子 26') || !card.royalColumns[1]?.includes('皇女 16') || !card.royalColumns[1]?.includes('合计 42') || !card.royalColumns[1]?.includes('本馆收录 6')) errors.push('子女栏数量或本馆收录边界不完整');
   if (!card.royalColumns[2]?.includes('帝位来源') || !card.royalColumns[2]?.includes('1368') || !card.royalColumns[2]?.includes('朱标') || !card.royalColumns[2]?.includes('朱允炆') || card.royalColumns[2]?.includes('入继')) errors.push('帝位与继承栏叙述不符合开国皇帝语义');
   if (card.reformsInsideFacts !== 0) errors.push(`基本信息表不应包含关键制度改造，实际命中 ${card.reformsInsideFacts} 个节点`);

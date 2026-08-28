@@ -609,6 +609,21 @@
       "url": "https://zh.wikisource.org/wiki/明史/卷120",
       "kind": "正史"
     },
+    "DPM_NANMING_HONGGUANG": {
+      "label": "故宫博物院·南明弘光政权及其覆灭",
+      "url": "https://www.dpm.org.cn/court/event/159031.html",
+      "kind": "博物馆"
+    },
+    "DPM_NANMING_LONGWU": {
+      "label": "故宫博物院·隆武政权",
+      "url": "https://www.dpm.org.cn/court/event/159831.html",
+      "kind": "博物馆"
+    },
+    "NMC_YONGLI_EDICT": {
+      "label": "中国国家博物馆·康熙元年三月十二日俘获永历帝宣捷诏谕",
+      "url": "https://www.chnmuseum.cn/zp/zpml/gjwxbt/202008/t20200824_247135.shtml",
+      "kind": "博物馆"
+    },
     "MS124": {
       "label": "《明史》卷124",
       "url": "https://zh.wikisource.org/wiki/明史/卷124",
@@ -1445,6 +1460,48 @@
         "MS274"
       ],
       "timeline_role": "南明督师",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱由崧",
+      "source": "core",
+      "timeline_year": 1644,
+      "timeline_year_label": "1644",
+      "timeline_year_basis": "故宫博物院“南明弘光政权及其覆灭”条目记1644年5月朱由崧于南京即位，形成弘光政权",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "DPM_NANMING_HONGGUANG",
+        "MS120"
+      ],
+      "timeline_role": "弘光政权君主",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱聿键",
+      "source": "core",
+      "timeline_year": 1645,
+      "timeline_year_label": "1645",
+      "timeline_year_basis": "故宫博物院隆武政权条目记1645年闰六月唐王朱聿键在福州即位",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "DPM_NANMING_LONGWU",
+        "MS118"
+      ],
+      "timeline_role": "隆武政权君主",
+      "timeline_size": "standard"
+    },
+    {
+      "name": "朱由榔",
+      "source": "core",
+      "timeline_year": 1646,
+      "timeline_year_label": "1646",
+      "timeline_year_basis": "国家博物馆永历诏谕藏品说明记朱由榔1646年即位，1662年被杀",
+      "timeline_year_confidence": "高",
+      "timeline_source_refs": [
+        "NMC_YONGLI_EDICT",
+        "MS120"
+      ],
+      "timeline_role": "永历政权君主",
       "timeline_size": "standard"
     },
     {

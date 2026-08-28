@@ -21,6 +21,7 @@ const requiredEventFields = ['id', 'year', 'date', 'eraYear', 'title', 'stage', 
 const fail = (message) => { throw new Error(`People on-demand data verification failed: ${message}`); };
 const relative = (file) => path.relative(root, file).split(path.sep).join('/');
 const exists = async (file) => fs.access(file).then(() => true).catch(() => false);
+const sameJson = (left, right) => JSON.stringify(left) === JSON.stringify(right);
 const readText = async (file) => {
   try {
     return await fs.readFile(file, 'utf8');
@@ -47,6 +48,19 @@ function requiredFields(entry, fields, label) {
   assert(entry && typeof entry === 'object' && !Array.isArray(entry), `${label} must be an object`);
   for (const field of fields) {
     assert(Object.hasOwn(entry, field), `${label} is missing deep-link/filter field ${field}`);
+  }
+}
+
+function assertCompactPoliticalPhases(entry) {
+  if (!Object.hasOwn(entry, 'politicalPhases')) return;
+  assert(Array.isArray(entry.politicalPhases) && entry.politicalPhases.length > 0, `people index entry ${entry.id} politicalPhases must be a nonempty array`);
+  for (const phase of entry.politicalPhases) {
+    assert(phase && typeof phase === 'object' && !Array.isArray(phase), `people index entry ${entry.id} has an invalid political phase`);
+    assert(sameJson(Object.keys(phase).sort(), ['confidence', 'end', 'regime', 'role', 'start']), `people index entry ${entry.id} political phase must stay compact`);
+    assert(typeof phase.regime === 'string' && phase.regime, `people index entry ${entry.id} political phase regime is missing`);
+    assert(Number.isInteger(phase.start) && Number.isInteger(phase.end) && phase.start <= phase.end, `people index entry ${entry.id} political phase years are invalid`);
+    assert(typeof phase.role === 'string' && phase.role, `people index entry ${entry.id} political phase role is missing`);
+    assert(typeof phase.confidence === 'string' && phase.confidence, `people index entry ${entry.id} political phase confidence is missing`);
   }
 }
 
@@ -146,6 +160,7 @@ for (const person of peopleIndex.people) {
   requiredFields(person, requiredPersonFields, `people index entry ${person?.id || '<unknown>'}`);
   assert(Array.isArray(person.domains), `people index entry ${person.id} domains must be an array`);
   assert(Array.isArray(person.institutionIds), `people index entry ${person.id} institutionIds must be an array`);
+  assertCompactPoliticalPhases(person);
 }
 for (const event of eventsIndex.events) {
   requiredFields(event, requiredEventFields, `events index entry ${event?.id || '<unknown>'}`);
@@ -207,6 +222,15 @@ for (const entry of peopleIndex.people) {
     assert(entry.id.startsWith('person-'), `person ${entry.name} without an independent page must use a semantic derived ID`);
   }
   assert(entry.rowId === entry.id, `person ${entry.name} rowId must reuse its stable person ID`);
+  if (entry.politicalPhases) {
+    const detailPhases = detail.drawer?.politicalPhases;
+    assert(Array.isArray(detailPhases) && detailPhases.length === entry.politicalPhases.length, `person ${entry.name} detail must retain every political phase`);
+    for (const [index, phase] of detailPhases.entries()) {
+      const { sourceIds, ...compactPhase } = phase || {};
+      assert(sameJson(compactPhase, entry.politicalPhases[index]), `person ${entry.name} detail phase ${index + 1} must match its lightweight index phase`);
+      assert(Array.isArray(sourceIds) && sourceIds.length > 0, `person ${entry.name} detail phase ${index + 1} must retain source IDs`);
+    }
+  }
   personDetails.push(detail);
 }
 const eventDetails = [];

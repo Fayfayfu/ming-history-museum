@@ -1,0 +1,157 @@
+{
+  "version": "1.0",
+  "people": {
+    "洪承畴": [
+      {
+        "regime": "明",
+        "start": 1616,
+        "end": 1642,
+        "role": "明朝文臣、蓟辽总督",
+        "confidence": "高",
+        "sourceIds": ["QSG237"]
+      },
+      {
+        "regime": "清",
+        "start": 1642,
+        "end": 1661,
+        "role": "清廷大学士、五省经略",
+        "confidence": "高",
+        "sourceIds": ["QSG237"]
+      }
+    ],
+    "傅山": [
+      {
+        "regime": "明",
+        "start": 1636,
+        "end": 1644,
+        "role": "明末诸生、伏阙申冤者",
+        "confidence": "高",
+        "sourceIds": ["DPM_FUSHAN_1636"]
+      },
+      {
+        "regime": "遗民",
+        "start": 1644,
+        "end": 1662,
+        "role": "明遗民、书画医家",
+        "confidence": "高",
+        "sourceIds": ["DPM_FUSHAN"]
+      }
+    ],
+    "吴三桂": [
+      {
+        "regime": "明",
+        "start": 1630,
+        "end": 1644,
+        "role": "辽东总兵",
+        "confidence": "中",
+        "sourceIds": ["QSLZ080"]
+      },
+      {
+        "regime": "清",
+        "start": 1644,
+        "end": 1662,
+        "role": "清朝平西王、征南统帅",
+        "confidence": "中",
+        "sourceIds": ["QSLZ080"]
+      }
+    ],
+    "史可法": [
+      {
+        "regime": "明",
+        "start": 1628,
+        "end": 1644,
+        "role": "明朝文臣、兵部尚书",
+        "confidence": "高",
+        "sourceIds": ["MS274"],
+        "note": "《明史》卷274可核其明末仕历；本段只标其在北京明廷覆亡前的官员身份。"
+      },
+      {
+        "regime": "弘光",
+        "start": 1644,
+        "end": 1645,
+        "role": "弘光政权兵部尚书、督师扬州",
+        "confidence": "高",
+        "sourceIds": ["MS274"],
+        "note": "《明史》卷274可核其弘光朝督师扬州及1645年殉难；扬州战事细节与后世叙事不在此阶段标签中裁断。"
+      }
+    ],
+    "黄道周": [
+      {
+        "regime": "明",
+        "start": 1622,
+        "end": 1644,
+        "role": "明朝文臣、礼部尚书",
+        "confidence": "高",
+        "sourceIds": ["MS255"],
+        "note": "《明史》卷255可核其天启进士、明末仕历；本段止于北京明廷覆亡。"
+      },
+      {
+        "regime": "隆武",
+        "start": 1645,
+        "end": 1646,
+        "role": "隆武政权武英殿大学士",
+        "confidence": "高",
+        "sourceIds": ["MS255"],
+        "note": "《明史》卷255可核唐王即位后拜武英殿大学士及1646年被害；政权实际控制范围不由此标签推定。"
+      }
+    ],
+    "李自成": [
+      {
+        "regime": "大顺",
+        "start": 1644,
+        "end": 1645,
+        "role": "大顺政权君主",
+        "confidence": "高",
+        "sourceIds": ["MS309"],
+        "note": "《明史》卷309可核1644年入北京、建立大顺政权和1645年后失载；其死因与地点争议不作为本阶段的确定事实。"
+      }
+    ],
+    "多尔衮": [
+      {
+        "regime": "清",
+        "start": 1644,
+        "end": 1650,
+        "role": "清摄政睿亲王",
+        "confidence": "高",
+        "sourceIds": ["DPM_DORGON"],
+        "note": "故宫博物院多尔衮条目可核其1644年入关后摄政与1650年去世；本阶段不把其影响范围概括为完整的全国控制。"
+      }
+    ],
+    "朱由崧": [
+      {
+        "regime": "弘光",
+        "phase": "ruler",
+        "start": 1644,
+        "end": 1645,
+        "role": "弘光政权君主",
+        "confidence": "高",
+        "sourceIds": ["DPM_NANMING_HONGGUANG", "MS120"],
+        "note": "来源可核1644年南京即位和弘光政权短暂存在；正统性与控制范围按南明分支说明，不并入北京明廷帝系。"
+      }
+    ],
+    "朱聿键": [
+      {
+        "regime": "隆武",
+        "phase": "ruler",
+        "start": 1645,
+        "end": 1646,
+        "role": "隆武政权君主",
+        "confidence": "高",
+        "sourceIds": ["DPM_NANMING_LONGWU", "MS118"],
+        "note": "来源可核福州即位与1646年遇害；实际政权范围和郑氏集团影响属于解释层。"
+      }
+    ],
+    "朱由榔": [
+      {
+        "regime": "永历",
+        "phase": "ruler",
+        "start": 1646,
+        "end": 1662,
+        "role": "永历政权君主",
+        "confidence": "高",
+        "sourceIds": ["NMC_YONGLI_EDICT", "MS120"],
+        "note": "来源可核1646年即位与1662年被杀；本馆用1662年作为南明主线终局。"
+      }
+    ]
+  }
+}

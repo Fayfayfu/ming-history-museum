@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-08-09T07:06:53.023Z",
-  "downloaded": 84,
-  "generated": 75,
+  "generatedAt": "2026-08-27T17:40:09Z",
+  "downloaded": 86,
+  "generated": 86,
   "currentBatch": {
-    "id": 20,
-    "label": "第二十批 · 傅山与王保保AI想象像",
-    "count": 2,
-    "selection": "为新增人物傅山、王保保补齐AI想象像；史实只用于身份、时代和情境锚定，相貌与现场不作史实。"
+    "id": 23,
+    "label": "第二十三批 · 南明三君主画像",
+    "count": 3,
+    "selection": "为弘光、隆武、永历三位南明君主补齐人物馆画像；隆武使用低置信度后世传绘，弘光与永历使用明确标注的AI想象像。"
   },
-  "total": 159,
+  "total": 172,
   "people": {
     "朱元璋": {
       "status": "image",
@@ -2494,6 +2494,55 @@
       "height": 1448,
       "objectPosition": "50% 18%",
       "note": "未找到年代、人物归属与许可可同时核验的传世肖像。画面仅以辽东经略、冬季城防、军械与空白城防图为时代锚点；五官、神态、服饰细节和具体时刻均为艺术想象。"
+    },
+    "朱由崧": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-23/朱由崧_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-23/朱由崧_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 23,
+      "generatedWith": "OpenAI image generation",
+      "evidence": [
+        "https://www.dpm.org.cn/court/event/159031.html",
+        "https://zh.wikisource.org/wiki/明史/卷120"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "objectPosition": "50% 18%",
+      "note": "未采用带第三方水印且原始出处链薄弱的网络传绘图。画面仅以1644年前后南明弘光政权、晚明帝王冠服与南京宫廷为时代锚点；五官、神态、服饰细节和背景均为艺术想象，不代表本人真实长相。"
+    },
+    "朱聿键": {
+      "status": "image",
+      "file": "assets/portraits/batch-23/朱聿键_清代后世传绘.webp",
+      "originalFile": "data/media-originals/portraits/batch-23/朱聿键_清代后世传绘.jpg",
+      "portraitKind": "清代后世传绘",
+      "confidence": "低",
+      "page": "https://zh.wikipedia.org/wiki/隆武帝",
+      "commons": "https://commons.wikimedia.org/wiki/File:Long-wu.jpg",
+      "fileName": "Long-wu.jpg",
+      "license": "Public Domain",
+      "width": 241,
+      "height": 317,
+      "objectPosition": "50% 15%",
+      "note": "Wikimedia Commons 将其说明为清代旧绘、作者不详并标为公共领域；首次刊行与原收藏信息不完整。仅作后世人物题图，不能证明朱聿键真实面貌。"
+    },
+    "朱由榔": {
+      "status": "imagined",
+      "file": "assets/portraits/batch-23/朱由榔_AI想象像.webp",
+      "originalFile": "data/media-originals/portraits/batch-23/朱由榔_AI想象像.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "batch": 23,
+      "generatedWith": "OpenAI image generation",
+      "evidence": [
+        "https://www.chnmuseum.cn/zp/zpml/gjwxbt/202008/t20200824_247135.shtml",
+        "https://zh.wikisource.org/wiki/明史/卷120"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "objectPosition": "50% 18%",
+      "note": "未找到人物归属、年代和许可均可核验的传世像。画面仅以南明永历政权、西南流徙宫廷与晚明帝王冠服为时代锚点；五官、神态、服饰细节和背景均为艺术想象，不代表本人真实长相。"
     }
   }
 }

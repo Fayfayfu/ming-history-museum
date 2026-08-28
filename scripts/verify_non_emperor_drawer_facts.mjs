@@ -31,12 +31,12 @@ try{
 
   const zhang=await audit('张居正');
   if(!zhang.identity.includes('身份 / 职务')||!zhang.identity.includes('文臣 · 内阁首辅'))errors.push(`张居正身份语义错误：${zhang.identity}`);
-  if(!zhang.identitySingleLine||zhang.factClasses[0]!=='fact person-identity'||!zhang.factClasses[1]?.includes('person-domain'))errors.push(`张居正首行应为单行身份、右上历史领域：${JSON.stringify(zhang)}`);
+  if(!zhang.identitySingleLine||zhang.factClasses[0]!=='fact person-identity'||zhang.factClasses[1]!=='fact person-period')errors.push(`张居正首行应为单行身份、右上任职时期：${JSON.stringify(zhang)}`);
   if(!zhang.period.startsWith('任职时期 / 历朝')||!zhang.assessment.includes('生平事迹')||!zhang.assessment.includes('历史评价')||zhang.assessmentCards!==2||zhang.outsideNarrative!==0)errors.push(`张居正任期或评价结构错误：${JSON.stringify(zhang)}`);
   if(!zhang.institution.includes('内阁 · 任职')||zhang.institution.includes('万历初年首辅'))errors.push(`张居正关联机构没有压缩：${zhang.institution}`);
 
   const qi=await audit('戚继光');
-  if(qi.blankFacts!==0||!qi.fullWidth.some(value=>value.includes('person-period-wide'))||qi.factClasses[1]!=='fact person-domain'||qi.bodyWidth>qi.viewport)errors.push(`戚继光无机构时应让时期通栏，同时历史领域固定右上：${JSON.stringify(qi)}`);
+  if(qi.blankFacts!==0||qi.fullWidth.some(value=>value.includes('person-period'))||qi.factClasses[1]!=='fact person-period'||qi.bodyWidth>qi.viewport)errors.push(`戚继光任职时期应固定右上且不通栏：${JSON.stringify(qi)}`);
 
   const wei=await audit('魏忠贤');
   if(/万历帝 · 1620—1620|泰昌帝 · 1620—1620|崇祯帝 · 1627—1627/.test(wei.period))errors.push(`魏忠贤仍显示零长度历朝：${wei.period}`);
@@ -47,7 +47,7 @@ try{
   if(wan.identity.includes('后妃与内廷女性'))errors.push(`万贵妃身份正文不应重复网站分类：${wan.identity}`);
 
   const xu=await audit('徐霞客');
-  if(!xu.period.startsWith('主要活动期')||xu.period.endsWith('—')||!xu.fullWidth.some(value=>value.includes('person-period-wide'))||xu.factClasses[1]!=='fact person-domain')errors.push(`徐霞客活动期或右上领域布局错误：${JSON.stringify(xu)}`);
+  if(!xu.period.startsWith('主要活动期')||xu.period.endsWith('—')||xu.fullWidth.some(value=>value.includes('person-period'))||xu.factClasses[1]!=='fact person-period')errors.push(`徐霞客活动期或右上任职时期布局错误：${JSON.stringify(xu)}`);
   if(xu.identity.includes('在野人物')||!xu.identity.includes('旅行家、地理考察者、作家'))errors.push(`徐霞客身份正文应使用真实身份而非网站分类：${xu.identity}`);
 
   const zhubiao=await audit('朱标');

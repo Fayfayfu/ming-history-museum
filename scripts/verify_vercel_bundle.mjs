@@ -96,6 +96,7 @@ for (const file of files) {
     developmentCopy: /B\s*版|C\s*版|返回明代官制档案|版本号/.test(document.body.textContent),
     scrollVariant: document.body.dataset.scrollVariant || '',
     robots: document.querySelector('meta[name="robots"]')?.getAttribute('content') || '',
+    scopeCopy: document.body.textContent.replace(/\s+/g, ' ').trim(),
   }), file));
   pages.at(-1).responseStatus = response?.status() || 0;
 }
@@ -171,6 +172,7 @@ const audit = {
   errors,
   typography,
   cachePolicy,
+  scopeCopy: Object.fromEntries(['index.html', 'people.html', 'events.html'].map(file => [file, pages.find(record => record.file === file)?.scopeCopy || ''])),
   pass: pages.length === files.length
     && pages.every(record => record.responseStatus === 200 && record.title && record.broken === 0 && record.bodyWidth === record.viewport)
     && pages.every(record => record.navLabels.includes('专题展'))
@@ -190,6 +192,7 @@ const audit = {
     })
     && pages.find(record => record.file === 'people.html')?.scrollVariant === 'b2'
     && pages.find(record => record.file === 'people.html')?.robots === ''
+    && ['index.html', 'people.html', 'events.html'].every(file => ['1368', '1644', '1662', '北京明廷覆亡', '南明终局'].every(token => pages.find(record => record.file === file)?.scopeCopy.includes(token)))
     && yao.open && yao.loaded && yao.src?.endsWith('.webp')
     && yangJisheng.open && yangJisheng.name === '杨继盛' && yangJisheng.portraitLoaded
     && yangJisheng.portraitLabel === '18世纪清人绘像'

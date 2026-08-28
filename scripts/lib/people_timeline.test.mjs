@@ -20,10 +20,10 @@ test('canonicalPersonName normalizes traditional variants used by the two datase
   assert.equal(canonicalPersonName(' 朱載坖 '), '朱载坖');
 });
 
-test('uniquePeopleRoster keeps 175 formal people and removes duplicate child records', () => {
+test('uniquePeopleRoster keeps 178 formal people and removes duplicate child records', () => {
   const roster = uniquePeopleRoster(core, children);
-  assert.equal(roster.length, 175);
-  assert.equal(new Set(roster.map((person) => canonicalPersonName(person.name))).size, 175);
+  assert.equal(roster.length, 178);
+  assert.equal(new Set(roster.map((person) => canonicalPersonName(person.name))).size, 178);
   assert.equal(roster.find((person) => person.name === '朱棣').source, 'core');
   assert.equal(roster.find((person) => person.name === '傅山').alt, '字青主，号真山、朱衣道人');
   assert.equal(roster.find((person) => person.name === '王保保').alt, '扩廓帖木儿');
@@ -82,12 +82,16 @@ test('layout uses one strict x scale and keeps people on the correct side of the
   ];
   const layout = layoutPeopleTimeline(people, { yearPx: 22, paddingX: 140, minHeight: 960, maxHeight: 1400 });
   const byName = Object.fromEntries(layout.nodes.map((node) => [node.name, node]));
+  assert.equal(layout.minYear, 1352);
+  assert.equal(byName.前朝人物.displayYear, 1352);
+  assert.ok(byName.前朝人物.x < layout.boundaries.find((boundary) => boundary.year === 1368).x);
   assert.equal(byName.王守仁.x - byName.于谦.x, (1499 - 1421) * 22);
   assert.equal(byName.张居正.x - byName.王守仁.x, (1547 - 1499) * 22);
   assert.ok(byName.甲帝.y < layout.axisY);
   assert.ok(byName.甲宦官.y > layout.axisY);
   assert.ok(layout.boundaries.some((boundary) => boundary.year === 1368));
   assert.ok(layout.boundaries.some((boundary) => boundary.year === 1644));
+  assert.ok(layout.boundaries.some((boundary) => boundary.year === 1662));
 });
 
 test('top lanes run women children emperor toward the axis while eunuchs stay nearest below', () => {
@@ -134,16 +138,20 @@ test('layout keeps real timeline data on the strict year scale', async () => {
   const repeated = layoutPeopleTimeline(people);
   const names = new Set(layout.nodes.map((node) => canonicalPersonName(node.name)));
 
-  assert.equal(layout.nodes.length, 175);
-  assert.equal(names.size, 175);
+  assert.equal(layout.nodes.length, 178);
+  assert.equal(names.size, 178);
   const fuShan = layout.nodes.find((node) => node.name === '傅山');
   assert.equal(fuShan.timeline_year, 1636);
   assert.equal(fuShan.lane.id, 'independent');
   const wangBaobao = layout.nodes.find((node) => node.name === '王保保');
   assert.equal(wangBaobao.timeline_year, 1362);
+  assert.equal(wangBaobao.displayYear, 1362);
   assert.equal(wangBaobao.lane.id, 'external');
-  assert.ok(layout.width >= 6500 && layout.width <= 7500);
-  assert.ok(layout.height >= 960 && layout.height <= 1000, `timeline height must stay within one 1000px canvas, got ${layout.height}px`);
+  assert.equal(layout.minYear, 1352);
+  assert.equal(layout.maxYear, 1662);
+  assert.deepEqual(layout.boundaries.map((boundary) => boundary.year), [1368, 1644, 1662]);
+  assert.equal(layout.width, 7100);
+  assert.ok(layout.height >= 960 && layout.height <= 1200, `timeline height must stay within one 1200px canvas, got ${layout.height}px`);
   const topNodes = layout.nodes.filter((node) => node.lane.side === 'top');
   const topContentEdge = Math.min(...topNodes.map((node) => node.y - node.sizePx / 2));
   assert.ok(
@@ -171,14 +179,14 @@ test('layout keeps real timeline data on the strict year scale', async () => {
     const gap = laneBounds(innerLane).min - laneBounds(outerLane).max;
     assert.ok(gap >= 0 && gap <= 4, `${outerLane}/${innerLane} category gap must stay compact, got ${gap}px`);
   }
-  assert.ok(layout.minYear < 1368);
-  assert.ok(layout.maxYear >= 1644);
+  assert.equal(layout.minYear, 1352);
+  assert.equal(layout.maxYear, 1662);
   assert.deepEqual(
     repeated.nodes.map((node) => [node.name, node.x, node.y, node.slot]),
     layout.nodes.map((node) => [node.name, node.x, node.y, node.slot])
   );
   for (const node of layout.nodes) {
-    assert.equal(node.x, 140 + (node.timeline_year - layout.minYear) * 22);
+    assert.equal(node.x, 140 + (node.displayYear - layout.minYear) * 22);
   }
   for (const nodes of Object.values(Object.groupBy(layout.nodes, (node) => `${node.lane.id}:${node.slot}`))) {
     nodes.sort((left, right) => left.x - right.x);
@@ -211,13 +219,15 @@ test('renderer outputs every semantic lane and never writes 最近皇帝', async
   const html = renderPeopleTimeline({ people, layout, portraitFor: () => null });
 
   assert.match(html, /id="peopleTimelineView"/);
-  assert.equal((html.match(/data-timeline-person=/g) || []).length, 175);
+  assert.equal((html.match(/data-timeline-person=/g) || []).length, 178);
   const personArticles = html.match(/<article class="timeline-person[^>]*>/g) || [];
   const allowedLanes = new Set(['women', 'children', 'emperor', 'eunuch', 'officials', 'independent', 'external']);
-  assert.equal(personArticles.length, 175);
+  assert.equal(personArticles.length, 178);
   assert.match(html, /data-timeline-person="傅山"/);
   assert.match(html, /data-timeline-fallback>傅<\/span>/);
   assert.match(html, /data-timeline-person="王保保"/);
+  assert.match(html, /北京明廷覆亡/);
+  assert.match(html, /南明终局/);
   for (const article of personArticles) {
     const lane = article.match(/data-lane="([^"]+)"/)?.[1];
     const layer = article.match(/data-layer="([^"]+)"/)?.[1];
@@ -230,6 +240,8 @@ test('renderer outputs every semantic lane and never writes 最近皇帝', async
   assert.doesNotMatch(html, /最近皇帝/);
   assert.match(html, /data-people-view="timeline"/);
   assert.match(html, /data-people-view="table"/);
+  assert.doesNotMatch(html, /timeline-phase-legend/);
+  assert.doesNotMatch(html, /颜色仅表示所处阶段/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.people-timeline-viewport\{overflow-x:auto/);
   assert.match(
     PEOPLE_TIMELINE_CSS,
@@ -238,15 +250,15 @@ test('renderer outputs every semantic lane and never writes 最近皇帝', async
   );
 });
 
-test('renderer gives all 175 people escaped basis text and one non-blocking axis guide', async () => {
+test('renderer gives all 178 people escaped basis text and one non-blocking axis guide', async () => {
   const timelineData = JSON.parse(await fs.readFile('data/ming_people_timeline.json', 'utf8'));
   const people = validatePeopleTimelineData({ core, children, timelineData });
   const layout = layoutPeopleTimeline(people);
   const html = renderPeopleTimeline({ people, layout, portraitFor: () => null });
 
-  assert.equal((html.match(/data-timeline-guide=/g) || []).length, 175);
-  assert.equal((html.match(/class="timeline-person-basis"/g) || []).length, 175);
-  assert.equal((html.match(/data-side="(?:top|bottom)"/g) || []).length, 175);
+  assert.equal((html.match(/data-timeline-guide=/g) || []).length, 178);
+  assert.equal((html.match(/class="timeline-person-basis"/g) || []).length, 178);
+  assert.equal((html.match(/data-side="(?:top|bottom)"/g) || []).length, 178);
   assert.match(html, /永乐十九年中进士，进入仕途/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person-guide\{[^}]*pointer-events:none/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.timeline-person\.is-selected \.timeline-person-guide/);

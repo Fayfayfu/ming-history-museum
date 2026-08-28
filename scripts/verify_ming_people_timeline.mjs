@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
-import { validatePeopleTimelineData } from './lib/people_timeline.mjs';
+import { MUSEUM_BOUNDARIES, MUSEUM_TIMELINE_SCOPE } from './lib/museum_temporal_scope.mjs';
+import { layoutPeopleTimeline, validatePeopleTimelineData } from './lib/people_timeline.mjs';
 
 const ALLOWED_SOURCE_KINDS = new Set([
   '正史',
@@ -50,14 +51,30 @@ const years = people.map((person) => person.timeline_year);
 const approximate = people.filter((person) => /^约/.test(person.timeline_year_label)).length;
 const failures = [];
 
-// The curated source roster is 151 core people plus 24 non-duplicate important children.
+// The curated source roster is 154 core people plus 24 non-duplicate important children.
 // Keep this fixed contract so a self-consistent accidental source deletion cannot lower the gate.
-const expectedPeopleCount = 175;
+const expectedPeopleCount = 178;
 if (people.length !== expectedPeopleCount) failures.push(`timeline must contain exactly ${expectedPeopleCount} people; got ${people.length}`);
 
 const emperors = people.filter((person) => person.timeline_size === 'emperor');
 if (emperors.length !== 16) {
   failures.push(`timeline must contain exactly 16 emperors; got ${emperors.length}`);
+}
+
+if (failures.length) {
+  throw new Error(failures.join('\n'));
+}
+
+const layout = layoutPeopleTimeline(people);
+
+const boundaryYears = layout.boundaries.map((boundary) => boundary.year);
+for (const boundary of MUSEUM_BOUNDARIES) {
+  if (!boundaryYears.includes(boundary.year)) {
+    failures.push(`timeline layout must render boundary ${boundary.year} (${boundary.label})`);
+  }
+}
+if (layout.maxYear !== MUSEUM_TIMELINE_SCOPE.end) {
+  failures.push(`timeline layout must end at ${MUSEUM_TIMELINE_SCOPE.end}; got ${layout.maxYear}`);
 }
 
 for (const [sourceId, source] of Object.entries(timelineData.source_catalog)) {
@@ -131,5 +148,5 @@ if (failures.length) {
 }
 
 console.log(
-  `People timeline verified: ${people.length} people, ${Math.min(...years)}-${Math.max(...years)}, ${approximate} approximate.`,
+  `People timeline verified: ${people.length} people, layout ${layout.minYear}-${layout.maxYear}, people ${Math.min(...years)}-${Math.max(...years)}, ${approximate} approximate.`,
 );

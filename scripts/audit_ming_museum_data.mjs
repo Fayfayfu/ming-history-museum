@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { validatePoliticalPhases } from './lib/political_phases.mjs';
 
 const read = async name => JSON.parse(await fs.readFile(`data/${name}`, 'utf8'));
 const core = await read('ming_core.json');
@@ -9,6 +10,8 @@ const events = await read('ming_events.json');
 const storytelling = await read('ming_storytelling.json');
 const portraits = await read('ming_portraits.json');
 const lineages = await read('ming_imperial_lineages.json');
+const peopleTimeline = await read('ming_people_timeline.json');
+const politicalPhaseData = await read('ming_political_phases.json');
 const batches = [];
 for (let index = 2; index <= 10; index += 1) batches.push(await read(`ming_historical_slices_batch${index}.json`));
 
@@ -23,6 +26,12 @@ const notes = [];
 const duplicateNames = values => [...new Set(values.filter((name, index) => values.indexOf(name) !== index))];
 const coreNames = new Set(core.map(person => person.name));
 const knownNames = new Set([...coreNames, ...importantChildren.map(person => person.name), ...allChildren.map(person => person.name)]);
+const politicalPhaseErrors = validatePoliticalPhases({
+  roster: knownNames,
+  phaseData: { ...politicalPhaseData, source_catalog: peopleTimeline.source_catalog },
+});
+errors.push(...politicalPhaseErrors);
+const politicalPhases = Object.values(politicalPhaseData.people || {}).reduce((count, phases) => count + phases.length, 0);
 const duplicates = duplicateNames(core.map(person => person.name));
 if (duplicates.length) errors.push(`人物主表重名：${duplicates.join('、')}`);
 
@@ -101,6 +110,7 @@ const confidenceCounts = Object.entries(core.reduce((result, person) => {
 }, {}));
 notes.push(`重要子嗣 ${importantChildren.length} 条；全量子嗣 ${allChildren.length} 条；事件 ${(events.events || []).length} 条。`);
 notes.push(`画像元数据 ${Object.keys(portraits.people || {}).length} 人，已登记文件缺失 ${missingPortraitFiles.length} 项。`);
+notes.push(`政治阶段 ${politicalPhases} 条，覆盖 ${Object.keys(politicalPhaseData.people || {}).length} 位既有人物。`);
 
 const status = errors.length ? 'FAIL' : reviews.length ? 'PASS WITH REVIEW' : 'PASS';
 const report = `# 明史数字博物馆 · 全馆质量审校
@@ -121,6 +131,7 @@ const report = `# 明史数字博物馆 · 全馆质量审校
 | 尚待补证人物 | ${uncovered.length} |
 | 皇帝独立帝系关系 | ${Object.keys(lineages.people || {}).length} / ${emperors.length} |
 | 事件 | ${(events.events || []).length} |
+| 政治阶段 | ${politicalPhases} |
 | 画像元数据 | ${Object.keys(portraits.people || {}).length} |
 
 ## 人物分类
@@ -158,5 +169,5 @@ ${notes.map(item => `- ${item}`).join('\n')}
 
 await fs.mkdir('docs', {recursive: true});
 await fs.writeFile('docs/明史数字博物馆_全馆质量审校_2026-08-08.md', report);
-console.log(JSON.stringify({status, core: core.length, coreSlices: coveredCoreNames.size, allSlices: coveredNames.size, uncovered, errors: errors.length, reviews: reviews.length, categories: Object.fromEntries(categoryCounts)}, null, 2));
+console.log(JSON.stringify({status, core: core.length, coreSlices: coveredCoreNames.size, allSlices: coveredNames.size, politicalPhases, uncovered, errors: errors.length, reviews: reviews.length, categories: Object.fromEntries(categoryCounts)}, null, 2));
 if (errors.length) process.exit(1);

@@ -52,9 +52,10 @@ function assertVerifierRejects(mutate, messagePattern) {
   assert.match(output, messagePattern);
 }
 
-test('verifier accepts the curated 175-person timeline', () => {
+test('verifier accepts the curated 178-person timeline', () => {
   const result = runVerifier();
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stdout, /178 people, layout 1352-1662, people 1352-1646/);
 });
 
 test('museum story coverage derives its roster gate from the source roster', () => {
@@ -68,7 +69,7 @@ test('museum story coverage derives its roster gate from the source roster', () 
   ]).size;
   const museumVerifier = fs.readFileSync(path.join(repoRoot, 'scripts/verify_ming_museum.mjs'), 'utf8');
 
-  assert.equal(sourceCount, 175);
+  assert.equal(sourceCount, 178);
   assert.match(museumVerifier, /const expectedFormalRosterCount=new Set\(/);
   assert.match(museumVerifier, /storyCoverage\.rows===expectedFormalRosterCount/);
   assert.doesNotMatch(museumVerifier, /storyCoverage\.rows===165/);
@@ -83,6 +84,8 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'npm run verify:people-timeline',
     'npm run verify:people-timeline-unit',
     'npm run verify:people-timeline-variants-unit',
+    'npm run verify:southern-ming-branch',
+    'npm run verify:network-scope',
     'node --test scripts/lib/ming_reign_year.test.mjs',
     'node scripts/verify_ming_museum.mjs',
     'npm run verify:person-page-locator',
@@ -92,8 +95,10 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'npm run verify:people-timeline-doubleclick-page',
     'node scripts/verify_ming_reign_year_page.mjs',
     'npm run verify:people-on-demand-data',
+    'npm run verify:people-political-phases',
     'npm run verify:person-search',
     'npm run verify:people-on-demand-page',
+    'npm run verify:people-filter-toolbar-page',
     'npm run verify:people-on-demand-contracts',
     'npm run verify:outside-court-batch2-person-pages',
     'npm run verify:art-literati-batch2-person-pages',
@@ -102,6 +107,18 @@ test('default verify gate runs data, all timeline test suites, legacy regression
   assert.equal(
     packageJson.scripts['verify:people-on-demand-contracts'],
     'node --test scripts/verify_ming_on_demand_contracts.test.mjs',
+  );
+  assert.equal(
+    packageJson.scripts['verify:southern-ming-branch'],
+    'node --test scripts/verify_southern_ming_branch.test.mjs',
+  );
+  assert.equal(
+    packageJson.scripts['verify:network-scope'],
+    'node --test scripts/verify_ming_network_scope.test.mjs',
+  );
+  assert.equal(
+    packageJson.scripts['verify:people-political-phases'],
+    'node scripts/verify_people_political_phase_filter.mjs',
   );
   assert.equal(
     packageJson.scripts['verify:person-search'],
@@ -230,11 +247,11 @@ test('curated round-2 evidence mappings stay locked', () => {
   }
 });
 
-test('verifier rejects a self-consistent roster that is not exactly 175 people', () => {
+test('verifier rejects a self-consistent roster that is not exactly 178 people', () => {
   assertVerifierRejects(({ core, timelineData }) => {
     const removed = core.shift();
     timelineData.people = timelineData.people.filter((person) => person.name !== removed.name);
-  }, /exactly 175 people/);
+  }, /exactly 178 people/);
 });
 
 test('傅山 remains a sourced 1636 public-activity anchor under his formal name', () => {

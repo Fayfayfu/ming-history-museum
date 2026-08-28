@@ -28,9 +28,9 @@ const peopleIndexBuffer = await fs.readFile(peopleIndexPath);
 const peopleIndexArtifact = JSON.parse(peopleIndexBuffer);
 const allowedPersonIndexKeys = new Set([
   'alt', 'birth', 'category', 'childCounts', 'confidence', 'creativeWorkCount', 'death', 'detailUrl',
-  'display', 'domains', 'evaluation', 'hometown', 'id', 'institutionIds', 'institutions', 'lineageLines',
-  'mother', 'name', 'office', 'office_end', 'office_start', 'order', 'parent', 'personPageSlug', 'portrait',
-  'rowId', 'score', 'search', 'sex', 'summary', 'year',
+  'display', 'domains', 'evaluation', 'hometown', 'id', 'institutionIds', 'institutions', 'politicalPhases',
+  'lineageLines', 'mother', 'name', 'office', 'office_end', 'office_start', 'order', 'parent', 'periodIds',
+  'personPageSlug', 'portrait', 'rowId', 'score', 'search', 'sex', 'summary', 'year',
 ]);
 const allowedSearchKeys = new Set(['native', 'pinyin']);
 const allowedPortraitKeys = new Set([
@@ -53,11 +53,24 @@ for (const person of peopleIndexArtifact.people || []) {
   }
 }
 check(unexpectedIndexFields.length === 0, 'final people index must contain only declared list fields', unexpectedIndexFields.slice(0, 20));
+check(!peopleIndexBuffer.includes(Buffer.from('"sourceIds"')), 'people index must not expose political phase source IDs');
+check(
+  ['ming', 'southern-ming', 'transition'].every((id) => (
+    (peopleIndexArtifact.periodFilters || []).some((period) => period.id === id)
+  )),
+  'people index must expose all period filter options',
+);
 check(
   peopleIndexBuffer.byteLength < 240 * 1024,
   'final people index must stay below the 240 KiB boot budget',
   { bytes: peopleIndexBuffer.byteLength },
 );
+for (const name of ['朱文奎', '长平公主']) {
+  check(
+    peopleIndexArtifact.people.find((person) => person.name === name)?.year === 9999,
+    `${name} unknown time anchor must normalize to the shared 9999 sentinel instead of zero`,
+  );
+}
 
 function safeFilePath(requestUrl) {
   const pathname = decodeURIComponent(new URL(requestUrl, 'http://127.0.0.1').pathname);
@@ -122,6 +135,18 @@ async function assertEventSearch(page, query, eventId) {
   return page.locator(`#eventstream .eventcard[data-event="${eventId}"]`).count();
 }
 
+async function selectedPeriods(page) {
+  return page.locator('#period input[type="checkbox"]:checked').evaluateAll((inputs) => inputs.map((input) => input.value));
+}
+
+async function setSelectedPeriods(page, ids) {
+  for (const id of ['ming', 'southern-ming', 'transition']) {
+    const control = page.locator(`#period input[type="checkbox"][value="${id}"]`);
+    if (ids.includes(id)) await control.check();
+    else await control.uncheck();
+  }
+}
+
 async function closeDrawer(page) {
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.querySelector('#drawer')?.classList.contains('open'));
@@ -145,6 +170,141 @@ try {
   }
   check(await page.locator('#rows tr[data-id]').count() >= 151, 'first load must render the full people roster');
   check(await page.locator('#stats .stat').count() === 11, 'first load must preserve all statistics');
+  for (const [name, rowId] of [['朱文奎', 'person-u6731-u6587-u594e'], ['长平公主', 'person-u957f-u5e73-u516c-u4e3b']]) {
+    await page.locator('#search').fill(name);
+    check(
+      (await page.locator(`#rows tr[data-id="${rowId}"] td`).first().textContent())?.trim() === '年代待考',
+      `${name} roster time anchor must display 年代待考 instead of 0`,
+    );
+  }
+  for (const portraitName of ['朱由崧', '朱聿键', '朱由榔', '李自成', '于谦', '张居正', '戚继光', '李如松']) {
+    await page.locator('#search').fill(portraitName);
+    await page.waitForFunction((name) => {
+      const row = [...document.querySelectorAll('#rows tr[data-id]')]
+        .find((entry) => entry.querySelector('.name')?.textContent.trim() === name);
+      const image = row?.querySelector('.portrait img');
+      return Boolean(image?.complete && image.naturalWidth);
+    }, portraitName, { timeout: 3000 });
+    check(
+      await page.evaluate((name) => {
+        const row = [...document.querySelectorAll('#rows tr[data-id]')]
+          .find((entry) => entry.querySelector('.name')?.textContent.trim() === name);
+        const image = row?.querySelector('.portrait img');
+        return Boolean(image?.naturalWidth && !row.querySelector('.portrait-fallback'));
+      }, portraitName),
+      `${portraitName} must render a loaded portrait image in the people roster`,
+    );
+  }
+  await page.locator('#search').fill('');
+  const southernRulerRowIds = {朱由崧: 'person-u6731-u7531-u5d27', 朱聿键: 'person-u6731-u807f-u952e', 朱由榔: 'person-u6731-u7531-u6994'};
+  for (const rulerName of Object.keys(southernRulerRowIds)) {
+    await page.locator('#search').fill(rulerName);
+    await page.locator(`#rows tr[data-id="${southernRulerRowIds[rulerName]}"]`).click();
+    await waitForPerson(page, rulerName);
+    check(
+      await page.locator('#detail .person-identity-flow').count() === 0,
+      `${rulerName} must not repeat its single ruling phase as a separate identity progression`,
+    );
+    const identityEvidence = page.locator('#detail .person-identity .identity-evidence-badge');
+    check(
+      await identityEvidence.count() > 0
+        && (await identityEvidence.textContent())?.includes('历史考据 · 高置信度'),
+      `${rulerName} identity cell must carry the historical-evidence marker`,
+    );
+    check(
+      JSON.stringify(await page.locator('#detail .southern-ruler-relations h5').allTextContents())
+        === JSON.stringify(['父母/帝系', '子女', '继承']),
+      `${rulerName} must render the three concise royal-relation columns`,
+    );
+    check(
+      await page.locator('#detail .southern-ruler-relations').evaluate((relation) => {
+        const grid = relation.querySelector('.founder-royal-grid')?.getBoundingClientRect();
+        const boundary = relation.querySelector('.lineage-boundary')?.getBoundingClientRect();
+        return Boolean(grid && boundary && boundary.top >= grid.bottom);
+      }),
+      `${rulerName} evidence boundary must not overlap the royal-relation grid`,
+    );
+    await closeDrawer(page);
+  }
+  await page.locator('#search').fill('黄道周');
+  await page.locator('#rows tr[data-id]').filter({ hasText: '黄道周' }).click();
+  await waitForPerson(page, '黄道周');
+  const ordinaryFactOrder = await page.evaluate(() => {
+    const facts = [...document.querySelectorAll('#detail .facts > .fact')];
+    const indexOf = (className) => facts.findIndex((fact) => fact.classList.contains(className));
+    const period = facts.find((fact) => fact.classList.contains('person-period'))?.getBoundingClientRect();
+    const domain = facts.find((fact) => fact.classList.contains('person-domain'))?.getBoundingClientRect();
+    return {
+      labels: facts.map((fact) => fact.querySelector(':scope > span')?.textContent.trim() || ''),
+      periodIndex: indexOf('person-period'),
+      domainIndex: indexOf('person-domain'),
+      periodTop: period?.top || 0,
+      domainTop: domain?.top || 0,
+    };
+  });
+  check(
+    ordinaryFactOrder.periodIndex === 1
+      && ordinaryFactOrder.domainIndex > ordinaryFactOrder.periodIndex
+      && ordinaryFactOrder.periodTop < ordinaryFactOrder.domainTop,
+    'ordinary person cards must swap the positions of 任职时期 and 历史领域',
+    ordinaryFactOrder,
+  );
+  const identityPhaseLayout = await page.evaluate(() => [...document.querySelectorAll('#detail .person-identity-step')].map((row) => ({
+    hasStandaloneConfidence: Boolean(row.querySelector('.person-identity-copy > span')),
+    sourceRowText: row.querySelector('.identity-source-list')?.textContent.trim() || '',
+    confidenceInSourceRow: Boolean(row.querySelector('.identity-source-list .identity-confidence')),
+    height: row.getBoundingClientRect().height,
+  })));
+  check(
+    identityPhaseLayout.length > 0
+      && identityPhaseLayout.every((row) => !row.hasStandaloneConfidence && row.confidenceInSourceRow)
+      && identityPhaseLayout.every((row) => Math.abs(row.height - identityPhaseLayout[0].height) < 0.1),
+    '身份沿革的置信度应与史料同行显示，避免额外占一行',
+    identityPhaseLayout,
+  );
+  await closeDrawer(page);
+  for (const name of ['秦良玉', '客氏']) {
+    await page.locator('#search').fill(name);
+    await page.locator('#rows tr[data-detail-id]').filter({ has: page.locator('.name', { hasText: name }) }).first().click();
+    await waitForPerson(page, name);
+    const topRowLayout = await page.evaluate(() => {
+      const facts = [...document.querySelectorAll('#detail .facts > .fact')];
+      const identity = facts.find((fact) => fact.classList.contains('person-identity'));
+      const period = facts.find((fact) => fact.classList.contains('person-period'));
+      const domain = facts.find((fact) => fact.classList.contains('person-domain'));
+      return {
+        firstTwo: facts.slice(0, 2).map((fact) => fact.className),
+        periodWide: period ? getComputedStyle(period).gridColumnEnd === '-1' : false,
+        identityTop: identity?.getBoundingClientRect().top || 0,
+        periodTop: period?.getBoundingClientRect().top || 0,
+        domainTop: domain?.getBoundingClientRect().top || 0,
+      };
+    });
+    check(
+      topRowLayout.firstTwo[0] === 'fact person-identity'
+        && topRowLayout.firstTwo[1] === 'fact person-period'
+        && !topRowLayout.periodWide
+        && Math.abs(topRowLayout.identityTop - topRowLayout.periodTop) < 1
+        && topRowLayout.periodTop < topRowLayout.domainTop,
+      `${name} 卡应将任职时期固定在右上，不再通栏占位`,
+      topRowLayout,
+    );
+    await closeDrawer(page);
+  }
+  await page.locator('#search').fill('朱元璋');
+  await page.locator('#rows tr[data-detail-id="zhu-yuan-zhang"]').click();
+  await waitForPerson(page, '朱元璋');
+  const emperorFactOrder = await page.evaluate(() => [...document.querySelectorAll('#detail .facts-founder > .fact')]
+    .map((fact) => [...fact.classList].find((name) => name.startsWith('founder-')) || 'fact'));
+  check(
+    emperorFactOrder[0] === 'founder-identity'
+      && emperorFactOrder[1] === 'founder-tenure'
+      && emperorFactOrder.indexOf('founder-domain') > emperorFactOrder.indexOf('founder-tenure'),
+    '皇帝卡应交换任职时期与历史领域的整格位置',
+    emperorFactOrder,
+  );
+  await closeDrawer(page);
+  await page.locator('#search').fill('');
   await page.locator('.chip[data-cat="文臣"]').click();
   const civilRows = page.locator('#rows tr[data-id]');
   check(await civilRows.count() > 0, 'category filtering must retain matching people');
@@ -153,6 +313,39 @@ try {
     'category filtering must exclude nonmatching people',
   );
   await page.locator('.chip[data-cat="全部"]').click();
+  check(await page.locator('#period input[value="southern-ming"]').count() === 1, 'period filter must include Southern Ming');
+  check(await page.locator('#period input[value="transition"]').count() === 1, 'period filter must include Ming-Qing transition');
+  await setSelectedPeriods(page, ['southern-ming']);
+  check(await page.locator('#rows tr[data-id="person-u6731-u7531-u5d27"]').count() === 1, 'Southern Ming period filter must find 朱由崧');
+  check(await page.locator('#rows .phase-southern-ming').count() >= 3, 'Southern Ming rows must show lightweight period tags');
+  await setSelectedPeriods(page, ['ming', 'transition']);
+  check(JSON.stringify(await selectedPeriods(page)) === JSON.stringify(['ming', 'transition']), 'period control must retain the selected OR group');
+  await page.locator('#search').fill('hongchengchou');
+  check(await page.locator('#rows tr[data-id="hong-cheng-chou"]').count() === 1, 'multi-period filter must compose with pinyin search for 洪承畴');
+  await page.locator('#rows tr[data-id="hong-cheng-chou"]').click();
+  await waitForPerson(page, '洪承畴');
+  check(await page.locator('#detail .person-identity-flow').isVisible(), 'cross-regime person detail must show identity progression');
+  check(await page.locator('#detail .person-identity-flow .person-identity-step').count() >= 2, 'cross-regime person detail must keep both identity phases');
+  await closeDrawer(page);
+  await page.locator('#search').fill('');
+  await page.locator('#personEvent').selectOption('e087');
+  check(JSON.stringify(await selectedPeriods(page)) === JSON.stringify(['ming', 'transition']), 'event-related people entry must preserve every selected period');
+  check(new URL(page.url()).searchParams.get('period') === 'ming,transition', 'event-related people entry must preserve multi-period URL state');
+  check(await page.locator('#rows tr[data-id="hong-cheng-chou"]').count() === 1, 'period must intersect rather than replace an event-related people view');
+  await page.locator('#personEvent').selectOption('');
+  await page.evaluate(() => openEventDetail(eventRecord('e087')));
+  await page.waitForSelector('#detail .personjump[data-person="洪承畴"]', { state: 'visible' });
+  await page.locator('#detail .personjump[data-person="洪承畴"]').click();
+  await waitForPerson(page, '洪承畴');
+  check(JSON.stringify(await selectedPeriods(page)) === JSON.stringify(['ming', 'transition']), 'person jump must preserve every selected period');
+  check(new URL(page.url()).searchParams.get('period') === 'ming,transition', 'person jump must preserve multi-period URL state');
+  await closeDrawer(page);
+  await page.locator('#search').fill('');
+  await page.locator('.emperor[data-name="朱元璋"]').click();
+  check(JSON.stringify(await selectedPeriods(page)) === JSON.stringify(['ming', 'transition']), 'emperor parent entry must preserve every selected period');
+  check(new URL(page.url()).searchParams.get('period') === 'ming,transition', 'emperor parent entry must preserve multi-period URL state');
+  check(await page.locator('#rows tr[data-id]').count() > 0, 'period must intersect rather than replace an emperor parent view');
+  await page.locator('#reset').click();
   check(
     (await page.locator('#search').getAttribute('placeholder'))?.includes('拼音或繁体字'),
     'people search must explain pinyin and traditional-name support',
@@ -185,6 +378,14 @@ try {
     await zhuRow.click();
     await waitForPerson(page, '朱元璋');
     check(await page.locator('#detail .profile-preview').isVisible(), '朱元璋 detail must retain the profile preview');
+    check(
+      (await page.locator('#detail .founder-royal-column h5').allTextContents()).includes('父母/帝系'),
+      'emperor detail must rename the family-origin column to 父母/帝系',
+    );
+    check(
+      !(await page.locator('#detail .founder-royal-column h5').allTextContents()).includes('家庭出身'),
+      'emperor detail must not retain the old 家庭出身 heading',
+    );
     check(
       requests.some((requestPath) => /\/assets\/data\/people-details\/[a-z0-9-]+\.json$/.test(requestPath)),
       'opening a person must request one person detail shard',
