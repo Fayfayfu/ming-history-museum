@@ -17,6 +17,7 @@ await import('./build_ming_html.mjs');
 await import('./process_ming_portrait_batch20.mjs');
 await import('./process_ming_portrait_batch21.mjs');
 await import('./process_ming_portrait_batch22.mjs');
+await import('./process_ming_portrait_batch23.mjs');
 
 const root = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9';
 const museum = `${root}/明史数字博物馆`;
@@ -127,6 +128,11 @@ const hallCSS = `
 @media(max-width:720px){.museum-nav{height:auto;min-height:66px;padding:8px 14px;align-items:flex-start}.museum-brand small{display:none}.museum-links{align-self:stretch}.museum-links a{padding:0 9px;font-size:12px}.museum-links a:last-child{display:none}}
 ${MUSEUM_NAV_CSS}
 .drawer{z-index:120}
+.identity-source-list .identity-confidence{display:inline-block;margin:0;padding:2px 0;border:0;color:var(--muted);font:700 10px/1.2 ui-monospace,monospace;font-style:normal;white-space:nowrap}
+.person-identity-step:first-child{border-top:1px solid transparent}
+.facts-founder>.founder-tenure-inline{grid-column:auto}
+.period-filter{height:42px}
+.period-options,.period-option{height:40px;min-height:0}
 `;
 
 function moveHallScopeToFooter(html, kind) {

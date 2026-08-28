@@ -420,7 +420,6 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
     <button id="peopleTimelineTab" type="button" role="tab" aria-selected="false" aria-controls="peopleTimelineView" data-people-view="timeline"><span>历史长卷</span></button>
   </div>
   <section id="peopleTimelineView" class="people-timeline-viewport" role="tabpanel" aria-labelledby="peopleTimelineTab" aria-label="人物历史长卷，${scopeDescription}" data-timeline-min="${layout.minYear}" data-timeline-max="${layout.maxYear}">
-    <p class="timeline-phase-legend" aria-label="政权阶段标识说明"><span class="regime-phase-ming">北京明廷</span><span class="regime-phase-southern-ming">南明延续政权</span><span class="regime-phase-transition">明清交替</span><small>颜色仅表示所处阶段，不表示评价。</small></p>
     <div class="people-timeline-canvas" style="--timeline-width:${layout.width}px;--timeline-height:${layout.height}px;--timeline-axis-y:${layout.axisY}px">
       <div class="timeline-axis" aria-hidden="true"></div>
       <div class="timeline-ticks" aria-hidden="true">${ticks}</div>
@@ -442,7 +441,7 @@ export const PEOPLE_TIMELINE_CSS = `.people-timeline{position:relative;z-index:0
 .people-page>.shell>.timeline[hidden],.people-page>.shell>.toolbar[hidden],.people-page>.shell>.statusline[hidden],.people-page>.shell>.tablewrap[hidden],.people-page>.shell>.method[hidden]{display:none!important}
 @media(max-width:560px){.people-view-tabs{gap:7px}.people-view-tabs button{min-height:40px;padding:7px 10px}.people-view-tabs button>span{font-size:14px}}
 .people-timeline-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-gutter:stable;border:1px solid #c7bea9;background:#f5f0e3}
-.timeline-phase-legend{position:sticky;left:0;z-index:4;display:flex;align-items:center;gap:6px;min-width:max-content;margin:0;padding:8px 12px 7px;border-bottom:1px solid #d4c9b3;background:rgba(245,240,227,.96);color:#625d50;font:600 10px/1.35 ui-sans-serif,"Noto Sans SC",sans-serif;letter-spacing:.01em}.timeline-phase-legend span,.timeline-person-regime{display:inline-flex;align-items:center;border:1px solid currentColor;padding:1px 4px;font:700 9px/1.25 ui-monospace,monospace;letter-spacing:.02em}.timeline-phase-legend small{margin-left:4px;font:400 10px/1.35 ui-sans-serif,"Noto Sans SC",sans-serif;letter-spacing:0}.regime-phase-ming{color:#4f7d56}.regime-phase-southern-ming{color:#9d6b38}.regime-phase-transition{color:#756557}.regime-phase-neutral{color:#61778b}
+.timeline-person-regime{display:inline-flex;align-items:center;border:1px solid currentColor;padding:1px 4px;font:700 9px/1.25 ui-monospace,monospace;letter-spacing:.02em}.regime-phase-ming{color:#4f7d56}.regime-phase-southern-ming{color:#9d6b38}.regime-phase-transition{color:#756557}.regime-phase-neutral{color:#61778b}
 .people-timeline-canvas{position:relative;width:var(--timeline-width);height:var(--timeline-height);min-width:6500px}
 .timeline-axis{position:absolute;left:0;right:0;top:var(--timeline-axis-y);height:1px;background:#8f8876}
 .timeline-tick{position:absolute;left:var(--tick-x);top:calc(var(--timeline-axis-y) - 8px);height:16px;border-left:1px solid #8f8876;color:#625d50;font:12px/1 ui-monospace,monospace}

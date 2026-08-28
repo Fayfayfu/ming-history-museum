@@ -240,6 +240,8 @@ test('renderer outputs every semantic lane and never writes 最近皇帝', async
   assert.doesNotMatch(html, /最近皇帝/);
   assert.match(html, /data-people-view="timeline"/);
   assert.match(html, /data-people-view="table"/);
+  assert.doesNotMatch(html, /timeline-phase-legend/);
+  assert.doesNotMatch(html, /颜色仅表示所处阶段/);
   assert.match(PEOPLE_TIMELINE_CSS, /\.people-timeline-viewport\{overflow-x:auto/);
   assert.match(
     PEOPLE_TIMELINE_CSS,

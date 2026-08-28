@@ -41,10 +41,11 @@
     "verify:navigation-type": "node scripts/verify_museum_nav_typography.mjs",
     "verify:people-on-demand-data": "node scripts/verify_ming_people_on_demand_data.mjs",
     "verify:people-on-demand-page": "node scripts/verify_ming_people_on_demand_page.mjs",
+    "verify:people-filter-toolbar-page": "node scripts/verify_people_filter_toolbar_page.mjs",
     "verify:people-on-demand-contracts": "node --test scripts/verify_ming_on_demand_contracts.test.mjs",
     "verify:person-search": "node --test scripts/lib/person_search.test.mjs",
     "verify:deploy": "node scripts/verify_vercel_bundle.mjs",
-    "verify": "npm run verify:people-timeline && npm run verify:people-timeline-unit && npm run verify:people-timeline-variants-unit && npm run verify:southern-ming-branch && npm run verify:network-scope && node --test scripts/lib/ming_reign_year.test.mjs && node scripts/verify_ming_museum.mjs && npm run verify:person-page-locator && npm run verify:people-timeline-page && npm run verify:people-default-view && npm run verify:people-timeline-variants-page && npm run verify:people-timeline-doubleclick-page && node scripts/verify_ming_reign_year_page.mjs && npm run verify:people-on-demand-data && npm run verify:people-political-phases && npm run verify:person-search && npm run verify:people-on-demand-page && npm run verify:people-on-demand-contracts && npm run verify:outside-court-batch2-person-pages && npm run verify:art-literati-batch2-person-pages && npm run verify:travel-medicine-technology-batch3-person-pages"
+    "verify": "npm run verify:people-timeline && npm run verify:people-timeline-unit && npm run verify:people-timeline-variants-unit && npm run verify:southern-ming-branch && npm run verify:network-scope && node --test scripts/lib/ming_reign_year.test.mjs && node scripts/verify_ming_museum.mjs && npm run verify:person-page-locator && npm run verify:people-timeline-page && npm run verify:people-default-view && npm run verify:people-timeline-variants-page && npm run verify:people-timeline-doubleclick-page && node scripts/verify_ming_reign_year_page.mjs && npm run verify:people-on-demand-data && npm run verify:people-political-phases && npm run verify:person-search && npm run verify:people-on-demand-page && npm run verify:people-filter-toolbar-page && npm run verify:people-on-demand-contracts && npm run verify:outside-court-batch2-person-pages && npm run verify:art-literati-batch2-person-pages && npm run verify:travel-medicine-technology-batch3-person-pages"
   },
   "dependencies": {
     "sharp": "^0.34.5"

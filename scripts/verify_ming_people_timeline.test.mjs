@@ -98,6 +98,7 @@ test('default verify gate runs data, all timeline test suites, legacy regression
     'npm run verify:people-political-phases',
     'npm run verify:person-search',
     'npm run verify:people-on-demand-page',
+    'npm run verify:people-filter-toolbar-page',
     'npm run verify:people-on-demand-contracts',
     'npm run verify:outside-court-batch2-person-pages',
     'npm run verify:art-literati-batch2-person-pages',

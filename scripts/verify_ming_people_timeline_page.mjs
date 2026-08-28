@@ -111,6 +111,10 @@ check(initial.emperorFilterSelects === 0 && initial.emperorAxisButtons === 16, '
 
 await page.locator('#peopleTimelineTab').click();
 await page.waitForFunction(() => document.body.dataset.peopleView === 'timeline');
+check(
+  await page.locator('#peopleTimelineView .timeline-phase-legend').count() === 0,
+  'historical scroll must not show a redundant phase legend above the self-labelled person nodes',
+);
 await page.waitForFunction(() => {
   const viewport = document.querySelector('.people-timeline-viewport');
   const viewportRect = viewport?.getBoundingClientRect();

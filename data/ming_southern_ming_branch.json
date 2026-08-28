@@ -9,21 +9,122 @@
       "era": "弘光",
       "start": 1644,
       "end": 1645,
-      "sourceIds": ["DPM_NANMING_HONGGUANG", "MS120"]
+      "sourceIds": ["DPM_NANMING_HONGGUANG", "MS120"],
+      "royalRelations": {
+        "confidence": "中",
+        "columns": [
+          {
+            "title": "父母/帝系",
+            "lines": [
+              "父：福王朱常洵（明神宗第三子）",
+              "生母：姚氏",
+              "帝系：明神宗朱翊钧 → 朱常洵 → 朱由崧"
+            ]
+          },
+          {
+            "title": "子女",
+            "lines": [
+              "现有可核材料未见亲生子女",
+              "弘光朝“伪太子案”不作亲子关系证明"
+            ]
+          },
+          {
+            "title": "继承",
+            "lines": [
+              "政治承接：北京明廷崇祯朝",
+              "帝位来源：1644年南京群臣拥立，非父子直系承袭"
+            ]
+          }
+        ],
+        "sources": [
+          "https://www.dpm.org.cn/court/event/159031.html",
+          "https://zh.wikisource.org/wiki/明史/卷120",
+          "https://gateway-ipfs.st/ipfs/bafykbzacedxxujon5q3xzwzyjdsrapkbkxi5e7bfklspyr4j2mtguwgms36ie?filename=%E5%8D%97%E6%98%8E%E5%8F%B2_%E9%A1%BE%E8%AF%9A.pdf"
+        ],
+        "boundary": "父系与南京拥立经过可高置信确认；生母姓氏与无可核子女的结论主要据后出史料整理，故整体标为中置信度。"
+      }
     },
     {
       "name": "朱聿键",
       "era": "隆武",
       "start": 1645,
       "end": 1646,
-      "sourceIds": ["DPM_NANMING_LONGWU", "MS118"]
+      "sourceIds": ["DPM_NANMING_LONGWU", "MS118"],
+      "royalRelations": {
+        "confidence": "中",
+        "columns": [
+          {
+            "title": "父母/帝系",
+            "lines": [
+              "父：朱器墭（后追尊唐裕王、宣皇帝）",
+              "母：毛氏（后追尊宣皇后）",
+              "帝系：明太祖第二十三子唐定王朱桱后裔"
+            ]
+          },
+          {
+            "title": "子女",
+            "lines": [
+              "可考一子：庄敬太子朱琳源",
+              "1646年六月生，同年八月夭折"
+            ]
+          },
+          {
+            "title": "继承",
+            "lines": [
+              "政治承接：弘光政权覆亡后的南明延续支系",
+              "帝位来源：1645年黄道周、郑芝龙等在福州拥立"
+            ]
+          }
+        ],
+        "sources": [
+          "https://www.dpm.org.cn/court/event/159831.html",
+          "https://zh.wikisource.org/wiki/明史/卷118",
+          "https://www.dpm.org.cn/Uploads/pdf/1962/T00003_00.pdf"
+        ],
+        "boundary": "唐王支系、父系与福州拥立经过可交叉确认；生母与夭折皇子的细节主要见南明史料整理，故整体标为中置信度。"
+      }
     },
     {
       "name": "朱由榔",
       "era": "永历",
       "start": 1646,
       "end": 1662,
-      "sourceIds": ["NMC_YONGLI_EDICT", "MS120"]
+      "sourceIds": ["NMC_YONGLI_EDICT", "MS120"],
+      "royalRelations": {
+        "confidence": "中",
+        "columns": [
+          {
+            "title": "父母/帝系",
+            "lines": [
+              "父：桂端王朱常瀛（明神宗第七子）",
+              "生母：贵人马氏；嫡母：王氏",
+              "帝系：明神宗朱翊钧 → 朱常瀛 → 朱由榔"
+            ]
+          },
+          {
+            "title": "子女",
+            "lines": [
+              "可考皇子七人",
+              "第三子朱慈煊立为太子",
+              "第五至第七子皆幼殇"
+            ]
+          },
+          {
+            "title": "继承",
+            "lines": [
+              "政治承接：隆武政权覆亡后的南明延续支系",
+              "帝位来源：1646年两广官员在肇庆拥立；当时与绍武政权并立"
+            ]
+          }
+        ],
+        "sources": [
+          "https://www.dpm.org.cn/court/figure/104053.html",
+          "https://www.dpm.org.cn/court/event/160186.html",
+          "https://www.chnmuseum.cn/zp/zpml/gjwxbt/202008/t20200824_247135.shtml",
+          "https://www.gzstv.com/a/2409b8a1b084451db9782a478ef0162e"
+        ],
+        "boundary": "父母、桂王支系与肇庆拥立可高置信确认；子女数量及部分名号依存世墓志和后出史料整理，故整体标为中置信度。"
+      }
     }
   ],
   "notes": [

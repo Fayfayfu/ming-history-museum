@@ -15,6 +15,11 @@ const branchPrimary = [
   { name: '朱由榔', era: '永历', start: 1646, end: 1662 },
 ];
 const branchNames = branchPrimary.map((item) => item.name);
+const royalRelationNames = {
+  '朱由崧': ['朱常洵', '姚氏'],
+  '朱聿键': ['朱器墭', '毛氏', '朱琳源'],
+  '朱由榔': ['朱常瀛', '马氏', '朱慈煊'],
+};
 const reviewedLateMingPhases = [
   { name: '史可法', regime: '弘光', start: 1644, end: 1645, sourceId: 'MS274', confidence: '高' },
   { name: '黄道周', regime: '隆武', start: 1645, end: 1646, sourceId: 'MS255', confidence: '高' },
@@ -62,6 +67,21 @@ test('branch has three rulers without changing the emperor spine', async () => {
   assert.deepEqual(branch.primary.map((item) => item.name), ['朱由崧', '朱聿键', '朱由榔']);
   for (const item of branch.primary) {
     assert.equal(core.find((person) => person.name === item.name)?.category, '政权人物');
+    assert.equal(item.royalRelations?.confidence, '中', `${item.name} royal relations must state a bounded confidence`);
+    assert.deepEqual(
+      item.royalRelations?.columns?.map((column) => column.title),
+      ['父母/帝系', '子女', '继承'],
+      `${item.name} must use the same three concise royal-relation headings`,
+    );
+    assert.ok(
+      item.royalRelations.columns.every((column) => column.lines.length > 0),
+      `${item.name} must not render an empty royal-relation column`,
+    );
+    const relationText = item.royalRelations.columns.flatMap((column) => column.lines).join('\n');
+    for (const expectedName of royalRelationNames[item.name]) {
+      assert.match(relationText, new RegExp(expectedName), `${item.name} must preserve the exact royal-relation name ${expectedName}`);
+    }
+    assert.ok(item.royalRelations.boundary, `${item.name} royal relations must keep an evidence boundary`);
   }
 });
 
