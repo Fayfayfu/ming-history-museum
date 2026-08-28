@@ -5,6 +5,7 @@ import sharp from 'sharp';
 const source = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆';
 const destination = 'dist';
 const rasterPattern = /assets\/[^"'<>\s]+?\.(?:jpe?g|png|webp)/gi;
+const stylesheetPattern = /assets\/[^"'<>\s]+?\.css/gi;
 const vercelProjectFile = path.join(destination, '.vercel', 'project.json');
 const vercelProject = await fs.readFile(vercelProjectFile, 'utf8').catch(() => null);
 
@@ -29,6 +30,7 @@ for (const file of htmlFiles) {
   const html = await fs.readFile(file, 'utf8');
   htmlByFile.set(file, html);
   for (const match of html.matchAll(rasterPattern)) referencedAssets.add(match[0]);
+  for (const match of html.matchAll(stylesheetPattern)) referencedAssets.add(match[0]);
 }
 for (const file of dataFiles) {
   const json = await fs.readFile(file, 'utf8');
