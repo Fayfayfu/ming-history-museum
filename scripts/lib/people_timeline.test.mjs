@@ -203,7 +203,7 @@ test('timeline enlarges the complete curated group of eleven influential non-emp
   const people = validatePeopleTimelineData({ core, children, timelineData });
   const layout = layoutPeopleTimeline(people);
   const featuredNames = layout.nodes
-    .filter((node) => node.sizePx === 72)
+    .filter((node) => node.sizePx === 72 && node.displayCategoryStyle !== 'emperor')
     .map((node) => node.name)
     .sort((left, right) => left.localeCompare(right, 'zh-CN'));
 

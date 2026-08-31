@@ -1204,6 +1204,19 @@
       "objectPosition": "50% 29%",
       "note": "未找到可靠传世肖像。画面锚定1580年代辽东边堡，把战功、军镇经营、家丁网络与边地复杂关系并置；五官、甲胄、地图和军镇空间均为艺术想象。"
     },
+    "李如松": {
+      "status": "imagined",
+      "file": "assets/portraits/imagined/李如松.png",
+      "portraitKind": "AI想象像",
+      "confidence": "未知",
+      "generatedWith": "OpenAI image generation",
+      "evidence": [
+        "https://zh.wikisource.org/zh-hans/明史/卷238",
+        "https://zh.wikisource.org/zh-hans/明史/卷320"
+      ],
+      "objectPosition": "50% 29%",
+      "note": "未找到可核验的本人肖像。画面以万历朝鲜战场的明军将领为视觉锚点；面貌、甲胄、旌旗和战场空间均为艺术想象，不代表真实相貌。"
+    },
     "刘綎": {
       "status": "imagined",
       "file": "assets/portraits/batch-6/610_刘綎_AI想象像.png",

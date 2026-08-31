@@ -264,7 +264,7 @@ const timelineSizingAndLanes = await page.evaluate(() => {
   };
   const laneIdFor = (node) => node.dataset.lane || '';
   const nodes = [...document.querySelectorAll('[data-timeline-person]')];
-  const emperorContentBounds = nodes.filter((node) => laneIdFor(node) === 'emperor').map((node) => {
+  const emperorContentBounds = nodes.filter((node) => laneIdFor(node) === 'emperor' && node.classList.contains('size-emperor')).map((node) => {
     const portrait = node.querySelector('.timeline-portrait')?.getBoundingClientRect();
     const name = node.querySelector('.timeline-person-select > strong')?.getBoundingClientRect();
     const role = node.querySelector('.timeline-person-select > small')?.getBoundingClientRect();
@@ -295,7 +295,8 @@ const timelineSizingAndLanes = await page.evaluate(() => {
   const gold = getComputedStyle(goldProbe).color;
   goldProbe.remove();
   return {
-    emperors: nodes.filter((node) => laneIdFor(node) === 'emperor').map(portraitSnapshot),
+    emperors: nodes.filter((node) => laneIdFor(node) === 'emperor' && node.classList.contains('size-emperor')).map(portraitSnapshot),
+    southernRulers: nodes.filter((node) => node.dataset.regimeKind === 'southern-ming').map(portraitSnapshot),
     emperorContentBounds,
     featured: [...document.querySelectorAll('.timeline-person.size-featured')].map(portraitSnapshot),
     standard: [...document.querySelectorAll('.timeline-person.size-standard')].map(portraitSnapshot),
@@ -316,20 +317,26 @@ check(
   { emperors: timelineSizingAndLanes.emperors, gold: timelineSizingAndLanes.gold },
 );
 check(
+  timelineSizingAndLanes.southernRulers.length === 3
+    && timelineSizingAndLanes.southernRulers.every((portrait) => exactSize(portrait, 72) && portrait.borderColor === timelineSizingAndLanes.gold),
+  'the three Southern Ming ruler portraits must match the 72px featured scale while retaining the gold outline',
+  timelineSizingAndLanes.southernRulers,
+);
+check(
   timelineSizingAndLanes.emperorContentBounds.length === 16
     && timelineSizingAndLanes.emperorContentBounds.every((item) => Math.max(item.portraitBottom, item.nameBottom, item.roleBottom) < item.axisTop),
   'all emperor portraits, names, and roles must remain fully above the timeline axis',
   timelineSizingAndLanes.emperorContentBounds.filter((item) => Math.max(item.portraitBottom, item.nameBottom, item.roleBottom) >= item.axisTop),
 );
 check(
-  timelineSizingAndLanes.featured.length === 11
-    && timelineSizingAndLanes.featured.map((portrait) => portrait.name).sort().join('|') === ['于谦', '刘基', '张居正', '徐光启', '徐达', '戚继光', '李时珍', '海瑞', '王守仁', '郑和', '魏忠贤'].sort().join('|')
+  timelineSizingAndLanes.featured.length === 14
+    && timelineSizingAndLanes.featured.map((portrait) => portrait.name).sort().join('|') === ['于谦', '刘基', '张居正', '徐光启', '徐达', '戚继光', '李时珍', '海瑞', '王守仁', '郑和', '魏忠贤', '朱由崧', '朱聿键', '朱由榔'].sort().join('|')
     && timelineSizingAndLanes.featured.every((portrait) => exactSize(portrait, 72)),
-  'the eleven featured portraits must be exactly the curated 72px anchors',
+  'the featured portraits must be exactly the curated 11 anchors plus three Southern Ming rulers at 72px',
   timelineSizingAndLanes.featured,
 );
 check(
-  timelineSizingAndLanes.standard.length === 151
+  timelineSizingAndLanes.standard.length === 148
     && timelineSizingAndLanes.standard.every((portrait) => portrait.width >= 56 && portrait.height >= 56),
   'all ordinary portraits must be at least 56px',
   timelineSizingAndLanes.standard.filter((portrait) => portrait.width < 56 || portrait.height < 56),

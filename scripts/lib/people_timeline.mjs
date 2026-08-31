@@ -141,7 +141,10 @@ export function layoutPeopleTimeline(people, options = {}) {
   const nodes = people.map((person) => {
     const southernMingRuler = isSouthernMingRuler(person);
     const lane = southernMingRuler ? TIMELINE_LANES['皇帝'] : TIMELINE_LANES[person.category];
-    const displaySize = southernMingRuler ? 'emperor' : person.timeline_size;
+    // Southern Ming rulers share the emperor lane, but use the same 72px
+    // featured portrait scale as Zhang Juzheng and Hai Rui so the parallel
+    // continuation remains visually subordinate to the 16-emperor spine.
+    const displaySize = southernMingRuler ? 'featured' : person.timeline_size;
     const sizePx = TIMELINE_SIZE_PX[displaySize];
     if (!lane) throw new Error(`Unknown timeline category: ${person.category}`);
     if (!sizePx) throw new Error(`Unknown timeline size: ${person.timeline_size}`);

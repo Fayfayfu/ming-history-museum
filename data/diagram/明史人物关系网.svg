@@ -1191,6 +1191,6 @@
   <g transform="translate(500 10)"><line x1="0" y1="0" x2="48" y2="0" stroke="#a78bfa" stroke-width="3"/><text x="62" y="5" fill="#cbd5e1" font-size="14">父子／父女 37</text></g>
   <g transform="translate(1030 10)"><line x1="0" y1="0" x2="48" y2="0" stroke="#64748b" stroke-width="2"/><text x="62" y="5" fill="#cbd5e1" font-size="14">共同事件 176</text></g>
   <g transform="translate(1510 10)"><line x1="0" y1="0" x2="48" y2="0" stroke="#64748b" stroke-width="2" stroke-dasharray="8 8"/><text x="62" y="5" fill="#cbd5e1" font-size="14">时代锚定 65</text></g>
-  <text x="34" y="47" fill="#64748b" font-size="13">口径：共同事件只表示同载于同一事件，不自动等于盟友或敌人；时代锚定只用于无其他关系记录的人物；政权颜色不表示忠奸或评分。生成于 2026年8月28日。</text>
+  <text x="34" y="47" fill="#64748b" font-size="13">口径：共同事件只表示同载于同一事件，不自动等于盟友或敌人；时代锚定只用于无其他关系记录的人物；政权颜色不表示忠奸或评分。生成于 2026年8月31日。</text>
 </g>
 </svg>

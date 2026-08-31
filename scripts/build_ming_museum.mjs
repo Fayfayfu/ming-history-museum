@@ -105,11 +105,31 @@ const timelinePortraitFor = name => {
 };
 const peopleTimelineHtml = renderPeopleTimeline({people:timelinePeople,layout:timelineLayout,portraitFor:timelinePortraitFor});
 
+async function mirrorAssetsWithHardLinks(source, target) {
+  await fs.mkdir(target, {recursive: true});
+  for (const entry of await fs.readdir(source, {withFileTypes: true})) {
+    const from = `${source}/${entry.name}`;
+    const to = `${target}/${entry.name}`;
+    if (entry.isDirectory()) {
+      await mirrorAssetsWithHardLinks(from, to);
+      continue;
+    }
+    if (entry.isSymbolicLink()) {
+      await fs.symlink(await fs.readlink(from), to);
+      continue;
+    }
+    if (!entry.isFile()) continue;
+    // Assets are copied into later deploy bundles but never mutated in place;
+    // hard links keep this local mirror exact without doubling disk usage.
+    await fs.link(from, to);
+  }
+}
+
 await fs.mkdir(museum, {recursive:true});
-// Keep the generated museum asset tree as an exact mirror. This prevents
-// removed or superseded originals from leaking into later deployment bundles.
+// Keep the generated museum asset tree as an exact mirror. Hard links avoid a
+// second physical 170MB+ asset copy on the same volume.
 await fs.rm(`${museum}/assets`, {recursive:true, force:true});
-await fs.cp(`${root}/assets`, `${museum}/assets`, {recursive:true,force:true});
+await mirrorAssetsWithHardLinks(`${root}/assets`, `${museum}/assets`);
 await Promise.all(['people-index.json', 'events-index.json'].map((filename) =>
   fs.access(`${museum}/assets/data/${filename}`),
 ));

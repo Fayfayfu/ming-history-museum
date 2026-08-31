@@ -7,6 +7,12 @@
         "start": 1616,
         "end": 1642,
         "role": "明朝文臣、蓟辽总督",
+        "tenure": "任期26年",
+        "sovereigns": "历万历、天启、崇祯三帝",
+        "institutions": [
+          {"name": "都察院", "relation": "督师差遣"},
+          {"name": "兵部", "relation": "加尚书衔"}
+        ],
         "confidence": "高",
         "sourceIds": ["QSG237"]
       },
@@ -15,6 +21,12 @@
         "start": 1642,
         "end": 1661,
         "role": "清廷大学士、五省经略",
+        "tenure": "任期19年",
+        "sovereigns": "历清太宗、顺治二帝",
+        "institutions": [
+          {"name": "清廷大学士中枢", "relation": "任职"},
+          {"name": "五省经略", "relation": "经略"}
+        ],
         "confidence": "高",
         "sourceIds": ["QSG237"]
       }
@@ -43,6 +55,11 @@
         "start": 1630,
         "end": 1644,
         "role": "辽东总兵",
+        "tenure": "任期14年",
+        "sovereigns": "历崇祯帝一帝",
+        "institutions": [
+          {"name": "山海关与辽东防线", "relation": "统军"}
+        ],
         "confidence": "中",
         "sourceIds": ["QSLZ080"]
       },
@@ -51,6 +68,12 @@
         "start": 1644,
         "end": 1662,
         "role": "清朝平西王、征南统帅",
+        "tenure": "任期18年",
+        "sovereigns": "历顺治、康熙二帝",
+        "institutions": [
+          {"name": "平西王藩", "relation": "受封并治军"},
+          {"name": "征南军", "relation": "统军"}
+        ],
         "confidence": "中",
         "sourceIds": ["QSLZ080"]
       }

@@ -9,6 +9,8 @@
       "提督": "人物奉命统领厂卫等特定机构。",
       "创设": "君主直接创设、恢复或重组该机构。",
       "制度塑造": "人物对机构权力结构有直接、可识别的制度影响。"
+      ,"讲学": "人物在书院中主持、参与或以讲学活动形成可核验的直接关系。"
+      ,"位号": "后妃、内廷女性在后宫制度中具有可核验的册封身份；不据此扩大为实际执政权。"
     }
   },
   "groups": [
@@ -16,7 +18,9 @@
     {"label": "文教", "institution_ids": ["hanlin-academy"]},
     {"label": "中枢与监察", "institution_ids": ["cabinet", "censorate"]},
     {"label": "六部", "institution_ids": ["ministry-personnel", "ministry-revenue", "ministry-rites", "ministry-war", "ministry-justice", "ministry-works"]},
-    {"label": "内廷", "institution_ids": ["silijian"]},
+    {"label": "内廷", "institution_ids": ["silijian", "imperial-harem"]},
+    {"label": "书院与讲学", "institution_ids": ["donglin-academy"]},
+    {"label": "外部军政体系", "institution_ids": ["joseon-navy", "toyotomi-regime"]},
     {"label": "厂卫", "institution_ids": ["jinyiwei", "dongchang", "xichang"]}
   ],
   "institutions": [
@@ -76,7 +80,8 @@
       "people": [
         {"name": "宋濂", "relation": "任职", "period": "洪武初至十年（1368—1377）", "year": 1370, "confidence": "高", "note": "累官翰林学士承旨、知制诰，并主持修史与文教事务。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷128"]},
         {"name": "方孝孺", "relation": "任职", "period": "洪武二十五年至建文四年（1392—1402）", "year": 1395, "confidence": "高", "note": "任翰林侍讲，建文朝参与重要诏令与政务议论。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷141"]},
-        {"name": "杨慎", "relation": "任职", "period": "1511—1524", "year": 1511, "confidence": "高", "note": "殿试第一后授翰林修撰；嘉靖初充经筵讲官，后因大礼议谪戍。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7192"]}
+        {"name": "杨慎", "relation": "任职", "period": "1511—1524", "year": 1511, "confidence": "高", "note": "殿试第一后授翰林修撰；嘉靖初充经筵讲官，后因大礼议谪戍。", "sources": ["https://zh.wikisource.org/zh-hans/%E6%98%8E%E5%8F%B2/%E5%8D%B7192"]},
+        {"name": "文徵明", "relation": "任职", "period": "嘉靖二年至五年（1523—1526）", "year": 1523, "confidence": "高", "note": "五十余岁受荐至京，任翰林院待诏，后辞归苏州；待诏为供奉文翰的职名，不应夸大为中枢阁臣。", "sources": ["https://www.dpm.org.cn/lemmas/242658.html", "https://www.metmuseum.org/art/collection/search/39536"]}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷73", "https://www.dpm.org.cn/court/system/236391.html"]
     },
@@ -131,7 +136,8 @@
         {"name": "冯保", "relation": "任职", "note": "任司礼监掌印太监，与两宫太后、张居正形成万历初政治联盟。"},
         {"name": "陈矩", "relation": "任职", "note": "任司礼监掌印太监，以相对克制著称。"},
         {"name": "魏忠贤", "relation": "任职", "note": "任司礼监秉笔太监并提督东厂。"},
-        {"name": "王承恩", "relation": "任职", "note": "任司礼监秉笔太监，崇祯末随帝殉死。"}
+        {"name": "王承恩", "relation": "任职", "note": "任司礼监秉笔太监，崇祯末随帝殉死。"},
+        {"name": "张永", "relation": "任职", "period": "正德朝（1505—1521）", "year": 1510, "confidence": "高", "note": "正德朝司礼监太监；安化王之乱时奉命监军，后参与处置刘瑾集团。其军务差遣不等于由司礼监直接统军。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷304", "https://zh.wikisource.org/zh-hans/明史_(四庫全書本)/卷016"]}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷74", "https://zh.wikisource.org/zh-hans/明史/卷304"]
     },
@@ -277,6 +283,148 @@
         {"name": "严世蕃", "relation": "任职", "note": "官至工部左侍郎，其权势很大程度来自严嵩执政与内阁网络。"}
       ],
       "sources": ["https://zh.wikisource.org/zh-hans/明史/卷72", "https://zh.wikisource.org/zh-hans/明史/卷153", "https://zh.wikisource.org/zh-hans/明史/卷223", "https://zh.wikisource.org/zh-hans/明史/卷308"]
+    },
+    {
+      "id": "yan-prince-guard",
+      "name": "燕王护卫",
+      "description": "靖难前燕王府所辖护卫。这里仅关联可明确确认的核心统军者，不把靖难参与者都笼统归入同一护卫体系。",
+      "people": [
+        {"name": "张玉", "relation": "统军", "period": "建文元年至三年（1399—1401）", "year": 1399, "confidence": "中", "note": "靖难之役中为燕军核心将领，东昌战死；此处标示其在燕王军事集团中的统军位置，不把后追封爵位当作当时军职。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]},
+        {"name": "朱能", "relation": "统军", "period": "建文元年至永乐四年（1399—1406）", "year": 1399, "confidence": "高", "note": "靖难主将，永乐初继续奉命统军；人物关联指向其在燕王护卫军事集团中的实际统军经历。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷145"]
+    },
+    {
+      "id": "ming-expedition-armies",
+      "name": "明军征伐体系",
+      "description": "用于明确以征南、北征等临时统帅身份统军的人物；它是战争时期的军事组织关系，不等同固定中央衙门。",
+      "people": [
+        {"name": "傅友德", "relation": "统军", "period": "洪武中前期（约1370—1393）", "year": 1381, "confidence": "中", "note": "以征南将军等身份参与西南与北方征伐；这里保留为统军关系，不虚构其固定隶属的单一军府。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]},
+        {"name": "丘福", "relation": "统军", "period": "永乐七年（1409）", "year": 1409, "confidence": "高", "note": "受命为征虏大将军北征，轻进败亡；关联反映北征统军差遣，不把一次出征写成常设机构任职。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷145"]
+    },
+    {
+      "id": "capital-camps",
+      "name": "京营",
+      "description": "明代京师驻防与野战军系统，军营编制、统帅权与兵部、五军都督府之间的关系会随时期变化。",
+      "people": [
+        {"name": "石亨", "relation": "统军", "period": "景泰至天顺初（约1449—1460）", "year": 1457, "confidence": "中", "note": "北京保卫战后长期以总兵等身份掌握京师军事力量，并参与夺门政变；不以“京营”概括其全部政治活动。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷173"]
+    },
+    {
+      "id": "southeast-coastal-defence",
+      "name": "东南海防军",
+      "description": "嘉靖中后期浙闽沿海的卫所、募兵、水师与地方协防网络，不把海防实践误写成单一常设衙门。",
+      "people": [
+        {"name": "戚继光", "relation": "统军", "period": "嘉靖三十四年至隆庆二年（1555—1568）", "year": 1558, "confidence": "高", "note": "在浙江抗倭中募练新军；其后转入蓟镇练兵，需与东南时期分开理解。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷212", "https://www.shidianguji.com/book/LS0026/chapter/1k6tolyonkf0p"]},
+        {"name": "俞大猷", "relation": "统军", "period": "嘉靖中期（约1550—1567）", "year": 1555, "confidence": "高", "note": "长期参与东南海防与抗倭，水陆军务经历跨越福建、浙江等地；不将所有海战功绩归为单一战场。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷212"]
+    },
+    {
+      "id": "xuanfu-garrison",
+      "name": "宣府镇",
+      "description": "明代九边重镇之一，负责宣府一线边防；总兵官、巡抚、总督和中央兵部的权责并不相同。",
+      "people": [
+        {"name": "马芳", "relation": "统军", "period": "嘉靖至隆庆间（约1550—1571）", "year": 1560, "confidence": "中", "note": "以宣府总兵身份长期参与北边防务；其具体任期与多次调动仍需按实录逐年细核。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷327"]
+    },
+    {
+      "id": "liaodong-garrison",
+      "name": "辽东镇",
+      "description": "明代东北边防重镇，涉及总兵、督抚、都司、军饷与女真部族关系，不能只按一位将领理解。",
+      "people": [
+        {"name": "李成梁", "relation": "统军", "period": "嘉靖末至万历中期（约1570—1582；后复任）", "year": 1572, "confidence": "高", "note": "长期任辽东总兵，参与辽东边务与对女真诸部的军事、册封和贸易关系。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]},
+        {"name": "李如松", "relation": "统军", "period": "万历二十年至二十六年（1592—1598）", "year": 1592, "confidence": "高", "note": "以辽东将领身份参与宁夏、援朝与东北军务；不同战场的指挥权限不相同。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]},
+        {"name": "刘綎", "relation": "援军统领", "period": "万历四十七年（1619）", "year": 1619, "confidence": "高", "note": "萨尔浒之役统领一路援军并战死；这里标示其进入辽东战场的统军关系，不等同长期任辽东总兵。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷259"]
+    },
+    {
+      "id": "jizhen-garrison",
+      "name": "蓟镇",
+      "description": "明代九边重镇之一，涵盖蓟州、昌平、保定等北部防务区域；练兵、工事、军饷均需要中央与地方配合。",
+      "people": [
+        {"name": "戚继光", "relation": "统军", "period": "隆庆二年至万历十年（1568—1582）", "year": 1568, "confidence": "高", "note": "受命总理蓟昌保练兵，后任蓟镇总兵；其练兵制度不能脱离边镇经费、将领与地形条件理解。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷212", "https://www.shidianguji.com/book/LS0026/chapter/1k6tolyonkf0p"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷212"]
+    },
+    {
+      "id": "shizhu-tusi",
+      "name": "石柱宣慰司／白杆兵",
+      "description": "石柱土司及其军事力量。‘白杆兵’是军队称谓，不能与单一常设官署混同，故并列展示。",
+      "people": [
+        {"name": "秦良玉", "relation": "承袭并统军", "period": "万历末至清顺治初（约1595—1648）", "year": 1621, "confidence": "高", "note": "以石柱宣慰使司土官家族身份统率白杆兵，先后援辽、勤王与参与西南军务；白杆兵不是她个人私兵的简单同义词。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷270", "https://upload.wikimedia.org/wikipedia/commons/9/9d/NLC403-312001078167-111091_%E8%A3%9C%E8%BC%AF%E7%9F%B3%E6%9F%B1%E5%BB%B3%E6%96%B0%E5%BF%97_%E6%B8%85%E9%81%9323%E5%B9%B4%281843%29_%E5%8D%B7%E5%85%AD.pdf"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷270"]
+    },
+    {
+      "id": "dongjiang-garrison",
+      "name": "东江镇",
+      "description": "明末辽东海上边防军事集团。其牵制后金、军饷、岛屿基地与地方秩序都存在复杂争议。",
+      "people": [
+        {"name": "毛文龙", "relation": "创建并统军", "period": "天启元年至崇祯二年（1621—1629）", "year": 1621, "confidence": "高", "note": "在辽东沿海岛屿建立东江镇并长期统军，1629年被袁崇焕处决；功罪评价与军纪、军饷问题须分开核验。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷259"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷259"]
+    },
+    {
+      "id": "shanhai-frontier-defence",
+      "name": "山海关与辽东防线",
+      "description": "明末山海关及辽东边防体系，涉及总兵、督师、边镇军队和清军压力；不将1644年后的清朝官职混入明代关系。",
+      "people": [
+        {"name": "吴三桂", "relation": "统军", "period": "崇祯末（约1640—1644）", "year": 1644, "confidence": "高", "note": "以辽东总兵驻守山海关并统率关宁军；入关后的清朝封王与反清经历属于后续政权阶段，另行理解。", "sources": ["https://ctext.org/wiki.pl?if=gb&res=410835"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷273"]
+    },
+    {
+      "id": "nanjing-defence",
+      "name": "南京守备",
+      "description": "迁都后南京宫廷与城防的内外守备体系，部分内臣任务属于差遣，不能一概视为固定官缺。",
+      "people": [
+        {"name": "郑和", "relation": "守备", "period": "洪熙元年后（1425年起）", "year": 1425, "confidence": "高", "note": "洪熙元年奉命以内官监太监领下番官军守备南京；下西洋正使与南京守备是不同阶段的职责。", "sources": ["https://www.shidianguji.com/mid-page/7470271357990977587", "https://zh.wikisource.org/zh-hans/明史/卷304"]},
+        {"name": "王景弘", "relation": "协同守备", "period": "洪熙元年后（1425年起）", "year": 1425, "confidence": "高", "note": "与郑和等协同管事，后续亦见南京守备相关记载；其生卒与各航次具体职责仍待考。", "sources": ["https://www.shidianguji.com/mid-page/7470271357990977587", "https://www.shidianguji.com/mid-page/7395681285890490378"]}
+      ],
+      "sources": ["https://www.dpm.org.cn/Uploads/File/2020/04/08/u5e8d78043344f.pdf"]
+    },
+    {
+      "id": "imperial-harem",
+      "name": "明代后宫",
+      "description": "皇后、妃嫔、皇子抚育、宫廷礼仪与近侍共同构成的内廷制度空间。它不是独立于皇帝决断的行政衙门，不将后妃身份直接等同于实际执政。",
+      "people": [
+        {"name": "郑贵妃", "relation": "位号", "period": "万历朝（约1580年代—1620）", "year": 1586, "confidence": "高", "note": "万历帝贵妃、福王朱常洵生母；其位号与母子关系可核，国本之争中的皇位继承决定权仍在万历帝。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷114", "https://zh.wikisource.org/zh-hans/明史/卷240"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷114", "https://zh.wikisource.org/zh-hans/明史/卷73"]
+    },
+    {
+      "id": "donglin-academy",
+      "name": "东林书院",
+      "description": "无锡讲学书院。顾宪成、高攀龙等人在万历后期重修并讲学，使书院成为学术、士人交游与公共议论的节点；不能将其直接等同于一个统一指挥的官僚党派。",
+      "people": [
+        {"name": "顾宪成", "relation": "讲学", "period": "万历三十二年至四十年（1604—1612）", "year": 1604, "confidence": "高", "note": "与高攀龙、钱一本等重修东林书院并讲学，参与裁量人物与朝政议论。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷231"]},
+        {"name": "高攀龙", "relation": "讲学", "period": "万历三十二年至天启初（1604—1620年代初）", "year": 1604, "confidence": "高", "note": "与顾宪成同讲东林，强调静坐、省察与公共责任；书院活动不等同其后每项东林政治行动。", "sources": ["https://zh.wikisource.org/zh-hans/明史/卷243"]}
+      ],
+      "sources": ["https://zh.wikisource.org/zh-hans/明史/卷231", "https://zh.wikisource.org/zh-hans/明史/卷243"]
+    },
+    {
+      "id": "joseon-navy",
+      "name": "朝鲜水军",
+      "description": "朝鲜王朝沿海军队与水营体系。它是援朝战争中的盟军力量，不属于明朝官署；军船、地方供给、朝鲜朝廷命令与明军协同共同塑造其作战能力。",
+      "people": [
+        {"name": "李舜臣", "relation": "统军", "period": "1591—1598（1597年曾撤职）", "year": 1591, "confidence": "高", "note": "历任全罗左道水军节度使、三道水军统制使；1597年被撤职并降为白衣从军，后复任统制使。", "sources": ["https://en.unesco.org/memoryoftheworld/registry/498", "https://sillok.history.go.kr/id/kna_13002004_001"]}
+      ],
+      "sources": ["https://sillok.history.go.kr/popup/print.do?gubun=kor&id=kna_12511011_006"]
+    },
+    {
+      "id": "toyotomi-regime",
+      "name": "丰臣政权",
+      "description": "日本战国后期以丰臣秀吉为中心的军政动员体系。它在统一过程中整合大名、土地与军役，并于1592年、1597年发动侵朝战争；不将其作为明朝的关联机构。",
+      "people": [
+        {"name": "丰臣秀吉", "relation": "统治", "period": "1585—1598", "year": 1585, "confidence": "高", "note": "1585年任关白，1591年后以太阁身份继续掌握实权；发动两次侵朝战争。", "sources": ["https://zh.wikisource.org/wiki/明史/卷322", "https://ndlsearch.ndl.go.jp/books/R100000144-I2050014094_0100399140"]}
+      ],
+      "sources": ["https://zh.wikisource.org/wiki/明史/卷322"]
     }
   ]
 }

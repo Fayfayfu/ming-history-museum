@@ -121,7 +121,7 @@ test('Southern Ming rulers share the upper ruler lane without changing their sou
     assert.equal(peopleByName.get(name)?.timeline_size, 'standard');
     assert.equal(nodeByName.get(name)?.lane.id, 'emperor');
     assert.equal(nodeByName.get(name)?.lane.label, '皇帝／君主');
-    assert.equal(nodeByName.get(name)?.sizePx, 88);
+    assert.equal(nodeByName.get(name)?.sizePx, 72);
     assert.equal(nodeByName.get(name)?.displayCategoryLabel, '南明君主');
     assert.equal(phaseData.people[name]?.[0]?.phase, 'ruler');
   }

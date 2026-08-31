@@ -122,6 +122,11 @@ function politicalPhasesFor(input, name, includeSourceIds = false) {
       role: phase.role,
       confidence: phase.confidence,
     };
+    if (phase.tenure) projected.tenure = phase.tenure;
+    if (phase.sovereigns) projected.sovereigns = phase.sovereigns;
+    if (Array.isArray(phase.institutions) && phase.institutions.length) {
+      projected.institutions = clone(phase.institutions);
+    }
     if (includeSourceIds) projected.sourceIds = clone(phase.sourceIds || []);
     return projected;
   });
