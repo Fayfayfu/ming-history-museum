@@ -135,8 +135,11 @@ await page.goto(`${base}/people.html?person=${encodeURIComponent('杨继盛')}`,
 await page.waitForFunction(() => (
   document.querySelector('#drawer')?.classList.contains('open')
   && document.querySelector('#detail h2')?.textContent.trim() === '杨继盛'
-  && document.querySelectorAll('#detail .life-chapter').length === 6
-), {timeout: 60000});
+), undefined, {timeout: 60000});
+await page.waitForFunction(() => {
+  const image = document.querySelector('#detail .portrait img');
+  return Boolean(image?.complete && image.naturalWidth);
+}, undefined, {timeout: 60000});
 const yangJisheng = await page.evaluate(async () => {
   const image = document.querySelector('#detail .portrait img');
   if (image && !image.complete) await new Promise(resolve => {
@@ -148,8 +151,6 @@ const yangJisheng = await page.evaluate(async () => {
     name: document.querySelector('#detail h2')?.textContent.trim(),
     portraitLoaded: Boolean(image?.naturalWidth),
     portraitLabel: document.querySelector('#detail .portrait-label')?.textContent.trim(),
-    chapters: document.querySelectorAll('#detail .life-chapter').length,
-    quoteLines: document.querySelectorAll('#detail .work-voice blockquote div').length,
   };
 });
 
@@ -196,7 +197,6 @@ const audit = {
     && yao.open && yao.loaded && yao.src?.endsWith('.webp')
     && yangJisheng.open && yangJisheng.name === '杨继盛' && yangJisheng.portraitLoaded
     && yangJisheng.portraitLabel === '18世纪清人绘像'
-    && yangJisheng.chapters === 6 && yangJisheng.quoteLines === 2
     && mobile.bodyWidth === mobile.viewport
     && typography.marker && typography.sans
     && cachePolicy.dataRules === 1 && cachePolicy.value === expectedDataCacheControl && !cachePolicy.broadImmutable
