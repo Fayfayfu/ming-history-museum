@@ -52,10 +52,10 @@ function assertVerifierRejects(mutate, messagePattern) {
   assert.match(output, messagePattern);
 }
 
-test('verifier accepts the curated 178-person timeline', () => {
+test('verifier accepts the curated 200-person timeline', () => {
   const result = runVerifier();
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-  assert.match(result.stdout, /178 people, layout 1352-1662, people 1352-1646/);
+  assert.match(result.stdout, /200 people, layout 1352-1664, people 1352-1650/);
 });
 
 test('museum story coverage derives its roster gate from the source roster', () => {
@@ -69,7 +69,7 @@ test('museum story coverage derives its roster gate from the source roster', () 
   ]).size;
   const museumVerifier = fs.readFileSync(path.join(repoRoot, 'scripts/verify_ming_museum.mjs'), 'utf8');
 
-  assert.equal(sourceCount, 178);
+  assert.equal(sourceCount, 200);
   assert.match(museumVerifier, /const expectedFormalRosterCount=new Set\(/);
   assert.match(museumVerifier, /storyCoverage\.rows===expectedFormalRosterCount/);
   assert.doesNotMatch(museumVerifier, /storyCoverage\.rows===165/);
@@ -247,11 +247,11 @@ test('curated round-2 evidence mappings stay locked', () => {
   }
 });
 
-test('verifier rejects a self-consistent roster that is not exactly 178 people', () => {
+test('verifier rejects a self-consistent roster that is not exactly 200 people', () => {
   assertVerifierRejects(({ core, timelineData }) => {
     const removed = core.shift();
     timelineData.people = timelineData.people.filter((person) => person.name !== removed.name);
-  }, /exactly 178 people/);
+  }, /exactly 200 people/);
 });
 
 test('傅山 remains a sourced 1636 public-activity anchor under his formal name', () => {

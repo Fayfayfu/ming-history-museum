@@ -49,7 +49,7 @@ test('story enrichment covers chapters, historical slices, and decision scenes w
 test('every event receives a readable era label and era date', () => {
   const raw = JSON.parse(fs.readFileSync(new URL('../../data/ming_events.json', import.meta.url), 'utf8'));
   const enriched = addMingEraDates(raw);
-  assert.equal(enriched.events.length, 95);
+  assert.equal(enriched.events.length, 105);
   assert.ok(enriched.events.every((event) => event.eraYear && event.eraDate));
   assert.equal(mingEraYear(1368).text, '洪武元年');
   assert.equal(mingEraYear(1600).text, '万历二十八年');

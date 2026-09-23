@@ -10,19 +10,19 @@ import { MUSEUM_TIMELINE_SCOPE } from './lib/museum_temporal_scope.mjs';
 import {MUSEUM_NAV_CSS,renderMuseumNavigation} from './lib/museum_navigation.mjs';
 import {PEOPLE_TIMELINE_VARIANTS,renderPeopleTimelineFormalPage,renderPeopleTimelineVariantPage} from './lib/people_timeline_variants.mjs';
 
-// Rebuild the research baseline first, then derive two focused exhibition halls.
-await import('./build_ming_html.mjs');
 // Recreate project-owned AI portraits from their archived PNG masters before
 // the museum asset tree is mirrored. This keeps a clean rebuild reproducible.
 await import('./process_ming_portrait_batch20.mjs');
 await import('./process_ming_portrait_batch21.mjs');
 await import('./process_ming_portrait_batch22.mjs');
 await import('./process_ming_portrait_batch23.mjs');
+await import('./process_ming_portrait_batch40.mjs');
 
 const root = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9';
 const museum = `${root}/明史数字博物馆`;
-const baseline = await fs.readFile(`${root}/明史人物谱_1368-1644.html`, 'utf8');
-const events = JSON.parse(await fs.readFile('data/ming_events.json', 'utf8'));
+let baseline = await fs.readFile(`${museum}/明史人物谱_1368-1644.html`, 'utf8');
+const rawEvents = JSON.parse(await fs.readFile('data/ming_events.json', 'utf8'));
+const events = {...rawEvents,events:rawEvents.events.map(event=>event.id!=='e089'&&event.year>=1644?{...event,stage:'s7'}:event)};
 const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
 const importantChildren = JSON.parse(await fs.readFile('data/ming_children_important.json', 'utf8'));
 const allChildren = JSON.parse(await fs.readFile('data/ming_children.json', 'utf8'));
@@ -130,12 +130,19 @@ await fs.mkdir(museum, {recursive:true});
 // second physical 170MB+ asset copy on the same volume.
 await fs.rm(`${museum}/assets`, {recursive:true, force:true});
 await mirrorAssetsWithHardLinks(`${root}/assets`, `${museum}/assets`);
+// Generate the indexes and detail shards only after the static asset mirror is
+// in place. Otherwise the mirror can overwrite newly emitted event/person data.
+await import('./build_ming_html.mjs');
+// build_ming_html regenerates the shared hall baseline. Re-read it before
+// deriving the people and event halls so a single build never publishes a
+// one-build-old page shell.
+baseline = await fs.readFile(`${museum}/明史人物谱_1368-1644.html`, 'utf8');
 await Promise.all(['people-index.json', 'events-index.json'].map((filename) =>
   fs.access(`${museum}/assets/data/${filename}`),
 ));
 
 const nav = active => renderMuseumNavigation(active);
-const peopleArchiveHtml = () => `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物静态名录｜步入大明数字历史博物馆</title><style>:root{--ink:#211d17;--paper:#f4ecd9;--line:#b8a98e;--red:#9c2f23}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Songti SC","STSong",serif}header,main,footer{max-width:1540px;margin:auto;padding-left:clamp(18px,4vw,70px);padding-right:clamp(18px,4vw,70px)}header{padding-top:52px;padding-bottom:30px;border-bottom:4px solid var(--red)}h1{margin:0;font-size:clamp(40px,7vw,78px);line-height:1}p{max-width:840px;line-height:1.8}a{color:#7d241b}.tablewrap{overflow:auto;padding:34px 0 54px}.roster{width:100%;min-width:1720px;border-collapse:collapse;font-size:13px;line-height:1.6}.roster th,.roster td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;text-align:left}.roster th{position:sticky;top:0;background:#e7dbc2;color:#6d2119;white-space:nowrap}.roster .name{font-weight:800;white-space:nowrap}footer{padding-top:22px;padding-bottom:32px;border-top:1px solid var(--line);font-size:12px;color:#665d50}</style></head><body><header><p>步入大明 · 无 JavaScript 静态访问</p><h1>人物完整名录</h1><p>本页预生成全部 ${timelinePeople.length} 位人物记录，不依赖 JavaScript；全馆叙事范围为 ${MUSEUM_TIMELINE_SCOPE.start}—${MUSEUM_TIMELINE_SCOPE.end}，1644 为北京明廷覆亡，1662 为南明终局。需要筛选、时间长卷或人物抽屉时，可返回 <a href="people.html">交互人物馆</a>。</p></header><main><div class="tablewrap"><table class="roster"><thead><tr>${rosterHeaderHtml}</tr></thead><tbody id="rows">${archivePeopleRows}</tbody></table></div></main><footer>人物静态名录 · ${timelinePeople.length} 位记录 · 研究型阅读入口</footer></body></html>`;
+const peopleArchiveHtml = () => `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物静态名录｜步入大明数字历史博物馆</title><style>:root{--ink:#211d17;--paper:#f4ecd9;--line:#b8a98e;--red:#9c2f23}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Songti SC","STSong",serif}header,main,footer{max-width:1540px;margin:auto;padding-left:clamp(18px,4vw,70px);padding-right:clamp(18px,4vw,70px)}header{padding-top:52px;padding-bottom:30px;border-bottom:4px solid var(--red)}h1{margin:0;font-size:clamp(40px,7vw,78px);line-height:1}p{max-width:840px;line-height:1.8}a{color:#7d241b}.tablewrap{overflow:auto;padding:34px 0 54px}.roster{width:100%;min-width:1720px;border-collapse:collapse;font-size:13px;line-height:1.6}.roster th,.roster td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;text-align:left}.roster th{position:sticky;top:0;background:#e7dbc2;color:#6d2119;white-space:nowrap}.roster .name{font-weight:800;white-space:nowrap}footer{padding-top:22px;padding-bottom:32px;border-top:1px solid var(--line);font-size:12px;color:#665d50}</style></head><body><header><p>步入大明 · 无 JavaScript 静态访问</p><h1>人物完整名录</h1><p>本页预生成全部 ${timelinePeople.length} 位人物记录，不依赖 JavaScript；全馆叙事范围为 ${MUSEUM_TIMELINE_SCOPE.start}—${MUSEUM_TIMELINE_SCOPE.end}：1644 为北京明廷覆亡，1662 为永历政权终局，1664 为夔东抵抗终局。需要筛选、时间长卷或人物抽屉时，可返回 <a href="people.html">交互人物馆</a>。</p></header><main><div class="tablewrap"><table class="roster"><thead><tr>${rosterHeaderHtml}</tr></thead><tbody id="rows">${archivePeopleRows}</tbody></table></div></main><footer>人物静态名录 · ${timelinePeople.length} 位记录 · 研究型阅读入口</footer></body></html>`;
 
 const hallCSS = `
 .skip{position:fixed;left:12px;top:-70px;z-index:100;background:#fff;color:#181713;padding:10px 14px}.skip:focus{top:12px}
@@ -179,11 +186,11 @@ function baseHall(kind) {
       .replace('<button id="peopleTableTab" type="button" role="tab" aria-selected="true" data-people-view="table">', '<button id="peopleTableTab" type="button" role="tab" aria-selected="true" aria-controls="peopleTableView" data-people-view="table">')
       .replace('<section class="tablewrap">', '<section class="tablewrap" id="peopleTableView" role="tabpanel" aria-labelledby="peopleTableTab">')
       .replace('<tbody id="rows"></tbody>', `<tbody id="rows">${noScriptRosterRow}</tbody>`)
-      .replace('<title>明史人物谱与大事年表｜1368—1662</title>', '<title>人物馆｜步入大明数字历史博物馆</title>')
+      .replace('<title>明史人物谱与大事年表｜1368—1664</title>', '<title>人物馆｜步入大明数字历史博物馆</title>')
       .replace('Ming Biographical Register · Research Baseline 04', 'PEOPLE GALLERY · RESEARCH COLLECTION')
-      .replace('<h1>明史人物谱<small>1368—1662</small></h1>', '<h1>人物馆<small>1368—1662</small></h1>')
+      .replace('<h1>明史人物谱<small>1368—1664</small></h1>', '<h1>人物馆<small>1368—1664</small></h1>')
       .replace('人物不只存在于官职表：这里同时收录帝王宗室、后妃、文武官员、内廷人物、改变明朝命运的同时代政权人物、与明朝发生关键互动的域外人物，以及通过艺术、医学、出版与实地考察留下影响的在野人物。可按制度身份与历史领域交叉检索；评价分数是透明研究量表，不是“历史人物战力榜”。', '先看人，再看人与权力、制度和时代的关系。沿帝系进入一朝，或按身份与领域寻找皇帝、宗室、后妃、官员、内廷人物、同时代政权人物、域外人物和在野人物。每一条记录都把事实、评价、评分与证据入口分开呈现。')
-      .replace('<b>本馆范围</b><br>全馆叙事起于 1368 年明朝建立，1644 年北京明廷覆亡为主断点；人物、事件与关系网延展至 1662 年南明终局。1662 年后的经历仅在人物独立页作必要收束，不纳入全馆时间线与关系网。', '<b>本馆范围</b><br>全馆叙事起于 1368 年明朝建立，1644 年北京明廷覆亡为主断点；人物、事件与关系网延展至 1662 年南明终局。1662 年后的经历仅在人物独立页作必要收束，不纳入全馆时间线与关系网。')
+      .replace('<b>本馆范围</b><br>全馆叙事起于 1368 年明朝建立，1644 年北京明廷覆亡为主断点；人物、事件与关系网延展至 1664 年夔东抵抗终局。1662 年为永历政权终局；1662—1664 只纳入与夔东抵抗直接相关的人物和事件。', '<b>本馆范围</b><br>全馆叙事起于 1368 年明朝建立，1644 年北京明廷覆亡为主断点；人物、事件与关系网延展至 1664 年夔东抵抗终局。1662 年为永历政权终局；1662—1664 只纳入与夔东抵抗直接相关的人物和事件。')
       .replace(
         /function focusPerson\(name\)\{([^\n]*?)openDetail\(person\)\}/,
         (_, beforeOpenDetail) => `async function focusPerson(name){${beforeOpenDetail}openDetail(person);const portrait=document.querySelector('#detail .portrait img');if(portrait&&!portrait.complete)await new Promise(resolve=>{portrait.addEventListener('load',resolve,{once:true});portrait.addEventListener('error',resolve,{once:true});if(portrait.complete)resolve()})}`,
@@ -193,12 +200,12 @@ function baseHall(kind) {
   } else {
     html = html
       .replace('</style>', `${hallCSS}</style>`)
-      .replace('<title>明史人物谱与大事年表｜1368—1662</title>', '<title>事件馆｜步入大明数字历史博物馆</title>')
-      .replace('Ming Biographical Register · Research Baseline 04', 'EVENT GALLERY · SIX HISTORICAL CHAPTERS')
-      .replace('<h1>明史人物谱<small>1368—1662</small></h1>', '<h1>事件馆<small>1368—1662</small></h1>')
-      .replace('人物不只存在于官职表：这里同时收录帝王宗室、后妃、文武官员、内廷人物、改变明朝命运的同时代政权人物、与明朝发生关键互动的域外人物，以及通过艺术、医学、出版与实地考察留下影响的在野人物。可按制度身份与历史领域交叉检索；评价分数是透明研究量表，不是“历史人物战力榜”。', '把近三百年历史放回时间与因果之中。95 件事件分为六个历史章节，从建国、扩张、危机、改革一直走到北京陷落和南明终局；可按类型、人物、地点和制度自由检索。')
-      .replace('<b>双重范围</b><br>人物表以北京明朝 1368—1644 为主体；事件年表延伸至南明终局 1662。', '<b>本馆范围</b><br>起于 1368 年明朝建立，止于 1662 年永历帝被杀。')
-      .replace(/<div class="scope"><b>本馆范围<\/b>.*?<\/div>/s, '<div class="scope"><b>本馆范围</b><br>起于 1368 年明朝建立；1644 年北京明廷覆亡为主断点，止于 1662 年南明终局。<br><b>展览逻辑</b><br>六个阶段不是唯一分期，而是识别结构变化的参观路径。<br><b>置信度</b><br>81 件为高、14 件为中；因果与长期影响属于结构化研究判断。<br><b>跨馆</b><br>点击人物标签，前往人物馆查看生平、任期与评价。</div>')
+      .replace('<title>明史人物谱与大事年表｜1368—1664</title>', '<title>事件馆｜步入大明数字历史博物馆</title>')
+      .replace('Ming Biographical Register · Research Baseline 04', 'EVENT GALLERY · SEVEN HISTORICAL CHAPTERS')
+      .replace('<h1>明史人物谱<small>1368—1664</small></h1>', '<h1>事件馆<small>1368—1664</small></h1>')
+      .replace('人物不只存在于官职表：这里同时收录帝王宗室、后妃、文武官员、内廷人物、改变明朝命运的同时代政权人物、与明朝发生关键互动的域外人物，以及通过艺术、医学、出版与实地考察留下影响的在野人物。可按制度身份与历史领域交叉检索；评价分数是透明研究量表，不是“历史人物战力榜”。', '把近三百年历史放回时间与因果之中。105 件事件分为七个历史章节：1644 年前追问北京明廷何以崩解，1644 年后观察南明、易代与夔东抵抗如何延续；可按类型、人物、地点和制度自由检索。')
+      .replace('<b>双重范围</b><br>人物表以北京明朝 1368—1644 为主体；事件年表延伸至南明终局 1662。', '<b>本馆范围</b><br>起于 1368 年明朝建立；1662 为永历政权终局，1664 为夔东抵抗终局。')
+      .replace(/<div class="scope"><b>本馆范围<\/b>.*?<\/div>/s, '<div class="scope"><b>本馆范围</b><br>起于 1368 年明朝建立；1644 年北京明廷覆亡为主断点，1662 为永历政权终局，1664 为夔东抵抗终局。<br><b>展览逻辑</b><br>七个阶段不是唯一分期；1644 年前后分列，帮助辨认北京明廷崩解与南明延续之间的政治断点。<br><b>置信度</b><br>事件的具体置信度与来源入口见各事件详情。<br><b>跨馆</b><br>点击人物标签，前往人物馆查看生平、任期与评价。</div>')
       .replace(/function focusPerson\(name\)\{[^\n]*\}/, "function focusPerson(name){location.href='people.html?person='+encodeURIComponent(name)}")
       .replace('renderEvents();render();', "const requestedStage=pageQuery.get('stage');const requestedQuery=pageQuery.get('q');const requestedCategory=pageQuery.get('category');if(requestedStage&&eventStages.some(s=>s.id===requestedStage))eventState.stage=requestedStage;if(requestedQuery){eventState.q=requestedQuery;document.getElementById('eventSearch').value=requestedQuery}if(requestedCategory&&eventCategories.includes(requestedCategory)){eventState.category=requestedCategory;document.getElementById('eventCategory').value=requestedCategory}renderEvents();render();");
     html = moveHallScopeToFooter(html, 'events');
@@ -250,12 +257,12 @@ const index = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><me
 @media(max-width:620px){.museum-nav{height:68px}.museum-brand small{display:none}.museum-links a{padding:0 8px;font-size:12px}.museum-links a:last-child{display:none}.hero{padding-inline:20px}.hero h1{font-size:clamp(64px,20vw,78px)}.section{padding:75px 20px}.doors,.eras,.figures,.routes{grid-template-columns:1fr}.door{min-height:420px;padding:30px}.figures{gap:8px}.figure{height:430px}.footer{display:block}.footer span{display:block;margin-top:8px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.door:before,.door:after,.era,.figure img{transition:none}}
 ${MUSEUM_NAV_CSS}
-</style></head><body>${nav('home')}<main id="main"><section class="hero"><div class="year-pillar">1368</div><div class="hero-center"><div class="hero-kicker">MING · A WALKABLE HISTORY</div><h1>步入大明<span>数字历史博物馆</span></h1><p>这里不是一条从头背到尾的年表。你可以跟随一个人、一场战争、一项制度或一个问题，穿过 1368 至 1662 的历史结构。</p><a class="enter" href="#halls">从序厅入馆</a></div><div class="year-pillar right">1662</div><div class="hero-index">人物 ${peopleTotal} · 事件 ${events.events.length} · 历史阶段 ${events.stages.length}</div></section>
-<section class="section" id="halls"><header class="section-head"><div><div class="eyebrow">CHOOSE A GALLERY</div><h2>选择你的入口</h2></div><p>从人物认识行动者，从事件建立时间骨架，从制度理解权力与政令如何运转。三个展厅彼此连接，不要求按唯一顺序参观。</p></header><div class="doors"><a class="door" href="people.html"><span class="door-no">GALLERY 01 · ${peopleTotal} PEOPLE</span><h3>人物馆</h3><p>沿帝系认识皇帝与重要子嗣，也可以按身份与领域寻找文武官员、内廷人物、在野人物及与明朝发生关键互动的域外人物。</p><em>进入人物馆 →</em></a><a class="door events" href="events.html"><span class="door-no">GALLERY 02 · ${events.events.length} EVENTS</span><h3>事件馆</h3><p>从建国到南明终局，把战争、制度、财政、政治、社会和文化放回时间轴，追问事件为什么发生、又留下了什么。</p><em>进入事件馆 →</em></a><a class="door institutions" href="institutions.html"><span class="door-no">GALLERY 03 · 29 INSTITUTIONS</span><h3>制度馆</h3><p>按年份切换中书省、内阁、六部、三法司、厂卫、军事和地方治理，追踪国家机器如何连接与变化。</p><em>进入制度馆 →</em></a></div></section>
-<section class="section"><header class="section-head"><div><div class="eyebrow">SIX HISTORICAL CHAPTERS</div><h2>六个时代展区</h2></div><p>时代划分不是给历史切整齐的格子，而是帮助识别结构变化。点击任一展区，直接进入对应事件。</p></header><div class="eras">${stageCards}</div></section>
+</style></head><body>${nav('home')}<main id="main"><section class="hero"><div class="year-pillar">1368</div><div class="hero-center"><div class="hero-kicker">MING · A WALKABLE HISTORY</div><h1>步入大明<span>数字历史博物馆</span></h1><p>这里不是一条从头背到尾的年表。你可以跟随一个人、一场战争、一项制度或一个问题，穿过 1368 至 1664 的历史结构。</p><a class="enter" href="#halls">从序厅入馆</a></div><div class="year-pillar right">1664</div><div class="hero-index">人物 ${peopleTotal} · 事件 ${events.events.length} · 历史阶段 ${events.stages.length}</div></section>
+<section class="section" id="halls"><header class="section-head"><div><div class="eyebrow">CHOOSE A GALLERY</div><h2>选择你的入口</h2></div><p>从人物认识行动者，从事件建立时间骨架，从制度理解权力与政令如何运转。三个展厅彼此连接，不要求按唯一顺序参观。</p></header><div class="doors"><a class="door" href="people.html"><span class="door-no">GALLERY 01 · ${peopleTotal} PEOPLE</span><h3>人物馆</h3><p>沿帝系认识皇帝与重要子嗣，也可以按身份与领域寻找文武官员、内廷人物、在野人物及与明朝发生关键互动的域外人物。</p><em>进入人物馆 →</em></a><a class="door events" href="events.html"><span class="door-no">GALLERY 02 · ${events.events.length} EVENTS</span><h3>事件馆</h3><p>从建国到南明、易代与夔东抵抗收束，把战争、制度、财政、政治、社会和文化放回时间轴，追问事件为什么发生、又留下了什么。</p><em>进入事件馆 →</em></a><a class="door institutions" href="institutions.html"><span class="door-no">GALLERY 03 · 29 INSTITUTIONS</span><h3>制度馆</h3><p>按年份切换中书省、内阁、六部、三法司、厂卫、军事和地方治理，追踪国家机器如何连接与变化。</p><em>进入制度馆 →</em></a></div></section>
+<section class="section"><header class="section-head"><div><div class="eyebrow">SEVEN HISTORICAL CHAPTERS</div><h2>七个时代展区</h2></div><p>时代划分不是给历史切整齐的格子，而是帮助识别结构变化。1644 年前后分列，点击任一展区可直接进入对应事件。</p></header><div class="eras">${stageCards}</div></section>
 <section class="section"><header class="section-head"><div><div class="eyebrow">MEET THE PEOPLE</div><h2>从一个人开始</h2></div><p>人物不是孤立的名片。每张卡片都以一个问题开场，引导你把个人选择放回制度与时代。</p></header><div class="figures">${featured}</div></section>
-<section class="section"><header class="section-head"><div><div class="eyebrow">CURATED WALKS</div><h2>带着问题参观</h2></div><p>如果不知道从哪里开始，选一条主题路线。短路线建立基本认识，长路线适合继续比较人物、事件和制度。</p></header><div class="routes"><a class="route" href="events.html?stage=s1"><span class="route-time">15</span><small>分钟 · 初识路线</small><h3>皇权如何建立</h3><p>从开国、分封、法律到丞相制度废除。</p></a><a class="route" href="events.html?q=土木堡"><span class="route-time">30</span><small>分钟 · 危机路线</small><h3>皇帝被俘之后</h3><p>土木堡、景泰即位、北京保卫战与夺门之变。</p></a><a class="route" href="events.html?stage=s5"><span class="route-time">45</span><small>分钟 · 世界路线</small><h3>白银、海贸与战争</h3><p>隆庆开海、全球白银、改革与万历三大征。</p></a><a class="route" href="events.html?stage=s6"><span class="route-time">60</span><small>分钟 · 深度路线</small><h3>1644为何发生</h3><p>财政、气候、辽东战争、民变与南明延续。</p></a></div></section>
-<section class="section research" id="research"><header class="section-head"><div><div class="eyebrow">RESEARCH DESK</div><h2>研究台</h2></div><p>展览负责提出问题，研究台负责告诉你证据从哪里来。事实、解释和量化评价并非同一层级。</p></header><div class="desks"><div class="desk"><b>基础史料</b><p>以《明实录》、制度文献和《明史》为主要入口；注意正史的修纂年代与立场。</p><a href="https://www1.ihp.sinica.edu.tw/Research/Groups/scriptaSinica">中央研究院汉籍全文数据库 →</a></div><div class="desk"><b>人物关系</b><p>帝系、亲属、任官与交往关系需要交叉核对，不能只凭后世故事补齐。</p><a href="https://cbdb.hsites.harvard.edu/">中国历代人物传记资料库 →</a></div><div class="desk"><b>如何读评分</b><p>评分只是透明比较工具，不是史学界统一结论。细项、权重和置信度均在人物馆公开。</p><a href="people.html#main">查看评分方法 →</a></div></div></section></main><footer class="footer"><b>步入大明 · 数字历史博物馆</b><span>全馆范围 1368—1662 · 1644 北京明廷覆亡 · 1662 南明终局</span></footer></body></html>`;
+<section class="section"><header class="section-head"><div><div class="eyebrow">CURATED WALKS</div><h2>带着问题参观</h2></div><p>如果不知道从哪里开始，选一条主题路线。短路线建立基本认识，长路线适合继续比较人物、事件和制度。</p></header><div class="routes"><a class="route" href="events.html?stage=s1"><span class="route-time">15</span><small>分钟 · 初识路线</small><h3>皇权如何建立</h3><p>从开国、分封、法律到丞相制度废除。</p></a><a class="route" href="events.html?q=土木堡"><span class="route-time">30</span><small>分钟 · 危机路线</small><h3>皇帝被俘之后</h3><p>土木堡、景泰即位、北京保卫战与夺门之变。</p></a><a class="route" href="events.html?stage=s5"><span class="route-time">45</span><small>分钟 · 世界路线</small><h3>白银、海贸与战争</h3><p>隆庆开海、全球白银、改革与万历三大征。</p></a><a class="route" href="events.html?stage=s6"><span class="route-time">60</span><small>分钟 · 深度路线</small><h3>1644为何发生</h3><p>财政、辽东战争、民变与北京明廷崩解。</p></a><a class="route" href="events.html?stage=s7"><span class="route-time">75</span><small>分钟 · 延续路线</small><h3>1644之后发生了什么</h3><p>从弘光、隆武与永历，到郑氏海上力量和夔东抵抗。</p></a></div></section>
+<section class="section research" id="research"><header class="section-head"><div><div class="eyebrow">RESEARCH DESK</div><h2>研究台</h2></div><p>展览负责提出问题，研究台负责告诉你证据从哪里来。事实、解释和量化评价并非同一层级。</p></header><div class="desks"><div class="desk"><b>基础史料</b><p>以《明实录》、制度文献和《明史》为主要入口；注意正史的修纂年代与立场。</p><a href="https://www1.ihp.sinica.edu.tw/Research/Groups/scriptaSinica">中央研究院汉籍全文数据库 →</a></div><div class="desk"><b>人物关系</b><p>帝系、亲属、任官与交往关系需要交叉核对，不能只凭后世故事补齐。</p><a href="https://cbdb.hsites.harvard.edu/">中国历代人物传记资料库 →</a></div><div class="desk"><b>如何读评分</b><p>评分只是透明比较工具，不是史学界统一结论。细项、权重和置信度均在人物馆公开。</p><a href="people.html#main">查看评分方法 →</a></div></div></section></main><footer class="footer"><b>步入大明 · 数字历史博物馆</b><span>全馆范围 1368—1664 · 1644 北京明廷覆亡 · 1662 永历政权终局 · 1664 夔东抵抗终局</span></footer></body></html>`;
 
 await fs.writeFile(`${museum}/index.html`, index, 'utf8');
 await import('./build_ming_person_pages.mjs');

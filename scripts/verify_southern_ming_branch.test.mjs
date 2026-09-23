@@ -101,13 +101,13 @@ test('Southern Ming rulers share the upper ruler lane without changing their sou
   const peopleByName = new Map(people.map((person) => [person.name, person]));
   const nodeByName = new Map(layout.nodes.map((node) => [node.name, node]));
 
-  assert.equal(people.length, 178);
+  assert.equal(people.length, 200);
   assert.deepEqual(
     branch.primary.map(({ name, era, start, end }) => ({ name, era, start, end })),
     branchPrimary,
   );
-  assert.deepEqual(layout.boundaries.map((boundary) => boundary.year), [1368, 1644, 1662]);
-  assert.equal(layout.maxYear, 1662);
+  assert.deepEqual(layout.boundaries.map((boundary) => boundary.year), [1368, 1644, 1662, 1664]);
+  assert.equal(layout.maxYear, 1664);
   assert.deepEqual(
     validatePoliticalPhases({
       roster: new Set(core.map((person) => person.name)),

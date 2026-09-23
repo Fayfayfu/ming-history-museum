@@ -193,7 +193,7 @@ const audit = {
     })
     && pages.find(record => record.file === 'people.html')?.scrollVariant === 'b2'
     && pages.find(record => record.file === 'people.html')?.robots === ''
-    && ['index.html', 'people.html', 'events.html'].every(file => ['1368', '1644', '1662', '北京明廷覆亡', '南明终局'].every(token => pages.find(record => record.file === file)?.scopeCopy.includes(token)))
+    && ['index.html', 'people.html', 'events.html'].every(file => ['1368', '1644', '1662', '1664', '北京明廷覆亡', '永历政权终局', '夔东抵抗终局'].every(token => pages.find(record => record.file === file)?.scopeCopy.includes(token)))
     && yao.open && yao.loaded && yao.src?.endsWith('.webp')
     && yangJisheng.open && yangJisheng.name === '杨继盛' && yangJisheng.portraitLoaded
     && yangJisheng.portraitLabel === '18世纪清人绘像'

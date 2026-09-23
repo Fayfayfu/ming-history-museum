@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import {MUSEUM_NAV_CSS,renderMuseumNavigation} from './lib/museum_navigation.mjs';
 import {ARTWORK_VIEWER_CSS,ARTWORK_VIEWER_SCRIPT,renderArtworkOpenButton,renderArtworkViewerDialog} from './lib/artwork_viewer.mjs';
+import {repairPersonPages} from './lib/person_page_repairs.mjs';
 
 const root = 'outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9/明史数字博物馆';
 const primaryPages = JSON.parse(await fs.readFile('data/ming_person_pages.json', 'utf8'));
@@ -51,8 +52,10 @@ const batch36ChenghuaCourtPages = JSON.parse(await fs.readFile('data/ming_person
 const batch37HongzhiCivilPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch37_hongzhi_civil.json', 'utf8'));
 const batch38LateCourtSecurityPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch38_late_court_security.json', 'utf8'));
 const batch39LateTransitionFinalPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch39_late_transition_final.json', 'utf8'));
+const batch40SouthernMingExpansionPages = JSON.parse(await fs.readFile('data/ming_person_pages_batch40_southern_ming_expansion.json', 'utf8'));
 const pages = {people:{...(primaryPages.people || {}), ...(batch2Pages.people || {}), ...(batch7Pages.people || {}), ...(batch7Part2Pages.people || {}), ...(batch7Part3Pages.people || batch7Part3Pages), ...(batch7Part4Pages.people || {}), ...(batch8Part1Pages.people || batch8Part1Pages), ...(batch8Part2Pages.people || batch8Part2Pages), ...(batch8Part3Pages.people || batch8Part3Pages), ...(batch10Part1Pages.people || {}), ...(batch10Part2Pages.people || {}), ...(batch11Pages.people || {}), ...(batch12Pages.people || {}), ...(batch13Pages.people || {}), ...(batch14Pages.people || {}), ...(batch15Pages.people || {}), ...(batch16Pages.people || {}), ...(batch17CivilPages.people || {}), ...(batch17MilitaryPages.people || {}), ...(batch17LatePages.people || {}), ...(batch18CentralPages.people || {}), ...(batch18SeniorPages.people || {}), ...(batch18HaiRuiPages.people || {}), ...(batch19NineBordersPages.people || {}), ...(batch19LiaodongAidPages.people || {}), ...(batch19KoreaCommandersPages.people || {}), ...(batch20CourtPages.people || {}), ...(batch20StatecraftPages.people || {}), ...(batch20RegimePages.people || {}), ...(batch21DonglinPages.people || {}), ...(batch22RenchenPages.people || {}), ...(batch23JiajingCourtPages.people || {}), ...(batch24YandangJinyiweiPages.people || {}), ...(batch25NorthSoutheastPages.people || {}), ...(batch26WanliEmperorPages.people || {}), ...(batch27FoundingCivilPages.people || {}), ...(batch28FoundingCommandersPages.people || {}), ...(batch29JingnanYonglePages.people || {}), ...(batch30FoundingRemainderPages.people || {}), ...(batch31FoundingCommandersRemainderPages.people || {}), ...(batch32YongleStatecraftPages.people || {}), ...(batch33JingnanSecurityPages.people || {}), ...(batch34TumuCourtPages.people || {})}};
-Object.assign(pages.people, batch35RenxuanStatecraftPages.people || {}, batch36ChenghuaCourtPages.people || {}, batch37HongzhiCivilPages.people || {}, batch38LateCourtSecurityPages.people || {}, batch39LateTransitionFinalPages.people || {});
+Object.assign(pages.people, batch35RenxuanStatecraftPages.people || {}, batch36ChenghuaCourtPages.people || {}, batch37HongzhiCivilPages.people || {}, batch38LateCourtSecurityPages.people || {}, batch39LateTransitionFinalPages.people || {}, batch40SouthernMingExpansionPages.people || {});
+repairPersonPages(pages);
 const core = JSON.parse(await fs.readFile('data/ming_core.json', 'utf8'));
 const portraits = JSON.parse(await fs.readFile('data/ming_portraits.json', 'utf8'));
 const creative = JSON.parse(await fs.readFile('data/ming_creative_works.json', 'utf8'));
@@ -80,6 +83,26 @@ const historicalSlices = {
   }
 };
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+// Repeated “不是……而是……” contrasts sound like draft-stage correction.
+// Reader-facing narrative keeps the positive assertion and lets evidence notes
+// carry any needed qualification.
+const naturalNarrative = value => String(value ?? '')
+  .replace(/(^|[。！？；])不是[^，。！？；]{1,84}，而是([^。！？；]{2,160})/g, (_, stop, right) => `${stop}重点在于${right}`)
+  .replace(/([^。！？；]{1,84}?)不是[^，。！？；]{1,84}，而是([^。！？；]{2,160})/g, (_, subject, right) => {
+    const trimmed = subject.trimEnd();
+    return /^(在|由|把|为|以|从)/.test(right) ? `${trimmed}${right}` : `${trimmed}是${right}`;
+  });
+// Feature blocks use the same reader-facing voice as the biography. Keep
+// identifiers and external links intact; only natural-language values change.
+const naturalizePresentation = value => {
+  if (typeof value === 'string') return naturalNarrative(value);
+  if (Array.isArray(value)) return value.map(naturalizePresentation);
+  if (!value || typeof value !== 'object') return value;
+  return Object.fromEntries(Object.entries(value).map(([key, item]) => [
+    key,
+    ['url', 'source', 'image', 'file', 'slug'].includes(key) ? item : naturalizePresentation(item)
+  ]));
+};
 const asset = value => `../${value}`;
 const people = Object.entries(pages.people);
 
@@ -162,7 +185,8 @@ const nav = renderMuseumNavigation('people',{prefix:'../',skipTarget:'story'});
 function renderHistoricalSlice(name) {
   const h = historicalSlices.people?.[name] || storytelling.people?.[name]?.historicalSlice;
   if (!h) return '';
-  return `<section class="history-slice reveal" id="history-slice"><div class="history-slice-shell"><header class="history-slice-head"><div><div class="history-slice-kicker">A MOMENT IN HISTORY · 历史切片</div><div class="history-slice-coord">${[h.year,h.age,h.place].filter(Boolean).map(esc).join(' · ')}</div><h2>${esc(h.title)}</h2></div><span class="history-slice-confidence">${esc(h.confidence||'未知')}置信度</span></header><div class="history-slice-grid"><aside class="history-slice-ledger"><div><b>此前发生了什么</b><p>${esc(h.before)}</p></div><div><b>眼前的具体事物</b><p>${esc(h.object)}</p></div></aside><div class="history-slice-view"><div class="knowledge-split"><article><b>他当时已经知道</b><p>${esc(h.known)}</p></article><article><b>他当时无法知道</b><p>${esc(h.unknown)}</p></article></div><div class="history-slice-action"><b>随后真正发生的行动</b><p>${esc(h.action)}</p></div><div class="history-slice-consequence"><b>行动带来的后果</b><p>${esc(h.consequence)}</p></div></div></div><footer class="history-slice-boundary"><b>证据边界</b><span>${esc(h.boundary)}</span></footer></div></section>`;
+  const text = value => esc(naturalNarrative(value));
+  return `<section class="history-slice reveal" id="history-slice"><div class="history-slice-shell"><header class="history-slice-head"><div><div class="history-slice-kicker">A MOMENT IN HISTORY · 历史切片</div><div class="history-slice-coord">${[h.year,h.age,h.place].filter(Boolean).map(esc).join(' · ')}</div><h2>${text(h.title)}</h2></div><span class="history-slice-confidence">${esc(h.confidence||'未知')}置信度</span></header><div class="history-slice-grid"><aside class="history-slice-ledger"><div><b>此前发生了什么</b><p>${text(h.before)}</p></div><div><b>眼前的具体事物</b><p>${text(h.object)}</p></div></aside><div class="history-slice-view"><div class="knowledge-split"><article><b>他当时已经知道</b><p>${text(h.known)}</p></article><article><b>他当时无法知道</b><p>${text(h.unknown)}</p></article></div><div class="history-slice-action"><b>随后真正发生的行动</b><p>${text(h.action)}</p></div><div class="history-slice-consequence"><b>行动带来的后果</b><p>${text(h.consequence)}</p></div></div></div><footer class="history-slice-boundary"><b>证据边界</b><span>${text(h.boundary)}</span></footer></div></section>`;
 }
 
 function renderArtworkCard(work) {
@@ -234,7 +258,7 @@ function hasCreativeGallery(page, name) {
 function renderPageLocator(name, page, hasGallery) {
   const hasHistory = Boolean(historicalSlices.people?.[name] || storytelling.people?.[name]?.historicalSlice);
   const hasWorks = hasGallery || Boolean(page.work);
-  const chapters = page.scenes.map((scene, index) => `<a href="#life-${index + 1}" data-locator-link data-locator-label="生平脉络"><span>${String(index + 1).padStart(2, '0')}</span><b>${esc(scene.title)}</b></a>`).join('');
+  const chapters = page.scenes.map((scene, index) => `<a href="#life-${index + 1}" data-locator-link data-locator-label="生平脉络"><span>${String(index + 1).padStart(2, '0')}</span><b>${esc(naturalNarrative(scene.title))}</b></a>`).join('');
   return `<aside class="page-locator" aria-label="展厅导览" data-open="false"><button class="page-locator-toggle" type="button" data-locator-toggle aria-controls="pageLocatorPanel" aria-expanded="false" aria-label="打开展厅导览，当前位置：开篇"><span>导览</span><b data-locator-current>开篇</b></button><nav class="page-locator-panel" id="pageLocatorPanel" aria-label="展厅章节" aria-hidden="true"><header class="page-locator-head"><b>展厅导览</b><small>LOCATOR</small></header><div class="page-locator-list"><a class="page-locator-section" href="#top" data-locator-link data-locator-label="开篇">开篇</a><div class="page-locator-section">生平脉络</div><div class="page-locator-chapters">${chapters}</div>${hasHistory?'<a class="page-locator-section" href="#history-slice" data-locator-link data-locator-label="历史切片">历史切片</a>':''}${hasWorks?'<a class="page-locator-section" href="#works" data-locator-link data-locator-label="作品展陈">作品展陈</a>':''}<a class="page-locator-section" href="#connections" data-locator-link data-locator-label="跨馆参观">跨馆参观</a><a class="page-locator-section" href="#sources" data-locator-link data-locator-label="证据台">证据台</a></div></nav></aside>`;
 }
 
@@ -301,6 +325,15 @@ function registeredPortrait(name) {
 }
 
 function pageHtml(name, page, index) {
+  page = {
+    ...page,
+    heroQuestion: naturalNarrative(page.heroQuestion),
+    lead: naturalNarrative(page.lead),
+    thesis: naturalNarrative(page.thesis),
+    finalQuestion: naturalNarrative(page.finalQuestion),
+    feature: naturalizePresentation(page.feature),
+    work: naturalizePresentation(page.work)
+  };
   const person = core.find(item=>item.name === name);
   if (!person) throw new Error(`Missing core record for ${name}`);
   const displayNumber = String(index + 1).padStart(2, '0');
@@ -317,13 +350,17 @@ function pageHtml(name, page, index) {
   const hasPrimarySources = primarySources.some(Boolean);
   const galleryPresent = hasCreativeGallery(page, name);
   const pageLocator = renderPageLocator(name, page, galleryPresent);
+  const narrativeText = value => naturalNarrative(String(value || '')
+    .replace(/\s*因此页面只在材料支持的范围内推进，不以空白补写私人心理、对话或未经核验的细节。/g, '')
+    .replace(/\s*这一节点必须放回同时代军政制度和地方社会中理解，而不能抽离成单一人物的品格故事。/g, '')
+    .replace(/\s*这不是孤立人物故事，而是制度、军队、地方社会与信息条件共同作用的节点。/g, ''));
   const chapters = page.scenes.map((scene,i)=>{
     const clear = page.readingMode === 'clear-biography';
     const sourceButton = scene.primarySource ? `<button class="source-trigger" type="button" data-source-index="${i}" aria-haspopup="dialog"><strong>${clear?'查看原文':'查看《明史》相关原文'}</strong><span aria-hidden="true">→</span></button>` : '';
     const evidence = clear
-      ? `<div class="chapter-source-note"><div class="chapter-source-row"><span class="chapter-source-label">史料依据</span><span>${esc(scene.evidenceNote||scene.primarySource?.location||scene.evidence)}</span>${sourceButton}</div></div>`
+      ? `<div class="chapter-source-note"><div class="chapter-source-row"><span class="chapter-source-label">史料依据</span><span>${esc(scene.evidenceNote||scene.primarySource?.location||scene.evidence)}</span>${sourceButton}</div>${scene.interpretationBoundary?`<p class="chapter-interpretation-boundary"><b>阅读提示：</b>${esc(scene.interpretationBoundary)}</p>`:''}</div>`
       : `<div class="evidence"><b>FACT ANCHOR · 史实支点 <span class="confidence">${esc(scene.confidence)}</span></b><span>${esc(scene.evidence)}</span>${sourceButton}</div><div class="inference"><b>REASONED INFERENCE · 合理推演</b>${esc(scene.inference)}</div>`;
-    return `<section class="chapter reveal" id="life-${i+1}"><aside class="chapter-side"><div class="chapter-side-inner"><div class="chapter-no">${String(i+1).padStart(2,'0')}</div><div class="chapter-time">${esc(scene.year)}${scene.reignYears?`<span class="chapter-reign">${esc(scene.reignYears)}</span>`:''}<span class="chapter-age">${esc(scene.age)}</span></div></div></aside><div class="chapter-copy"><div class="eyebrow">${esc(scene.kicker)}</div><h2>${esc(scene.title)}</h2>${scene.body.map(p=>`<p>${esc(p)}</p>`).join('')}${evidence}</div></section>`;
+    return `<section class="chapter reveal" id="life-${i+1}"><aside class="chapter-side"><div class="chapter-side-inner"><div class="chapter-no">${String(i+1).padStart(2,'0')}</div><div class="chapter-time">${esc(scene.year)}${scene.reignYears?`<span class="chapter-reign">${esc(scene.reignYears)}</span>`:''}<span class="chapter-age">${esc(scene.age)}</span></div></div></aside><div class="chapter-copy"><div class="eyebrow">${esc(narrativeText(scene.kicker))}</div><h2>${esc(narrativeText(scene.title))}</h2>${scene.body.map(p=>`<p>${esc(narrativeText(p))}</p>`).join('')}${evidence}</div></section>`;
   }).join('');
   const relatedEvents = Array.isArray(page.relatedEvents) ? page.relatedEvents : [];
   const events = relatedEvents.length ? `<div class="event-links">${relatedEvents.map(title=>`<a href="../events.html?q=${encodeURIComponent(title)}">${esc(title)} ↗</a>`).join('')}</div>` : '<div class="event-links"><a href="../people.html?person=唐寅">返回人物馆继续比较 ↗</a></div>';

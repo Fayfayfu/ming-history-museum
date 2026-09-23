@@ -85,6 +85,8 @@ test('跨朝人物把每一政权阶段的机构、任期与君主经历并入�
   assert.match(builder, /const stageMeta=\[phase\.tenure,phase\.sovereigns\]/);
   assert.match(builder, /身份与政权经历/);
   assert.match(builder, /\(p\.institutions\|\|\[\]\)\.length&&!phaseHasInstitutions/);
-  assert.match(builder, /person-identity-flow ol\{grid-template-columns:repeat\(auto-fit,minmax\(250px,1fr\)\)/);
+  assert.match(builder, /person-identity-flow ol\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(builder, /person-identity-step:nth-child\(odd\)::after/);
+  assert.match(builder, /person-identity-step:nth-child\(odd\):nth-child\(n\+3\)::before/);
   assert.match(builder, /@media\(max-width:620px\)\{\.person-identity-flow\{padding-bottom:0\}/);
 });

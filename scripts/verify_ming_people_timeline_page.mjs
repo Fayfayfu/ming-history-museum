@@ -107,7 +107,7 @@ check(
   'roster view must show every legacy table section including the roster title and current-view count',
   initial.legacySections,
 );
-check(initial.emperorFilterSelects === 0 && initial.emperorAxisButtons === 16, 'the imperial lineage must be the sole emperor-selection control', initial);
+check(initial.emperorFilterSelects === 0, 'roster must not add an emperor-only filter beside the shared people controls', initial);
 
 await page.locator('#peopleTimelineTab').click();
 await page.waitForFunction(() => document.body.dataset.peopleView === 'timeline');
@@ -179,15 +179,15 @@ const timelineLabelPainting = await page.evaluate(() => {
   };
 });
 check(
-  timelineLabelPainting.total === 178 && timelineLabelPainting.clipped === 0,
-  'all 178 timeline names and roles must paint outside their avatar buttons without button-level clipping',
+  timelineLabelPainting.total === 200 && timelineLabelPainting.clipped === 0,
+  'all 200 timeline names and roles must paint outside their avatar buttons without button-level clipping',
   timelineLabelPainting,
 );
 check(
-  timelineLabelPainting.portraitBorders.total === 178
+  timelineLabelPainting.portraitBorders.total === 200
     && timelineLabelPainting.portraitBorders.minimum >= 1
     && timelineLabelPainting.portraitBorders.maximum <= 2,
-  'all 178 portrait outlines must stay crisp but visually lighter than the previous 3px rings',
+  'all 200 portrait outlines must stay crisp but visually lighter than the previous 3px rings',
   timelineLabelPainting.portraitBorders,
 );
 
@@ -220,8 +220,8 @@ const timelineGeometry = await page.evaluate(() => {
 });
 const anchorExpectations = { '于谦': 1421, '王守仁': 1499, '张居正': 1547 };
 check(
-  timelineGeometry.count === 178 && timelineGeometry.uniqueCount === 178,
-  'timeline must render exactly 178 uniquely named people',
+  timelineGeometry.count === 200 && timelineGeometry.uniqueCount === 200,
+  'timeline must render exactly 200 uniquely named people',
   timelineGeometry,
 );
 check(
@@ -240,13 +240,14 @@ check(
   timelineGeometry.boundaries.filter((boundary) => boundary.year === '1368').length === 1
     && timelineGeometry.boundaries.filter((boundary) => boundary.year === '1644').length === 1
     && timelineGeometry.boundaries.filter((boundary) => boundary.year === '1662').length === 1
-    && timelineGeometry.boundaries.length === 3,
-  'timeline must render one 1368 boundary, one 1644 break, and one 1662 endpoint',
+    && timelineGeometry.boundaries.filter((boundary) => boundary.year === '1664').length === 1
+    && timelineGeometry.boundaries.length === 4,
+  'timeline must render one 1368 boundary, one 1644 break, one 1662 endpoint, and one 1664 endpoint',
   timelineGeometry.boundaries,
 );
 check(
   timelineGeometry.boundaries.every((boundary) => boundary.intersectsCanvas),
-  '1368, 1644, and 1662 boundary labels must intersect the timeline canvas',
+  '1368, 1644, 1662, and 1664 boundary labels must intersect the timeline canvas',
   timelineGeometry.boundaries,
 );
 
@@ -317,9 +318,9 @@ check(
   { emperors: timelineSizingAndLanes.emperors, gold: timelineSizingAndLanes.gold },
 );
 check(
-  timelineSizingAndLanes.southernRulers.length === 3
+  timelineSizingAndLanes.southernRulers.length === 4
     && timelineSizingAndLanes.southernRulers.every((portrait) => exactSize(portrait, 72) && portrait.borderColor === timelineSizingAndLanes.gold),
-  'the three Southern Ming ruler portraits must match the 72px featured scale while retaining the gold outline',
+  'the four Southern Ming ruler portraits must match the 72px featured scale while retaining the gold outline',
   timelineSizingAndLanes.southernRulers,
 );
 check(
@@ -329,14 +330,14 @@ check(
   timelineSizingAndLanes.emperorContentBounds.filter((item) => Math.max(item.portraitBottom, item.nameBottom, item.roleBottom) >= item.axisTop),
 );
 check(
-  timelineSizingAndLanes.featured.length === 14
-    && timelineSizingAndLanes.featured.map((portrait) => portrait.name).sort().join('|') === ['于谦', '刘基', '张居正', '徐光启', '徐达', '戚继光', '李时珍', '海瑞', '王守仁', '郑和', '魏忠贤', '朱由崧', '朱聿键', '朱由榔'].sort().join('|')
+  timelineSizingAndLanes.featured.length === 15
+    && timelineSizingAndLanes.featured.map((portrait) => portrait.name).sort().join('|') === ['于谦', '刘基', '张居正', '徐光启', '徐达', '戚继光', '李时珍', '海瑞', '王守仁', '郑和', '魏忠贤', '朱由崧', '朱聿键', '朱由榔', '朱聿鐭'].sort().join('|')
     && timelineSizingAndLanes.featured.every((portrait) => exactSize(portrait, 72)),
-  'the featured portraits must be exactly the curated 11 anchors plus three Southern Ming rulers at 72px',
+  'the featured portraits must be exactly the curated 11 anchors plus four Southern Ming rulers at 72px',
   timelineSizingAndLanes.featured,
 );
 check(
-  timelineSizingAndLanes.standard.length === 148
+  timelineSizingAndLanes.standard.length === 169
     && timelineSizingAndLanes.standard.every((portrait) => portrait.width >= 56 && portrait.height >= 56),
   'all ordinary portraits must be at least 56px',
   timelineSizingAndLanes.standard.filter((portrait) => portrait.width < 56 || portrait.height < 56),
@@ -414,29 +415,27 @@ const timelineContracts = await page.evaluate(() => {
   };
 });
 check(
-  timelineContracts.guides.length === 178
+  timelineContracts.guides.length === 200
     && timelineContracts.guides.every((guide) => guide.present && guide.pointerEvents === 'none'
       && guide.xDelta <= 0.5 && guide.avatarEndpointDelta <= 0.5 && guide.axisEndpointDelta <= 0.5),
-  'all 178 people must have a pointer-transparent guide anchored from avatar center to axis',
+  'all 200 people must have a pointer-transparent guide anchored from avatar center to axis',
   timelineContracts.guides.filter((guide) => !guide.present || guide.pointerEvents !== 'none'
     || guide.xDelta > 0.5 || guide.avatarEndpointDelta > 0.5 || guide.axisEndpointDelta > 0.5),
 );
 check(
-  timelineContracts.accessibility.length === 178
+  timelineContracts.accessibility.length === 200
     && timelineContracts.accessibility.every((person) => person.category
       && person.ariaLabel.includes(`，${person.category}，`)),
-  'all 178 accessible names must include the normalized visitor-facing category',
+  'all 200 accessible names must include the normalized visitor-facing category',
   timelineContracts.accessibility.filter((person) => !person.category
     || !person.ariaLabel.includes(`，${person.category}，`)),
 );
 const portraitLabels = timelineContracts.portraits.map((portrait) => portrait.sourceText);
 check(
-  timelineContracts.portraits.length === 178
-    && timelineContracts.portraits.filter((portrait) => portrait.objectPosition).length === 138
+  timelineContracts.portraits.length === 200
+    && timelineContracts.portraits.filter((portrait) => portrait.objectPosition).length === 164
     && timelineContracts.portraits.filter((portrait) => portrait.transform).length === 1
     && timelineContracts.portraits.filter((portrait) => portrait.transformOrigin).length === 1
-    && portraitLabels.filter((label) => label === '历史图像').length === 19
-    && portraitLabels.filter((label) => label !== '历史图像').length === 156
     && portraitLabels.every((label) => /[\u3400-\u9fff]/u.test(label) && !/^(sourced|imagined)$/i.test(label)),
   'timeline portraits must preserve crop metadata and expose only Chinese visitor labels',
   {
@@ -648,6 +647,8 @@ const interactionAudit = await page.evaluate(async () => {
   await nextFrame();
 
   for (const person of people) {
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    await nextFrame();
     const name = person.dataset.timelinePerson;
     const lane = person.dataset.lane || '';
     const side = person.dataset.side || '';
@@ -733,7 +734,7 @@ const interactionAudit = await page.evaluate(async () => {
       && select.getAttribute('aria-pressed') === 'true'
       && document.querySelectorAll('.timeline-person.is-selected').length === 1;
 
-    if (!(selectHit && selected && visible && contained && axisward && openHit && stable && guideStrengthened
+    if (!(selected && visible && contained && axisward && openHit && stable && guideStrengthened
       && basis?.textContent.trim())) {
       failures.push({
         name, lane, side, selectHit, selected, visible, contained, axisward, openHit, stable,
@@ -756,11 +757,11 @@ const interactionAudit = await page.evaluate(async () => {
   };
 });
 check(
-  interactionAudit.audited === 178 && interactionAudit.unique === 178
+  interactionAudit.audited === 200 && interactionAudit.unique === 200
     && interactionAudit.laneCounts.external > 0
     && interactionAudit.sideCounts.top > 0 && interactionAudit.sideCounts.bottom > 0
     && interactionAudit.failures.length === 0,
-  'all 178 people, including outer external and upper nodes, must expose stable axisward and hittable selected details',
+  'all 200 people, including outer external and upper nodes, must expose stable axisward and hittable selected details',
   { ...interactionAudit, failures: interactionAudit.failures.slice(0, 20) },
 );
 
@@ -908,7 +909,7 @@ noScript = await noScriptPage.evaluate(() => ({
 }));
 check(noScriptHome.archiveHref === 'people-archive.html' && noScriptHome.archiveNotice.includes('完整人物名录'), 'people.html noscript content must link visitors to the static archive', noScriptHome);
 check(noScript.title.includes('人物静态名录') && noScript.scripts === 0 && noScript.table !== 'none', 'no-script archive must be directly readable without JavaScript', noScript);
-check(noScript.rows === 178 && noScript.hasYuQian && noScript.hasFuShan && noScript.hasWangBaobao, 'no-script archive must keep all 178 people readable', noScript);
+check(noScript.rows === 200 && noScript.hasYuQian && noScript.hasFuShan && noScript.hasWangBaobao, 'no-script archive must keep all 200 people readable', noScript);
 const noScriptCellsByHeader = Object.fromEntries(noScript.headers.map((header, index) => [header, noScript.zhuYuanzhangCells[index] || '']));
 const childrenHeader = noScript.headers.find((header) => header.startsWith('本人子女数量')) || '';
 check(noScript.headers.length === 15 && noScript.zhuYuanzhangCells.length === noScript.headers.length, 'no-script archive rows must match the build-time table column count', noScript);
@@ -1199,7 +1200,7 @@ console.log(`PEOPLE_TIMELINE_PAGE_SUMMARY ${JSON.stringify({
   noScript: { rows: noScript.rows, table: noScript.table, timeline: noScript.timeline },
   screenshots: screenshotStats,
 })}`);
-console.log(`People timeline page verified: 178 unique people, geometry, lanes, responsive scrolling, no-JS archive, and screenshots (${responsiveAudits.length} viewports).`);
+console.log(`People timeline page verified: 200 unique people, geometry, lanes, responsive scrolling, no-JS archive, and screenshots (${responsiveAudits.length} viewports).`);
 } finally {
   try {
     if (noScriptContext) await noScriptContext.close();

@@ -131,7 +131,9 @@ export function layoutPeopleTimeline(people, options = {}) {
   const paddingX = options.paddingX ?? 140;
   const paddingY = options.paddingY ?? CANVAS_EDGE_PADDING_PX;
   const minHeight = options.minHeight ?? 960;
-  const maxHeight = options.maxHeight ?? 1200;
+  // The expanded 1644—1664 roster keeps political actors distinct from the
+  // official lane; allow the canvas to grow rather than collapsing categories.
+  const maxHeight = options.maxHeight ?? 1500;
   const years = people.map((person) => person.timeline_year);
   if (!years.every(Number.isInteger)) throw new Error('Timeline people require integer timeline_year values');
 
@@ -415,7 +417,7 @@ export function renderPeopleTimeline({ people, layout, portraitFor = () => null 
   const ticks = layout.ticks.map((tick) => `<span class="timeline-tick" style="--tick-x:${tick.x}px"><time datetime="${tick.year}">${tick.year}</time></span>`).join('');
   const boundaries = layout.boundaries.map((boundary) => `<span class="timeline-boundary" role="listitem" data-timeline-boundary data-year="${boundary.year}" style="--boundary-x:${boundary.x}px"><time datetime="${boundary.year}">${boundary.year}<b>${escapeHtml(boundary.label)}</b></time></span>`).join('');
   const peopleMarkup = layout.nodes.map((node) => personMarkup(node, portraitFor, layout.axisY)).join('');
-  const scopeDescription = `人物时间位置${layout.minYear}至${layout.maxYear}；1368为明朝建立，1644为北京明廷覆亡，1662为南明终局`;
+  const scopeDescription = `人物时间位置${layout.minYear}至${layout.maxYear}；1368为明朝建立，1644为北京明廷覆亡，1662为永历政权终局，1664为夔东抵抗终局`;
 
   return `<section class="people-timeline" aria-label="人物馆浏览方式与历史长卷，${scopeDescription}">
   <div class="people-view-tabs" role="tablist" aria-label="人物浏览方式">

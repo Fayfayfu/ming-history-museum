@@ -479,6 +479,46 @@
       "url": "https://zh.wikisource.org/wiki/明史/卷309",
       "kind": "正史"
     },
+    "MS273": {
+      "label": "《明史》卷273",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷273",
+      "kind": "正史"
+    },
+    "MS274": {
+      "label": "《明史》卷274",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷274",
+      "kind": "正史"
+    },
+    "MS276": {
+      "label": "《明史》卷276",
+      "url": "https://zh.wikisource.org/zh-hans/明史/卷276",
+      "kind": "正史"
+    },
+    "QSG224": {
+      "label": "《清史稿》卷224",
+      "url": "https://zh.wikisource.org/zh-hans/清史稿/卷224",
+      "kind": "史传"
+    },
+    "QSG005": {
+      "label": "《清史稿》卷5",
+      "url": "https://zh.wikisource.org/zh-hans/清史稿/卷5",
+      "kind": "史传"
+    },
+    "QSG216": {
+      "label": "《清史稿》卷216",
+      "url": "https://zh.wikisource.org/zh-hans/清史稿/卷216",
+      "kind": "史传"
+    },
+    "QSG217": {
+      "label": "《清史稿》卷217",
+      "url": "https://zh.wikisource.org/zh-hans/清史稿/卷217",
+      "kind": "史传"
+    },
+    "QSG218": {
+      "label": "《清史稿》卷218",
+      "url": "https://zh.wikisource.org/zh-hans/清史稿/卷218",
+      "kind": "史传"
+    },
     "DPM_WENZHENGMING": {
       "label": "故宫博物院·文徵明",
       "url": "https://www.dpm.org.cn/lemmas/242658.html",
@@ -2960,6 +3000,28 @@
     {"name":"俺答","source":"core","timeline_year":1540,"timeline_year_label":"1540","timeline_year_basis":"明史记其请贡与边境冲突的明确起点","timeline_year_confidence":"中","timeline_source_refs":["MS327"],"timeline_role":"土默特领袖","timeline_size":"standard"},
     {"name":"王崇古","source":"core","timeline_year":1541,"timeline_year_label":"1541","timeline_year_basis":"嘉靖二十年进士，后转入边防军政","timeline_year_confidence":"高","timeline_source_refs":["MS222"],"timeline_role":"边防总督","timeline_size":"standard"},
     {"name":"赵南星","source":"core","timeline_year":1574,"timeline_year_label":"1574","timeline_year_basis":"万历二年进士，初授汝宁推官","timeline_year_confidence":"高","timeline_source_refs":["MS243"],"timeline_role":"吏治官员","timeline_size":"standard"},
-    {"name":"熊廷弼","source":"core","timeline_year":1597,"timeline_year_label":"1597","timeline_year_basis":"万历二十五年乡试第一，次年成进士","timeline_year_confidence":"高","timeline_source_refs":["MS259"],"timeline_role":"辽东经略","timeline_size":"standard"}
+    {"name":"熊廷弼","source":"core","timeline_year":1597,"timeline_year_label":"1597","timeline_year_basis":"万历二十五年乡试第一，次年成进士","timeline_year_confidence":"高","timeline_source_refs":["MS259"],"timeline_role":"辽东经略","timeline_size":"standard"},
+    {"name":"郑成功","source":"core","timeline_year":1645,"timeline_year_label":"1645","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"李定国","source":"core","timeline_year":1647,"timeline_year_label":"1647","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"孙可望","source":"core","timeline_year":1647,"timeline_year_label":"1647","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"马士英","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"左良玉","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"陈圆圆","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"低","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"多铎","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"高杰","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"黄得功","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"刘良佐","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"刘泽清","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"阎应元","source":"core","timeline_year":1645,"timeline_year_label":"1645","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"郑芝龙","source":"core","timeline_year":1645,"timeline_year_label":"1645","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"朱聿鐭","source":"core","timeline_year":1646,"timeline_year_label":"1646","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"张献忠","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"刘文秀","source":"core","timeline_year":1647,"timeline_year_label":"1647","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"艾能奇","source":"core","timeline_year":1647,"timeline_year_label":"1647","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"孔有德","source":"core","timeline_year":1631,"timeline_year_label":"1631","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"尼堪","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"豪格","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"阿济格","source":"core","timeline_year":1644,"timeline_year_label":"1644","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"高","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"},
+    {"name":"李来亨","source":"core","timeline_year":1650,"timeline_year_label":"1650","timeline_year_basis":"明清易代与南明相关活动的可核时间锚点，详见人物卡证据台。","timeline_year_confidence":"中","timeline_source_refs":["MS309"],"timeline_role":"易代相关人物","timeline_size":"standard"}
   ]
 }

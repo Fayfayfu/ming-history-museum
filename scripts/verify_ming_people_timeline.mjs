@@ -51,9 +51,9 @@ const years = people.map((person) => person.timeline_year);
 const approximate = people.filter((person) => /^约/.test(person.timeline_year_label)).length;
 const failures = [];
 
-// The curated source roster is 154 core people plus 24 non-duplicate important children.
+// The curated source roster is 176 core people plus 24 non-duplicate important children.
 // Keep this fixed contract so a self-consistent accidental source deletion cannot lower the gate.
-const expectedPeopleCount = 178;
+const expectedPeopleCount = 200;
 if (people.length !== expectedPeopleCount) failures.push(`timeline must contain exactly ${expectedPeopleCount} people; got ${people.length}`);
 
 const emperors = people.filter((person) => person.timeline_size === 'emperor');

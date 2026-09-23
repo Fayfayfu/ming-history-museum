@@ -1,25 +1,25 @@
 {
   "meta": {
-    "nodes": 178,
-    "edges": 272,
+    "nodes": 200,
+    "edges": 327,
     "roleCounts": {
       "emperor": 16,
-      "official": 101,
-      "commoner": 16,
+      "official": 113,
+      "commoner": 17,
       "royal": 30,
-      "regime": 10,
+      "regime": 19,
       "foreign": 2,
       "southern": 3
     },
     "edgeCounts": {
       "succession": 15,
       "lineage": 37,
-      "event": 176,
-      "era": 65
+      "event": 226,
+      "era": 70
     },
     "scope": {
       "start": 1368,
-      "end": 1662
+      "end": 1664
     },
     "boundaries": [
       {
@@ -32,25 +32,30 @@
       },
       {
         "year": 1662,
-        "label": "南明终局"
+        "label": "永历政权终局"
+      },
+      {
+        "year": 1664,
+        "label": "夔东抵抗终局"
       }
     ],
     "coordinates": {
       "boundaries": {
         "1368": 150,
-        "1644": 4750,
-        "1662": 5050
+        "1644": 4718.9,
+        "1662": 5016.9,
+        "1664": 5050
       },
       "beijingMingSpine": {
         "start": 150,
-        "end": 4750
+        "end": 4718.9
       },
       "southernMingBranch": {
-        "start": 4750,
-        "end": 5050
+        "start": 4718.9,
+        "end": 5016.9
       }
     },
-    "generated": "2026年8月31日"
+    "generated": "2026年9月23日"
   },
   "nodes": [
     {
@@ -62,7 +67,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 68.95,
-      "x": 400,
+      "x": 398.3,
       "y": 1386
     },
     {
@@ -74,7 +79,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 42.1,
-      "x": 683.3,
+      "x": 679.7,
       "y": 1454
     },
     {
@@ -86,7 +91,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 61.5,
-      "x": 900,
+      "x": 894.9,
       "y": 1386
     },
     {
@@ -98,7 +103,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 37.7,
-      "x": 1091.7,
+      "x": 1085.3,
       "y": 1454
     },
     {
@@ -110,7 +115,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 34,
-      "x": 1183.3,
+      "x": 1176.4,
       "y": 1386
     },
     {
@@ -122,7 +127,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 49.2,
-      "x": 1508.3,
+      "x": 1499.2,
       "y": 1454
     },
     {
@@ -134,7 +139,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 37.65,
-      "x": 1566.7,
+      "x": 1557.1,
       "y": 1386
     },
     {
@@ -146,7 +151,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 31.6,
-      "x": 1941.7,
+      "x": 1929.6,
       "y": 1454
     },
     {
@@ -158,7 +163,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 34.05,
-      "x": 2283.3,
+      "x": 2268.9,
       "y": 1386
     },
     {
@@ -170,7 +175,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 36.3,
-      "x": 2566.7,
+      "x": 2550.3,
       "y": 1454
     },
     {
@@ -182,7 +187,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 48.4,
-      "x": 3083.3,
+      "x": 3063.5,
       "y": 1386
     },
     {
@@ -194,7 +199,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 33.13,
-      "x": 3508.3,
+      "x": 3485.6,
       "y": 1454
     },
     {
@@ -206,7 +211,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 68.6,
-      "x": 3950,
+      "x": 3924.3,
       "y": 1386
     },
     {
@@ -218,7 +223,7 @@
       "confidence": "低",
       "politicalPhases": [],
       "influence": 34.8,
-      "x": 4350,
+      "x": 4321.6,
       "y": 1454
     },
     {
@@ -230,7 +235,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 29.8,
-      "x": 4408.3,
+      "x": 4379.6,
       "y": 1386
     },
     {
@@ -241,8 +246,8 @@
       "score": 58,
       "confidence": "高",
       "politicalPhases": [],
-      "influence": 51.7,
-      "x": 4608.3,
+      "influence": 57,
+      "x": 4578.2,
       "y": 1454
     },
     {
@@ -254,8 +259,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 7.63,
-      "x": 240.3,
-      "y": 1216.6
+      "x": 238.9,
+      "y": 1216.5
     },
     {
       "id": "胡惟庸",
@@ -266,7 +271,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 2.8,
-      "x": 362.7,
+      "x": 361.2,
       "y": 1000.3
     },
     {
@@ -278,8 +283,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 303.2,
-      "y": 1008.7
+      "x": 301.7,
+      "y": 1008.9
     },
     {
       "id": "刘基",
@@ -290,8 +295,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.95,
-      "x": 247.3,
-      "y": 1041.9
+      "x": 246.3,
+      "y": 1041.8
     },
     {
       "id": "宋濂",
@@ -302,8 +307,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2,
-      "x": 190.8,
-      "y": 1065.6
+      "x": 189.8,
+      "y": 1065.5
     },
     {
       "id": "方孝孺",
@@ -314,8 +319,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 10.67,
-      "x": 636.5,
-      "y": 1162.9
+      "x": 632.8,
+      "y": 1162.4
     },
     {
       "id": "姚广孝",
@@ -326,8 +331,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 10.55,
-      "x": 822.3,
-      "y": 1139.6
+      "x": 818.4,
+      "y": 1139.5
     },
     {
       "id": "解缙",
@@ -338,8 +343,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.3,
-      "x": 865,
-      "y": 930.7
+      "x": 860.1,
+      "y": 930.5
     },
     {
       "id": "夏原吉",
@@ -350,7 +355,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.88,
-      "x": 954.8,
+      "x": 949.6,
       "y": 1012.7
     },
     {
@@ -362,7 +367,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 2,
-      "x": 944.4,
+      "x": 939.1,
       "y": 755.3
     },
     {
@@ -374,8 +379,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 19.05,
-      "x": 1146.3,
-      "y": 1231.6
+      "x": 1138.8,
+      "y": 1231.2
     },
     {
       "id": "杨荣",
@@ -386,8 +391,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 18.55,
-      "x": 1202.7,
-      "y": 1124.7
+      "x": 1195.4,
+      "y": 1124.3
     },
     {
       "id": "杨溥",
@@ -398,8 +403,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 18.42,
-      "x": 1300.4,
-      "y": 1313.9
+      "x": 1293.3,
+      "y": 1313.1
     },
     {
       "id": "于谦",
@@ -410,8 +415,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 22.6,
-      "x": 1682.9,
-      "y": 1242.7
+      "x": 1673.1,
+      "y": 1242.5
     },
     {
       "id": "徐有贞",
@@ -422,8 +427,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 7,
-      "x": 1662.4,
-      "y": 1133.1
+      "x": 1653,
+      "y": 1133
     },
     {
       "id": "李贤",
@@ -434,8 +439,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 1.88,
-      "x": 1390.3,
-      "y": 1155.9
+      "x": 1381.2,
+      "y": 1154.6
     },
     {
       "id": "商辂",
@@ -446,8 +451,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2,
-      "x": 1794.2,
-      "y": 1014.8
+      "x": 1783.1,
+      "y": 1014.7
     },
     {
       "id": "刘健",
@@ -458,8 +463,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 17.27,
-      "x": 2268.4,
-      "y": 1183.5
+      "x": 2253,
+      "y": 1183.8
     },
     {
       "id": "谢迁",
@@ -470,8 +475,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 11.42,
-      "x": 2369.3,
-      "y": 1078.1
+      "x": 2353.4,
+      "y": 1078
     },
     {
       "id": "李东阳",
@@ -482,8 +487,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 18.95,
-      "x": 2459,
-      "y": 1260.2
+      "x": 2444.4,
+      "y": 1259.5
     },
     {
       "id": "刘大夏",
@@ -494,8 +499,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 2,
-      "x": 2043.8,
-      "y": 1027.3
+      "x": 2031,
+      "y": 1027.2
     },
     {
       "id": "杨廷和",
@@ -506,8 +511,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 7.72,
-      "x": 2780.3,
-      "y": 1315.7
+      "x": 2761.9,
+      "y": 1314.7
     },
     {
       "id": "杨一清",
@@ -518,8 +523,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.7,
-      "x": 2670.4,
-      "y": 1006.8
+      "x": 2654.7,
+      "y": 1007
     },
     {
       "id": "王守仁",
@@ -530,8 +535,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 4.28,
-      "x": 2585.9,
-      "y": 1079.8
+      "x": 2569.7,
+      "y": 1080.3
     },
     {
       "id": "夏言",
@@ -542,8 +547,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 1.5,
-      "x": 2974.4,
-      "y": 930.7
+      "x": 2955.3,
+      "y": 930.6
     },
     {
       "id": "严嵩",
@@ -554,8 +559,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.6,
-      "x": 3001.9,
-      "y": 1100.6
+      "x": 2981.3,
+      "y": 1100.5
     },
     {
       "id": "严世蕃",
@@ -566,8 +571,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 4.2,
-      "x": 3155.9,
-      "y": 965.1
+      "x": 3135.5,
+      "y": 964.9
     },
     {
       "id": "杨继盛",
@@ -578,7 +583,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.13,
-      "x": 3141,
+      "x": 3120.8,
       "y": 896
     },
     {
@@ -590,8 +595,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 10.8,
-      "x": 3248,
-      "y": 1171.4
+      "x": 3226.7,
+      "y": 1171.3
     },
     {
       "id": "高拱",
@@ -602,8 +607,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 8.75,
-      "x": 3465.7,
-      "y": 1068.4
+      "x": 3443.1,
+      "y": 1067.9
     },
     {
       "id": "张居正",
@@ -614,8 +619,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 15.35,
-      "x": 3685.9,
-      "y": 1146.4
+      "x": 3662.4,
+      "y": 1146
     },
     {
       "id": "海瑞",
@@ -626,8 +631,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 4.55,
-      "x": 3386.8,
-      "y": 1265.4
+      "x": 3365.7,
+      "y": 1265.3
     },
     {
       "id": "沈一贯",
@@ -638,8 +643,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 3865.4,
-      "y": 902.5
+      "x": 3840.3,
+      "y": 902.4
     },
     {
       "id": "王锡爵",
@@ -650,8 +655,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.6,
-      "x": 4188.4,
-      "y": 1141.2
+      "x": 4163.2,
+      "y": 1143.3
     },
     {
       "id": "沈鲤",
@@ -662,7 +667,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0.75,
-      "x": 3846,
+      "x": 3820.9,
       "y": 843.3
     },
     {
@@ -674,8 +679,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.25,
-      "x": 4230.6,
-      "y": 1096.4
+      "x": 4202.4,
+      "y": 1095.8
     },
     {
       "id": "申时行",
@@ -686,8 +691,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.6,
-      "x": 4046.9,
-      "y": 1149.3
+      "x": 4021.9,
+      "y": 1151.4
     },
     {
       "id": "顾宪成",
@@ -698,7 +703,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 1.75,
-      "x": 3877.3,
+      "x": 3852.1,
       "y": 757.7
     },
     {
@@ -710,8 +715,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2,
-      "x": 4067.8,
-      "y": 989.6
+      "x": 4041.2,
+      "y": 989.9
     },
     {
       "id": "叶向高",
@@ -722,8 +727,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 1.25,
-      "x": 4014.9,
-      "y": 958.9
+      "x": 3988.8,
+      "y": 958.4
     },
     {
       "id": "杨涟",
@@ -734,8 +739,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 6.32,
-      "x": 4361.1,
-      "y": 1023.7
+      "x": 4338.9,
+      "y": 1024.9
     },
     {
       "id": "左光斗",
@@ -746,8 +751,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 6.45,
-      "x": 4243.4,
-      "y": 1178.5
+      "x": 4217.6,
+      "y": 1176.3
     },
     {
       "id": "孙承宗",
@@ -758,8 +763,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.3,
-      "x": 4258.1,
-      "y": 978.9
+      "x": 4231.8,
+      "y": 980.6
     },
     {
       "id": "杨嗣昌",
@@ -770,8 +775,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 4406.3,
-      "y": 1194.5
+      "x": 4409.5,
+      "y": 1208.8
     },
     {
       "id": "倪元璐",
@@ -782,8 +787,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 1.63,
-      "x": 4455.4,
-      "y": 1226.6
+      "x": 4522.9,
+      "y": 1165.8
     },
     {
       "id": "黄道周",
@@ -808,9 +813,9 @@
           "confidence": "高"
         }
       ],
-      "influence": 2.9,
-      "x": 4689.2,
-      "y": 1389.3
+      "influence": 9.9,
+      "x": 4637.9,
+      "y": 1412.9
     },
     {
       "id": "史可法",
@@ -835,9 +840,9 @@
           "confidence": "高"
         }
       ],
-      "influence": 3.8,
-      "x": 4717.8,
-      "y": 1325.9
+      "influence": 8,
+      "x": 4615.3,
+      "y": 1344.4
     },
     {
       "id": "朱由崧",
@@ -855,8 +860,8 @@
           "confidence": "高"
         }
       ],
-      "influence": 2.8,
-      "x": 4750,
+      "influence": 7,
+      "x": 4718.9,
       "y": 1770
     },
     {
@@ -875,8 +880,8 @@
           "confidence": "高"
         }
       ],
-      "influence": 1.4,
-      "x": 4766.7,
+      "influence": 8.4,
+      "x": 4735.5,
       "y": 1788
     },
     {
@@ -895,8 +900,8 @@
           "confidence": "高"
         }
       ],
-      "influence": 1.65,
-      "x": 4783.3,
+      "influence": 10.05,
+      "x": 4752,
       "y": 1806
     },
     {
@@ -908,8 +913,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 10.13,
-      "x": 435.4,
-      "y": 1051.5
+      "x": 434.3,
+      "y": 1051.7
     },
     {
       "id": "常遇春",
@@ -920,8 +925,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.05,
-      "x": 255.1,
-      "y": 974.9
+      "x": 254.5,
+      "y": 974
     },
     {
       "id": "汤和",
@@ -932,7 +937,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 4.8,
-      "x": 258.4,
+      "x": 256.8,
       "y": 1111.6
     },
     {
@@ -945,7 +950,7 @@
       "politicalPhases": [],
       "influence": 2.63,
       "x": 309.2,
-      "y": 948.4
+      "y": 948.8
     },
     {
       "id": "邓愈",
@@ -956,8 +961,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.25,
-      "x": 212.6,
-      "y": 934.5
+      "x": 211,
+      "y": 934.7
     },
     {
       "id": "沐英",
@@ -968,8 +973,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 6.57,
-      "x": 316.3,
-      "y": 1116.4
+      "x": 314.6,
+      "y": 1116.3
     },
     {
       "id": "傅友德",
@@ -980,8 +985,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 9.38,
-      "x": 410,
-      "y": 953.6
+      "x": 408.4,
+      "y": 953.5
     },
     {
       "id": "蓝玉",
@@ -992,8 +997,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 11.55,
-      "x": 534.3,
-      "y": 1129.2
+      "x": 532.3,
+      "y": 1129
     },
     {
       "id": "张玉",
@@ -1004,7 +1009,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 1.75,
-      "x": 702.7,
+      "x": 699.1,
       "y": 1150.8
     },
     {
@@ -1016,7 +1021,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 1.5,
-      "x": 805.6,
+      "x": 801.2,
       "y": 858.2
     },
     {
@@ -1028,8 +1033,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 798.9,
-      "y": 976.1
+      "x": 794.5,
+      "y": 976
     },
     {
       "id": "石亨",
@@ -1040,8 +1045,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 11.2,
-      "x": 1525.7,
-      "y": 1066.9
+      "x": 1516.2,
+      "y": 1066.8
     },
     {
       "id": "翁万达",
@@ -1052,7 +1057,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.5,
-      "x": 3036.3,
+      "x": 3016.8,
       "y": 882.2
     },
     {
@@ -1064,7 +1069,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 4.17,
-      "x": 3187.3,
+      "x": 3165.9,
       "y": 1155.3
     },
     {
@@ -1076,8 +1081,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 10.13,
-      "x": 3427.6,
-      "y": 1215.3
+      "x": 3406,
+      "y": 1215
     },
     {
       "id": "俞大猷",
@@ -1088,8 +1093,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.3,
-      "x": 3333.3,
-      "y": 952.1
+      "x": 3311.7,
+      "y": 951.9
     },
     {
       "id": "谭纶",
@@ -1100,7 +1105,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.88,
-      "x": 3359.5,
+      "x": 3338.1,
       "y": 1211
     },
     {
@@ -1112,8 +1117,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 2.5,
-      "x": 3334,
-      "y": 1154.3
+      "x": 3313.3,
+      "y": 1154
     },
     {
       "id": "李成梁",
@@ -1124,7 +1129,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.8,
-      "x": 3982.2,
+      "x": 3955.8,
       "y": 1127.4
     },
     {
@@ -1136,8 +1141,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 7.72,
-      "x": 3782.1,
-      "y": 1354
+      "x": 3756.6,
+      "y": 1353.9
     },
     {
       "id": "宋应昌",
@@ -1148,8 +1153,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 2.38,
-      "x": 3734.2,
-      "y": 1092.7
+      "x": 3710.2,
+      "y": 1091.9
     },
     {
       "id": "刘綎",
@@ -1160,8 +1165,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.52,
-      "x": 4128.6,
-      "y": 989.1
+      "x": 4102,
+      "y": 989.9
     },
     {
       "id": "秦良玉",
@@ -1172,8 +1177,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3,
-      "x": 4302.4,
-      "y": 1181
+      "x": 4276.3,
+      "y": 1183
     },
     {
       "id": "毛文龙",
@@ -1184,8 +1189,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 4131.3,
-      "y": 847.9
+      "x": 4104.5,
+      "y": 847.8
     },
     {
       "id": "袁崇焕",
@@ -1196,8 +1201,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 7.35,
-      "x": 4440.2,
-      "y": 1142.9
+      "x": 4412,
+      "y": 1148.5
     },
     {
       "id": "洪承畴",
@@ -1222,9 +1227,9 @@
           "confidence": "高"
         }
       ],
-      "influence": 5.6,
-      "x": 4547.3,
-      "y": 1183
+      "influence": 7,
+      "x": 4552.1,
+      "y": 1233.2
     },
     {
       "id": "卢象升",
@@ -1235,7 +1240,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.63,
-      "x": 4555.7,
+      "x": 4525.7,
       "y": 897.6
     },
     {
@@ -1247,7 +1252,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 1.75,
-      "x": 4563,
+      "x": 4533.2,
       "y": 988.9
     },
     {
@@ -1273,9 +1278,9 @@
           "confidence": "中"
         }
       ],
-      "influence": 7,
-      "x": 4744.1,
-      "y": 1413.1
+      "influence": 8.4,
+      "x": 4701.7,
+      "y": 1445.6
     },
     {
       "id": "郑和",
@@ -1286,8 +1291,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.55,
-      "x": 1032.7,
-      "y": 1173.5
+      "x": 1026.6,
+      "y": 1173
     },
     {
       "id": "王景弘",
@@ -1298,7 +1303,7 @@
       "confidence": "低",
       "politicalPhases": [],
       "influence": 1.88,
-      "x": 953.1,
+      "x": 947.7,
       "y": 841
     },
     {
@@ -1310,8 +1315,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 8.4,
-      "x": 1433.7,
-      "y": 1109.4
+      "x": 1425.7,
+      "y": 1108.9
     },
     {
       "id": "金英",
@@ -1322,7 +1327,7 @@
       "confidence": "低",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 1436.5,
+      "x": 1427.8,
       "y": 999.6
     },
     {
@@ -1334,7 +1339,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 8.4,
-      "x": 1451.1,
+      "x": 1441.5,
       "y": 1178.8
     },
     {
@@ -1346,8 +1351,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 5.6,
-      "x": 1930.6,
-      "y": 1217.4
+      "x": 1920.3,
+      "y": 1217.3
     },
     {
       "id": "刘瑾",
@@ -1358,8 +1363,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 12.6,
-      "x": 2518.2,
-      "y": 1076.1
+      "x": 2502.1,
+      "y": 1075.1
     },
     {
       "id": "张永",
@@ -1370,7 +1375,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 4.2,
-      "x": 2674.2,
+      "x": 2657.2,
       "y": 1225.3
     },
     {
@@ -1382,8 +1387,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.85,
-      "x": 3856.6,
-      "y": 993.5
+      "x": 3832.3,
+      "y": 993
     },
     {
       "id": "陈矩",
@@ -1394,7 +1399,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 1.5,
-      "x": 3905.8,
+      "x": 3880.6,
       "y": 854.2
     },
     {
@@ -1406,8 +1411,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.6,
-      "x": 4491.6,
-      "y": 1179
+      "x": 4467.4,
+      "y": 1185.7
     },
     {
       "id": "王承恩",
@@ -1418,7 +1423,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 4617.3,
+      "x": 4587.3,
       "y": 889.8
     },
     {
@@ -1430,7 +1435,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0,
-      "x": 1883.7,
+      "x": 1872,
       "y": 2373.8
     },
     {
@@ -1442,7 +1447,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0,
-      "x": 1942.5,
+      "x": 1930.4,
       "y": 2347.5
     },
     {
@@ -1454,7 +1459,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0,
-      "x": 4024.7,
+      "x": 3998.5,
       "y": 2305.5
     },
     {
@@ -1466,7 +1471,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 0,
-      "x": 4410,
+      "x": 4381.2,
       "y": 2204.8
     },
     {
@@ -1478,7 +1483,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.88,
-      "x": 1610.1,
+      "x": 1600.2,
       "y": 2069.8
     },
     {
@@ -1490,7 +1495,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.5,
-      "x": 2350.7,
+      "x": 2335.8,
       "y": 2120.7
     },
     {
@@ -1502,7 +1507,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 2.75,
-      "x": 2969,
+      "x": 2949.9,
       "y": 2084.3
     },
     {
@@ -1514,7 +1519,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.63,
-      "x": 3133.5,
+      "x": 3113.2,
       "y": 2074.9
     },
     {
@@ -1526,7 +1531,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 1.5,
-      "x": 3192.1,
+      "x": 3171.8,
       "y": 2090.9
     },
     {
@@ -1538,8 +1543,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.25,
-      "x": 3850,
-      "y": 2105.1
+      "x": 3824.8,
+      "y": 2105.2
     },
     {
       "id": "陈继儒",
@@ -1550,7 +1555,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2,
-      "x": 3928.1,
+      "x": 3902.5,
       "y": 2164.3
     },
     {
@@ -1562,7 +1567,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.5,
-      "x": 4397,
+      "x": 4368.3,
       "y": 2109.5
     },
     {
@@ -1574,8 +1579,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0.75,
-      "x": 264.3,
-      "y": 1776.5
+      "x": 263.6,
+      "y": 1776.7
     },
     {
       "id": "马皇后",
@@ -1586,7 +1591,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.25,
-      "x": 267.2,
+      "x": 266.5,
       "y": 2049.4
     },
     {
@@ -1598,8 +1603,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2,
-      "x": 236.3,
-      "y": 1832.4
+      "x": 235.6,
+      "y": 1832.6
     },
     {
       "id": "张士诚",
@@ -1610,8 +1615,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 1.25,
-      "x": 278.2,
-      "y": 1876
+      "x": 277.5,
+      "y": 1876.1
     },
     {
       "id": "也先",
@@ -1622,7 +1627,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 2.38,
-      "x": 1475.2,
+      "x": 1466.3,
       "y": 1880.1
     },
     {
@@ -1634,8 +1639,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.8,
-      "x": 2921.7,
-      "y": 1156.8
+      "x": 2903.4,
+      "y": 1156.1
     },
     {
       "id": "李太后",
@@ -1646,7 +1651,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 1.75,
-      "x": 3634.3,
+      "x": 3610.8,
       "y": 2333.6
     },
     {
@@ -1658,8 +1663,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 12.43,
-      "x": 4203.5,
-      "y": 1305
+      "x": 4175.7,
+      "y": 1306.3
     },
     {
       "id": "皇太极",
@@ -1670,8 +1675,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 9.88,
-      "x": 4427.7,
-      "y": 1491.4
+      "x": 4406.2,
+      "y": 1515.5
     },
     {
       "id": "李自成",
@@ -1689,9 +1694,9 @@
           "confidence": "高"
         }
       ],
-      "influence": 13.6,
-      "x": 4474.6,
-      "y": 1554.6
+      "influence": 15,
+      "x": 4468.3,
+      "y": 1595.8
     },
     {
       "id": "文徵明",
@@ -1702,8 +1707,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.13,
-      "x": 2928.7,
-      "y": 2022.4
+      "x": 2909.9,
+      "y": 2022.5
     },
     {
       "id": "李贽",
@@ -1714,8 +1719,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.88,
-      "x": 3264.5,
-      "y": 2113.5
+      "x": 3243.4,
+      "y": 2113.4
     },
     {
       "id": "吴承恩",
@@ -1726,8 +1731,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3.25,
-      "x": 3213.6,
-      "y": 2149.6
+      "x": 3192.7,
+      "y": 2149.8
     },
     {
       "id": "汤显祖",
@@ -1738,7 +1743,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.13,
-      "x": 3910,
+      "x": 3884.7,
       "y": 2086.8
     },
     {
@@ -1750,8 +1755,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 2.75,
-      "x": 4130.9,
-      "y": 2088.9
+      "x": 4104,
+      "y": 2089
     },
     {
       "id": "宋应星",
@@ -1762,7 +1767,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.5,
-      "x": 4636.3,
+      "x": 4606,
       "y": 2098.5
     },
     {
@@ -1774,7 +1779,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3.65,
-      "x": 892.9,
+      "x": 887.8,
       "y": 1015.4
     },
     {
@@ -1786,8 +1791,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.13,
-      "x": 3623.4,
-      "y": 1198.4
+      "x": 3598.8,
+      "y": 1198
     },
     {
       "id": "李舜臣",
@@ -1798,8 +1803,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 7.2,
-      "x": 3940.7,
-      "y": 1745.3
+      "x": 3915.1,
+      "y": 1745.2
     },
     {
       "id": "丰臣秀吉",
@@ -1810,7 +1815,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 4.2,
-      "x": 3786.7,
+      "x": 3761.2,
       "y": 1696.8
     },
     {
@@ -1830,8 +1835,8 @@
         }
       ],
       "influence": 5.17,
-      "x": 4665.8,
-      "y": 1713.6
+      "x": 4657.7,
+      "y": 1774
     },
     {
       "id": "何心隐",
@@ -1842,8 +1847,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.63,
-      "x": 3266.9,
-      "y": 2173.8
+      "x": 3246.1,
+      "y": 2173.7
     },
     {
       "id": "陆炳",
@@ -1854,8 +1859,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 3087.5,
-      "y": 824.4
+      "x": 3067.5,
+      "y": 824.5
     },
     {
       "id": "纪纲",
@@ -1866,7 +1871,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 867.9,
+      "x": 863.1,
       "y": 746
     },
     {
@@ -1878,7 +1883,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 484.7,
+      "x": 482.4,
       "y": 807.3
     },
     {
@@ -1890,8 +1895,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 4455.8,
-      "y": 1082.7
+      "x": 4423.6,
+      "y": 1086
     },
     {
       "id": "钱宁",
@@ -1902,8 +1907,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 0.5,
-      "x": 2554.4,
-      "y": 1129.1
+      "x": 2536.9,
+      "y": 1128.9
     },
     {
       "id": "傅山",
@@ -1929,7 +1934,7 @@
         }
       ],
       "influence": 3.25,
-      "x": 4657.4,
+      "x": 4627,
       "y": 2174
     },
     {
@@ -1941,8 +1946,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.63,
-      "x": 204,
-      "y": 1779.9
+      "x": 203.3,
+      "y": 1780
     },
     {
       "id": "杨慎",
@@ -1953,8 +1958,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3.65,
-      "x": 2943.5,
-      "y": 984.3
+      "x": 2924.5,
+      "y": 984.2
     },
     {
       "id": "杨博",
@@ -1965,8 +1970,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.88,
-      "x": 3146.9,
-      "y": 803.6
+      "x": 3126.8,
+      "y": 803.5
     },
     {
       "id": "俺答",
@@ -1977,8 +1982,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 2.75,
-      "x": 3242.4,
-      "y": 1869.6
+      "x": 3221.6,
+      "y": 1869.7
     },
     {
       "id": "王崇古",
@@ -1989,8 +1994,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3,
-      "x": 3263.7,
-      "y": 1062
+      "x": 3242.9,
+      "y": 1061.7
     },
     {
       "id": "赵南星",
@@ -2001,7 +2006,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 2.5,
-      "x": 3979.1,
+      "x": 3953.2,
       "y": 783.7
     },
     {
@@ -2013,8 +2018,560 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 5.42,
-      "x": 4324.4,
-      "y": 1077
+      "x": 4295.7,
+      "y": 1077.3
+    },
+    {
+      "id": "郑成功",
+      "name": "郑成功",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "隆武",
+          "start": 1645,
+          "end": 1646,
+          "role": "隆武赐姓将领",
+          "confidence": "高"
+        },
+        {
+          "regime": "明郑",
+          "start": 1646,
+          "end": 1662,
+          "role": "延平王、海上抗清力量领袖",
+          "confidence": "高"
+        }
+      ],
+      "influence": 8.65,
+      "x": 4842.7,
+      "y": 1524.4
+    },
+    {
+      "id": "李定国",
+      "name": "李定国",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "大西",
+          "start": 1644,
+          "end": 1647,
+          "role": "大西余部将领",
+          "confidence": "中"
+        },
+        {
+          "regime": "永历",
+          "start": 1647,
+          "end": 1662,
+          "role": "永历政权晋王、统军将领",
+          "confidence": "高"
+        }
+      ],
+      "influence": 21.25,
+      "x": 4899.3,
+      "y": 1464.3
+    },
+    {
+      "id": "孙可望",
+      "name": "孙可望",
+      "role": "regime",
+      "subtype": "政权人物",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "大西",
+          "start": 1644,
+          "end": 1647,
+          "role": "大西余部领袖",
+          "confidence": "中"
+        },
+        {
+          "regime": "永历",
+          "start": 1647,
+          "end": 1657,
+          "role": "永历政权秦王",
+          "confidence": "中"
+        },
+        {
+          "regime": "清",
+          "start": 1657,
+          "end": 1660,
+          "role": "降清后受清廷安置",
+          "confidence": "中"
+        }
+      ],
+      "influence": 18.45,
+      "x": 4914.9,
+      "y": 1627.8
+    },
+    {
+      "id": "马士英",
+      "name": "马士英",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1637,
+          "end": 1644,
+          "role": "明末文臣、凤阳总督",
+          "confidence": "中"
+        },
+        {
+          "regime": "弘光",
+          "start": 1644,
+          "end": 1645,
+          "role": "弘光政权东阁大学士、兵部尚书",
+          "confidence": "高"
+        }
+      ],
+      "influence": 15.65,
+      "x": 4762.1,
+      "y": 1234.5
+    },
+    {
+      "id": "左良玉",
+      "name": "左良玉",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1636,
+          "end": 1645,
+          "role": "明末湖广总兵、驻武昌军队统帅",
+          "confidence": "高"
+        }
+      ],
+      "influence": 3.05,
+      "x": 4707.5,
+      "y": 1056.5
+    },
+    {
+      "id": "陈圆圆",
+      "name": "陈圆圆",
+      "role": "commoner",
+      "subtype": "在野人物",
+      "score": 72,
+      "confidence": "低",
+      "politicalPhases": [
+        {
+          "regime": "叙事人物",
+          "start": 1644,
+          "end": 1662,
+          "role": "明清之际艺人；相关生平主要见于后出笔记与文学叙事",
+          "confidence": "低"
+        }
+      ],
+      "influence": 0.75,
+      "x": 4714.9,
+      "y": 2104.3
+    },
+    {
+      "id": "多铎",
+      "name": "多铎",
+      "role": "regime",
+      "subtype": "政权人物",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "清",
+          "start": 1636,
+          "end": 1649,
+          "role": "满洲宗室、和硕豫亲王、南下军统帅",
+          "confidence": "高"
+        }
+      ],
+      "influence": 4.45,
+      "x": 4660.6,
+      "y": 1562.3
+    },
+    {
+      "id": "高杰",
+      "name": "高杰",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1642,
+          "end": 1644,
+          "role": "归明将领",
+          "confidence": "中"
+        },
+        {
+          "regime": "弘光",
+          "start": 1644,
+          "end": 1645,
+          "role": "江北四镇将领、兴平伯",
+          "confidence": "高"
+        }
+      ],
+      "influence": 5.85,
+      "x": 4661.1,
+      "y": 868.1
+    },
+    {
+      "id": "黄得功",
+      "name": "黄得功",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1635,
+          "end": 1644,
+          "role": "明末将领",
+          "confidence": "高"
+        },
+        {
+          "regime": "弘光",
+          "start": 1644,
+          "end": 1645,
+          "role": "江北四镇将领、靖南伯",
+          "confidence": "高"
+        }
+      ],
+      "influence": 8.65,
+      "x": 4818.5,
+      "y": 858.6
+    },
+    {
+      "id": "刘良佐",
+      "name": "刘良佐",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1638,
+          "end": 1644,
+          "role": "明末将领",
+          "confidence": "中"
+        },
+        {
+          "regime": "弘光",
+          "start": 1644,
+          "end": 1645,
+          "role": "江北四镇将领",
+          "confidence": "高"
+        },
+        {
+          "regime": "清",
+          "start": 1645,
+          "end": 1664,
+          "role": "降清后任军职（本馆时间范围止于1664年）",
+          "confidence": "中"
+        }
+      ],
+      "influence": 5.85,
+      "x": 4875.2,
+      "y": 1018.8
+    },
+    {
+      "id": "刘泽清",
+      "name": "刘泽清",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1638,
+          "end": 1644,
+          "role": "明末将领",
+          "confidence": "中"
+        },
+        {
+          "regime": "弘光",
+          "start": 1644,
+          "end": 1645,
+          "role": "江北四镇将领",
+          "confidence": "高"
+        },
+        {
+          "regime": "清",
+          "start": 1645,
+          "end": 1647,
+          "role": "降清后受清廷处置",
+          "confidence": "中"
+        }
+      ],
+      "influence": 5.85,
+      "x": 4648.4,
+      "y": 1051.8
+    },
+    {
+      "id": "阎应元",
+      "name": "阎应元",
+      "role": "official",
+      "subtype": "文臣",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1644,
+          "end": 1645,
+          "role": "江阴典史、江阴守城组织者",
+          "confidence": "高"
+        }
+      ],
+      "influence": 0.75,
+      "x": 4648.1,
+      "y": 784.3
+    },
+    {
+      "id": "郑芝龙",
+      "name": "郑芝龙",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1630,
+          "end": 1644,
+          "role": "明末福建海上势力首领、受明廷招抚的将领",
+          "confidence": "中"
+        },
+        {
+          "regime": "隆武",
+          "start": 1645,
+          "end": 1646,
+          "role": "隆武政权平国公",
+          "confidence": "中"
+        },
+        {
+          "regime": "清",
+          "start": 1646,
+          "end": 1661,
+          "role": "降清后受清廷羁縻与处置",
+          "confidence": "中"
+        }
+      ],
+      "influence": 10.05,
+      "x": 4815,
+      "y": 1365.9
+    },
+    {
+      "id": "朱聿鐭",
+      "name": "朱聿鐭",
+      "role": "regime",
+      "subtype": "政权人物",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "隆武",
+          "start": 1646,
+          "end": 1646,
+          "role": "绍武政权君主",
+          "confidence": "中"
+        }
+      ],
+      "influence": 0.75,
+      "x": 4692,
+      "y": 1852.6
+    },
+    {
+      "id": "张献忠",
+      "name": "张献忠",
+      "role": "regime",
+      "subtype": "政权人物",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "大西",
+          "start": 1644,
+          "end": 1647,
+          "role": "大西政权建立者",
+          "confidence": "高"
+        }
+      ],
+      "influence": 11.45,
+      "x": 4714.8,
+      "y": 1550.5
+    },
+    {
+      "id": "刘文秀",
+      "name": "刘文秀",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "大西",
+          "start": 1644,
+          "end": 1647,
+          "role": "大西余部将领",
+          "confidence": "中"
+        },
+        {
+          "regime": "永历",
+          "start": 1647,
+          "end": 1658,
+          "role": "永历政权蜀王、统军将领",
+          "confidence": "中"
+        }
+      ],
+      "influence": 11.45,
+      "x": 4754.8,
+      "y": 1405.7
+    },
+    {
+      "id": "艾能奇",
+      "name": "艾能奇",
+      "role": "regime",
+      "subtype": "政权人物",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "大西",
+          "start": 1644,
+          "end": 1647,
+          "role": "大西余部将领",
+          "confidence": "中"
+        },
+        {
+          "regime": "永历",
+          "start": 1647,
+          "end": 1650,
+          "role": "与永历政权联合抗清的将领",
+          "confidence": "中"
+        }
+      ],
+      "influence": 7.25,
+      "x": 4670.4,
+      "y": 1680.3
+    },
+    {
+      "id": "孔有德",
+      "name": "孔有德",
+      "role": "official",
+      "subtype": "武官",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "明",
+          "start": 1628,
+          "end": 1633,
+          "role": "明军将领",
+          "confidence": "高"
+        },
+        {
+          "regime": "清",
+          "start": 1633,
+          "end": 1652,
+          "role": "后金降将、清定南王",
+          "confidence": "高"
+        }
+      ],
+      "influence": 4.45,
+      "x": 4779.9,
+      "y": 1308.8
+    },
+    {
+      "id": "尼堪",
+      "name": "尼堪",
+      "role": "regime",
+      "subtype": "政权人物",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "清",
+          "start": 1636,
+          "end": 1652,
+          "role": "满洲宗室、和硕敬谨亲王、定远大将军",
+          "confidence": "高"
+        }
+      ],
+      "influence": 4.45,
+      "x": 4709.9,
+      "y": 1621.9
+    },
+    {
+      "id": "豪格",
+      "name": "豪格",
+      "role": "regime",
+      "subtype": "政权人物",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "清",
+          "start": 1636,
+          "end": 1648,
+          "role": "满洲宗室、和硕肃亲王、征蜀统帅",
+          "confidence": "高"
+        }
+      ],
+      "influence": 7.25,
+      "x": 4818.4,
+      "y": 1756.7
+    },
+    {
+      "id": "阿济格",
+      "name": "阿济格",
+      "role": "regime",
+      "subtype": "政权人物",
+      "score": 72,
+      "confidence": "高",
+      "politicalPhases": [
+        {
+          "regime": "清",
+          "start": 1636,
+          "end": 1651,
+          "role": "满洲宗室、和硕英亲王、入关后统军者",
+          "confidence": "高"
+        }
+      ],
+      "influence": 0.75,
+      "x": 4692.4,
+      "y": 1931.2
+    },
+    {
+      "id": "李来亨",
+      "name": "李来亨",
+      "role": "regime",
+      "subtype": "政权人物",
+      "score": 72,
+      "confidence": "中",
+      "politicalPhases": [
+        {
+          "regime": "大顺",
+          "start": 1644,
+          "end": 1664,
+          "role": "大顺余部将领、夔东十三家领袖",
+          "confidence": "中"
+        }
+      ],
+      "influence": 0.75,
+      "x": 4754.2,
+      "y": 1919.8
     },
     {
       "id": "朱标",
@@ -2025,8 +2582,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 8.45,
-      "x": 564.8,
-      "y": 1623.5
+      "x": 561.7,
+      "y": 1624.1
     },
     {
       "id": "朱橚",
@@ -2037,8 +2594,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3.75,
-      "x": 445.5,
-      "y": 1676.3
+      "x": 443.5,
+      "y": 1676.4
     },
     {
       "id": "朱柏",
@@ -2049,8 +2606,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3,
-      "x": 446.2,
-      "y": 1621.4
+      "x": 444,
+      "y": 1621.5
     },
     {
       "id": "朱权",
@@ -2061,8 +2618,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 6.8,
-      "x": 616.7,
-      "y": 1581.8
+      "x": 613.6,
+      "y": 1582.5
     },
     {
       "id": "宁国公主",
@@ -2073,7 +2630,7 @@
       "confidence": "低",
       "politicalPhases": [],
       "influence": 3,
-      "x": 498.1,
+      "x": 496,
       "y": 1642.7
     },
     {
@@ -2085,8 +2642,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3,
-      "x": 992.9,
-      "y": 1635.6
+      "x": 988,
+      "y": 1636
     },
     {
       "id": "朱文圭",
@@ -2097,8 +2654,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3,
-      "x": 827.9,
-      "y": 1690.7
+      "x": 823.5,
+      "y": 1690.9
     },
     {
       "id": "朱高煦",
@@ -2109,7 +2666,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3,
-      "x": 899.7,
+      "x": 894.6,
       "y": 1637.3
     },
     {
@@ -2121,7 +2678,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3,
-      "x": 924.5,
+      "x": 919.3,
       "y": 1690.8
     },
     {
@@ -2133,7 +2690,7 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3.5,
-      "x": 1152.7,
+      "x": 1145.9,
       "y": 1740.3
     },
     {
@@ -2145,7 +2702,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3,
-      "x": 1566.7,
+      "x": 1557.1,
       "y": 1671.2
     },
     {
@@ -2157,8 +2714,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3,
-      "x": 2082.1,
-      "y": 1696.2
+      "x": 2069.2,
+      "y": 1696.4
     },
     {
       "id": "朱载壡",
@@ -2169,7 +2726,7 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 3,
-      "x": 3104.6,
+      "x": 3084.5,
       "y": 1646.1
     },
     {
@@ -2181,8 +2738,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3,
-      "x": 3166.7,
-      "y": 1654.7
+      "x": 3146.5,
+      "y": 1654.8
     },
     {
       "id": "朱翊镠",
@@ -2193,8 +2750,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3,
-      "x": 3643.2,
-      "y": 1695.8
+      "x": 3619.8,
+      "y": 1696.1
     },
     {
       "id": "朱常洵",
@@ -2205,8 +2762,8 @@
       "confidence": "高",
       "politicalPhases": [],
       "influence": 11.4,
-      "x": 4197.7,
-      "y": 1459.7
+      "x": 4174.7,
+      "y": 1466.6
     },
     {
       "id": "朱常浩",
@@ -2217,8 +2774,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3,
-      "x": 4029.3,
-      "y": 1697.6
+      "x": 4003,
+      "y": 1697.7
     },
     {
       "id": "朱常润",
@@ -2229,7 +2786,7 @@
       "confidence": "低",
       "politicalPhases": [],
       "influence": 3,
-      "x": 4054.1,
+      "x": 4027.7,
       "y": 1649.5
     },
     {
@@ -2241,8 +2798,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3,
-      "x": 4103.7,
-      "y": 1668.5
+      "x": 4077.2,
+      "y": 1668.7
     },
     {
       "id": "朱慈烺",
@@ -2253,8 +2810,8 @@
       "confidence": "低",
       "politicalPhases": [],
       "influence": 3,
-      "x": 4703.7,
-      "y": 1665.7
+      "x": 4624.5,
+      "y": 1706.4
     },
     {
       "id": "朱慈炯",
@@ -2265,8 +2822,8 @@
       "confidence": "低",
       "politicalPhases": [],
       "influence": 3,
-      "x": 4692.3,
-      "y": 1758
+      "x": 4736.1,
+      "y": 1720.9
     },
     {
       "id": "朱慈炤",
@@ -2277,8 +2834,8 @@
       "confidence": "低",
       "politicalPhases": [],
       "influence": 3,
-      "x": 4727.1,
-      "y": 1711.5
+      "x": 4726.5,
+      "y": 1671.5
     },
     {
       "id": "朱慈焕",
@@ -2289,8 +2846,8 @@
       "confidence": "低",
       "politicalPhases": [],
       "influence": 3,
-      "x": 4764.1,
-      "y": 1672.4
+      "x": 4682.9,
+      "y": 1722.2
     },
     {
       "id": "长平公主",
@@ -2301,8 +2858,8 @@
       "confidence": "中",
       "politicalPhases": [],
       "influence": 3,
-      "x": 4252.1,
-      "y": 1598.8
+      "x": 4223.5,
+      "y": 1599.1
     }
   ],
   "edges": [
@@ -4518,6 +5075,17 @@
     },
     {
       "source": "李自成",
+      "target": "张献忠",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "陕北民变扩展"
+      ]
+    },
+    {
+      "source": "李自成",
       "target": "朱由检",
       "types": [
         "event"
@@ -4532,6 +5100,28 @@
     },
     {
       "source": "李自成",
+      "target": "洪承畴",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "陕北民变扩展"
+      ]
+    },
+    {
+      "source": "张献忠",
+      "target": "朱由检",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "陕北民变扩展"
+      ]
+    },
+    {
+      "source": "张献忠",
       "target": "洪承畴",
       "types": [
         "event"
@@ -4586,6 +5176,17 @@
       "eventCount": 1,
       "details": [
         "己巳之变与袁崇焕被杀"
+      ]
+    },
+    {
+      "source": "郑芝龙",
+      "target": "朱由检",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "料罗湾海战"
       ]
     },
     {
@@ -4679,14 +5280,171 @@
       ]
     },
     {
-      "source": "朱聿键",
-      "target": "黄道周",
+      "source": "朱由崧",
+      "target": "马士英",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "南京弘光政权建立",
+        "扬州失守与南京弘光政权覆亡"
+      ]
+    },
+    {
+      "source": "史可法",
+      "target": "马士英",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "南京弘光政权建立",
+        "扬州失守与南京弘光政权覆亡"
+      ]
+    },
+    {
+      "source": "史可法",
+      "target": "多铎",
       "types": [
         "event"
       ],
       "eventCount": 1,
       "details": [
-        "隆武政权建立与覆亡"
+        "扬州失守与南京弘光政权覆亡"
+      ]
+    },
+    {
+      "source": "朱由崧",
+      "target": "多铎",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "扬州失守与南京弘光政权覆亡"
+      ]
+    },
+    {
+      "source": "多铎",
+      "target": "马士英",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "扬州失守与南京弘光政权覆亡"
+      ]
+    },
+    {
+      "source": "朱聿键",
+      "target": "郑芝龙",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "隆武政权建立与覆亡",
+        "郑芝龙降清与隆武政权覆亡"
+      ]
+    },
+    {
+      "source": "朱聿键",
+      "target": "郑成功",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "隆武政权建立与覆亡",
+        "郑芝龙降清与隆武政权覆亡"
+      ]
+    },
+    {
+      "source": "朱聿键",
+      "target": "黄道周",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "隆武政权建立与覆亡",
+        "郑芝龙降清与隆武政权覆亡"
+      ]
+    },
+    {
+      "source": "郑芝龙",
+      "target": "郑成功",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "隆武政权建立与覆亡",
+        "郑芝龙降清与隆武政权覆亡"
+      ]
+    },
+    {
+      "source": "郑芝龙",
+      "target": "黄道周",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "隆武政权建立与覆亡",
+        "郑芝龙降清与隆武政权覆亡"
+      ]
+    },
+    {
+      "source": "郑成功",
+      "target": "黄道周",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "隆武政权建立与覆亡",
+        "郑芝龙降清与隆武政权覆亡"
+      ]
+    },
+    {
+      "source": "朱由榔",
+      "target": "李定国",
+      "types": [
+        "event"
+      ],
+      "eventCount": 3,
+      "details": [
+        "永历政权成立",
+        "永历朝败退缅甸与永历帝被杀",
+        "孙可望降清与西南联盟瓦解"
+      ]
+    },
+    {
+      "source": "朱由榔",
+      "target": "孙可望",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "永历政权成立",
+        "孙可望降清与西南联盟瓦解"
+      ]
+    },
+    {
+      "source": "李定国",
+      "target": "孙可望",
+      "types": [
+        "event"
+      ],
+      "eventCount": 4,
+      "details": [
+        "永历政权成立",
+        "张献忠死后大西军余部转入西南",
+        "桂林、衡州反攻与清军主帅败亡",
+        "孙可望降清与西南联盟瓦解"
       ]
     },
     {
@@ -4697,7 +5455,373 @@
       ],
       "eventCount": 1,
       "details": [
-        "西南反攻、败退缅甸与永历帝被杀"
+        "永历朝败退缅甸与永历帝被杀"
+      ]
+    },
+    {
+      "source": "李定国",
+      "target": "吴三桂",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "永历朝败退缅甸与永历帝被杀"
+      ]
+    },
+    {
+      "source": "马士英",
+      "target": "高杰",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "江北四镇编成与弘光江防困局"
+      ]
+    },
+    {
+      "source": "马士英",
+      "target": "黄得功",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "江北四镇编成与弘光江防困局",
+        "左良玉东下与弘光政局震荡"
+      ]
+    },
+    {
+      "source": "马士英",
+      "target": "刘良佐",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "江北四镇编成与弘光江防困局"
+      ]
+    },
+    {
+      "source": "马士英",
+      "target": "刘泽清",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "江北四镇编成与弘光江防困局"
+      ]
+    },
+    {
+      "source": "高杰",
+      "target": "黄得功",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "江北四镇编成与弘光江防困局"
+      ]
+    },
+    {
+      "source": "高杰",
+      "target": "刘良佐",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "江北四镇编成与弘光江防困局"
+      ]
+    },
+    {
+      "source": "高杰",
+      "target": "刘泽清",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "江北四镇编成与弘光江防困局"
+      ]
+    },
+    {
+      "source": "黄得功",
+      "target": "刘良佐",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "江北四镇编成与弘光江防困局"
+      ]
+    },
+    {
+      "source": "黄得功",
+      "target": "刘泽清",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "江北四镇编成与弘光江防困局"
+      ]
+    },
+    {
+      "source": "刘良佐",
+      "target": "刘泽清",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "江北四镇编成与弘光江防困局"
+      ]
+    },
+    {
+      "source": "左良玉",
+      "target": "马士英",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "左良玉东下与弘光政局震荡"
+      ]
+    },
+    {
+      "source": "左良玉",
+      "target": "黄得功",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "左良玉东下与弘光政局震荡"
+      ]
+    },
+    {
+      "source": "张献忠",
+      "target": "豪格",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "张献忠",
+      "target": "孙可望",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "张献忠",
+      "target": "李定国",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "张献忠",
+      "target": "刘文秀",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "张献忠",
+      "target": "艾能奇",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "豪格",
+      "target": "孙可望",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "豪格",
+      "target": "李定国",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "豪格",
+      "target": "刘文秀",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "豪格",
+      "target": "艾能奇",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "孙可望",
+      "target": "刘文秀",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "张献忠死后大西军余部转入西南",
+        "孙可望降清与西南联盟瓦解"
+      ]
+    },
+    {
+      "source": "孙可望",
+      "target": "艾能奇",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "李定国",
+      "target": "刘文秀",
+      "types": [
+        "event"
+      ],
+      "eventCount": 2,
+      "details": [
+        "张献忠死后大西军余部转入西南",
+        "孙可望降清与西南联盟瓦解"
+      ]
+    },
+    {
+      "source": "李定国",
+      "target": "艾能奇",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "刘文秀",
+      "target": "艾能奇",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "张献忠死后大西军余部转入西南"
+      ]
+    },
+    {
+      "source": "李定国",
+      "target": "孔有德",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "桂林、衡州反攻与清军主帅败亡"
+      ]
+    },
+    {
+      "source": "李定国",
+      "target": "尼堪",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "桂林、衡州反攻与清军主帅败亡"
+      ]
+    },
+    {
+      "source": "孙可望",
+      "target": "孔有德",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "桂林、衡州反攻与清军主帅败亡"
+      ]
+    },
+    {
+      "source": "孙可望",
+      "target": "尼堪",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "桂林、衡州反攻与清军主帅败亡"
+      ]
+    },
+    {
+      "source": "孔有德",
+      "target": "尼堪",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "桂林、衡州反攻与清军主帅败亡"
+      ]
+    },
+    {
+      "source": "刘文秀",
+      "target": "朱由榔",
+      "types": [
+        "event"
+      ],
+      "eventCount": 1,
+      "details": [
+        "孙可望降清与西南联盟瓦解"
       ]
     },
     {
@@ -5407,6 +6531,61 @@
     {
       "source": "赵南星",
       "target": "朱翊钧",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "陈圆圆",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "阎应元",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "朱聿鐭",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "阿济格",
+      "target": "朱由检",
+      "types": [
+        "era"
+      ],
+      "eventCount": 0,
+      "details": [
+        "主要活跃朝／约略同时代"
+      ]
+    },
+    {
+      "source": "李来亨",
+      "target": "朱由检",
       "types": [
         "era"
       ],

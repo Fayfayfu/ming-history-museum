@@ -78,7 +78,7 @@ for (const child of children) {
   known.set(id, n);
 }
 
-const expectedNetworkPeople = 178;
+const expectedNetworkPeople = 200;
 if (nodes.length !== expectedNetworkPeople) throw new Error(`Expected ${expectedNetworkPeople} unique people, got ${nodes.length}`);
 
 const edgesByPair = new Map();
@@ -294,7 +294,7 @@ const edgeCounts = Object.fromEntries(['succession','lineage','event','era'].map
 const generated = new Intl.DateTimeFormat('zh-CN',{dateStyle:'long',timeZone:'Asia/Shanghai'}).format(new Date());
 const boundarySvg = MUSEUM_BOUNDARIES.map(boundary => {
   const x = scopeX(boundary.year);
-  const isBreak = boundary.year === 1644 || boundary.year === 1662;
+  const isBreak = boundary.year === 1644 || boundary.year === 1662 || boundary.year === 1664;
   return `<g aria-label="${esc(`${boundary.year} ${boundary.label}`)}"><line x1="${x}" y1="250" x2="${x}" y2="2740" stroke="${isBreak ? '#d8a447' : '#475569'}" stroke-width="${isBreak ? 2.5 : 1.2}" stroke-dasharray="${isBreak ? '8 10' : '4 13'}"/><text x="${x + 10}" y="232" fill="${isBreak ? '#f0c96a' : '#94a3b8'}" font-size="15" font-weight="700">${boundary.year} · ${esc(boundary.label)}</text></g>`;
 }).join('');
 const southernBranchStart = scopeX(1644);
@@ -322,7 +322,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEI
 <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#fade)"/><rect width="${WIDTH}" height="${HEIGHT}" fill="url(#grid)"/>
 <g aria-label="title block">
   <text x="150" y="92" fill="#f8fafc" font-size="46" font-weight="700">明史 ${nodes.length} 人物关系网</text>
-  <text x="150" y="142" fill="#94a3b8" font-size="19">1368—1662 · 1644 北京明廷覆亡，1662 南明终局 · 关系来自现有研究底表、重要子嗣表与 ${events.events.length} 条事件记录</text>
+  <text x="150" y="142" fill="#94a3b8" font-size="19">1368—1664 · 1644 北京明廷覆亡，1662 永历政权终局，1664 夔东抵抗终局 · 关系来自现有研究底表、重要子嗣表与 ${events.events.length} 条事件记录</text>
   <text x="150" y="182" fill="#64748b" font-size="15">姓名越大＝关系中心性与研究评分越高；悬停节点或连线可查看说明</text>
   <text x="5050" y="92" fill="#94a3b8" font-size="17" text-anchor="end">${nodes.length} NODES · ${edges.length} EDGES</text>
 </g>

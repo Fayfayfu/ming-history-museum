@@ -164,6 +164,18 @@
         "note": "来源可核福州即位与1646年遇害；实际政权范围和郑氏集团影响属于解释层。"
       }
     ],
+    "朱聿鐭": [
+      {
+        "regime": "隆武",
+        "phase": "ruler",
+        "start": 1646,
+        "end": 1646,
+        "role": "绍武政权君主",
+        "confidence": "中",
+        "sourceIds": ["MS120"],
+        "note": "《明史》卷120与顾诚《南明史》的相关章节可交叉核对其广州即位与政权短暂终结；不并入北京明廷十六帝。"
+      }
+    ],
     "朱由榔": [
       {
         "regime": "永历",
@@ -175,6 +187,85 @@
         "sourceIds": ["NMC_YONGLI_EDICT", "MS120"],
         "note": "来源可核1646年即位与1662年被杀；本馆用1662年作为南明主线终局。"
       }
+    ],
+    "郑成功": [
+      {"regime":"隆武","start":1645,"end":1646,"role":"隆武赐姓将领","confidence":"高","sourceIds":["MS309"],"note":"不归入北京明廷；此段仅标其受隆武政权赐姓后的政治身份。"},
+      {"regime":"明郑","start":1646,"end":1662,"role":"延平王、海上抗清力量领袖","confidence":"高","sourceIds":["MS309"],"note":"本馆将郑氏政权归入南明延续线，不以此推定其控制范围。"}
+    ],
+    "李定国": [
+      {"regime":"大西","start":1644,"end":1647,"role":"大西余部将领","confidence":"中","sourceIds":["MS309"]},
+      {"regime":"永历","start":1647,"end":1662,"role":"永历政权晋王、统军将领","confidence":"高","sourceIds":["MS309"]}
+    ],
+    "孙可望": [
+      {"regime":"大西","start":1644,"end":1647,"role":"大西余部领袖","confidence":"中","sourceIds":["MS309"]},
+      {"regime":"永历","start":1647,"end":1657,"role":"永历政权秦王","confidence":"中","sourceIds":["MS309"]},
+      {"regime":"清","start":1657,"end":1660,"role":"降清后受清廷安置","confidence":"中","sourceIds":["MS309"]}
+    ],
+    "马士英": [
+      {"regime":"明","start":1637,"end":1644,"role":"明末文臣、凤阳总督","confidence":"中","sourceIds":["MS274"]},
+      {"regime":"弘光","start":1644,"end":1645,"role":"弘光政权东阁大学士、兵部尚书","confidence":"高","sourceIds":["MS274"]}
+    ],
+    "左良玉": [
+      {"regime":"明","start":1636,"end":1645,"role":"明末湖广总兵、驻武昌军队统帅","confidence":"高","sourceIds":["MS273"]}
+    ],
+    "陈圆圆": [
+      {"regime":"叙事人物","start":1644,"end":1662,"role":"明清之际艺人；相关生平主要见于后出笔记与文学叙事","confidence":"低","sourceIds":["MS309"],"note":"不以文学叙事填补其具体行止，也不据此解释山海关决策。"}
+    ],
+    "多铎": [
+      {"regime":"清","start":1636,"end":1649,"role":"满洲宗室、和硕豫亲王、南下军统帅","confidence":"高","sourceIds":["QSG218"],"note":"其早年即属清朝宗室，不归入北京明廷。"}
+    ],
+    "高杰": [
+      {"regime":"明","start":1642,"end":1644,"role":"归明将领","confidence":"中","sourceIds":["MS273"]},
+      {"regime":"弘光","start":1644,"end":1645,"role":"江北四镇将领、兴平伯","confidence":"高","sourceIds":["MS273"]}
+    ],
+    "黄得功": [
+      {"regime":"明","start":1635,"end":1644,"role":"明末将领","confidence":"高","sourceIds":["MS273"]},
+      {"regime":"弘光","start":1644,"end":1645,"role":"江北四镇将领、靖南伯","confidence":"高","sourceIds":["MS273"]}
+    ],
+    "刘良佐": [
+      {"regime":"明","start":1638,"end":1644,"role":"明末将领","confidence":"中","sourceIds":["MS273"]},
+      {"regime":"弘光","start":1644,"end":1645,"role":"江北四镇将领","confidence":"高","sourceIds":["MS273"]},
+      {"regime":"清","start":1645,"end":1664,"role":"降清后任军职（本馆时间范围止于1664年）","confidence":"中","sourceIds":["MS273"]}
+    ],
+    "刘泽清": [
+      {"regime":"明","start":1638,"end":1644,"role":"明末将领","confidence":"中","sourceIds":["MS273"]},
+      {"regime":"弘光","start":1644,"end":1645,"role":"江北四镇将领","confidence":"高","sourceIds":["MS273"]},
+      {"regime":"清","start":1645,"end":1647,"role":"降清后受清廷处置","confidence":"中","sourceIds":["MS273"]}
+    ],
+    "阎应元": [
+      {"regime":"明","start":1644,"end":1645,"role":"江阴典史、江阴守城组织者","confidence":"高","sourceIds":["MS276"]}
+    ],
+    "郑芝龙": [
+      {"regime":"明","start":1630,"end":1644,"role":"明末福建海上势力首领、受明廷招抚的将领","confidence":"中","sourceIds":["QSG224"]},
+      {"regime":"隆武","start":1645,"end":1646,"role":"隆武政权平国公","confidence":"中","sourceIds":["QSG224"]},
+      {"regime":"清","start":1646,"end":1661,"role":"降清后受清廷羁縻与处置","confidence":"中","sourceIds":["QSG224"]}
+    ],
+    "张献忠": [
+      {"regime":"大西","start":1644,"end":1647,"role":"大西政权建立者","confidence":"高","sourceIds":["MS309"]}
+    ],
+    "刘文秀": [
+      {"regime":"大西","start":1644,"end":1647,"role":"大西余部将领","confidence":"中","sourceIds":["MS309"]},
+      {"regime":"永历","start":1647,"end":1658,"role":"永历政权蜀王、统军将领","confidence":"中","sourceIds":["MS309"]}
+    ],
+    "艾能奇": [
+      {"regime":"大西","start":1644,"end":1647,"role":"大西余部将领","confidence":"中","sourceIds":["MS309"]},
+      {"regime":"永历","start":1647,"end":1650,"role":"与永历政权联合抗清的将领","confidence":"中","sourceIds":["MS309"]}
+    ],
+    "孔有德": [
+      {"regime":"明","start":1628,"end":1633,"role":"明军将领","confidence":"高","sourceIds":["QSG005"]},
+      {"regime":"清","start":1633,"end":1652,"role":"后金降将、清定南王","confidence":"高","sourceIds":["QSG005"]}
+    ],
+    "尼堪": [
+      {"regime":"清","start":1636,"end":1652,"role":"满洲宗室、和硕敬谨亲王、定远大将军","confidence":"高","sourceIds":["QSG216"],"note":"褚英第三子；其军政经历属于清朝宗室体系，不归入北京明廷。"}
+    ],
+    "豪格": [
+      {"regime":"清","start":1636,"end":1648,"role":"满洲宗室、和硕肃亲王、征蜀统帅","confidence":"高","sourceIds":["QSG216"],"note":"皇太极长子；其军政经历属于清朝宗室体系，不归入北京明廷。"}
+    ],
+    "阿济格": [
+      {"regime":"清","start":1636,"end":1651,"role":"满洲宗室、和硕英亲王、入关后统军者","confidence":"高","sourceIds":["QSG217"],"note":"努尔哈赤第十二子；不归入北京明廷。"}
+    ],
+    "李来亨": [
+      {"regime":"大顺","start":1644,"end":1664,"role":"大顺余部将领、夔东十三家领袖","confidence":"中","sourceIds":["MS309"],"note":"1664年夔东抵抗终局不等于南明君主政权仍在延续。"}
     ]
   }
 }

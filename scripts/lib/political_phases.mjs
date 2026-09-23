@@ -1,6 +1,7 @@
 import { MUSEUM_TIMELINE_SCOPE } from './museum_temporal_scope.mjs';
 
-const VALID_REGIMES = new Set(['明', '弘光', '隆武', '永历', '鲁王监国', '大顺', '清', '遗民']);
+// 展示与审计共用这一分组。明郑、大西与叙事人物均为本轮人物卡实际使用的口径。
+const VALID_REGIMES = new Set(['明', '弘光', '隆武', '永历', '鲁王监国', '明郑', '大顺', '大西', '清', '遗民', '叙事人物']);
 const VALID_CONFIDENCE = new Set(['高', '中', '低', '未知']);
 
 const isNonEmptyString = value => typeof value === 'string' && value.trim().length > 0;

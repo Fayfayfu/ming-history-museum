@@ -69,9 +69,9 @@ try {
     timelineAria: document.querySelector('#peopleTimelineView')?.getAttribute('aria-label') || '',
   }));
 
-  check(state.max === '1662', 'timeline ends at 1662', state);
-  check(JSON.stringify(state.boundaries) === JSON.stringify(['1368', '1644', '1662']), 'all scope breaks are visible in chronology order', state);
-  check(state.boundaryLabels[1]?.includes('北京明廷覆亡') && state.boundaryLabels[2]?.includes('南明终局'), '1644 and 1662 carry distinct historical labels', state);
+  check(state.max === '1664', 'timeline ends at 1664', state);
+  check(JSON.stringify(state.boundaries) === JSON.stringify(['1368', '1644', '1662', '1664']), 'all scope breaks are visible in chronology order', state);
+  check(state.boundaryLabels[1]?.includes('北京明廷覆亡') && state.boundaryLabels[2]?.includes('永历政权终局') && state.boundaryLabels[3]?.includes('夔东抵抗终局'), '1644、1662与1664使用清晰的历史断点标签', state);
   check(state.hongCount === 1, 'cross-era person renders once', state);
   check(state.hongPhase === '明→清', 'cross-era anchor exposes its political progression without duplicating the person', state);
   check(state.southernLane.length === 3 && state.southernLane.every((lane) => lane === 'emperor'), 'Southern Ming rulers share the upper ruler lane', state);
@@ -79,7 +79,7 @@ try {
   check(state.southernRulerCount === 3, 'timeline distinguishes three Southern Ming rulers without recategorizing them as Beijing emperors', state);
   check(state.rulerLaneLabel === '皇帝／君主', 'upper ruler lane uses the combined visitor-facing label', state);
   check(new Set(state.pre1368Years.map((item) => item.x)).size > 1, 'people before 1368 retain distinct chronological positions', state.pre1368Years);
-  check(state.timelineAria.includes('1368') && state.timelineAria.includes('1662') && state.timelineAria.includes('北京明廷覆亡'), 'timeline announces the full public scope and 1644 break', state);
+  check(state.timelineAria.includes('1368') && state.timelineAria.includes('1662') && state.timelineAria.includes('1664') && state.timelineAria.includes('北京明廷覆亡'), 'timeline announces the full public scope and 1644 break', state);
 } finally {
   await browser?.close();
   await new Promise((resolve) => server.close(resolve));

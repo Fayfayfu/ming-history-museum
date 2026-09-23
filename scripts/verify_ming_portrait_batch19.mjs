@@ -1,5 +1,6 @@
 import {chromium} from 'playwright';
 import fs from 'node:fs';
+import http from 'node:http';
 import path from 'node:path';
 
 const names = [
@@ -10,6 +11,38 @@ const root = path.resolve('outputs/019fc8d2-0e97-7ed3-a23b-47b434c01dc9');
 const museum = path.join(root, '明史数字博物馆');
 const portraits = JSON.parse(fs.readFileSync('data/ming_portraits.json', 'utf8')).people;
 const problems = [];
+
+// 人物抽屉现在按需请求 JSON 分片。file:// 会让浏览器拦截这些请求，
+// 因而测试必须以和实际预览一致的 HTTP 方式载入发布产物。
+const server = http.createServer((request, response) => {
+  const pathname = decodeURIComponent(new URL(request.url || '/', 'http://127.0.0.1').pathname);
+  const file = path.resolve(museum, `.${pathname === '/' ? '/index.html' : pathname}`);
+  if (file !== museum && !file.startsWith(`${museum}${path.sep}`)) {
+    response.writeHead(403).end('Forbidden');
+    return;
+  }
+  fs.readFile(file, (error, body) => {
+    if (error) {
+      response.writeHead(404).end('Not found');
+      return;
+    }
+    const type = {
+      '.html': 'text/html; charset=utf-8',
+      '.json': 'application/json; charset=utf-8',
+      '.webp': 'image/webp',
+      '.png': 'image/png',
+      '.jpg': 'image/jpeg',
+      '.jpeg': 'image/jpeg',
+      '.svg': 'image/svg+xml',
+    }[path.extname(file).toLowerCase()] || 'application/octet-stream';
+    response.writeHead(200, {'content-type': type}).end(body);
+  });
+});
+await new Promise((resolve, reject) => {
+  server.once('error', reject);
+  server.listen(0, '127.0.0.1', resolve);
+});
+const baseUrl = `http://127.0.0.1:${server.address().port}`;
 
 for (const name of names) {
   const portrait = portraits[name];
@@ -25,10 +58,10 @@ const browser = await chromium.launch({
   executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
 });
 const page = await browser.newPage({viewport: {width: 1440, height: 1000}});
-await page.goto(`file://${path.join(museum, 'people.html')}`, {waitUntil: 'networkidle'});
+await page.goto(`${baseUrl}/people.html`, {waitUntil: 'networkidle'});
 
 for (const name of names) {
-  await page.evaluate(personName => focusPerson(personName), name);
+  await page.evaluate(async personName => { await focusPerson(personName); }, name);
   await page.waitForSelector('#drawer.open');
   const result = await page.evaluate(async personName => {
     const image = document.querySelector('#detail .portrait img');
@@ -56,6 +89,7 @@ for (const name of names) {
 }
 
 await browser.close();
+await new Promise(resolve => server.close(resolve));
 
 if (problems.length) {
   console.error(problems.join('\n'));

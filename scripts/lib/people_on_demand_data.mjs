@@ -232,7 +232,15 @@ async function removeStaleJsonFiles(detailDir) {
   }
   await Promise.all(entries
     .filter((entry) => entry.isFile() && entry.name.endsWith('.json'))
-    .map((entry) => fs.unlink(path.join(detailDir, entry.name))));
+    .map(async (entry) => {
+      try {
+        await fs.unlink(path.join(detailDir, entry.name));
+      } catch (error) {
+        // 多个独立验收进程可同时重建同一个发布目录；若文件已被另一
+        // 个进程清除，结果已经满足“无旧分片”的目的，不应使构建失败。
+        if (error.code !== 'ENOENT') throw error;
+      }
+    }));
 }
 
 function validatedDetailId(id, detail, label) {

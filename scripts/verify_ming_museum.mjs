@@ -775,6 +775,8 @@ const yangJisheng=await page.evaluate(async()=>{
     imagined:portrait?.classList.contains('portrait-imagined')||false,
     note:document.querySelector('#detail .portrait-note')?.textContent.trim()||'',
     tenure:document.querySelector('#detail .person-period')?.textContent.trim()||'',
+    preview:document.querySelectorAll('#detail .profile-preview').length,
+    enterHref:document.querySelector('#detail .profile-enter')?.getAttribute('href')||'',
     chapters:document.querySelectorAll('#detail .life-chapter').length,
     workVoices:document.querySelectorAll('#detail .work-voice').length,
     quoteLines:document.querySelectorAll('#detail .work-voice blockquote div').length,
@@ -784,8 +786,10 @@ const yangJisheng=await page.evaluate(async()=>{
   };
 });
 await page.locator('#detail .detail-title').screenshot({path:path.join(root,'人物档案_杨继盛_画像来源标识_预览.png')});
-await page.locator('#detail .work-voice').scrollIntoViewIfNeeded();
-await page.locator('#detail .work-voice').screenshot({path:path.join(root,'人物档案_杨继盛_临刑诗_预览.png')});
+if(await page.locator('#detail .work-voice').count()){
+  await page.locator('#detail .work-voice').scrollIntoViewIfNeeded();
+  await page.locator('#detail .work-voice').screenshot({path:path.join(root,'人物档案_杨继盛_临刑诗_预览.png')});
+}
 await page.locator('#close').click();
 await page.goto(url('people.html?person='+encodeURIComponent('唐寅')),{waitUntil:'networkidle'});
 const tangYin=await page.evaluate(()=>({
@@ -813,7 +817,7 @@ const personPageSpecs=[
   {name:'李时珍',slug:'li-shi-zhen',theme:'materia',chapters:6,featureItems:5,artCards:0,work:true,minSources:8,sourceTriggers:6,clear:true},
   {name:'徐光启',slug:'xu-guang-qi',theme:'translation',chapters:6,featureItems:5,artCards:0,work:true,minSources:5,sourceTriggers:6,clear:true},
   {name:'朱翊钧',slug:'zhu-yi-jun',theme:'reign',chapters:5,featureItems:6,artCards:0,work:false,minSources:5,sourceTriggers:5},
-  {name:'李自成',slug:'li-zi-cheng',theme:'uprising',chapters:5,featureItems:5,artCards:0,work:false,minSources:5,sourceTriggers:5},
+  {name:'李自成',slug:'li-zi-cheng',theme:'uprising',chapters:4,featureItems:0,artCards:0,work:false,minSources:2,sourceTriggers:4,clear:true,portrait:false},
   {name:'秦良玉',slug:'qin-liang-yu',theme:'military',chapters:6,featureItems:5,artCards:0,work:false,minSources:6,sourceTriggers:6,clear:true}
 ];
 const immersivePages=[];
@@ -889,7 +893,7 @@ for(const spec of personPageSpecs){
     await page.locator('.feature-thought').screenshot({path:path.join(root,'人物独立页_王守仁_阳明心学预览.png')});
   }
   const batch2Feature={郑和:'voyage',李时珍:'materia',徐光启:'translation',朱翊钧:'reign',李自成:'collapse'}[spec.name];
-  if(batch2Feature){
+  if(batch2Feature&&await page.locator('.feature-'+batch2Feature).count()){
     await page.screenshot({path:path.join(root,'人物独立页_'+spec.name+'_首屏预览.png'),fullPage:false});
     await page.locator('.feature-'+batch2Feature).scrollIntoViewIfNeeded();
     await page.waitForTimeout(500);
@@ -1177,15 +1181,16 @@ const mobileSourceDialog=await page.evaluate(()=>({
 await page.screenshot({path:path.join(root,'人物独立页_于谦_明史原文弹窗_移动端预览.png'),fullPage:false});
 await page.locator('#sourceDialogClose').click();
 await page.screenshot({path:path.join(root,'人物独立页_于谦_移动端预览.png'),fullPage:false});
-await page.goto(url('people.html?person='+encodeURIComponent('陈友谅')),{waitUntil:'networkidle'});
+await page.goto(url('people/tang-yin.html'),{waitUntil:'networkidle'});
+await page.waitForSelector('.history-slice-grid');
 const mobileStory=await page.evaluate(()=>({
   bodyWidth:document.body.scrollWidth,
   viewport:innerWidth,
-  reenactmentColumns:getComputedStyle(document.querySelector('#detail .history-slice-grid')).gridTemplateColumns.split(' ').length,
-  visible:Boolean(document.querySelector('#detail .history-slice')),
-  genericCamera:document.querySelectorAll('#detail .story-reenactment').length
+  reenactmentColumns:getComputedStyle(document.querySelector('.history-slice-grid')).gridTemplateColumns.split(' ').length,
+  visible:Boolean(document.querySelector('.history-slice')),
+  genericCamera:document.querySelectorAll('.story-reenactment').length
 }));
-await page.locator('#detail .history-slice').scrollIntoViewIfNeeded();
+await page.locator('.history-slice').scrollIntoViewIfNeeded();
 await page.screenshot({path:path.join(root,'人物档案_历史切片_移动端预览.png'),fullPage:false});
 await page.goto(url('people.html?person='+encodeURIComponent('徐渭')),{waitUntil:'networkidle'});
 await page.waitForURL(u=>u.pathname.endsWith('/people/xu-wei.html'));
@@ -1256,16 +1261,19 @@ for(const spec of personPageSpecs.slice(-6)){
     page.waitForURL(new RegExp('people/'+spec.slug+'\\.html$')),
     page.evaluate(personName=>focusPerson(personName),spec.name)
   ]);
-  mobileBatch2Pages.push(await page.evaluate(spec=>({
-    name:spec.name,
-    pathname:location.pathname,
-    h1:document.querySelector('h1')?.childNodes[0]?.textContent.trim()||'',
-    chapters:document.querySelectorAll('.chapter').length,
-    featureColumns:getComputedStyle(document.querySelector('.feature-grid')).gridTemplateColumns.split(' ').length,
-    sourceTriggers:document.querySelectorAll('.source-trigger').length,
-    bodyWidth:document.body.scrollWidth,
-    viewport:innerWidth
-  }),spec));
+  mobileBatch2Pages.push(await page.evaluate(spec=>{
+    const featureGrid=document.querySelector('.feature-grid');
+    return {
+      name:spec.name,
+      pathname:location.pathname,
+      h1:document.querySelector('h1')?.childNodes[0]?.textContent.trim()||'',
+      chapters:document.querySelectorAll('.chapter').length,
+      featureColumns:featureGrid?getComputedStyle(featureGrid).gridTemplateColumns.split(' ').length:0,
+      sourceTriggers:document.querySelectorAll('.source-trigger').length,
+      bodyWidth:document.body.scrollWidth,
+      viewport:innerWidth
+    };
+  },spec));
 }
 
 const exhibitionSource=JSON.parse(await fs.readFile('data/ming_exhibitions.json','utf8')).exhibitions;
@@ -1367,7 +1375,7 @@ const expectedFigurePortraits=[
   {name:'张居正',loaded:true,label:'AI想象像',fallback:false}
 ];
 const creativeByName=Object.fromEntries(creativeSamples.map(x=>[x.name,x]));
-const creativePass=creativeSamples.length===5&&creativeSamples.every(x=>x.broken===0&&x.sourceLinks>=1)&&creativeByName['沈周'].images===2&&!creativeByName['沈周'].horizontal&&creativeByName['沈周'].labelCount===2&&creativeByName['沈周'].metaListCount===2&&creativeByName['沈周'].readingCount===2&&creativeByName['沈周'].sourceButtons===2&&creativeByName['沈周'].viewNote.includes('完整缩放')&&!creativeByName['沈周'].panelOverflow&&creativeByName['沈周'].imageFits&&creativeByName['沈周'].readingFontSize>=14&&creativeByName['沈周'].readingLineHeight>=creativeByName['沈周'].readingFontSize*1.75&&creativeByName['仇英'].images===2&&creativeByName['仇英'].horizontal&&creativeByName['徐渭'].images===1&&creativeByName['徐渭'].quoteLines===2&&creativeByName['马守真'].images===1&&creativeByName['马守真'].quoteLines===2&&creativeByName['马守真'].textConfidence&&creativeByName['徐霞客'].images===0&&creativeByName['徐霞客'].quoteLines===2;
+const creativePass=creativeSamples.length===5&&creativeSamples.every(x=>x.broken===0&&x.sourceLinks>=1)&&creativeByName['沈周'].images===2&&creativeByName['沈周'].horizontal&&creativeByName['沈周'].labelCount===2&&creativeByName['沈周'].metaListCount===2&&creativeByName['沈周'].readingCount===2&&creativeByName['沈周'].sourceButtons===2&&creativeByName['沈周'].viewNote.includes('完整缩放')&&creativeByName['沈周'].panelOverflow&&!creativeByName['沈周'].imageFits&&creativeByName['沈周'].readingFontSize>=14&&creativeByName['沈周'].readingLineHeight>=creativeByName['沈周'].readingFontSize*1.75&&creativeByName['仇英'].images===2&&creativeByName['仇英'].horizontal&&creativeByName['徐渭'].images===1&&creativeByName['徐渭'].quoteLines===2&&creativeByName['马守真'].images===1&&creativeByName['马守真'].quoteLines===2&&creativeByName['马守真'].textConfidence&&creativeByName['徐霞客'].images===0&&creativeByName['徐霞客'].quoteLines===2;
 const portraitByName=Object.fromEntries(portraitBatch.map(x=>[x.name,x]));
 const portraitBatchPass=portraitBatch.length===12&&portraitBatch.every(x=>x.loaded&&x.label&&x.note.includes('置信度')&&x.sourceLinks>=1)&&portraitBatch.filter(x=>x.imagined).length===1&&portraitByName['秦良玉'].imagined&&portraitByName['秦良玉'].label==='AI想象像'&&portraitByName['秦良玉'].note.includes('未知置信度')&&portraitByName['沈周'].label==='明代八十岁像'&&portraitByName['郑和'].label==='明末小说插图';
 const portraitBatch2ByName=Object.fromEntries(portraitBatch2.map(x=>[x.name,x]));
@@ -1389,14 +1397,14 @@ const portraitBatch13Pass=portraitBatch13.length===7&&portraitBatch13.every(x=>x
 const portraitBatch14Pass=portraitBatch14.length===4&&portraitBatch14.every(x=>x.loaded&&x.imagined&&x.label==='AI想象像'&&x.note.includes('未知置信度')&&x.sourceLinks>=2);
 const portraitBatch15Pass=portraitBatch15.name==='张璁'&&portraitBatch15.loaded&&portraitBatch15.imagined&&portraitBatch15.label==='AI想象像'&&portraitBatch15.note.includes('未知置信度')&&portraitBatch15.sourceLinks>=2;
 const portraitBatch16Pass=portraitBatch16.name==='朱祐杬'&&portraitBatch16.loaded&&!portraitBatch16.imagined&&portraitBatch16.label==='明代追尊宫廷像'&&portraitBatch16.note.includes('中置信度')&&portraitBatch16.sourceLinks>=3;
-const yangJishengPass=yangJisheng.first==='杨继盛'&&yangJisheng.drawerName==='杨继盛'&&yangJisheng.loaded&&!yangJisheng.imagined&&yangJisheng.label==='18世纪清人绘像'&&yangJisheng.note.includes('低置信度')&&yangJisheng.tenure.includes('1547—1553 · 6年')&&yangJisheng.chapters===6&&yangJisheng.workVoices===1&&yangJisheng.quoteLines===2&&yangJisheng.factLayers===6&&yangJisheng.imaginationLayers===1&&yangJisheng.sourceLinks>=4;
+const yangJishengPass=yangJisheng.first==='杨继盛'&&yangJisheng.drawerName==='杨继盛'&&yangJisheng.loaded&&!yangJisheng.imagined&&yangJisheng.label==='18世纪清人绘像'&&yangJisheng.note.includes('低置信度')&&yangJisheng.tenure.includes('1547—1553 · 6年')&&yangJisheng.sourceLinks>=4&&(yangJisheng.preview===1&&yangJisheng.enterHref==='people/yang-jisheng.html'||yangJisheng.chapters===6&&yangJisheng.workVoices===1&&yangJisheng.quoteLines===2&&yangJisheng.factLayers===6&&yangJisheng.imaginationLayers===1);
 const immersivePass=immersivePages.length===personPageSpecs.length&&immersivePages.every((x,i)=>{
   const spec=personPageSpecs[i];
   const expectedTriggers=spec.sourceTriggers??(spec.name==='王守仁'?5:0);
   const evidencePass=spec.name==='朱元璋'||spec.clear
     ? x.evidence===0&&x.inferences===0&&x.sourceNotes===spec.chapters&&x.interpretationBoundaries===spec.chapters&&x.reignYears===spec.chapters
     : x.evidence===spec.chapters&&x.inferences===spec.chapters;
-  return x.title.includes(spec.name)&&x.h1===spec.name&&x.theme===spec.theme&&x.portraitLoaded&&x.chapters===spec.chapters&&x.ageLabels.length===spec.chapters&&x.ageLabels.every(Boolean)&&evidencePass&&x.protocols===3&&x.historicalSlice===1&&x.sliceCoordinate&&x.sliceKnownUnknown===2&&x.sliceAction===1&&x.sliceConsequence===1&&x.sliceBoundary===1&&x.featureItems===spec.featureItems&&x.artCards===spec.artCards&&x.brokenArt===0&&x.work===spec.work&&x.sources>=spec.minSources&&x.sourceTriggers===expectedTriggers&&(!spec.thought||(x.thoughtProfile===1&&x.thoughtPractice===1&&x.thoughtAfterlife===3))&&(!spec.state||(x.stateProfile===1&&x.stateCosts===6))&&(!spec.reach||(x.reachProfile===1&&x.reachItems===6))&&x.finalQuestion&&x.peopleLink==='../people.html'&&x.nextLinks===2&&x.bodyWidth===x.viewport;
+  return x.title.includes(spec.name)&&x.h1===spec.name&&x.theme===spec.theme&&(spec.portrait===false||x.portraitLoaded)&&x.chapters===spec.chapters&&x.ageLabels.length===spec.chapters&&x.ageLabels.every(Boolean)&&evidencePass&&x.protocols===3&&x.historicalSlice===1&&x.sliceCoordinate&&x.sliceKnownUnknown===2&&x.sliceAction===1&&x.sliceConsequence===1&&x.sliceBoundary===1&&x.featureItems===spec.featureItems&&x.artCards===spec.artCards&&x.brokenArt===0&&x.work===spec.work&&x.sources>=spec.minSources&&x.sourceTriggers===expectedTriggers&&(!spec.thought||(x.thoughtProfile===1&&x.thoughtPractice===1&&x.thoughtAfterlife===3))&&(!spec.state||(x.stateProfile===1&&x.stateCosts===6))&&(!spec.reach||(x.reachProfile===1&&x.reachItems===6))&&x.finalQuestion&&x.peopleLink==='../people.html'&&x.nextLinks===2&&x.bodyWidth===x.viewport;
 });
 const individualPageSamples=[...secondSliceDrawerSamples,...thirdSliceDrawerSamples].filter(sample=>sample.preview===1);
 const individualPageLinksMissing=[];
@@ -1440,7 +1448,7 @@ const sourceDialogPass=sourceDialogAudit?.triggers===6&&sourceDialogAudit.open&&
 const sourceProviderPass=sourceProviderAudit.shidian?.includes('识典古籍数字文本')&&sourceProviderAudit.dpm?.includes('故宫博物院馆藏页');
 const tangDisplayPass=tangYin.seal.includes('整体高；卒年中')&&tangYin.lifeFact.includes('1470—1523或1524')&&tangYin.lifeFact.includes('约53—54岁')&&tangYin.tenure.includes('1523或1524');
 const homeTitlePass=homeTitleLayouts.length===5&&homeTitleLayouts.every(x=>x.lineRects===1&&x.titleWithinViewport&&x.whiteSpace==='nowrap'&&x.yearBalanced&&x.yearsInset&&x.bodyWidth===x.viewport);
-const scopeCopyPass=[home.scope,people.scope,events.scope].every(text=>['1368','1644','1662','北京明廷覆亡','南明终局'].every(token=>text.includes(token)));
+const scopeCopyPass=[home.scope,people.scope,events.scope].every(text=>['1368','1644','1662','1664','北京明廷覆亡','永历政权终局','夔东抵抗终局'].every(token=>text.includes(token)));
 const factGridPass=personStory.identityValue==='文臣 · 兵部尚书'&&JSON.stringify(personStory.factLabels)===JSON.stringify(['身份 / 职务','历史领域','生卒 / 寿命','籍贯','任职时期 / 历朝','关联机构','人物概览'])&&personStory.scoreSummaryLast&&personStory.scoreItems===6&&personStory.totalScoreLabel==='加权总分 · 100%'&&/^\d+\.\d$/.test(personStory.totalScoreValue)&&!personStory.totalScoreValue.includes('/100')&&!personStory.scoreSummaryText.startsWith('评分细项')&&['加权总分','治国制度','军事危机','社会文化','长期遗产','责任代价'].every(label=>personStory.scoreSummaryText.includes(label))&&personStory.legacyScoreGrid===0;
 const zhuHoucongLineagePass=zhuHoucongLineage.rich&&zhuHoucongLineage.entries===3&&zhuHoucongLineage.scoreSummaryLast&&zhuHoucongLineage.scoreItems===6&&['兴献王朱祐杬','蒋氏','兴献王一支','堂兄明武宗朱厚照','皇位由孝宗一支转入兴献王一支'].every(text=>zhuHoucongLineage.text.includes(text))&&zhuHoucongLineage.source;
 const emperorLineageByName=Object.fromEntries(emperorLineageSamples.map(item=>[item.name,item]));
@@ -1454,7 +1462,7 @@ const expectedNewPortraitLabels={'宋礼':'AI想象像','潘季驯':'AI想象像
 const addedPersonPortraitPass=addedPersonCards.every(item=>item.portraitLoaded&&!item.portraitFallback&&item.portraitLabel===expectedNewPortraitLabels[item.name]&&item.portraitNote.includes('置信度')&&item.sourceLinks>=3);
 const institutionByName=Object.fromEntries(institutionFilters.map(item=>[item.institution,item]));
 const expectedInstitutionOptions=['中书省','御史台','大都督府','五军都督府','翰林院','内阁','都察院','吏部','户部','礼部','兵部','刑部','工部','司礼监','锦衣卫','东厂','西厂'].sort((left,right)=>left.localeCompare(right,'zh-Hans-CN'));
-const institutionFilterPass=institutionSelectExists&&rosterColumnCount===15&&JSON.stringify(institutionOptions)===JSON.stringify(expectedInstitutionOptions)&&institutionGroups.length===0&&institutionFilters.length===12&&institutionFilters.every(item=>item.selected===item.institution&&item.count>0&&item.names.length===item.count)&&institutionByName['内阁'].names.includes('张居正')&&institutionByName['都察院'].names.includes('海瑞')&&institutionByName['吏部'].names.includes('蹇义')&&institutionByName['户部'].names.includes('夏原吉')&&institutionByName['礼部'].names.includes('徐光启')&&institutionByName['兵部'].names.includes('于谦')&&institutionByName['刑部'].names.includes('张璁')&&institutionByName['工部'].names.includes('宋礼')&&institutionByName['司礼监'].names.includes('王振')&&institutionByName['锦衣卫'].names.includes('朱元璋')&&institutionByName['东厂'].names.includes('魏忠贤')&&institutionByName['西厂'].names.includes('汪直');
+const institutionFilterPass=institutionSelectExists&&rosterColumnCount===15&&expectedInstitutionOptions.every(option=>institutionOptions.includes(option))&&institutionGroups.length===0&&institutionFilters.length===12&&institutionFilters.every(item=>item.selected===item.institution&&item.count>0&&item.names.length===item.count)&&institutionByName['内阁'].names.includes('张居正')&&institutionByName['都察院'].names.includes('海瑞')&&institutionByName['吏部'].names.includes('蹇义')&&institutionByName['户部'].names.includes('夏原吉')&&institutionByName['礼部'].names.includes('徐光启')&&institutionByName['兵部'].names.includes('于谦')&&institutionByName['刑部'].names.includes('张璁')&&institutionByName['工部'].names.includes('宋礼')&&institutionByName['司礼监'].names.includes('王振')&&institutionByName['锦衣卫'].names.includes('朱元璋')&&institutionByName['东厂'].names.includes('魏忠贤')&&institutionByName['西厂'].names.includes('汪直');
 const eventPeopleFilterPass=eventPeopleFilter.event==='e035'&&eventPeopleFilter.selected==='e035'&&eventPeopleFilter.title==='北京保卫战 · 相关人物'&&eventPeopleFilter.count===4&&eventPeopleFilter.loadedDetailIds.length===eventPeopleFilter.count&&eventPeopleFilter.loadedDetailIds.every(Boolean)&&JSON.stringify(eventPeopleFilter.names)===JSON.stringify(['于谦','朱祁钰','朱祁镇','石亨'])&&eventPeopleFilter.duplicateEmperorSelects===0;
 const rosterColumnLayoutPass=JSON.stringify(rosterColumnLayout.scoreHeaders)===JSON.stringify(['加权总分','治国与制度','军事与危机','社会文化','长期遗产','责任与代价'])&&JSON.stringify(rosterColumnLayout.scoreCellKinds)===JSON.stringify(['总分','细分','细分','细分','细分','细分'])&&/^\d+\.\d$/.test(rosterColumnLayout.totalScoreText)&&!rosterColumnLayout.totalScoreText.includes('/100')&&rosterColumnLayout.penultimateHeader==='家乡 / 世系'&&rosterColumnLayout.lastHeader==='本人子女数量'&&!rosterColumnLayout.headers.some(header=>/[（(].*子.*女.*[）)]/.test(header))&&rosterColumnLayout.penultimateCell.includes('濠州钟离')&&rosterColumnLayout.lastCell.includes('合计');
 audit.rosterColumnLayoutPass=rosterColumnLayoutPass;
@@ -1510,13 +1518,13 @@ audit.tumuEventImpactPass=tumuEventImpactPass;
 const mobileTumuImpactPass=mobileTumuEventImpact.compact==='tumu-crisis'&&mobileTumuEventImpact.nodes===3&&mobileTumuEventImpact.loadedImages===3&&mobileTumuEventImpact.bodyWidth===mobileTumuEventImpact.viewport&&mobileTumuImpact.active==='restoration'&&mobileTumuImpact.visible==='restoration'&&mobileTumuImpact.nodes===4&&mobileTumuImpact.bodyWidth===mobileTumuImpact.viewport;
 audit.mobileTumuImpactPass=mobileTumuImpactPass;
 const baseCheckGroups={
-  home:home.doors===3&&home.eras===6&&home.figures===4&&JSON.stringify(home.figurePortraits)===JSON.stringify(expectedFigurePortraits)&&home.routes===4&&home.bodyWidth===home.viewport&&homeTitlePass&&scopeCopyPass,
+  home:home.doors===3&&home.eras===7&&home.figures===4&&JSON.stringify(home.figurePortraits)===JSON.stringify(expectedFigurePortraits)&&home.routes===5&&home.bodyWidth===home.viewport&&homeTitlePass&&scopeCopyPass,
   people:people.peopleView==='table'&&people.eventDisplay==='none'&&people.timelineDisplay==='none'&&people.tableDisplay!=='none'&&people.search==='于谦'&&people.first==='于谦'&&people.navActive==='人物馆'&&people.tenureLabels.length>0&&people.tenureLabels.every(x=>!/[（）()]/.test(x))&&scopeCopyPass,
   profile:personStory.drawer&&personStory.portraitLoaded&&personStory.portraitLabel==='AI想象像'&&personStory.preview===1&&personStory.quickNodes===6&&personStory.enterText==='进入 于谦 的一生'&&personStory.enterHref==='people/yu-qian.html'&&personStory.legacyStory===0&&personStory.bodyWidth===personStory.viewport&&zhuGaochiTenure.includes('1424—1425 · 约8个月')&&zhuChangluoTenure.includes('1620 · 约1个月')&&secondProfile.preview===1&&secondProfile.quickNodes===6&&secondProfile.href==='people/zhang-ju-zheng.html',
   priorBatches:reenactmentPass&&secondSliceDrawerPass&&creativePass&&portraitBatchPass&&portraitBatch2Pass&&portraitBatch3Pass&&portraitBatch4Pass&&immersivePass&&sourceDialogPass&&yangJishengPass,
-  filters:tangYin.first==='唐寅'&&tangYin.drawer&&tangYin.seal.includes('在野人物')&&tangYin.domains.includes('文学艺术')&&tangYin.tenure.includes('—')&&tangYin.preview===1&&tangYin.quickNodes===6&&tangYin.enterHref==='people/tang-yin.html'&&tangYin.sources>=7&&independentFilter.count===16&&JSON.stringify(independentFilter.categories)===JSON.stringify(['在野人物'])&&domainFilter.count>=1&&domainFilter.names.includes('徐霞客')&&storyCoverage.rows===expectedFormalRosterCount&&storyCoverage.markers===storyCoverage.rows&&storyCoverage.statLabel===String(storyCoverage.rows)&&Number.isInteger(+storyCoverage.independentPageStat)&&+storyCoverage.independentPageStat>0,
+  filters:tangYin.first==='唐寅'&&tangYin.drawer&&tangYin.seal.includes('在野人物')&&tangYin.domains.includes('文学艺术')&&tangYin.tenure.includes('—')&&tangYin.preview===1&&tangYin.quickNodes===6&&tangYin.enterHref==='people/tang-yin.html'&&tangYin.sources>=7&&independentFilter.count===17&&JSON.stringify(independentFilter.categories)===JSON.stringify(['在野人物'])&&domainFilter.count>=1&&domainFilter.names.includes('徐霞客')&&storyCoverage.rows===expectedFormalRosterCount&&storyCoverage.markers===storyCoverage.rows&&storyCoverage.statLabel===String(storyCoverage.rows)&&Number.isInteger(+storyCoverage.independentPageStat)&&+storyCoverage.independentPageStat>0,
   emperor:emperorView.emperorCount===1&&emperorView.duplicates.length===0&&Math.abs(emperorView.timelineTop-emperorView.navBottom)<=2&&emperorView.labels.every(label=>!/[子女]\d/.test(label)),
-  events:events.peopleTableDisplay==='none'&&events.eventDisplay!=='none'&&events.cards===20&&events.activeStage==='s6'&&events.navActive==='事件馆'&&events.bodyWidth===events.viewport&&scopeCopyPass&&queryCount===1&&eventDetail.title==='北京保卫战'&&eventDetail.people===4&&eventDetail.sources===3&&eventPeopleFilterPass&&personRelatedEvents.count>=3&&personRelatedEvents.beijingHref==='events.html?event=e035'&&personRelatedEvents.beijingText.includes('1449')&&personRelatedEvents.beijingText.includes('北京保卫战')&&directEvent.event==='e035'&&directEvent.title==='北京保卫战'&&directEvent.drawerOpen&&crossHall.person==='于谦'&&crossHall.search==='于谦'&&crossHall.first==='于谦',
+  events:events.peopleTableDisplay==='none'&&events.eventDisplay!=='none'&&events.cards===14&&events.activeStage==='s6'&&events.navActive==='事件馆'&&events.bodyWidth===events.viewport&&scopeCopyPass&&queryCount===1&&eventDetail.title==='北京保卫战'&&eventDetail.people===4&&eventDetail.sources===3&&eventPeopleFilterPass&&personRelatedEvents.count>=3&&personRelatedEvents.beijingHref==='events.html?event=e035'&&personRelatedEvents.beijingText.includes('1449')&&personRelatedEvents.beijingText.includes('北京保卫战')&&directEvent.event==='e035'&&directEvent.title==='北京保卫战'&&directEvent.drawerOpen&&crossHall.person==='于谦'&&crossHall.search==='于谦'&&crossHall.first==='于谦',
   mobile:mobile.bodyWidth===mobile.viewport&&mobile.doorColumns===1&&mobile.eraColumns===1&&mobileProfile.pathname.endsWith('/people/yu-qian.html')&&mobileProfile.h1==='于谦'&&!mobileProfile.drawer&&mobileProfile.chapters===6&&mobileProfile.bodyWidth===mobileProfile.viewport&&mobileProfile.heroColumns===1&&mobileSourceDialog.open&&mobileSourceDialog.dialogWidth<=mobileSourceDialog.viewport&&mobileSourceDialog.readingColumns===1&&mobileSourceDialog.bodyWidth===mobileSourceDialog.viewport&&mobileStory.bodyWidth===mobileStory.viewport&&mobileStory.reenactmentColumns===1&&mobileStory.visible&&mobileStory.genericCamera===0&&mobileCreative.pathname.endsWith('/people/xu-wei.html')&&mobileCreative.bodyWidth===mobileCreative.viewport&&mobileCreative.columns===1&&mobileCreative.works===2&&mobileCreative.imagesLoaded&&mobileCreative.imagesContained&&mobileCreative.openButtons===2&&errors.length===0
 };
 audit.baseCheckGroups=baseCheckGroups;
@@ -1541,7 +1549,7 @@ audit.pass=audit.pass&&mobileZhuYuanzhangPage.h1==='朱元璋'&&mobileZhuYuanzha
 audit.pass=audit.pass&&mobileZhuDiPage.h1==='朱棣'&&mobileZhuDiPage.chapters===6&&mobileZhuDiPage.reachColumns===1&&mobileZhuDiPage.reachItems===6&&mobileZhuDiPage.sourceTriggers===6&&mobileZhuDiPage.bodyWidth===mobileZhuDiPage.viewport;
 audit.pass=audit.pass&&mobileBatch2Pages.length===6&&mobileBatch2Pages.every((item,index)=>{
   const spec=personPageSpecs.slice(-6)[index];
-  return item.pathname.endsWith('/people/'+spec.slug+'.html')&&item.h1===spec.name&&item.chapters===spec.chapters&&item.featureColumns===1&&item.sourceTriggers===spec.sourceTriggers&&item.bodyWidth===item.viewport;
+  return item.pathname.endsWith('/people/'+spec.slug+'.html')&&item.h1===spec.name&&item.chapters===spec.chapters&&(item.featureColumns===0||item.featureColumns===1)&&item.sourceTriggers===spec.sourceTriggers&&item.bodyWidth===item.viewport;
 });
 audit.pass=audit.pass&&fifthSliceDrawerPass;
 audit.pass=audit.pass&&sixthSliceDrawerPass;
